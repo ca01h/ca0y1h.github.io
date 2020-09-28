@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          《机器学习实战》笔记——KNN - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-09-03&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">4.9k</span>
+  
+  <h1 id="《机器学习实战》笔记——KNN算法">《机器学习实战》笔记——KNN算法</h1>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://cuijiahua.com/blog/2017/11/ml_1_knn.html">https://cuijiahua.com/blog/2017/11/ml_1_knn.html</a></p>
+</blockquote>
+<h2 id="0x01-什么是KNN">0x01 什么是KNN</h2>
+<h3 id="kNN简介">kNN简介</h3>
+<p>kNN(k-nearest neighbor, k-NN)，即k近邻法。工作原理：</p>
+<blockquote>
+<p>存在一个样本数据集合，也称作为训练样本集，并且样本集中每个数据都存在标签，即我们知道样本集中每一个数据与所属分类的对应关系。输入没有标签的新数据后，将新的数据的每个特征与样本集中数据对应的特征进行比较，然后算法提取样本最相似数据(最近邻)的分类标签。一般来说，我们只选择样本数据集中前k个最相似的数据，这就是k-近邻算法中k的出处，通常k是不大于20的整数。最后，选择k个最相似数据中出现次数最多的分类，作为新数据的分类。</p>
+</blockquote>
+<p>使用通俗易懂的话来讲就是，k-近邻算法采用测量不同特征值之间的距离方法进行分类。</p>
+<p>使用KNN算法的步骤：</p>
+<ol>
+<li>计算已知类别数据集中的点与当前点之间的距离；</li>
+<li>按照距离递增次序排序；</li>
+<li>选取与当前点距离最小的k个点；</li>
+<li>确定前k个点所在类别的出现频率；</li>
+<li>返回前k个点所出现频率最高的类别作为当前点的预测分类。</li>
+</ol>
+<h3 id="kNN简单举例">kNN简单举例</h3>
+<p>使用Python实现k-近邻算法分类一个电影是爱情片还是动作片。</p>
+<h4 id="数据集">数据集</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createDataSet</span>():</span></span><br><span class="line">    group = np.array([[<span class="number">1</span>, <span class="number">101</span>], [<span class="number">5</span>, <span class="number">89</span>], [<span class="number">108</span>, <span class="number">5</span>], [<span class="number">115</span>, <span class="number">8</span>]])</span><br><span class="line">    labels = [<span class="string">&#x27;爱情片&#x27;</span>, <span class="string">&#x27;爱情片&#x27;</span>, <span class="string">&#x27;动作片&#x27;</span>, <span class="string">&#x27;动作片&#x27;</span>]</span><br><span class="line">    <span class="keyword">return</span> group, labels</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建数据集</span></span><br><span class="line">    group, labels = createDataSet()</span><br><span class="line">    print(group)</span><br><span class="line">    print(labels)</span><br></pre></td></tr></table></figure>
+<h4 id="kNN算法">kNN算法</h4>
+<p>函数classify0是kNN算法的核心思想实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">createDataSet</span>():</span></span><br><span class="line">    group = np.array([[<span class="number">1</span>, <span class="number">101</span>], [<span class="number">5</span>, <span class="number">89</span>], [<span class="number">108</span>, <span class="number">5</span>], [<span class="number">115</span>, <span class="number">8</span>]])</span><br><span class="line">    labels = [<span class="string">&#x27;爱情片&#x27;</span>, <span class="string">&#x27;爱情片&#x27;</span>, <span class="string">&#x27;动作片&#x27;</span>, <span class="string">&#x27;动作片&#x27;</span>]</span><br><span class="line">    <span class="keyword">return</span> group, labels</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span>(<span class="params">inX, dataSet, labels, k</span>):</span></span><br><span class="line">    <span class="comment"># 获取dataSize的行数</span></span><br><span class="line">    dataSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 计算inX与dataSet每个点的横纵坐标的差值</span></span><br><span class="line">    diffMat = np.tile(inX, (dataSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    <span class="comment"># 平方</span></span><br><span class="line">    sqDiffMat = diffMat**<span class="number">2</span></span><br><span class="line">    <span class="comment"># sum()所有元素相加，sum(0)列相加，sum(1)行相加</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 开方</span></span><br><span class="line">    distances = sqDistances**<span class="number">0.5</span></span><br><span class="line">    <span class="comment"># 返回distances中元素从小到大排序后的索引值</span></span><br><span class="line">    sortedDistIndices = distances.argsort()</span><br><span class="line">    <span class="comment"># 记录类别次数的字典</span></span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="comment"># 取出排序后的第i个的特征</span></span><br><span class="line">        voteIlabel = labels[sortedDistIndices[i]]</span><br><span class="line">        <span class="comment"># 计算类别次数</span></span><br><span class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 根据字典的值，即类别次数进行降序排序</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建数据集</span></span><br><span class="line">    group, labels = createDataSet()</span><br><span class="line">    <span class="comment"># 测试集</span></span><br><span class="line">    test = [<span class="number">101</span>, <span class="number">20</span>]</span><br><span class="line">    <span class="comment"># kNN分类</span></span><br><span class="line">    test_class = classify0(test, group, labels, <span class="number">3</span>)</span><br><span class="line">    <span class="comment"># 打印分类结果</span></span><br><span class="line">    print(test_class)</span><br></pre></td></tr></table></figure>
+<p>其中，第16行-23行就是计算欧氏距离，公式如下：<br>
+$$<br>
+d = \sqrt{ (q_1 - p_1)^{2} + (q_2 - p_2)^{2} + … +(q_n - p_n)^2}<br>
+$$<br>
+第26行-32行就是在计算labels数组前k个数据中每个类别的个数。</p>
+<p>最后返回个数最多的那个类别。</p>
+<h2 id="0x02-kNN实战之约会网站配对效果判定">0x02 kNN实战之约会网站配对效果判定</h2>
+<h3 id="一般流程">一般流程</h3>
+<ol>
+<li>收集数据：可以使用爬虫进行数据的收集，也可以使用第三方提供的免费或收费的数据。一般来讲，数据放在txt文本文件中，按照一定的格式进行存储，便于解析及处理。</li>
+<li>准备数据：使用Python解析、预处理数据。</li>
+<li>分析数据：可以使用很多方法对数据进行分析，例如使用Matplotlib将数据可视化。</li>
+<li>测试算法：计算错误率。</li>
+<li>使用算法：错误率在可接受范围内，就可以运行k-近邻算法进行分类。</li>
+</ol>
+<h3 id="数据集-v2">数据集</h3>
+<p>海伦女士一直使用在线约会网站寻找适合自己的约会对象。尽管约会网站会推荐不同的任选，但她并不是喜欢每一个人。经过一番总结，她发现自己交往过的人可以进行如下分类：</p>
+<ol>
+<li>不喜欢的人</li>
+<li>魅力一般的人</li>
+<li>极具魅力的人</li>
+</ol>
+<p>海伦收集约会数据已经有了一段时间，她把这些数据存放在文本文件datingTestSet.txt中，每个样本数据占据一行，总共有1000行。datingTestSet.txt数据下载： <a target="_blank" rel="noopener" href="https://github.com/Jack-Cherish/Machine-Learning/blob/master/kNN/2.%E6%B5%B7%E4%BC%A6%E7%BA%A6%E4%BC%9A/datingTestSet.txt">数据集下载</a></p>
+<p>海伦收集的样本数据主要包含以下3种特征：</p>
+<ol>
+<li>每年获得的飞行常客里程数</li>
+<li>玩视频游戏所消耗时间百分比</li>
+<li>每周消费的冰淇淋公升数</li>
+</ol>
+<p>部分数据集展示：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200904160644.png" style="zoom:50%;" />
+<h3 id="数据解析">数据解析</h3>
+<p>在将上述特征数据输入到分类器前，必须将待处理的数据的格式改变为分类器可以接收的格式。</p>
+<p>主要是两个矩阵，即特征矩阵和对应的分类标签向量。首先我们先编写函数file2matrix尝试解析数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr:</span><br><span class="line">        <span class="comment"># 读取数据集</span></span><br><span class="line">        array0Lines = fr.readlines()</span><br><span class="line">        <span class="comment"># 数据集的行数，即有多少条数据</span></span><br><span class="line">        numberOfLines = len(array0Lines)</span><br><span class="line">        <span class="comment"># 生成numberOfLines行，3列的零矩阵作为特征矩阵的初始值</span></span><br><span class="line">        returnMat = np.zeros((numberOfLines, <span class="number">3</span>))</span><br><span class="line">        <span class="comment"># 分类标签向量</span></span><br><span class="line">        classLableVector = []</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> array0Lines:</span><br><span class="line">            <span class="comment"># 分割数据，每个list一共有四个数据，即三个特征值和一个标签</span></span><br><span class="line">            listFromLine = line.strip().split(<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">            <span class="comment"># 将前三个数据提取出来，存放至特征矩阵</span></span><br><span class="line">            returnMat[index, :] = listFromLine[<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">            <span class="comment"># 将最后一个数据提取出来，存放至标签向量，并转换为整型表示</span></span><br><span class="line">            label = listFromLine[<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">if</span> label == <span class="string">&#x27;didntLike&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;smallDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;largeDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">3</span>)</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> returnMat, classLableVector</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    filename = <span class="string">&#x27;datingTestSet.txt&#x27;</span></span><br><span class="line">    datingDataMat, datingLabels = file2matrix(filename)</span><br><span class="line">    print(datingDataMat)</span><br><span class="line">    print(datingLabels)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200904162054.png" alt=""></p>
+<h3 id="数据可视化">数据可视化</h3>
+<p>编写showdatas函数将数据可视化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib.font_manager <span class="keyword">import</span> FontProperties</span><br><span class="line"><span class="keyword">import</span> matplotlib.lines <span class="keyword">as</span> mlines</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr:</span><br><span class="line">        <span class="comment"># 读取数据集</span></span><br><span class="line">        array0Lines = fr.readlines()</span><br><span class="line">        <span class="comment"># 数据集的行数，即有多少条数据</span></span><br><span class="line">        numberOfLines = len(array0Lines)</span><br><span class="line">        <span class="comment"># 生成numberOfLines行，3列的零矩阵作为特征矩阵的初始值</span></span><br><span class="line">        returnMat = np.zeros((numberOfLines, <span class="number">3</span>))</span><br><span class="line">        <span class="comment"># 分类标签向量</span></span><br><span class="line">        classLableVector = []</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> array0Lines:</span><br><span class="line">            <span class="comment"># 分割数据，每个list一共有四个数据，即三个特征值和一个标签</span></span><br><span class="line">            listFromLine = line.strip().split(<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">            <span class="comment"># 将前三个数据提取出来，存放至特征矩阵</span></span><br><span class="line">            returnMat[index, :] = listFromLine[<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">            <span class="comment"># 将最后一个数据提取出来，存放至标签向量，并转换为整型表示</span></span><br><span class="line">            label = listFromLine[<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">if</span> label == <span class="string">&#x27;didntLike&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;smallDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;largeDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">3</span>)</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> returnMat, classLableVector</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showdatas</span>(<span class="params">datingDataMat, datingLabels</span>):</span></span><br><span class="line">    <span class="comment"># 设置中文字体格式</span></span><br><span class="line">    font = FontProperties(fname=<span class="string">r&#x27;C:\Windows\Fonts\simsun.ttc&#x27;</span>, size=<span class="number">14</span>)</span><br><span class="line">    <span class="comment"># 将一个画布分为4份，不共享x轴和y轴，大小为(13, 8)</span></span><br><span class="line">    fig, axs = plt.subplots(nrows=<span class="number">2</span>, ncols=<span class="number">1</span>, sharex=<span class="literal">False</span>, sharey=<span class="literal">False</span>, figsize=(<span class="number">13</span>, <span class="number">8</span>))</span><br><span class="line">    numberOfLabels = len(datingLabels)</span><br><span class="line">    LabelsColor = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> datingLabels:</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">1</span>:</span><br><span class="line">            LabelsColor.append(<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">2</span>:</span><br><span class="line">            LabelsColor.append(<span class="string">&#x27;orange&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">3</span>:</span><br><span class="line">            LabelsColor.append(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 画出散点图,以datingDataMat矩阵的第一(飞行常客例程)、第二列(玩游戏)数据画散点数据,散点大小为15,透明度为0.5</span></span><br><span class="line">    axs[<span class="number">0</span>][<span class="number">0</span>].scatter(x=datingDataMat[:, <span class="number">0</span>], y=datingDataMat[:, <span class="number">1</span>], color=LabelsColor, s=<span class="number">15</span>, alpha=<span class="number">.5</span>)</span><br><span class="line">    axs0_title_text = axs[<span class="number">0</span>][<span class="number">0</span>].set_title(<span class="string">u&#x27;每年获得的飞行常客里程数与玩视频游戏所消耗时间占比&#x27;</span>, FontProperties=font)</span><br><span class="line">    axs0_xlabel_text = axs[<span class="number">0</span>][<span class="number">0</span>].set_xlabel(<span class="string">u&#x27;每年获得的飞行常客里程数&#x27;</span>, FontProperties=font)</span><br><span class="line">    axs0_ylabel_text = axs[<span class="number">0</span>][<span class="number">0</span>].set_ylabel(<span class="string">u&#x27;玩视频游戏所消耗时间占比&#x27;</span>, FontProperties=font)</span><br><span class="line">    plt.setp(axs0_title_text, size=<span class="number">9</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">    plt.setp(axs0_xlabel_text, size=<span class="number">8</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line">    plt.setp(axs0_ylabel_text, size=<span class="number">8</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 画出散点图,以datingDataMat矩阵的第一(飞行常客例程)、第三列(冰激凌)数据画散点数据,散点大小为15,透明度为0.5</span></span><br><span class="line">    axs[<span class="number">0</span>][<span class="number">1</span>].scatter(x=datingDataMat[:, <span class="number">0</span>], y=datingDataMat[:, <span class="number">2</span>], color=LabelsColor, s=<span class="number">15</span>, alpha=<span class="number">.5</span>)</span><br><span class="line">    axs0_title_text = axs[<span class="number">0</span>][<span class="number">1</span>].set_title(<span class="string">u&#x27;每年获得的飞行常客里程数与每周消费的冰激淋公升数&#x27;</span>, FontProperties=font)</span><br><span class="line">    axs0_xlabel_text = axs[<span class="number">0</span>][<span class="number">1</span>].set_xlabel(<span class="string">u&#x27;每年获得的飞行常客里程数&#x27;</span>, FontProperties=font)</span><br><span class="line">    axs0_ylabel_text = axs[<span class="number">0</span>][<span class="number">1</span>].set_ylabel(<span class="string">u&#x27;每周消费的冰激淋公升数&#x27;</span>, FontProperties=font)</span><br><span class="line">    plt.setp(axs0_title_text, size=<span class="number">9</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">    plt.setp(axs0_xlabel_text, size=<span class="number">8</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line">    plt.setp(axs0_ylabel_text, size=<span class="number">8</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 画出散点图,以datingDataMat矩阵的第二(玩游戏)、第三列(冰激凌)数据画散点数据,散点大小为15,透明度为0.5</span></span><br><span class="line">    axs[<span class="number">1</span>][<span class="number">0</span>].scatter(x=datingDataMat[:, <span class="number">1</span>], y=datingDataMat[:, <span class="number">2</span>], color=LabelsColor, s=<span class="number">15</span>, alpha=<span class="number">.5</span>)</span><br><span class="line">    axs0_title_text = axs[<span class="number">1</span>][<span class="number">0</span>].set_title(<span class="string">u&#x27;玩视频游戏所消耗时间占比与每周消费的冰激淋公升数&#x27;</span>, FontProperties=font)</span><br><span class="line">    axs0_xlabel_text = axs[<span class="number">1</span>][<span class="number">0</span>].set_xlabel(<span class="string">u&#x27;玩视频游戏所消耗时间占比&#x27;</span>, FontProperties=font)</span><br><span class="line">    axs0_ylabel_text = axs[<span class="number">1</span>][<span class="number">0</span>].set_ylabel(<span class="string">u&#x27;每周消费的冰激淋公升数&#x27;</span>, FontProperties=font)</span><br><span class="line">    plt.setp(axs0_title_text, size=<span class="number">9</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">    plt.setp(axs0_xlabel_text, size=<span class="number">8</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line">    plt.setp(axs0_ylabel_text, size=<span class="number">8</span>, weight=<span class="string">&#x27;bold&#x27;</span>, color=<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置图例</span></span><br><span class="line">    didntLike = mlines.Line2D([], [], color=<span class="string">&#x27;black&#x27;</span>, marker=<span class="string">&#x27;.&#x27;</span>,</span><br><span class="line">                              markersize=<span class="number">6</span>, label=<span class="string">&#x27;didntLike&#x27;</span>)</span><br><span class="line">    smallDoses = mlines.Line2D([], [], color=<span class="string">&#x27;orange&#x27;</span>, marker=<span class="string">&#x27;.&#x27;</span>,</span><br><span class="line">                               markersize=<span class="number">6</span>, label=<span class="string">&#x27;smallDoses&#x27;</span>)</span><br><span class="line">    largeDoses = mlines.Line2D([], [], color=<span class="string">&#x27;red&#x27;</span>, marker=<span class="string">&#x27;.&#x27;</span>,</span><br><span class="line">                               markersize=<span class="number">6</span>, label=<span class="string">&#x27;largeDoses&#x27;</span>)</span><br><span class="line">    <span class="comment"># 添加图例</span></span><br><span class="line">    axs[<span class="number">0</span>][<span class="number">0</span>].legend(handles=[didntLike, smallDoses, largeDoses])</span><br><span class="line">    axs[<span class="number">0</span>][<span class="number">1</span>].legend(handles=[didntLike, smallDoses, largeDoses])</span><br><span class="line">    axs[<span class="number">1</span>][<span class="number">0</span>].legend(handles=[didntLike, smallDoses, largeDoses])</span><br><span class="line">    <span class="comment"># 显示图片</span></span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    filename = <span class="string">&#x27;datingTestSet.txt&#x27;</span></span><br><span class="line">    datingDataMat, datingLabels = file2matrix(filename)</span><br><span class="line">    showdatas(datingDataMat, datingLabels)</span><br></pre></td></tr></table></figure>
+<p>绘制结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200906152851.png" alt=""></p>
+<p>从第一张图可以看到分类效果比较明显，很直观的发现数据的规律。</p>
+<h3 id="数据处理">数据处理</h3>
+<p>归一化数据 （归一化是一个让权重变为统一的过程，更多细节请参考: <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19951858">https://www.zhihu.com/question/19951858</a> ）</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>玩视频游戏所耗时间百分比</th>
+<th>每年获得的飞行常客里程数</th>
+<th>每周消费的冰淇淋公升数</th>
+<th>样本分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.8</td>
+<td>400</td>
+<td>0.5</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>12</td>
+<td>134 000</td>
+<td>0.9</td>
+<td>3</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>20 000</td>
+<td>1.1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>67</td>
+<td>32 000</td>
+<td>0.1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>样本3和样本4的距离: $$\sqrt{(0-67)^2 + (20000-32000)^2 + (1.1-0.1)^2 }$$</p>
+<p>归一化特征值，消除特征之间量级不同导致的影响。</p>
+<p>编写名为autoNorm的函数，用该函数自动将数据归一化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib.font_manager <span class="keyword">import</span> FontProperties</span><br><span class="line"><span class="keyword">import</span> matplotlib.lines <span class="keyword">as</span> mlines</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr:</span><br><span class="line">        <span class="comment"># 读取数据集</span></span><br><span class="line">        array0Lines = fr.readlines()</span><br><span class="line">        <span class="comment"># 数据集的行数，即有多少条数据</span></span><br><span class="line">        numberOfLines = len(array0Lines)</span><br><span class="line">        <span class="comment"># 生成numberOfLines行，3列的零矩阵作为特征矩阵的初始值</span></span><br><span class="line">        returnMat = np.zeros((numberOfLines, <span class="number">3</span>))</span><br><span class="line">        <span class="comment"># 分类标签向量</span></span><br><span class="line">        classLableVector = []</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> array0Lines:</span><br><span class="line">            <span class="comment"># 分割数据，每个list一共有四个数据，即三个特征值和一个标签</span></span><br><span class="line">            listFromLine = line.strip().split(<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">            <span class="comment"># 将前三个数据提取出来，存放至特征矩阵</span></span><br><span class="line">            returnMat[index, :] = listFromLine[<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">            <span class="comment"># 将最后一个数据提取出来，存放至标签向量，并转换为整型表示</span></span><br><span class="line">            label = listFromLine[<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">if</span> label == <span class="string">&#x27;didntLike&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;smallDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;largeDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">3</span>)</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> returnMat, classLableVector</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">autoNorm</span>(<span class="params">dataSet</span>):</span></span><br><span class="line">    <span class="comment"># 获取数据的最值</span></span><br><span class="line">    minVals = dataSet.min(<span class="number">0</span>)</span><br><span class="line">    maxVals = dataSet.max(<span class="number">0</span>)</span><br><span class="line">    ranges = maxVals - minVals</span><br><span class="line">    <span class="comment"># 与dataSet相同大小的零矩阵</span></span><br><span class="line">    normDataSet = np.zeros(np.shape(dataSet))</span><br><span class="line">    <span class="comment"># 返回dataSet的行数</span></span><br><span class="line">    m = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 原始值减去最小值</span></span><br><span class="line">    normDataSet = dataSet - np.tile(minVals, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="comment"># 除以最大和最小值的差，得到归一化数据</span></span><br><span class="line">    normDataSet = normDataSet / np.tile(ranges, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="keyword">return</span> normDataSet, ranges, minVals</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    filename = <span class="string">&#x27;datingTestSet.txt&#x27;</span></span><br><span class="line">    datingDataMat, datingLabels = file2matrix(filename)</span><br><span class="line">    normDataSet, ranges, minVals = autoNorm(datingDataMat)</span><br><span class="line">    print(normDataSet)</span><br><span class="line">    print(ranges)</span><br><span class="line">    print(minVals)</span><br></pre></td></tr></table></figure>
+<p>返回结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200906160525.png" alt=""></p>
+<h3 id="验证分类器">验证分类器</h3>
+<p>为了测试分类器效果，创建函数datingClassTest，使用已有数据的90%作为训练样本来训练分类器，而使用其余的10%数据去测试分类器，检测分类器的正确率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span>(<span class="params">inX, dataSet, labels, k</span>):</span></span><br><span class="line">    <span class="comment"># 获取dataSize的行数</span></span><br><span class="line">    dataSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 计算inX与dataSet每个点的横纵坐标的差值</span></span><br><span class="line">    diffMat = np.tile(inX, (dataSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    <span class="comment"># 平方</span></span><br><span class="line">    sqDiffMat = diffMat**<span class="number">2</span></span><br><span class="line">    <span class="comment"># sum()所有元素相加，sum(0)列相加，sum(1)行相加</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 开方</span></span><br><span class="line">    distances = sqDistances**<span class="number">0.5</span></span><br><span class="line">    <span class="comment"># 返回distances中元素从小到大排序后的索引值</span></span><br><span class="line">    sortedDistIndices = distances.argsort()</span><br><span class="line">    <span class="comment"># 记录类别次数的字典</span></span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="comment"># 取出排序后的第i个的特征</span></span><br><span class="line">        voteIlabel = labels[sortedDistIndices[i]]</span><br><span class="line">        <span class="comment"># 计算类别次数</span></span><br><span class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 根据字典的值，即类别次数进行降序排序</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr:</span><br><span class="line">        <span class="comment"># 读取数据集</span></span><br><span class="line">        array0Lines = fr.readlines()</span><br><span class="line">        <span class="comment"># 数据集的行数，即有多少条数据</span></span><br><span class="line">        numberOfLines = len(array0Lines)</span><br><span class="line">        <span class="comment"># 生成numberOfLines行，3列的零矩阵作为特征矩阵的初始值</span></span><br><span class="line">        returnMat = np.zeros((numberOfLines, <span class="number">3</span>))</span><br><span class="line">        <span class="comment"># 分类标签向量</span></span><br><span class="line">        classLableVector = []</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> array0Lines:</span><br><span class="line">            <span class="comment"># 分割数据，每个list一共有四个数据，即三个特征值和一个标签</span></span><br><span class="line">            listFromLine = line.strip().split(<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">            <span class="comment"># 将前三个数据提取出来，存放至特征矩阵</span></span><br><span class="line">            returnMat[index, :] = listFromLine[<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">            <span class="comment"># 将最后一个数据提取出来，存放至标签向量，并转换为整型表示</span></span><br><span class="line">            label = listFromLine[<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">if</span> label == <span class="string">&#x27;didntLike&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;smallDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;largeDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">3</span>)</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> returnMat, classLableVector</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">autoNorm</span>(<span class="params">dataSet</span>):</span></span><br><span class="line">    <span class="comment"># 获取数据的最值</span></span><br><span class="line">    minVals = dataSet.min(<span class="number">0</span>)</span><br><span class="line">    maxVals = dataSet.max(<span class="number">0</span>)</span><br><span class="line">    ranges = maxVals - minVals</span><br><span class="line">    <span class="comment"># 与dataSet相同大小的零矩阵</span></span><br><span class="line">    normDataSet = np.zeros(np.shape(dataSet))</span><br><span class="line">    <span class="comment"># 返回dataSet的行数</span></span><br><span class="line">    m = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 原始值减去最小值</span></span><br><span class="line">    normDataSet = dataSet - np.tile(minVals, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="comment"># 除以最大和最小值的差，得到归一化数据</span></span><br><span class="line">    normDataSet = normDataSet / np.tile(ranges, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="keyword">return</span> normDataSet, ranges, minVals</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">datingClassTest</span>():</span></span><br><span class="line">    filename = <span class="string">&#x27;datingTestSet.txt&#x27;</span></span><br><span class="line">    datingDataMat, datingLabels = file2matrix(filename)</span><br><span class="line">    normMat, ranges, minVals = autoNorm(datingDataMat)</span><br><span class="line">    <span class="comment"># 获取数据的10%</span></span><br><span class="line">    hoRatio = <span class="number">0.1</span></span><br><span class="line">    <span class="comment"># 获取normMat的行数</span></span><br><span class="line">    m = normMat.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 测试数据的个数</span></span><br><span class="line">    numTestVecs = int(m * hoRatio)</span><br><span class="line">    <span class="comment"># 分类错误的技术</span></span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(numTestVecs):</span><br><span class="line">        <span class="comment"># 前numTestVecs个数据作为测试集,后m-numTestVecs个数据作为训练集</span></span><br><span class="line">        classifierResult = classify0(normMat[i, :], normMat[numTestVecs:m, :],</span><br><span class="line">                                     datingLabels[numTestVecs:m], <span class="number">4</span>)</span><br><span class="line">        print(<span class="string">&quot;分类结果:%d\t真实类别:%d&quot;</span> % (classifierResult, datingLabels[i]))</span><br><span class="line">        <span class="keyword">if</span> classifierResult != datingLabels[i]:</span><br><span class="line">            errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">&quot;错误率:%f%%&quot;</span> % (errorCount / float(numTestVecs) * <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    datingClassTest()</span><br></pre></td></tr></table></figure>
+<p>分类结果</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200906162404.png" style="zoom:67%;" />
+<h3 id="构建完整系统">构建完整系统</h3>
+<p>构建一个完整的系统，通过该程序海伦会在约会网站上找到某个人并输入他的信息。程序会给出她对男方喜欢程度的预测值。</p>
+<p>在文件中创建函数classifyPerson：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib.font_manager <span class="keyword">import</span> FontProperties</span><br><span class="line"><span class="keyword">import</span> matplotlib.lines <span class="keyword">as</span> mlines</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify0</span>(<span class="params">inX, dataSet, labels, k</span>):</span></span><br><span class="line">    <span class="comment"># 获取dataSize的行数</span></span><br><span class="line">    dataSize = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 计算inX与dataSet每个点的横纵坐标的差值</span></span><br><span class="line">    diffMat = np.tile(inX, (dataSize, <span class="number">1</span>)) - dataSet</span><br><span class="line">    <span class="comment"># 平方</span></span><br><span class="line">    sqDiffMat = diffMat**<span class="number">2</span></span><br><span class="line">    <span class="comment"># sum()所有元素相加，sum(0)列相加，sum(1)行相加</span></span><br><span class="line">    sqDistances = sqDiffMat.sum(axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># 开方</span></span><br><span class="line">    distances = sqDistances**<span class="number">0.5</span></span><br><span class="line">    <span class="comment"># 返回distances中元素从小到大排序后的索引值</span></span><br><span class="line">    sortedDistIndices = distances.argsort()</span><br><span class="line">    <span class="comment"># 记录类别次数的字典</span></span><br><span class="line">    classCount = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(k):</span><br><span class="line">        <span class="comment"># 取出排序后的第i个的特征</span></span><br><span class="line">        voteIlabel = labels[sortedDistIndices[i]]</span><br><span class="line">        <span class="comment"># 计算类别次数</span></span><br><span class="line">        classCount[voteIlabel] = classCount.get(voteIlabel, <span class="number">0</span>) + <span class="number">1</span></span><br><span class="line">    <span class="comment"># 根据字典的值，即类别次数进行降序排序</span></span><br><span class="line">    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sortedClassCount[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">file2matrix</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="keyword">with</span> open(filename) <span class="keyword">as</span> fr:</span><br><span class="line">        <span class="comment"># 读取数据集</span></span><br><span class="line">        array0Lines = fr.readlines()</span><br><span class="line">        <span class="comment"># 数据集的行数，即有多少条数据</span></span><br><span class="line">        numberOfLines = len(array0Lines)</span><br><span class="line">        <span class="comment"># 生成numberOfLines行，3列的零矩阵作为特征矩阵的初始值</span></span><br><span class="line">        returnMat = np.zeros((numberOfLines, <span class="number">3</span>))</span><br><span class="line">        <span class="comment"># 分类标签向量</span></span><br><span class="line">        classLableVector = []</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> array0Lines:</span><br><span class="line">            <span class="comment"># 分割数据，每个list一共有四个数据，即三个特征值和一个标签</span></span><br><span class="line">            listFromLine = line.strip().split(<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">            <span class="comment"># 将前三个数据提取出来，存放至特征矩阵</span></span><br><span class="line">            returnMat[index, :] = listFromLine[<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">            <span class="comment"># 将最后一个数据提取出来，存放至标签向量，并转换为整型表示</span></span><br><span class="line">            label = listFromLine[<span class="number">-1</span>]</span><br><span class="line">            <span class="keyword">if</span> label == <span class="string">&#x27;didntLike&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;smallDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">elif</span> label == <span class="string">&#x27;largeDoses&#x27;</span>:</span><br><span class="line">                classLableVector.append(<span class="number">3</span>)</span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> returnMat, classLableVector</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">autoNorm</span>(<span class="params">dataSet</span>):</span></span><br><span class="line">    <span class="comment"># 获取数据的最值</span></span><br><span class="line">    minVals = dataSet.min(<span class="number">0</span>)</span><br><span class="line">    maxVals = dataSet.max(<span class="number">0</span>)</span><br><span class="line">    ranges = maxVals - minVals</span><br><span class="line">    <span class="comment"># 与dataSet相同大小的零矩阵</span></span><br><span class="line">    normDataSet = np.zeros(np.shape(dataSet))</span><br><span class="line">    <span class="comment"># 返回dataSet的行数</span></span><br><span class="line">    m = dataSet.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="comment"># 原始值减去最小值</span></span><br><span class="line">    normDataSet = dataSet - np.tile(minVals, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="comment"># 除以最大和最小值的差，得到归一化数据</span></span><br><span class="line">    normDataSet = normDataSet / np.tile(ranges, (m, <span class="number">1</span>))</span><br><span class="line">    <span class="keyword">return</span> normDataSet, ranges, minVals</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classifyPerson</span>():</span></span><br><span class="line">    <span class="comment"># 输出结果</span></span><br><span class="line">    resultList = [<span class="string">&#x27;讨厌&#x27;</span>, <span class="string">&#x27;有些喜欢&#x27;</span>, <span class="string">&#x27;非常喜欢&#x27;</span>]</span><br><span class="line">    <span class="comment"># 三维特征用户输入</span></span><br><span class="line">    precentTats = float(input(<span class="string">&quot;玩视频游戏所耗时间百分比:&quot;</span>))</span><br><span class="line">    ffMiles = float(input(<span class="string">&quot;每年获得的飞行常客里程数:&quot;</span>))</span><br><span class="line">    iceCream = float(input(<span class="string">&quot;每周消费的冰激淋公升数:&quot;</span>))</span><br><span class="line"></span><br><span class="line">    filename = <span class="string">&#x27;datingTestSet.txt&#x27;</span></span><br><span class="line">    datingDataMat, datingLabels = file2matrix(filename)</span><br><span class="line">    normMat, ranges, minVals = autoNorm(datingDataMat)</span><br><span class="line">    <span class="comment"># 生成NumPy数组,测试集</span></span><br><span class="line">    inArr = np.array([ffMiles, precentTats, iceCream])</span><br><span class="line">    <span class="comment"># 测试集归一化</span></span><br><span class="line">    norminArr = (inArr - minVals) / ranges</span><br><span class="line">    <span class="comment"># 返回分类结果</span></span><br><span class="line">    classifierResult = classify0(norminArr, normMat, datingLabels, <span class="number">3</span>)</span><br><span class="line">    <span class="comment"># 打印结果</span></span><br><span class="line">    print(<span class="string">&quot;你可能%s这个人&quot;</span> % (resultList[classifierResult - <span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    classifyPerson()</span><br></pre></td></tr></table></figure>
+<p>输入示例：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200906163002.png" alt=""></p>
+<h2 id="0x04-kNN实战之sklearn手写数字识别">0x04 kNN实战之sklearn手写数字识别</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> listdir</span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier <span class="keyword">as</span> kNN</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">img2vector</span>(<span class="params">filename</span>):</span></span><br><span class="line">    <span class="comment"># 创建一个1*1024的零向量</span></span><br><span class="line">    returnVect = np.zeros((<span class="number">1</span>, <span class="number">1024</span>))</span><br><span class="line">    <span class="comment"># 打开文件</span></span><br><span class="line">    <span class="keyword">with</span> open(filename, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">            <span class="comment"># 读取一行数据</span></span><br><span class="line">            lineStr = f.readline()</span><br><span class="line">            <span class="comment"># 每一行前32个元素依次添加到returnVect中</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">                returnVect[<span class="number">0</span>, i*<span class="number">32</span>+j] = int(lineStr[j])</span><br><span class="line">        <span class="comment"># 返回转换后的1*1024向量</span></span><br><span class="line">        <span class="keyword">return</span> returnVect</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handwritingClassTest</span>():</span></span><br><span class="line">    <span class="comment"># 测试集lables</span></span><br><span class="line">    hwlables = []</span><br><span class="line">    <span class="comment"># 返回trainingDigits下的文件名</span></span><br><span class="line">    trainingFileList = listdir(<span class="string">&#x27;trainingDigits&#x27;</span>)</span><br><span class="line">    <span class="comment"># 返回文件个数</span></span><br><span class="line">    m = len(trainingFileList)</span><br><span class="line">    <span class="comment"># 初始化训练矩阵</span></span><br><span class="line">    trainingMat = np.zeros((m, <span class="number">1024</span>))</span><br><span class="line">    <span class="comment"># 从文件名中解析出训练集的类别</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(m):</span><br><span class="line">        <span class="comment"># 获得文件名</span></span><br><span class="line">        fileName = trainingFileList[i]</span><br><span class="line">        <span class="comment"># 获得分类的数字</span></span><br><span class="line">        classNumber = int(fileName.split(<span class="string">&#x27;_&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line">        <span class="comment"># 将类别添加到hwlables</span></span><br><span class="line">        hwlables.append(classNumber)</span><br><span class="line">        trainingMat[i, :] = img2vector(<span class="string">&#x27;trainingDigits/&#123;&#125;&#x27;</span>.format(fileName))</span><br><span class="line">    <span class="comment"># 构建kNN分类器</span></span><br><span class="line">    neigh = kNN(n_neighbors=<span class="number">3</span>, algorithm=<span class="string">&#x27;auto&#x27;</span>)</span><br><span class="line">    <span class="comment"># 拟合模型</span></span><br><span class="line">    neigh.fit(trainingMat, hwlables)</span><br><span class="line">    <span class="comment"># 返回testDigits目录下文件</span></span><br><span class="line">    testFileList = listdir(<span class="string">&#x27;testDigits&#x27;</span>)</span><br><span class="line">    <span class="comment"># 错误检测计数</span></span><br><span class="line">    errorCount = <span class="number">0.0</span></span><br><span class="line">    <span class="comment"># 测试数据的数量</span></span><br><span class="line">    mTest = len(testFileList)</span><br><span class="line">    <span class="comment"># 从文件中解析出测试集的类别并分类</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(mTest):</span><br><span class="line">        <span class="comment"># 获得文件名</span></span><br><span class="line">        fileName = testFileList[i]</span><br><span class="line">        <span class="comment"># 获得分类的数字</span></span><br><span class="line">        classNumber = int(fileName.split(<span class="string">&#x27;_&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line">        <span class="comment"># 获得测试集的1*1024向量，用于训练</span></span><br><span class="line">        testVect = img2vector(<span class="string">&#x27;testDigits/&#123;&#125;&#x27;</span>.format(fileName))</span><br><span class="line">        <span class="comment"># 获得预测结果</span></span><br><span class="line">        classifierResult = neigh.predict(testVect)</span><br><span class="line">        print(<span class="string">&quot;分类返回结果为%d\t真实结果为%d&quot;</span> % (classifierResult, classNumber))</span><br><span class="line">        <span class="keyword">if</span> classifierResult != classNumber:</span><br><span class="line">            errorCount += <span class="number">1.0</span></span><br><span class="line">    print(<span class="string">&quot;总共错了%d个数据\n错误率为%f%%&quot;</span> % (errorCount, errorCount / mTest * <span class="number">100</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    handwritingClassTest()</span><br></pre></td></tr></table></figure>
+<h2 id="0x05-kNN小结">0x05 kNN小结</h2>
+<h3 id="基本原理">基本原理</h3>
+<p>通过距离度量来计算查询点（query point）与每个训练数据点的距离，然后选出与查询点（query point）相近的K个最邻点（K nearest neighbors），使用分类决策来选出对应的标签来作为该查询点的标签。</p>
+<h3 id="kNN三要素">kNN三要素</h3>
+<h4 id="k的取值">k的取值</h4>
+<p>对查询点标签影响显著（效果拔群）。k值小的时候，近似误差小，估计误差大。k值大，近似误差大，估计误差小。</p>
+<h4 id="距离度量">距离度量</h4>
+<p>距离度量通常为欧式距离（Euclidean distance），还可以是 Minkowski 距离或者曼哈顿距离。也可以是地理空间中的一些距离公式。</p>
+<h4 id="分类决策">分类决策</h4>
+<p>分类决策在分类问题中通常为通过少数服从多数来选取票数最多的标签，在回归问题中通常为 K个最邻点的标签的平均值。</p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-09-03</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

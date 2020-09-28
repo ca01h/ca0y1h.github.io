@@ -11,7 +11,7 @@
 
     <title>
         
-          ca01hの笔记本 - ca01h&#39;s Blog
+          Web安全学习之变量覆盖漏洞利用 - ca01h&#39;s Blog
         
     </title>
 
@@ -291,210 +291,84 @@ function sidebar_toggle() {
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="book-post">
   
-  <figure class="highlight plain"><figcaption><span>wiki</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> _____       ___   _____   ___   _   _        _____   _       _____   _____  </span><br><span class="line">&#x2F;  ___|     &#x2F;   | &#x2F;  _  \ |_  | | | | |      |  _  \ | |     &#x2F;  _  \ &#x2F;  ___| </span><br><span class="line">| |        &#x2F; &#x2F;| | | | | |   | | | |_| |      | |_| | | |     | | | | | |     </span><br><span class="line">| |       &#x2F; &#x2F; | | | |&#x2F;| |   | | |  _  |      |  _  | | |     | | | | | |  _  </span><br><span class="line">| |___   &#x2F; &#x2F;  | | | |_| |   | | | | | |      | |_| | | |___  | |_| | | |_| | </span><br><span class="line">\_____| &#x2F;_&#x2F;   |_| \_____&#x2F;   |_| |_| |_|      |_____&#x2F; |_____| \_____&#x2F; \_____&#x2F; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-11-18&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">1.6k</span>
+  
+  <h1 id="Web安全学习之变量覆盖漏洞利用">Web安全学习之变量覆盖漏洞利用</h1>
+<p>这一篇主要通过几道CTF题讲解一下PHP变量覆盖漏洞利用，主要涉及到extract()函数，parse_str()函数，import_request_variables()函数，$$运算符。</p>
+<h2 id="全局变量覆盖">全局变量覆盖</h2>
 <blockquote>
-<p><strong>ca01h@星盟安全</strong></p>
-<p>NTExOTY1NzM4QHFxLmNvbQ==</p>
+<p>PHP 5.3.0被废弃，PHP5.4.0被移除</p>
 </blockquote>
-<p>互联网时代的知识是零散的，需要有一个写字的地方，把零散的知识汇聚起来，以点连线，以线聚面，一方面能形成一个完整的知识体系，另一方面自己所需之时方便查阅，于是乎就诞生了<strong>ca01hの笔记本</strong>。</p>
-<h2 id="TODO-LIST">TODO LIST</h2>
-<h3 id="2020">2020</h3>
-<p><strong>【未完成】SCTF复盘：<a target="_blank" rel="noopener" href="https://github.com/SycloverSecurity/SCTF2020/tree/master/Web">https://github.com/SycloverSecurity/SCTF2020/tree/master/Web</a></strong></p>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://bycsec.top/2020/08/05/Thinkphp-vuln/">Thinkphp-vuln</a></strong></p>
-<h4 id="September">September</h4>
-<ul>
-<li><strong>【未完成】实习+HW</strong></li>
-<li><strong>【未完成】DataCon复盘</strong></li>
-</ul>
-<h4 id="August">August</h4>
-<ul>
-<li><s><strong>【已完成】XCTF——WMCTF</strong>（有幸做了一个签到题</s></li>
-<li><s><strong>【已完成】DataCon2020 DNS恶意流量分析</strong>（有幸混了一个鼓励奖</s>
-<ul>
-<li>DNS恶意域名分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg">https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg</a></li>
-</ul>
-</li>
-<li>加密恶意流量检测
-<ul>
-<li>初赛：<a target="_blank" rel="noopener" href="https://s1mple.online/2020/08/09/DataCon2020-%E5%8A%A0%E5%AF%86%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E6%A3%80%E6%B5%8B%E5%88%9D%E8%B5%9B-Writeup-%E5%8F%8A%E6%80%BB%E7%BB%93%E5%8F%8D%E6%80%9D/">https://s1mple.online/2020/08/09/DataCon2020-加密恶意流量检测初赛-Writeup-及总结反思/</a></li>
-</ul>
-</li>
-<li>僵尸网络分析
-<ul>
-<li>第一题：<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=829">https://www.cdxy.me/?p=829</a></li>
-<li>第三题：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/186948840">https://zhuanlan.zhihu.com/p/186948840</a></li>
-</ul>
-</li>
-<li>网络黑产分析</li>
-<li>恶意代码分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/yuriufo/DataCon2020">https://github.com/yuriufo/DataCon2020</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/187535672">https://zhuanlan.zhihu.com/p/187535672</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/185715807">https://zhuanlan.zhihu.com/p/185715807</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><s><strong>【已完成】首届钓鱼城杯CTF</strong></s></li>
-<li><s><strong>【已完成】HW</strong></s></li>
-<li><s><strong>【已完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/#htaccess">文件解析漏洞</a></strong></s></li>
-<li><strong>【未完成】《机器学习实战》前七章</strong></li>
-<li><s><strong>【已完成】BUUCTF刷题</strong></s></li>
-<li><strong>【未完成】HackTheBox OpenKeys（账号又被封了。。。</strong></li>
-<li><strong>【未完成】PHP构造反序列化链再学习</strong></li>
-</ul>
-<h4 id="July">July</h4>
-<ul>
-<li>
-<p><s><strong>【已完成】第五空间CTF复盘</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】DASCTF七月赛复盘</strong></s></p>
-</li>
-<li>
-<p><strong><s>【已完成】CSICTF2020复盘</s></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】2020电信天翼杯CTF</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】SUCTF2019 Upload2</strong></p>
-</li>
-<li>
-<p><strong>【未完成】N1CTF2018 Easy&amp;&amp;Hard PHP</strong></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2148">https://xz.aliyun.com/t/2148</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499">https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499</a></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">Flask/Jinja2 SSTI &amp;&amp; Python 沙箱逃逸基础</a></strong></p>
-</li>
-<li>
-<p>【<strong>未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E5%B0%8F%E5%AF%86%E5%9C%88%E7%BB%8F%E5%85%B8%E5%86%99%E9%85%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E%E4%B8%8E%E5%87%A0%E7%A7%8D%E5%8F%98%E5%BD%A2%E5%AD%A6%E4%B9%A0/">PHP写配置漏洞</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/php%E5%BC%B1%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/">PHP弱类型比较</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2020/06/04/Code-breaking-Puzzles-2018-Note">Code Breaking 2018挑战赛学习——正则回溯</a></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Tabby</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Sneakymailer</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】Flask Pin码安全</strong></p>
-</li>
-</ul>
-<h4 id="June">June</h4>
-<ul>
-<li>
-<p><s>【已完成】<strong>RCTF2020</strong></s>（被完虐。。😭纯粹靠着队里的pwn师傅抬着走)</p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Phar</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Session</strong></s></p>
-</li>
-<li>
-<p>【未完成】<strong>新春战役 Hackme</strong>：<a target="_blank" rel="noopener" href="https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme">https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme</a></p>
-<ul>
-<li><strong>filter_var绕过</strong>：<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/67064.html">https://www.secpulse.com/archives/67064.html</a></li>
-<li><strong>绕过四个字符限制getshell</strong>：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/87203">https://www.anquanke.com/post/id/87203</a></li>
-</ul>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Soapclient</strong></s></p>
-<ul>
-<li><strong>LCTF bestphp’s revenge</strong></li>
-</ul>
-</li>
-<li>
-<p><s>【未完成】<strong>PHP反序列化——字符逃逸</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://yanmymickey.github.io/2020/04/14/CTF/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF/"><strong>PHP反序列化——Bypass</strong></a></p>
-</li>
-<li>
-<p><s>【未完成】<strong>代码审计学习——PHP-Audit-Code Day1-6</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2018/11/13/what-phpinfo-can-tell-we/#GOPHER"><strong>phpinfo中的关键信息</strong></a></p>
-</li>
-<li>
-<p>【未完成】<strong>Redis安全学习</strong></p>
-</li>
-<li>
-<p><s>【已完成】<strong>BUUCTF刷题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>XMCTF解题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>第五空间CTF比赛（2020.06.24）</strong>（菜就一个字。。。）</s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>队内AWD训练赛（2020.06.28）</strong></s></p>
-</li>
-</ul>
-<h2 id="Awesome-Articals-Projects">Awesome Articals/Projects</h2>
-<h3 id="Bypass-Tricks">Bypass &amp; Tricks</h3>
-<h4 id="PHP">PHP</h4>
-<h5 id="preg-match绕过">preg_match绕过</h5>
+<p>PHP中使用变量并不需要初始化，因此register_globals=On时，变量来源可能是各个不同的地方，比如页面的表单、Cookie等。例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Register_gl`obals: &quot;</span> . (<span class="keyword">int</span>)ini_get(<span class="string">&quot;register_globals&quot;</span>) . <span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> ($auth) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;private&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当register_globals=Off时，这段代码不会有问题：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118084207.png" alt=""></p>
+<p>但是当register_globals=On时，提交<code>http://localhost/variableCover/index.php/?auth=1</code>，变量<code>$auth</code>会自动得到赋值：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118084337.png" alt=""></p>
+<p>如果在代码中已经初始化了$auth变量，也不会有变量覆盖漏洞。</p>
+<p>另外通过$GLOBALS获取的变量，也可能导致变量覆盖。</p>
+<h2 id="extract-变量覆盖">extract()变量覆盖</h2>
+<p>extract()函数从数组中将变量导入到当前符号表。该函数使用数组键名作为变量名，数组键值作为变量值。针对数组中每一个元素，将在当前符号表中创建对应的一个变量。</p>
+<p>函数定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int extract ( array $var_array [, int $extract_type [, string $prefix ]] )</span><br></pre></td></tr></table></figure>
+<p>其中，第二个参数指定函数将变量导入符号表时的行为，最常见的两个值是EXTR_OVERWRITE和EXTR_SKIP。</p>
+<p>当值为EXTR_OVERWRITE时，在将变量导入符号表的过程中，如果变量名发生冲突，则覆盖所有变量；值为EXTR_SKIP则表示跳过不覆盖。若第二个参数未指定，则在默认情况下使用EXTR_OVERWRITE。</p>
+<p>当extract()函数从用户可以控制的数组中导出变量且第二个参数未设置或设置为EXTR_OVERWRITE时，就存在变量覆盖漏洞，例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$auth = <span class="number">1</span>;</span><br><span class="line">extract($_GET);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($auth == <span class="number">1</span>)&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;private&quot;</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;public&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子里，extract()从$_GET中导出变量，从而可以导致任意变量被覆盖，即：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118144039.png" alt=""></p>
+<h2 id="parse-str-变量覆盖">parse_str()变量覆盖</h2>
+<p>函数定义：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> parse_str (<span class="keyword">string</span> $str [, <span class="keyword">array</span> $arr])</span><br></pre></td></tr></table></figure>
+<p>当parse_str()函数的参数值可以被用户控制时，则存在变量覆盖漏洞：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">$a = <span class="string">&#x27;init&#x27;</span>;</span><br><span class="line">parse_str($SERVER[<span class="string">&#x27;QUERY_STRING&#x27;</span>]);</span><br><span class="line"><span class="keyword">print</span> $a;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118145544.png" alt=""></p>
+<p>再来看一道CTF的题目：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($_GET[<span class="string">&#x27;id&#x27;</span>])) &#123;</span><br><span class="line">	show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">	<span class="keyword">die</span>();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">include</span> (<span class="string">&#x27;flag.php&#x27;</span>);</span><br><span class="line">	$a = <span class="string">&quot;www.ca0y1h.top&quot;</span>;</span><br><span class="line">	$id = $_GET[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">	@parse_str($id);</span><br><span class="line">	<span class="keyword">if</span> ($a[<span class="number">0</span>] != <span class="string">&#x27;QNKCDZO&#x27;</span> &amp;&amp; md5($a[<span class="number">0</span>]) == md5(<span class="string">&#x27;QNKCDZO&#x27;</span>)) &#123;</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">exit</span>(<span class="string">&#x27;so easy!&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>也就是PHP弱类型和变量覆盖结合的题目：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118151825.png" alt=""></p>
+<h2 id="mb-parse-str-变量覆盖">mb_parse_str()变量覆盖</h2>
+<p>mb_parse_str()函数用于解析GET/POST/COOKIE数据并设置全局变量，和parse_str()类似。</p>
+<h2 id="import-request-variables-变量覆盖">import_request_variables()变量覆盖</h2>
 <blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/12198258.html">https://www.cnblogs.com/20175211lyz/p/12198258.html</a></p>
+<p>支持版本：PHP 4 &gt;= 4.1.0, PHP 5 &lt; 5.4.0</p>
 </blockquote>
+<p>import_request_variables()函数将GET、POST、Cookies中的变量导入到全局。</p>
+<p>函数定义如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> import_request_variables (<span class="keyword">string</span> $types [, <span class="keyword">string</span> $prefix])</span><br></pre></td></tr></table></figure>
+<p><code>$type</code>代表要注册的变量，G代表GET，P代表POST，C代表COOKIE，第二个参数为要注册变量的前缀，如果没有指定，则将覆盖全局变量。例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$auth = <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">import_request_variables(<span class="string">&#x27;P&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($auth === <span class="string">&#x27;0&#x27;</span>) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;private&quot;</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;public&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118150713.png" alt=""></p>
+<h2 id="导致的变量覆盖"><code>$$</code>导致的变量覆盖</h2>
+<p><code>$$</code>即可变变量，一个可变变量获取了一个普通变量的值作为这个可变变量的变量名。例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  </span><br><span class="line">	$x = <span class="string">&quot;ca01h&quot;</span>;</span><br><span class="line">	$$x = <span class="number">666</span>;</span><br><span class="line">	<span class="keyword">echo</span> $x.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> $$x.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">echo</span> $ca01h;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其实也就等价于<code>$($x)</code>，输出为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ca01h</span><br><span class="line">666</span><br><span class="line">666</span><br></pre></td></tr></table></figure>
+<p><code>$$</code>导致的变量覆盖问题在CTF代码审计题目中经常在foreach中出现，如以下的示例代码，使用foreach来遍历数组中的值，然后再将获取到的数组键名作为变量，数组中的键值作为变量的值。因此就产生了变量覆盖漏洞。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">array</span>(<span class="string">&#x27;_COOKIE&#x27;</span>,<span class="string">&#x27;_POST&#x27;</span>,<span class="string">&#x27;_GET&#x27;</span>) <span class="keyword">as</span> $_request)  </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">foreach</span> ($$_request <span class="keyword">as</span> $_key=&gt;$_value)  </span><br><span class="line">    &#123;</span><br><span class="line">        $$_key=  $_value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$id = <span class="keyword">isset</span>($id) ? $id : <span class="string">&quot;test&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>($id === <span class="string">&quot;ca01h&quot;</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;flag&#123;xxxxxxxxxx&#125;&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;Nothing...&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里以GET、POST或COOKIE都能触发变量覆盖漏洞，传入id=ca01h后，在foreach语句中，<code>$_key</code>为id，<code>$_value</code>为ca01h，进而<code>$$_key</code>为$id，从而实现了变量覆盖。</p>
+<p>最后以一道CTF题为此文章结尾：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&quot;flag.php&quot;</span>;</span><br><span class="line">$_403 = <span class="string">&quot;Access Denied&quot;</span>;</span><br><span class="line">$_200 = <span class="string">&quot;Welcome Admin&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> ($_SERVER[<span class="string">&quot;REQUEST_METHOD&quot;</span>] != <span class="string">&quot;POST&quot;</span>)&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">&quot;BugsBunnyCTF is here :p…&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> ( !<span class="keyword">isset</span>($_POST[<span class="string">&quot;flag&quot;</span>]) )&#123;</span><br><span class="line">	<span class="keyword">die</span>($_403);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $key =&gt; $value)&#123;</span><br><span class="line">	$$key = $$value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">foreach</span> ($_POST <span class="keyword">as</span> $key =&gt; $value)&#123;</span><br><span class="line">	$$key = $value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> ( $_POST[<span class="string">&quot;flag&quot;</span>] !== $flag )	&#123;</span><br><span class="line">	<span class="keyword">die</span>($_403);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;This is your flag : &quot;</span>. $flag . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">	<span class="keyword">die</span>($_200);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>可以看到，有3个if语句和2个foreach语句。</p>
+<p>在if语句中，第一个需要你是通过POST方式进行请求，第二个是需要POST一个flag参数过去，第三个是比较flag参数和包含进来的真正的flag是否相等。</p>
+<p>在foreach语句中，第一个是可以将GET的参数进行变量覆盖，第二个是将POST的参数进行变量覆盖，但两个语句的处理是有点区别的即一个键值为$$value另一个为$value。</p>
+<p>这里整理一下思路：</p>
+<ol>
+<li>因为POST的参数必须为flag，则第二个foreach语句的<code>$key</code>为flag，进而<code>$$key</code>为<code>$flag</code>，从而得到<code>$flag</code>的值为POST传递的flag参数的值。</li>
+<li>又因为第二个foreach语句修改了<code>$flag</code>原来的值为POST传递的flag参数的值，因而最后一个if语句的条件是恒不成立的，在其后的else代码块逻辑中echo输出出来的只能是修改了的<code>$flag</code>的值即POST传递的flag参数的值而非原本的<code>$flag</code>的值、接着输出<code>$_200</code>变量的值。</li>
+<li>要想输出原本的<code>$flag</code>的值，我们需要将原本的<code>$flag</code>覆盖<code>$_200</code>变量，因此在第一个<code>foreach</code>语句中通过GET输入<code>_200=flag</code>，从而得到的<code>$$key</code>为<code>$_200</code> 以及<code>$$value</code>为<code>$flag</code>，从而实现在修改<code>$flag</code>的值之前将其覆盖到<code>$_200</code>变量中。</li>
+</ol>
+<p>验证结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191118161214.png" alt=""></p>
+<h2 id="Reference">Reference</h2>
 <ul>
-<li>数组绕过</li>
-<li>PCRE回溯限制（code-breaking2018）</li>
-<li>换行符</li>
+<li>《白帽子讲Web安全》</li>
+<li><a target="_blank" rel="noopener" href="https://www.mi1k7ea.com/2019/06/20/PHP%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E/">PHP变量覆盖漏洞小小结——mi1k7ea</a></li>
+<li><a target="_blank" rel="noopener" href="https://y4er.com/post/variable-coverage/">PHP变量覆盖总结——Y4er</a></li>
+<li><a target="_blank" rel="noopener" href="https://p0sec.net/index.php/archives/35/">PHP变量覆盖总结——p0sec</a></li>
 </ul>
-<h5 id="PHP字符串解析特性绕过">PHP字符串解析特性绕过</h5>
-<blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/213359.html">https://www.freebuf.com/articles/web/213359.html</a></p>
-</blockquote>
-<p>借用一张图简单地记一下</p>
-<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708203746.png" alt=""></p>
-<h5 id="SSRF-file协议绕过">SSRF file协议绕过</h5>
-<p>如果SSRF中<code>file://</code>关键字被禁用，可以使用<code>file:/</code>或者<code>file:///</code>来代替。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BGKCTF2020%5DEZ%E4%B8%89%E5%89%91%E5%AE%A2-EzWeb">[GKCTF2020]EZ三剑客-EzWeb</a></p>
-<h5 id="Session绕过">Session绕过</h5>
-<p>删除cookie，没有cookie中的SESSIONID就找不到对应的session文件，相应的<code>$_SESSION['var']</code>就为NULL，相当于传参NULL。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BBJDCTF%202nd%5D%E6%96%87%E4%BB%B6%E6%8E%A2%E6%B5%8B">BJDCTF2nd 文件探测</a></p>
-<h5 id="利用数组绕过">利用数组绕过</h5>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">md5(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">sha1(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">ereg(pattern,<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">preg_match(pattern,<span class="keyword">Array</span>()) = <span class="literal">false</span></span><br><span class="line">strcmp(<span class="keyword">Array</span>(), <span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strpos(<span class="keyword">Array</span>(),<span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strlen(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5B0CTF%202016%5Dpiapiapia">0CTF2016 piapiapia</a></p>
-<h5 id="basename绕过">basename绕过</h5>
-<p>从 <a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=62119">https://bugs.php.net/bug.php?id=62119</a> 找到了<code>basename()</code>函数的一个问题，它会去掉文件名开头的非ASCII值：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var_dump(basename(<span class="string">&quot;xffconfig.php&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br><span class="line">var_dump(basename(<span class="string">&quot;config.php/xff&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BZer0pts2020%5DCan%20you%20guess%20it?">[Zer0pts2020]Can you guess it?</a></p>
-<h5 id="htaccess利用">.htaccess利用</h5>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks总结</a></p>
-<h3 id="Linux入侵检测">Linux入侵检测</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/grayddq/GScan">https://github.com/grayddq/GScan</a></p>
-<h3 id="红蓝对抗">红蓝对抗</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/yeyintminthuhtut/Awesome-Red-Teaming">https://github.com/yeyintminthuhtut/Awesome-Red-Teaming</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hudunkey/Red-Team-links">https://github.com/hudunkey/Red-Team-links</a></p>
-<h3 id="代码审计">代码审计</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/CHYbeta/Code-Audit-Challenges">https://github.com/CHYbeta/Code-Audit-Challenges</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
-<h3 id="WAF">WAF</h3>
-<p><a target="_blank" rel="noopener" href="https://wh0ale.github.io/2019/12/04/waf%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0Bypass/">https://wh0ale.github.io/2019/12/04/waf从入门到Bypass/</a></p>
-<p><a target="_blank" rel="noopener" href="https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756">https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756</a></p>
-<h3 id="java安全">java安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/threedr3am/learnjavabug">https://github.com/threedr3am/learnjavabug</a></p>
-<h3 id="Python安全">Python安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/bit4woo/python_sec">https://github.com/bit4woo/python_sec</a></p>
-<h3 id="字典">字典</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/insightglacier/Dictionary-Of-Pentesting">https://github.com/insightglacier/Dictionary-Of-Pentesting</a></p>
-<h3 id="求职">求职</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/geekcompany/ResumeSample">https://github.com/geekcompany/ResumeSample</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/zhaoweiho/web-sec-interview">https://github.com/zhaoweiho/web-sec-interview</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/EvilAnne/Pentest_questions">https://github.com/EvilAnne/Pentest_questions</a></p>
 
 </div>
 
@@ -545,12 +419,23 @@ function sidebar_toggle() {
     <!-- Author title
     <div class="author-title">
       <div>ca01h</div>
-      <div>2020-09-26</div>
+      <div>2019-11-18</div>
     </div> -->
 	
 	<script src="https://www.hackthebox.eu/badge/212159"></script>
   </div> 
 
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/CTF/" rel="tag">#CTF</a> <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" rel="tag">#web安全基础</a> <a class="tag-none-link" href="/tags/%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96/" rel="tag">#变量覆盖</a>
+    </div>
+    
   
 
   <div class="divider"></div>

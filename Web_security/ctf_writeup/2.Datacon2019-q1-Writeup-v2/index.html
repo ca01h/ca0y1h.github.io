@@ -11,7 +11,7 @@
 
     <title>
         
-          ca01hの笔记本 - ca01h&#39;s Blog
+          Datacon2019-q1-Writeup-v2 - ca01h&#39;s Blog
         
     </title>
 
@@ -291,210 +291,149 @@ function sidebar_toggle() {
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="book-post">
   
-  <figure class="highlight plain"><figcaption><span>wiki</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> _____       ___   _____   ___   _   _        _____   _       _____   _____  </span><br><span class="line">&#x2F;  ___|     &#x2F;   | &#x2F;  _  \ |_  | | | | |      |  _  \ | |     &#x2F;  _  \ &#x2F;  ___| </span><br><span class="line">| |        &#x2F; &#x2F;| | | | | |   | | | |_| |      | |_| | | |     | | | | | |     </span><br><span class="line">| |       &#x2F; &#x2F; | | | |&#x2F;| |   | | |  _  |      |  _  | | |     | | | | | |  _  </span><br><span class="line">| |___   &#x2F; &#x2F;  | | | |_| |   | | | | | |      | |_| | | |___  | |_| | | |_| | </span><br><span class="line">\_____| &#x2F;_&#x2F;   |_| \_____&#x2F;   |_| |_| |_|      |_____&#x2F; |_____| \_____&#x2F; \_____&#x2F; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-07-21&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">2.4k</span>
+  
+  <h1 id="Datacon2019-q1-Writeup-v2">Datacon2019-q1-Writeup-v2</h1>
+<p>这一轮流量分析主要是<strong>分析</strong>为主，以<a target="_blank" rel="noopener" href="https://github.com/shyoshyo/DataCon-9102-DNS">这篇Writeup</a>为参考，有关DNS的攻击类型、攻击手段和攻击特征，详见[DNS攻击流量分析识别-v1</p>
+<h2 id="系统环境">系统环境</h2>
+<ul>
+<li>Windows10 64bit；</li>
+<li>wireshark 3.0.3 (v3.0.3-0-g6130b92b0ec6) ；</li>
+<li>TShark (Wireshark) 3.0.3 (v3.0.3-0-g6130b92b0ec6)；</li>
+<li>Cmder 18026 preview；</li>
+<li>python 3.7；</li>
+<li>Excel 2016</li>
+</ul>
+<h2 id="未授权的Dynamic-Update">未授权的Dynamic Update</h2>
+<p>**切入点：**粗略观察绝大部分DNS包的Opcode都是0（Standard Query），但是我们也可以分析Opcode不为零的。使用以下命令筛选：</p>
+<p><code>dns and not dns.flags.opcode==0</code></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g548iwinf2j210t0ezgnr.jpg" alt="Figure1：未授权的Dynamic Update"></p>
+<p>可以看到，全部都是DNS Dynamic Update请求。接下来，使用在Cmder中使用tshark命令筛选出所有的攻击IP：</p>
+<p><code>tshark.exe -r q1_final.pcap -Y &quot;dns.flags.opcode==5 &amp;&amp; dns.flags.response==0&quot; -T fields -e ip.src -e ip.dst |awk '&#123;print $1&quot;-&gt;&quot;$2&#125;' &gt; DynamicDNSip.csv</code></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g54e5ws2vfj20bt0dddg2.jpg" alt=""></p>
+<p>从图中可以看到有四个攻击来源：19.220.251.87 414，200.152.141.106 15，18.100.48.86 4091，237.205.156.233 535。<strong>由于正常的Dynamic Update 不会发送这么多且这么频繁的请求，而且涉及到二级域名com.cn以及很多其他不同域名的更新</strong>，因此我们认为这些都是攻击。再使用下面一行命令把他们选出来：</p>
+<p><code>tshark.exe -r q1_final.pcap -Y &quot;dns and not dns.flags.opcode == 0 and dns.flags.response == 0&quot; -T fields -e frame.number -e ip.src | awk '&#123;print $1&quot;,5&quot;; ip[$2] += 1&#125;' &gt; DynamicDNS.csv</code></p>
+<p>上述命令把这些攻击包的标号和类型(5) 输出到了DynamicDNS.csv</p>
+<h2 id="反射放大攻击">反射放大攻击</h2>
+<p>**切入点：**我们接下来再看看除了A(1) 和AAAA(28) 这两个常见类型以外的DNS 请求。使用如下命令启动<br>
+wireshark：</p>
+<p><code>wireshark -r q1_final.pcap -R &quot;dns and not dns.query.type in &#123;1, 28&#125; and dns.flags.opcode == 0&quot;</code></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g55hio4fw8j210p0ghq5h.jpg" alt="除了A(1) 和AAAA(28) 类型以外的DNS 请求"></p>
+<p>如图所示，可以看到有很多杂七杂八的DNS 请求。为便于观察，我们按照请求类型排序。简单浏览一下，我们就能够发现一些攻击。例如，我们可以看到反射放大攻击：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g55itxa9hqj210r0h1whb.jpg" alt="反射放大攻击"></p>
+<p>使用以下命令统计各IP的进/出流量：</p>
+<p><code>tshark -r q1_final.pcap -T fields -e ip.src -e ip.dst -e frame.len | awk '&#123;send[$1] += $3; rece[$1] += 0; rece[$2] += $3; send[$2] += 0;&#125; END &#123;for(ip in send) if(rece[ip] == 0) tmp = 1e60; else tmp = send[ip]/rece[ip]; for(ip in send) print ip, send[ip], rece[ip], tmp; &#125;' &gt; send_rece.csv</code></p>
+<p>为了更容易观察这些IP的流量特征，可以使用Python的matplotlib模块作图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line">send = []</span><br><span class="line">rece = []</span><br><span class="line">ip = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;send_rece.csv&#x27;</span> ,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">	plots = csv.reader(csvfile, delimiter=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">	<span class="keyword">for</span> row <span class="keyword">in</span> plots:</span><br><span class="line">		<span class="keyword">if</span> row[<span class="number">0</span>] == <span class="string">&#x27;45.80.170.1&#x27;</span>: <span class="keyword">continue</span></span><br><span class="line">		send.append(int(row[<span class="number">1</span>]))</span><br><span class="line">		rece.append(int(row[<span class="number">2</span>]))</span><br><span class="line">		ip.append(row[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line">ax.scatter(send, rece, label=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i, txt <span class="keyword">in</span> enumerate(ip):</span><br><span class="line">	<span class="keyword">if</span> send[i] &gt; <span class="number">8e6</span> <span class="keyword">or</span> rece[i] &gt; <span class="number">8e6</span>:</span><br><span class="line">		ax.annotate(txt, (send[i], rece[i]))</span><br><span class="line"></span><br><span class="line">plt.xlabel(<span class="string">&#x27;send&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;receive&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><strong>ca01h@星盟安全</strong></p>
-<p>NTExOTY1NzM4QHFxLmNvbQ==</p>
+<p>为什么要排除45.80.170.1：</p>
+<p>我们可以使用命令<code>wireshark -r q1_final.pcap -R &quot;dns and ip.addr == 45.80.170.1&quot;查看相关流量：</code></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rlk5wk9bj211k09iaci.jpg" alt=""></p>
+<p>可以看出这个IP是一个DNS服务。</p>
 </blockquote>
-<p>互联网时代的知识是零散的，需要有一个写字的地方，把零散的知识汇聚起来，以点连线，以线聚面，一方面能形成一个完整的知识体系，另一方面自己所需之时方便查阅，于是乎就诞生了<strong>ca01hの笔记本</strong>。</p>
-<h2 id="TODO-LIST">TODO LIST</h2>
-<h3 id="2020">2020</h3>
-<p><strong>【未完成】SCTF复盘：<a target="_blank" rel="noopener" href="https://github.com/SycloverSecurity/SCTF2020/tree/master/Web">https://github.com/SycloverSecurity/SCTF2020/tree/master/Web</a></strong></p>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://bycsec.top/2020/08/05/Thinkphp-vuln/">Thinkphp-vuln</a></strong></p>
-<h4 id="September">September</h4>
-<ul>
-<li><strong>【未完成】实习+HW</strong></li>
-<li><strong>【未完成】DataCon复盘</strong></li>
-</ul>
-<h4 id="August">August</h4>
-<ul>
-<li><s><strong>【已完成】XCTF——WMCTF</strong>（有幸做了一个签到题</s></li>
-<li><s><strong>【已完成】DataCon2020 DNS恶意流量分析</strong>（有幸混了一个鼓励奖</s>
-<ul>
-<li>DNS恶意域名分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg">https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg</a></li>
-</ul>
-</li>
-<li>加密恶意流量检测
-<ul>
-<li>初赛：<a target="_blank" rel="noopener" href="https://s1mple.online/2020/08/09/DataCon2020-%E5%8A%A0%E5%AF%86%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E6%A3%80%E6%B5%8B%E5%88%9D%E8%B5%9B-Writeup-%E5%8F%8A%E6%80%BB%E7%BB%93%E5%8F%8D%E6%80%9D/">https://s1mple.online/2020/08/09/DataCon2020-加密恶意流量检测初赛-Writeup-及总结反思/</a></li>
-</ul>
-</li>
-<li>僵尸网络分析
-<ul>
-<li>第一题：<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=829">https://www.cdxy.me/?p=829</a></li>
-<li>第三题：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/186948840">https://zhuanlan.zhihu.com/p/186948840</a></li>
-</ul>
-</li>
-<li>网络黑产分析</li>
-<li>恶意代码分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/yuriufo/DataCon2020">https://github.com/yuriufo/DataCon2020</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/187535672">https://zhuanlan.zhihu.com/p/187535672</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/185715807">https://zhuanlan.zhihu.com/p/185715807</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><s><strong>【已完成】首届钓鱼城杯CTF</strong></s></li>
-<li><s><strong>【已完成】HW</strong></s></li>
-<li><s><strong>【已完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/#htaccess">文件解析漏洞</a></strong></s></li>
-<li><strong>【未完成】《机器学习实战》前七章</strong></li>
-<li><s><strong>【已完成】BUUCTF刷题</strong></s></li>
-<li><strong>【未完成】HackTheBox OpenKeys（账号又被封了。。。</strong></li>
-<li><strong>【未完成】PHP构造反序列化链再学习</strong></li>
-</ul>
-<h4 id="July">July</h4>
-<ul>
-<li>
-<p><s><strong>【已完成】第五空间CTF复盘</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】DASCTF七月赛复盘</strong></s></p>
-</li>
-<li>
-<p><strong><s>【已完成】CSICTF2020复盘</s></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】2020电信天翼杯CTF</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】SUCTF2019 Upload2</strong></p>
-</li>
-<li>
-<p><strong>【未完成】N1CTF2018 Easy&amp;&amp;Hard PHP</strong></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2148">https://xz.aliyun.com/t/2148</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499">https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499</a></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">Flask/Jinja2 SSTI &amp;&amp; Python 沙箱逃逸基础</a></strong></p>
-</li>
-<li>
-<p>【<strong>未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E5%B0%8F%E5%AF%86%E5%9C%88%E7%BB%8F%E5%85%B8%E5%86%99%E9%85%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E%E4%B8%8E%E5%87%A0%E7%A7%8D%E5%8F%98%E5%BD%A2%E5%AD%A6%E4%B9%A0/">PHP写配置漏洞</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/php%E5%BC%B1%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/">PHP弱类型比较</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2020/06/04/Code-breaking-Puzzles-2018-Note">Code Breaking 2018挑战赛学习——正则回溯</a></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Tabby</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Sneakymailer</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】Flask Pin码安全</strong></p>
-</li>
-</ul>
-<h4 id="June">June</h4>
-<ul>
-<li>
-<p><s>【已完成】<strong>RCTF2020</strong></s>（被完虐。。😭纯粹靠着队里的pwn师傅抬着走)</p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Phar</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Session</strong></s></p>
-</li>
-<li>
-<p>【未完成】<strong>新春战役 Hackme</strong>：<a target="_blank" rel="noopener" href="https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme">https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme</a></p>
-<ul>
-<li><strong>filter_var绕过</strong>：<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/67064.html">https://www.secpulse.com/archives/67064.html</a></li>
-<li><strong>绕过四个字符限制getshell</strong>：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/87203">https://www.anquanke.com/post/id/87203</a></li>
-</ul>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Soapclient</strong></s></p>
-<ul>
-<li><strong>LCTF bestphp’s revenge</strong></li>
-</ul>
-</li>
-<li>
-<p><s>【未完成】<strong>PHP反序列化——字符逃逸</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://yanmymickey.github.io/2020/04/14/CTF/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF/"><strong>PHP反序列化——Bypass</strong></a></p>
-</li>
-<li>
-<p><s>【未完成】<strong>代码审计学习——PHP-Audit-Code Day1-6</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2018/11/13/what-phpinfo-can-tell-we/#GOPHER"><strong>phpinfo中的关键信息</strong></a></p>
-</li>
-<li>
-<p>【未完成】<strong>Redis安全学习</strong></p>
-</li>
-<li>
-<p><s>【已完成】<strong>BUUCTF刷题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>XMCTF解题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>第五空间CTF比赛（2020.06.24）</strong>（菜就一个字。。。）</s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>队内AWD训练赛（2020.06.28）</strong></s></p>
-</li>
-</ul>
-<h2 id="Awesome-Articals-Projects">Awesome Articals/Projects</h2>
-<h3 id="Bypass-Tricks">Bypass &amp; Tricks</h3>
-<h4 id="PHP">PHP</h4>
-<h5 id="preg-match绕过">preg_match绕过</h5>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g56axqdpwaj211y0in3zd.jpg" alt=""></p>
+<p>可以看到到188.141.167.218、70.85.232.160、187.199.129.12 是反射用的递归DNS，而伪造出的源地址127,130.104.152、175.222.102.169、105.191.150.205 则都是受害者。</p>
 <blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/12198258.html">https://www.cnblogs.com/20175211lyz/p/12198258.html</a></p>
+<p>从图中，102.181.153.79也比较可以，但是使用<code>ip.addr==102.181.153.79</code>可以看出它的请求类型主要是MX、NS和CNAME。</p>
 </blockquote>
-<ul>
-<li>数组绕过</li>
-<li>PCRE回溯限制（code-breaking2018）</li>
-<li>换行符</li>
-</ul>
-<h5 id="PHP字符串解析特性绕过">PHP字符串解析特性绕过</h5>
+<p><code>tshark -r q1_final.pcap -Y 'dns.qry.type in &#123;255&#125; and dns.flags.recdesired == 1 and dns.qry.name in &#123;&quot;734a5.gov&quot; &quot;d1a4.cc&quot;&#125; and not dns.flags.response == 1 and ip.src in &#123;127.130.104.152 175.222.102.169 105.191.150.205&#125;' -T fields -e frame.number -e ip.src -e dns.qry.name | awk '&#123;print $1&quot;,3&quot;&#125; &gt; Reflect.csv</code></p>
+<p>上述命令把这些攻击包的标号和类型(3) 输出到了Reflect.csv。</p>
+<h2 id="未授权的域传输攻击">未授权的域传输攻击</h2>
+<p>继续浏览除了A(1) 和AAAA(28) 以外的DNS 请求，我们看到了未授权的DNS 域传送攻击。</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g55hmu5dvfj20w90gi0vb.jpg" alt="DNS域传送攻击"></p>
+<p>我们用显示过滤器<code>dns.qry.type in &#123;252 251&#125;</code>把AXFR 和IXFR 过滤出来：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g55hpxssx8j20wl0gidi8.jpg" alt="过滤后的DNS 域传送攻击"></p>
+<p>可以手工验证，有两个221.223.19.169 和一个129.191.74.107 发来的域传送请求包，以及大量的96.199.230.176 发来的域传送请求包。我们认为前面两个有可能是管理员配置不当等造成的，而最后的一个大量的请求数据包显然就是域传送攻击了。使用以下命令提取出我们认为是攻击的包：</p>
+<p><code>tshark -r q1_final.pcap -Y &quot;dns.qry.type in &#123;251 252&#125; and not ip.addr in &#123;221.223.19.169 129.191.74.107&#125; and not dns.flags.response == 1&quot; -T fields -e frame.number -e ip.src | awk '&#123;print $1&quot;,4&quot;; ip[$2] += 1&#125;' &gt; AXFR.csv</code></p>
+<p>上述命令把这些攻击包的标号和类型(4) 输出到了AXFR.csv。</p>
+<h2 id="DNSSec-NSec-域名遍历">DNSSec NSec 域名遍历</h2>
+<p>继续浏览除了A(1) 和AAAA(28) 以外的DNS 请求，可以看到DNSSec 域名遍历攻击：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g56bib7p9gj210q0ghdij.jpg" alt="DNSSec域名遍历攻击"></p>
+<p>由于域名遍历攻击依赖于NSec，我们可以重新执行</p>
+<p><code>tshark -r q1_final.pcap -R &quot;dns.resp.type == 47 and not dns.qry.type == 255&quot;</code></p>
+<p>从原来的所有包中重新过滤所有涉及到NSec(47) 项的响应数据包：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g56cbvlgpdj210s0g0n05.jpg" alt=""></p>
+<p>容易手工验证，在所有的域名遍历攻击中，攻击者只有6.116.183.244 一个人。我们可以用：</p>
+<p><code>wireshark -r q1_final.pcap -R &quot;dns and ip.addr == 6.116.183.244&quot;</code></p>
+<p>过滤出6.116.183.244 发送的所有包：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g56d4z9fy7j210u0fzjue.jpg" alt=""></p>
+<p>可见所有的攻击包都是SOA 或者DS 类型的。使用以下命令提取出攻击的包</p>
+<p><code>tshark -r q1_final.pcap -Y 'dns and dns.qry.type in &#123;43 6&#125; and dns.flags.response == 0 and ip.src == 6.116.183.244' -T fields -e frame.number -e ip.dst | awk '&#123;print $1&quot;,1&quot;&#125;' &gt; DNSSec.csv</code></p>
+<h2 id="Dos子域名遍历攻击">Dos子域名遍历攻击</h2>
+<p>**切入点：**我们可以先统计一下DNS 查询到一个不存在的域名的次数及其请求发起人的IP，具体而言可以使用如下的命令：</p>
+<p><code>tshark -r q1_final.pcap -Y &quot;dns and dns.flags.rcode == 3&quot; -T fields -e ip.src -e ip.dst -e dns.qry.name | awk '&#123;ip = $2; doname = substr($3, index($3,&quot;.&quot;), length($3)); c_ip_doname[ip&quot;@@@&quot;doname] += 1&#125; END &#123;for(i in c_ip_doname) print i, c_ip_doname[i]&#125;' &gt; No_such_name.csv</code></p>
 <blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/213359.html">https://www.freebuf.com/articles/web/213359.html</a></p>
+<p>``substr(string, start<code> [</code>, length<code> ])</code>：Return a length-character-long substring of string, starting at character number start. The first character of a string is character number one.</p>
+<p>`index(str1, str2)： This searches the string <em>str1</em> for the first occurrences of the string <em>str2</em>, and returns the position in characters where that occurrence begins in the string <em>str1</em></p>
 </blockquote>
-<p>借用一张图简单地记一下</p>
-<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708203746.png" alt=""></p>
-<h5 id="SSRF-file协议绕过">SSRF file协议绕过</h5>
-<p>如果SSRF中<code>file://</code>关键字被禁用，可以使用<code>file:/</code>或者<code>file:///</code>来代替。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BGKCTF2020%5DEZ%E4%B8%89%E5%89%91%E5%AE%A2-EzWeb">[GKCTF2020]EZ三剑客-EzWeb</a></p>
-<h5 id="Session绕过">Session绕过</h5>
-<p>删除cookie，没有cookie中的SESSIONID就找不到对应的session文件，相应的<code>$_SESSION['var']</code>就为NULL，相当于传参NULL。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BBJDCTF%202nd%5D%E6%96%87%E4%BB%B6%E6%8E%A2%E6%B5%8B">BJDCTF2nd 文件探测</a></p>
-<h5 id="利用数组绕过">利用数组绕过</h5>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">md5(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">sha1(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">ereg(pattern,<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">preg_match(pattern,<span class="keyword">Array</span>()) = <span class="literal">false</span></span><br><span class="line">strcmp(<span class="keyword">Array</span>(), <span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strpos(<span class="keyword">Array</span>(),<span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strlen(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5B0CTF%202016%5Dpiapiapia">0CTF2016 piapiapia</a></p>
-<h5 id="basename绕过">basename绕过</h5>
-<p>从 <a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=62119">https://bugs.php.net/bug.php?id=62119</a> 找到了<code>basename()</code>函数的一个问题，它会去掉文件名开头的非ASCII值：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var_dump(basename(<span class="string">&quot;xffconfig.php&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br><span class="line">var_dump(basename(<span class="string">&quot;config.php/xff&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BZer0pts2020%5DCan%20you%20guess%20it?">[Zer0pts2020]Can you guess it?</a></p>
-<h5 id="htaccess利用">.htaccess利用</h5>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks总结</a></p>
-<h3 id="Linux入侵检测">Linux入侵检测</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/grayddq/GScan">https://github.com/grayddq/GScan</a></p>
-<h3 id="红蓝对抗">红蓝对抗</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/yeyintminthuhtut/Awesome-Red-Teaming">https://github.com/yeyintminthuhtut/Awesome-Red-Teaming</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hudunkey/Red-Team-links">https://github.com/hudunkey/Red-Team-links</a></p>
-<h3 id="代码审计">代码审计</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/CHYbeta/Code-Audit-Challenges">https://github.com/CHYbeta/Code-Audit-Challenges</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
-<h3 id="WAF">WAF</h3>
-<p><a target="_blank" rel="noopener" href="https://wh0ale.github.io/2019/12/04/waf%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0Bypass/">https://wh0ale.github.io/2019/12/04/waf从入门到Bypass/</a></p>
-<p><a target="_blank" rel="noopener" href="https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756">https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756</a></p>
-<h3 id="java安全">java安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/threedr3am/learnjavabug">https://github.com/threedr3am/learnjavabug</a></p>
-<h3 id="Python安全">Python安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/bit4woo/python_sec">https://github.com/bit4woo/python_sec</a></p>
-<h3 id="字典">字典</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/insightglacier/Dictionary-Of-Pentesting">https://github.com/insightglacier/Dictionary-Of-Pentesting</a></p>
-<h3 id="求职">求职</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/geekcompany/ResumeSample">https://github.com/geekcompany/ResumeSample</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/zhaoweiho/web-sec-interview">https://github.com/zhaoweiho/web-sec-interview</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/EvilAnne/Pentest_questions">https://github.com/EvilAnne/Pentest_questions</a></p>
+<p>以域名为排序标准，查看No_such_name.csv：</p>
+<p><code>cat No_such_name.csv | sort -k2nr | less</code></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g56f5ke98sj20rl0ef3z9.jpg" alt=""></p>
+<p>可以看到，144.202.64.226查询了30318次*b0e.com.cn下面不存在的域名，是所有IP中次数最多的。我们可以使用：</p>
+<p><code>wireshark -r q1_final.pcap -R &quot;dns and ip.addr == 144.202.64.226&quot;</code></p>
+<p>进一步查看144.202.64.226相关的包：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g576j59tyhj210s0efmzi.jpg" alt=""></p>
+<p>可以看出，攻击人144.202.64.226 选了182.254.116.116 、119.29.29.29 和223.6.6.6 三个递归DNS 服务器作为中间“跳板”，<a target="_blank" rel="noopener" href="http://xn--b0e-5d2e139f.com.cn">攻击b0e.com.cn</a> 的权威DNS 服务器。本来攻击者还想利用223.5.5.5 作为“跳板”的，但是看起来这台DNS 服务器没有工作，无法利用。</p>
+<p>对于每个子域名，攻击人都访问了两次。第二次明显快于第一次，说明请求确实到达了权威DNS服务器并被递归服务器缓存。</p>
+<p>使用下列命令可以提取出攻击的包：</p>
+<p><code>tshark -r q1_final.pcap -Y 'dns and dns.flags.response == 0 and ip.src == 144.202.64.226' -T fields -e frame.number -e ip.dst -e dns.qry.name | awk '&#123;print $1&quot;,2&quot;&#125;' &gt; DOS.csv</code></p>
+<p>使用下列命令提取“跳板机器”的dns及其被利用次数：</p>
+<p><code>tshark -r q1_final.pcap -Y 'dns and dns.flags.response == 0 and ip.src == 144.202.64.226' -T fields -e frame.number -e ip.dst -e dns.qry.name | awk '&#123;dns[$2] += 1&#125; END &#123;for(ip in dns) print ip, dns[ip]'&#125;</code></p>
+<blockquote>
+<p>119.29.29.29 15719<br>
+182.254.116.116 16227<br>
+223.6.6.6 2247<br>
+223.5.5.5 1</p>
+</blockquote>
+<p>使用下列命令提取询问次数不是两次的域名：</p>
+<p><code>tshark -r q1_final.pcap -Y 'dns and dns.flags.response == 0 and ip.src == 144.202.64.226' -T fields -e frame.number -e ip.dst -e dns.qry.name | awk '&#123;domain[$3] += 1&#125; END &#123;for(i in domain) if(domain[i] != 2) print i, domain[i]&#125;' &gt; query_one_time_domain.csv</code></p>
+<p>我们发现：这些域名要么是Google 的8.8.8.8，访问了四次，用于试探四个“跳板”DNS 递归服务器是否工作；要么是没有收到响应的请求，因此只访问了一次。这间接的说明了受害者的资源已经被消耗了非常多，<a target="_blank" rel="noopener" href="http://xn--b0e-xi9dxh38pw5uwor.com.cn">攻击人对于b0e.com.cn</a> 权威服务器的DoS 攻击是成功的。</p>
+<h2 id="分析思路总结">分析思路总结</h2>
+<ul>
+<li>首先查看Opcode不为0，即非Standard Query的查询数据包
+<ul>
+<li>特征字段：<code>dns.flags.opcode</code>
+<ul>
+<li><code>dns.flags.opcode != 0(Standard query)</code>
+<ul>
+<li><code>dns.flags.opcode == 5(Dynamic Update) </code>—&gt; 未授权的DNS Dynamic Update</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>再查看类型不为A(1)和AAAA(28)，即IPV4和IPV6的查询数据包
+<ul>
+<li>特征字段：<code>dns.qry.type</code>
+<ul>
+<li><code>dns.qry.type != 1(A) and 28(AAAA)</code>
+<ul>
+<li>``dns.qry.type == 255(* ALL)` —&gt; 反射放大攻击</li>
+<li><code>dns.qry.type == 252(AXFR)</code> —&gt; 未授权的DNS域传输攻击</li>
+<li><code>dns.qry.type == 43(DS) and 6(SOA)</code> —&gt; DNSSec 域名遍历攻击</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>最后可以统计一下返回No Such Name的响应数据包
+<ul>
+<li>特征字段：<code>dns.flags.rcode</code>
+<ul>
+<li><code>dns.flags.rcode != 0(No Error)</code>
+<ul>
+<li><code>dns.flags.rcode == 3(No such name)</code> —&gt; DoS攻击</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
 </div>
 
@@ -545,12 +484,23 @@ function sidebar_toggle() {
     <!-- Author title
     <div class="author-title">
       <div>ca01h</div>
-      <div>2020-09-26</div>
+      <div>2019-07-21</div>
     </div> -->
 	
 	<script src="https://www.hackthebox.eu/badge/212159"></script>
   </div> 
 
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/">流量分析</a>-><a class="category-link" href="/categories/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/%E6%AF%94%E8%B5%9B%E9%A2%98/">比赛题</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/DNS/" rel="tag">#DNS</a> <a class="tag-none-link" href="/tags/Datacon2019/" rel="tag">#Datacon2019</a> <a class="tag-none-link" href="/tags/Wireshark/" rel="tag">#Wireshark</a> <a class="tag-none-link" href="/tags/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" rel="tag">#流量分析</a>
+    </div>
+    
   
 
   <div class="divider"></div>

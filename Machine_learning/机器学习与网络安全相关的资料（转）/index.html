@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          机器学习与网络安全相关的资料（转） - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-01-17&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.6k</span>
+  
+  <h1 id="机器学习与网络安全相关的资料（转）">机器学习与网络安全相关的资料（转）</h1>
+<p>外媒 KDnuggets 刊登了一篇机器学习与网络安全相关的资料大汇总，文中列出了相关数据源的获取途径，优秀的论文和书籍，以及丰富的教程。大部分都是作者在日常工作和学习中亲自使用并认为值得安利的纯干货。</p>
+<h2 id="数据源">数据源</h2>
+<p><a target="_blank" rel="noopener" href="http://www.secrepo.com/">SecRepo.com</a> 网站，该网站汇聚了大量的与机器学习和网络安全相关的数据源，并提供免费下载。据网站首页介绍，所有可用的数据源包含两个部分：一是网站方面自己整理的，二是来自第三方的。其内容包括互联网扫描数据，恶意软件源码，以及和网络安全相关的系统日志等。</p>
+<h2 id="论文">论文</h2>
+<p><a target="_blank" rel="noopener" href="https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/melicher"><strong>1. Fast, Lean, and Accurate: Modeling Password Guessability Using Neural Networks</strong></a></p>
+<p>本文来自卡内基梅隆大学，分析了通用符号密码的脆弱性，以及目前常见的密码健壮性检验的各种缺点，甚至给出了他们在实验室利用神经网络算法攻破各种符号密码的具体步骤，非常强大。</p>
+<p><a target="_blank" rel="noopener" href="http://ieeexplore.ieee.org/document/5504793/"><strong>2. Outside the Closed World: On Using Machine Learning for Network Intrusion Detection</strong></a></p>
+<p>本文来自加州伯克利大学，分析了利用机器学习探测网络安全的优势和劣势，并给出了一些改善这些劣势的解决方案。</p>
+<p><a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-3-540-30143-1_11"><strong>3. Anomalous Payload-Based Network Intrusion Detection</strong></a></p>
+<p>通常一个互联网上的恶意请求都会在真正的恶意代码外部包装一层善意的外衣，这大大阻碍了相关探测程序的正常工作。来自哥伦比亚大学的Ke Wang和Salvatore J. Stolfo两位学者在本文中给出了一种全新的探测恶意代码中有效代码段的方法，并在实测中达到了接近100%正确率和0.1%的误报率。</p>
+<p><a target="_blank" rel="noopener" href="https://dl.acm.org/citation.cfm?id=2420987"><strong>4. Malicious PDF detection using metadata and structural features</strong></a></p>
+<p>当前，随着防范措施的升级，恶意代码隐藏在PDF和Word等文本文件中的例子屡见不鲜，用户防不胜防。在本文中，来自乔治梅森大学的学者介绍了一种通过机器学习技术探测恶意文本文件的技术，特别是内含恶意代码的PDF文件。</p>
+<p><a target="_blank" rel="noopener" href="https://dl.acm.org/citation.cfm?id=2339697"><strong>5. Adversarial support vector machine learning</strong></a></p>
+<p>来自德州大学，介绍了两种利用机器学习技术探测网络恶意攻击的分析模型，即无边界攻击模型（free-range attack model）和限制边界攻击模型（restrained attack model）。</p>
+<p><a target="_blank" rel="noopener" href="https://dl.acm.org/citation.cfm?id=1387709.1387716"><strong>6. Exploiting machine learning to subvert your spam filter</strong></a></p>
+<p>垃圾邮件过滤系统不算什么高新技术，但如何提升过滤的准确性一直是一个难题。本文中来自加州伯克利大学的学者们介绍了一种基于机器学习开发的垃圾邮件过滤器，为垃圾邮件的过滤提供了一种全新的实现思路。</p>
+<p>以下论文来自 <a target="_blank" rel="noopener" href="http://covert.io/">covert.io</a> 网站，该网站的论文（或博客）数量庞大，但并不像上文提到的那些论文一样全部来自美国高校，<a target="_blank" rel="noopener" href="http://covert.io">covert.io</a> 的文章也来自各大科技公司和研究所。</p>
+<p>[<strong>7. CAMP: Content-Agnostic Malware Protection</strong>](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/CAMP">http://www.covert.io/research-papers/security/CAMP</a> - Content Agnostic Malware Protection.pdf)</p>
+<p>来自谷歌，介绍了一种名为CAMP的恶意软件保护系统，该系统能够通过对二进制可执行文件的探测，确保互联网的软件应用安全。</p>
+<p><strong>[8. Building a Dynamic Reputation System for DNS](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/Notos">http://www.covert.io/research-papers/security/Notos</a> - Building a dynamic reputation system for dns.pdf)</strong></p>
+<p>DNS服务器一直是互联网中非常重要的组成部分，针对目前越来越流行的DNS攻击，来自乔治亚理工学院的学者介绍了一种名为Notos的动态的域名信誉系统，可以有效防范各种针对DNS服务器的匿名的网络黑客攻击。</p>
+<p>[<strong>9. Detecting malware domains at the upper dns hierarchy</strong>](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/Kopis">http://www.covert.io/research-papers/security/Kopis</a> - Detecting malware domains at the upper dns hierarchy.pdf)</p>
+<p>本文介绍了一种名为Kopis的新型域名检测系统，可以有效探测互联网上包含恶意攻击代码的域名，由网络安全公司Damballa、乔治亚理工学院和乔治亚大学联合研发。</p>
+<p>[<strong>10. From Throw-away Traffic To Bots – Detecting The Rise Of DGA-based Malware</strong>](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/From">http://www.covert.io/research-papers/security/From</a> throw-away traffic to bots - detecting the rise of dga-based malware.pdf)</p>
+<p>本文同样来自Damballa公司和乔治亚大学，介绍了一种针对僵尸网络的新技术，该技术够探测来自动态域名系统的恶意攻击，整合了聚合和分类两类算法。</p>
+<p><strong>[11. EXPOSURE: Finding Malicious Domains Using Passive DNS Analysis](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/Exposure">http://www.covert.io/research-papers/security/Exposure</a> - Finding malicious domains using passive dns analysis.pdf)</strong></p>
+<p>DNS服务器成为了越来越多黑客的攻击对象，本文介绍了一种名为EXPOSURE的域名分析系统，可以针对大批量的域名恶意访问进行探测，由Eurecom研究所、波士顿东北大学和加州大学共同研发。</p>
+<p>[<strong>12. Polonium: Tera-Scale Graph Mining for Malware Detection</strong>](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/Polonium">http://www.covert.io/research-papers/security/Polonium</a> - Tera-Scale Graph Mining for Malware Detection.pdf)</p>
+<p>本文来自网络安全公司Symantec、卡内基梅隆大学，介绍了一个名为Polonium的高效的可扩展的恶意软件探测系统。</p>
+<p>[<strong>13. Nazca: Detecting Malware Distribution in Large-Scale Networks</strong>](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/Nazca">http://www.covert.io/research-papers/security/Nazca</a> -  Detecting Malware Distribution in Large-Scale Networks.pdf)</p>
+<p>大量用户在现实生活中下载并安装恶意软件的行为通常包含一定的规律性。来自加州大学圣巴巴拉分校、Narus公司的学者们将这些无人问津的数据利用起来，提出了一个名为Nazca的网络安全探测系统。</p>
+<p>[<strong>14. Anagram: A Content Anomaly Detector Resistant to Mimicry Attack</strong>](<a target="_blank" rel="noopener" href="http://www.covert.io/research-papers/security/Anagram">http://www.covert.io/research-papers/security/Anagram</a> - A Content Anomaly Detector Resistant to Mimicry Attack.pdf)</p>
+<p>来自哥伦比亚大学，介绍了一个名为Anagram的异常数据报文探测器。</p>
+<h2 id="书籍">书籍</h2>
+<p>讲述数据科学和机器学习在网络安全领域的应用的书籍并不多，作者只介绍了以下两本。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.amazon.cn/Data-Mining-and-Machine-Learning-in-Cybersecurity-Dua-Sumeet/dp/B00BU1CDFI/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1483425388&amp;sr=1-1&amp;keywords=Data+Mining+and+Machine+Learning+in+Cybersecurity">1. Data Mining and Machine Learning in Cybersecurity</a></strong></p>
+<p>作者是来自路易斯安那理工大学的Sumeet Dua博士和Xian Du博士，探讨了目前普遍存在的网络安全问题以及最先进的机器学习和数据挖掘解决方案。</p>
+<p><a target="_blank" rel="noopener" href="https://www.amazon.cn/Machine-Learning-and-Data-Mining-for-Computer-Security-Methods-and-Applications/dp/184628029X"><strong>2. Machine Learning and Data Mining for Computer Security</strong></a></p>
+<p>编者是来自乔治城大学的Marcus A. Maloof，该书系统介绍了数据挖掘和机器学习技术在计算机安全领域的最新研究成果。</p>
+<p><em>目前两本书都没有中文版，纸质版在亚马逊上的售价都超过1000人民币，第一本有Kindle电子版。</em></p>
+<h2 id="演讲">演讲</h2>
+<p>原文作者收集了如下一些关于机器学习和网络安全的演讲，演讲者们要么是来自相关领域的公司副总、技术负责人，要么是各大高校的研究人员、博士或者教授。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=tukidI5vuBs"><strong>1. Using Machine Learning to Support Information Security</strong></a></p>
+<p>视频系统介绍了机器学习在信息安全领域的应用，时长约1小时。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=36IT9VgGr0g">2. Defending Networks with Incomplete Information</a></strong></p>
+<p>要在限定的时间内（通常是24小时）对恶意攻击做出反应通常需要耗费巨大的人力和物力，但是如果利用机器学习的方法，首先对网络攻击进行优先级和攻击方式分类，甚至处理一些简单的套路式的攻击，则可以大大降低网络安全工程师的工作强度。本视频就介绍了这一思路的具体应用，时长约47分钟。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=vy-jpFpm1AU"><strong>3. Applying Machine Learning to Network Security Monitoring</strong></a></p>
+<p>这个视频介绍了如何将机器学习应用于网络安全探测，时长约1小时。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=yG6QlHOAWiE">4. Measuring the IQ of your Threat Intelligence Feed</a></strong></p>
+<p>目前互联网上存在着各种各样的网络安全的探测系统，但是用户对它们褒贬不一，究竟如何判断一个探测系统的可靠性，视频介绍了一种实用的判断方法，时长约40分钟。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=6JMEKnes-w0"><strong>5. Data-Driven Threat Intelligence: Metrics On Indicator Dissemination And Sharing</strong></a></p>
+<p>视频介绍了数据驱动下的安全情报分析，特别是和社交网络分享和传播相关的，时长约48分钟。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=dGwH7m4N8DE">6. Applied Machine Learning for Data Exfil and Other Fun Topics</a></strong></p>
+<p>为了帮助网络安全相关的研究者、分析师和极客爱好者了解机器学习，以及如何将机器学习应用在网络安全中领域中，例如数据泄露，本视频做了详细介绍，时长约43分钟。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TYVCVzEJhhQ"><strong>7. Secure Because Math: A Deep-Dive on ML-Based Monitoring</strong></a></p>
+<p>视频介绍了以机器学习技术为基础的互联网监控，时长约46分钟。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=JAGDpJFFM2A"><strong>8. Machine Duping 101: Pwning Deep Learning Systems</strong></a></p>
+<p>44分钟教你攻克一个深度学习系统，必看系列。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=l7U0pDcsKLg"><strong>9. Weaponizing Data Science for Social Engineering</strong></a></p>
+<p>视频介绍了社交网络中的恶意攻击行为和数据科学对此可能发挥的作用，时长约44分钟。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=oiuS1DyFNd8">10. Defeating Machine Learning What Your Security Vendor Is Not Telling You</a></strong></p>
+<p>还是关于攻破机器学习的话题，视频介绍了如何攻破以机器学习为基础的互联网安全产品，时长约50分钟。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=u6a7afsD39A"><strong>11. CrowdSource: Crowd Trained Machine Learning Model for Malware Capability Det</strong></a></p>
+<p>视频介绍了如何利用机器学习模型来探测互联网安全，时长约28分钟。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=sPtbDUJjhbk">12. Defeating Machine Learning: Systemic Deficiencies for Detecting Malware</a></strong></p>
+<p>系统的“缺陷”也能用来探测恶意软件？这个视频用45分钟为你详细讲解利用机器学习和系统“缺陷”来探测恶意软件的方法。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2cQRSPFSY-s"><strong>13. Packet Capture Village – Theodora Titonis – How Machine Learning Finds Malware</strong></a></p>
+<p>视频介绍了如何利用机器学习探测移动端恶意软件，时长约44分钟。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=iLNHVwSu9EA&amp;t=245s">14. Build an Antivirus in 5 Min – Fresh Machine Learning</a></strong></p>
+<p>视频用5分钟介绍了如何用互联网上开源的机器学习框架编写一个全新的防病毒程序。</p>
+<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=zT-4zdtvR30"><strong>15. Hunting for Malware with Machine Learning</strong></a></p>
+<p>视频介绍了针对企业用户的自动化恶意软件探测系统，时长约48分钟。</p>
+<h2 id="项目和教程">项目和教程</h2>
+<p><a target="_blank" rel="noopener" href="https://clicksecurity.github.io/data_hacking/"><strong>1. Click Security Data Hacking Project</strong></a></p>
+<p>该项目包含了一系列与IPython、Pandas、Scikit Learn相关的练习，包含笔记和原代码，每个练习都会故意设置一些常见的代码错误、数据库错误和逻辑错误供使用者改正。该系列教程几乎是机器学习在信息安全领域应用的必学教程。</p>
+<p><a target="_blank" rel="noopener" href="http://fsecurify.com/using-neural-networks-to-generate-human-readable-passwords/"><strong>2. Using Neural Networks to generate human readable passwords</strong></a></p>
+<p>链接中是一位大神自己编写的一个基于Keras框架和python语言的密码生成器，利用了深度神经网络原理，在保证密码安全性的同时也保证了易读性。该项目的代码已经在Github上开源，可以结合上文提到的论文<a target="_blank" rel="noopener" href="https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/melicher">《Fast, Lean, and Accurate: Modeling Password Guessability Using Neural Networks》</a>一起学习。</p>
+<p>原代码：<a target="_blank" rel="noopener" href="https://github.com/fchollet/keras/blob/master/examples/lstm_text_generation.py">链接</a></p>
+<p><a target="_blank" rel="noopener" href="http://fsecurify.com/machine-learning-based-password-strength-checking/"><strong>3. Machine Learning based Password Strength Classification</strong></a></p>
+<p>该项目关于用机器学习算法判断一个已知密码的健壮性，代码已经在Github上开源。</p>
+<p>源代码：<a target="_blank" rel="noopener" href="https://github.com/faizann24/Machine-Learning-based-Password-Strength-Classification/tree/master">链接</a></p>
+<p><a target="_blank" rel="noopener" href="http://fsecurify.com/using-machine-learning-detect-malicious-urls/"><strong>4. Using Machine Learning to Detect Malicious URLs</strong></a></p>
+<p>该项目关于如何利用机器学习探测恶意的互联网链接地址，据称可以达到98%的正确率。</p>
+<p>源代码：<a target="_blank" rel="noopener" href="https://github.com/faizann24/Using-machine-learning-to-detect-malicious-URLs">链接</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.kdnuggets.com/2015/12/big-data-science-security-fraud-detection.html"><strong>5. Big Data and Data Science for Security and Fraud Detection</strong></a></p>
+<p>这是一篇综述文章，文中介绍了多个国家/地区/大公司正在使用或研发的大数据分析工具和技术，这些技术结合了文本挖掘、机器学习或者网络分析，能够在早期阶段对网络安全威胁进行检测和预防。</p>
+<p><a target="_blank" rel="noopener" href="https://deepmlblog.wordpress.com/2016/01/03/how-to-break-a-captcha-system/"><strong>6. Using deep learning to break a Captcha system</strong></a></p>
+<p>这是一篇博客文章，介绍了如何利用深度学习技术破解烦人的验证码系统，作者在文中给出了部分关键功能模块的源代码，并且在文末还给出了许多参考链接。</p>
+<p><a target="_blank" rel="noopener" href="http://web.stanford.edu/class/cs259d/"><strong>7. Data Mining for Cyber Security</strong></a></p>
+<p>这是斯坦福大学开设的一个系列公开课，关于数据挖掘在互联网安全中的应用。在链接中可以直接看到课程安排，下载到讲师演讲的文本记录、PPT，查看课后作业的题目和此前同学上传的答案，以及课后的深入阅读列表。这一课程可能是数据科学目前在网络安全领域已经公开的最好的课程之一。</p>
+<h2 id="其他">其他</h2>
+<p><a target="_blank" rel="noopener" href="https://news.mit.edu/2016/ai-system-predicts-85-percent-cyber-attacks-using-input-human-experts-0418"><strong>1. System predicts 85 percent of cyber-attacks using input from human experts</strong></a></p>
+<p>这是一篇研究成果介绍的文章，介绍了来自MIT计算机科学与人工智能实验室（CSAIL）和一家机器学习初创公司PatternEx的最新研究成果：一个名为AI2的人工智能平台，能够根据人类网络安全专家输入的数据，对当前网络可能遭到的安全威胁做出预测，正确率高达85%，超越了目前已知的其他同类预测系统。文中通过文字和视频的方式讲解了这一预测系统的基本工作原理。</p>
+<p><a target="_blank" rel="noopener" href="http://www.mlsecproject.org/#open-source-projects"><strong>2. MLSec</strong></a></p>
+<p>这是一个开源项目相关的网站，该网站聚合了一系列将机器学习技术应用于网络安全领域的开源项目，同时还开设了博客文章和社区讨论频道，帮助开发者对这些项目深入理解。</p>
+<p><a target="_blank" rel="noopener" href="http://blog.sqrrl.com/an-introduction-to-machine-learning-for-cybersecurity-and-threat-hunting"><strong>3. An Introduction to Machine Learning for Cybersecurity and Threat Hunting</strong></a></p>
+<p>这是一篇深度文章，通过与几位数据科学大牛访谈的形式，详细介绍了机器学习和网络安全的关系以及相关应用。</p>
+<p>以上只是这位外国大牛的总结，如果你手里也有一些值得安利的干货和资源，不妨在文末留言分享出来吧！</p>
+<p><em>附原文作者简介：Faizan Ahmad，Fulbright 计划大学生，目前在巴基斯坦国立计算机与新兴科学大学（National University of Computer and Emerging ScienCES）学习，同时在巴基斯坦的拉合尔管理科学大学（Lahore University of Management Sciences）担任研究助理，主攻计算机和网络安全研究方向。</em></p>
+<p>来源：<a target="_blank" rel="noopener" href="http://www.kdnuggets.com/2017/01/machine-learning-cyber-security.html">kdnuggets</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-01-17</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>-><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8/" rel="tag">#web安全</a> <a class="tag-none-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#机器学习</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Web安全学习之MySQL的系统表、文件读写和Hash密码爆破 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2019-08-18&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.1k</span>
+  
+  <h1 id="Web安全学习之MySQL的系统表、文件读写和Hash密码爆破">Web安全学习之MySQL的系统表、文件读写和Hash密码爆破</h1>
+<h2 id="任务目标">任务目标</h2>
+<ol>
+<li>学习数据库系统表的功能，如何利用SQL语句查询库名、表名、字段名、内容以及当前用户等基本信息；</li>
+<li>如何利用数据库的功能读写文件，需要什么样的条件才可以读写；</li>
+<li>扩展：查询用户的哈希值，并使用hashcat来对获取的hash进行暴力破解。</li>
+</ol>
+<h2 id="0x01-MySQL系统表">0x01 MySQL系统表</h2>
+<h3 id="一、information-schema">一、information_schema</h3>
+<p><strong>数据库元数据：</strong></p>
+<p>元数据(meta data)——“data about data” 关于数据的数据，一般是结构化数据（如存储在数据库里的数据，规定了字段的长度、类型等）。所以metadata就是描述数据的数据，在MySQL中就是描述database的数据。有哪些数据库、每个表有哪些表、表有多少字段、字段是什么类型等等，这样的数据就是数据库的元数据。</p>
+<p>综上，我们可以称<code>information_schema</code>是一个<strong>元数据库</strong>。它就像物业公司的信息库，对管理的每栋大厦有多少电梯、电梯型号、每个房间的长宽高等等了如指掌。</p>
+<ol>
+<li>
+<h5 id="SCHEMATA">SCHEMATA</h5>
+<p>提供数据库信息，有哪些数据库，字符集是GBK还是UTF-8等等。</p>
+<p>所有字段名：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62uv0t1q0j20kp03ot97.jpg" alt=""></p>
+<p>其中某一条数据：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62uxo6ljvj20nw01d0so.jpg" alt=""></p>
+<p><strong>命令<code>SHOW DATABASES;</code>的结果取自此表</strong></p>
+</li>
+<li>
+<h5 id="TABLES">TABLES</h5>
+<p>提供表的信息，数据库有哪些表，是什么存储引擎等等。</p>
+<p>所有字段名：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62v12v0n0j20jj0ct76r.jpg" alt=""></p>
+<p>常用字段包含：</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td>数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_TYPE</td>
+<td>表的类型</td>
+<td></td>
+</tr>
+<tr>
+<td>ENGINE</td>
+<td>存储引擎</td>
+<td></td>
+</tr>
+<tr>
+<td>CREATE_TIME</td>
+<td>建表时间</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>其中某几条记录：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62v61aw7vj20mw03x0td.jpg" alt=""></p>
+<p><strong>命令<code>SHOW TABLES;</code>的结果取自此表</strong></p>
+</li>
+<li>
+<h5 id="COLUMNS">COLUMNS</h5>
+<p>提供字段的信息，有哪些字段字段类型是什么等等。</p>
+<p>所有字段名：</p>
+<p><img src="https://i.loli.net/2019/09/17/TjK7MfrFC8zOUun.png" alt=""></p>
+<p>常用字段名：</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCHEMA_NAME</td>
+<td>数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_NAME</td>
+<td>字段名</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_TYPE</td>
+<td>字段类型</td>
+<td>如int(10),varchar(250)</td>
+</tr>
+</tbody>
+</table>
+<p>其中某几条记录：</p>
+<p><img src="https://i.loli.net/2019/09/17/EPrSgVZfpLx1TN7.png" alt=""></p>
+<p><strong>等同命令：<code>SHOW COLUMNS</code> 或者 <code>desc learnSQL.customers</code> 看emp表的具体字段。</strong></p>
+</li>
+<li>
+<h5 id="STATISTICS">STATISTICS</h5>
+<p>这张表的单词是统计的意思，但是却是索引的信息。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1177760294764384/1218728442198976">什么是索引</a></p>
+</blockquote>
+<p>所有字段名：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62vhu74ggj20ib0a0768.jpg" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCHEMA_NAME</td>
+<td>数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>INDEX_SCHEMA</td>
+<td>也是数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>INDEX_NAME</td>
+<td>索引名</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_NAME</td>
+<td>字段名</td>
+<td></td>
+</tr>
+<tr>
+<td>INDEX_TYPE</td>
+<td>索引类型</td>
+<td>一般是B-Tree</td>
+</tr>
+</tbody>
+</table>
+<p>其中几条记录：</p>
+<p><img src="https://i.loli.net/2019/09/17/6wPdHmi3ylEFJ5t.png" alt=""></p>
+<p><strong>等同于命令：<code>SHOW INDEX;</code></strong></p>
+</li>
+<li>
+<h5 id="TABLE-CONSTRAINTS">TABLE_CONSTRAINTS</h5>
+<p>提供约束情况，我们想看看表有哪些约束？约束指的是唯一性约束、主键约束、外键约束。</p>
+<p>所有字段名：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62xqyr7lzj20kq0430td.jpg" alt=""></p>
+<p>常用字段名：</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONSTRAINT_SCHEMA</td>
+<td>数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>CONSTRAINT_NAME</td>
+<td>约束名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td>也是数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>CONSTRAINT_TYPE</td>
+<td>约束类型</td>
+<td>UNIQUE、PRIMARY KEY、FOREIGN KEY</td>
+</tr>
+</tbody>
+</table>
+<p>其中几条记录：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62xt8hqe4j20qc07c3zm.jpg" alt=""></p>
+<blockquote>
+<p>唯一约束和主键约束，我们在前面的索引中一样可以查到</p>
+</blockquote>
+</li>
+<li>
+<h5 id="KEY-COLUMN-USAGE">KEY_COLUMN_USAGE</h5>
+<p>有STATISTICS和TABLE_CONSTRAINTS表，为什么还需要KEY_COLUMN_USAGE？<br>
+因为外键时没有指出参考的是哪张表的哪个字段！</p>
+<p>所有字段：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62xvqbu0dj20my07lmys.jpg" alt=""></p>
+<p>常用字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONSTRAINT_SCHEMA</td>
+<td>数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>CONSTRAINT_NAME</td>
+<td>约束名</td>
+<td>PRIMARY或列名或外键名</td>
+</tr>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td>也是数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>COLUMN_NAME</td>
+<td>列名</td>
+<td></td>
+</tr>
+<tr>
+<td>REFERENCED_TABLE_SCHEMA</td>
+<td>参考的数据库</td>
+<td></td>
+</tr>
+<tr>
+<td>REFERENCED_TABLE_NAME</td>
+<td>参考的表</td>
+<td></td>
+</tr>
+<tr>
+<td>REFERENCED_COLUMN_NAME</td>
+<td>参考的列</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>其中几条记录：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g62xzsvazsj20z107z0uc.jpg" alt=""></p>
+<p>相比前面两个，KEY_COLUMN_USAGE这个表的信息是最全的。包括主键、外键、唯一约束。</p>
+</li>
+<li>
+<h5 id="VIEWS">VIEWS</h5>
+<p>查询数据库下所有的视图。</p>
+<p>所有字段名：</p>
+<p><img src="https://i.loli.net/2019/09/17/197OPxmJczE8I3e.png" alt=""></p>
+<p>常用字段名：</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TABLE_SCHEMA</td>
+<td>数据库名</td>
+<td></td>
+</tr>
+<tr>
+<td>TABLE_NAME</td>
+<td>表名</td>
+<td></td>
+</tr>
+<tr>
+<td>VIEW_DEFINITION</td>
+<td>视图定义语句</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<h5 id="其他部分表">其他部分表</h5>
+<ul>
+<li><strong>ENGINES</strong>：列举了当前数据库对InnoDB、MEMORY、MyISAM等各种存储引擎的支持情况。等同<code>show ENGINES</code></li>
+<li><strong>GLOBAL_VARIABLES</strong>：服务器变量设置，一些开关和设置。等同命令<code>show global variables</code>。除了global还有session。</li>
+<li><strong>PLUGINS</strong>：MySQL的插件列表。可以看到存储引擎InnoDB甚至binlog都是插件！binlog是强制加载的，InnoDB是默认打开的。等同命令<code>show PLUGINS</code></li>
+<li><strong>PROCESSLIST</strong>：查看正在运行的线程！比如我查这个表，就看到一个查询的线程。等同命令<code>show full processlist</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="二、Performance-schema">二、Performance_schema</h3>
+<p>主要用于收集数据库服务器性能参数。并且库里表的存储引擎均为PERFORMANCE_SCHEMA，而用户是不能创建存储引擎为PERFORMANCE_SCHEMA的表。MySQL5.7默认是开启的。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhoujinyi/p/5236705.html">Performance_schema</a></p>
+<h3 id="三、mysql">三、mysql</h3>
+<p>mysql的核心数据库，类似于sql server中的master表，主要负责存储数据库的用户、权限设置、关键字等mysql自己需要使用的控制和管理信息。(常用的，在mysql.user表中修改root用户的密码)。</p>
+<blockquote>
+<p>如何利用SQL语句查询库名、表名、字段名、内容以及当前用户等基本信息</p>
+<ul>
+<li>查询库名：<code>SELECT schema_name FROM infomation_schema.schemata;</code></li>
+<li>查询表名：<code>SELECT table_name FROM information_schema.tables WHERE table_schema='test'</code>;</li>
+<li>查询字段名：<code>SELECT column_name FROM information_schema.columns WHERE table_name='col'</code>;</li>
+<li>查询记录：<code>SELECT * FORM test.col;</code></li>
+</ul>
+</blockquote>
+<h2 id="0x02-读写文件">0x02 读写文件</h2>
+<h3 id="一、利用数据库读取文件">一、利用数据库读取文件</h3>
+<ol>
+<li>
+<h5 id="使用system命令">使用system命令</h5>
+<ul>
+<li>
+<p>查看文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; system cat /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">sync:x:4:65534:sync:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin</span><br><span class="line">systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin</span><br><span class="line">syslog:x:102:106::/home/syslog:/usr/sbin/nologin</span><br><span class="line">messagebus:x:103:107::/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:104:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line">uuidd:x:105:111::/run/uuidd:/usr/sbin/nologin</span><br><span class="line">avahi-autoipd:x:106:112:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/usr/sbin/nologin</span><br><span class="line">usbmux:x:107:46:usbmux daemon,,,:/var/lib/usbmux:/usr/sbin/nologin</span><br><span class="line">dnsmasq:x:108:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin</span><br><span class="line">rtkit:x:109:114:RealtimeKit,,,:/proc:/usr/sbin/nologin</span><br><span class="line">cups-pk-helper:x:110:116:user <span class="keyword">for</span> cups-pk-helper service,,,:/home/cups-pk-helper:/usr/sbin/nologin</span><br><span class="line">speech-dispatcher:x:111:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/<span class="literal">false</span></span><br><span class="line">whoopsie:x:112:117::/nonexistent:/bin/<span class="literal">false</span></span><br><span class="line">kernoops:x:113:65534:Kernel Oops Tracking Daemon,,,:/:/usr/sbin/nologin</span><br><span class="line">saned:x:114:119::/var/lib/saned:/usr/sbin/nologin</span><br><span class="line">pulse:x:115:120:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin</span><br><span class="line">avahi:x:116:122:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin</span><br><span class="line">colord:x:117:123:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin</span><br><span class="line">hplip:x:118:7:HPLIP system user,,,:/var/run/hplip:/bin/<span class="literal">false</span></span><br><span class="line">geoclue:x:119:124::/var/lib/geoclue:/usr/sbin/nologin</span><br><span class="line">gnome-initial-setup:x:120:65534::/run/gnome-initial-setup/:/bin/<span class="literal">false</span></span><br><span class="line">gdm:x:121:125:Gnome Display Manager:/var/lib/gdm3:/bin/<span class="literal">false</span></span><br><span class="line">ca0y1h:x:1000:1000:ca0y1h,,,:/home/ca0y1h:/bin/bash</span><br><span class="line">mysql:x:122:127:MySQL Server,,,:/nonexistent:/bin/<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>执行命令</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g63nt6f27lj20jp092q4h.jpg" alt=""></p>
+</li>
+</ul>
+<p><strong>注意：</strong></p>
+<ul>
+<li>该方法只能在本地使用，远程连接时无法使用system</li>
+<li>无法越权使用</li>
+</ul>
+</li>
+<li>
+<h5 id="load-file-与load-data-file">load_file()与load data file</h5>
+<p>load_file()与load data file读取文件的原理都是一样的：新建一个表，读取文件为字符串形式插入表中后读取表中的数据。</p>
+<p>使用load_file()和load data infile()函数时，需要满足以下条件：</p>
+<ul>
+<li><code>secure_file_priv</code> 不为 NULL，使用 <code>select @@secure_file_priv</code>查看其值，值不为空字符串时，只能使用该目录进行文件的读写操作， 该值的设置见[附录](<a target="_blank" rel="noopener" href="https://bingslient.github.io/2019/08/16/MySQL">https://bingslient.github.io/2019/08/16/MySQL</a> 数据库系统表的利用/#附录)；</li>
+<li>当前数据库用户具有 <code>FILE</code> 权限，使用 <code>show grants</code>查看；</li>
+<li>系统用户 <code>mysql</code> 对该文件可读（要考虑系统的访问控制策略），在Ubuntu-18.04使用 MySQL 时默认的系统用户是 <code>mysql</code>；</li>
+<li>读取文件的大小小于 <code>max_allowed_packet</code>，使用 <code>select @@max_allowed_packet</code>查看；</li>
+<li>文件存在服务器上。</li>
+</ul>
+<p>如果上述任一条件不满足，函数返回 <code>NULL</code> 值。</p>
+<p>查看secure_file_priv的值：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g63ycnyqg5j20dd03mq30.jpg" alt=""></p>
+<p>可以看到secure_file_priv的值为<code>/var/lib/mysql-files</code></p>
+<blockquote>
+<p>① secure_file_priv为NULL时，表示不允许导入导出；<br>
+② secure_file_priv指定文件夹时，表示mysql的导入导出只能发生在指定的文件夹；<br>
+③ secure_file_priv没有设置时，则表示没有任何限制</p>
+</blockquote>
+<p><strong>在不改变secure_file_priv值的情况下如何读文件：</strong></p>
+<p>可以新建一个表，或者直接把要读文件的内容into到已有的字符类型的表中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table mytable(a VARCHAR(100), b VARCHAR(100), c VARCHAR(100), d VARCHAR(100), e VARCHAR(100), f VARCHAR(100), g VARCHAR(100));</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g63z0tqvswj20qc01pmx7.jpg" alt=""></p>
+<p>使用load data infile读取文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA LOCAL INFILE &quot;&#x2F;etc&#x2F;passwd&quot; INTO TABLE mytable;</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g63z2vt4r8j20fv01n0su.jpg" alt=""></p>
+<p>查看刚刚读入的文件：</p>
+<p><img src="https://i.loli.net/2019/09/17/R8vDHQPGUFsL14A.png" alt=""></p>
+<p><strong>在改变secure_file_priv值的情况下如何读文件：</strong></p>
+<p>修改MySQL配置文件<code>etc/mysql/my.cnf</code>，在[mysqld]下添加如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">secure_file_priv&#x3D;&quot;&quot;</span><br></pre></td></tr></table></figure>
+<p>再重启mysql服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysql restart</span><br></pre></td></tr></table></figure>
+<p>在mysql命令行中查看<code>secure_file_priv</code>的值：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g63zybibb1j20bl03kq2y.jpg" alt=""></p>
+<p>修改成功！</p>
+<p>使用load_file()读取文件：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g641rti54aj20ae04m74d.jpg" alt=""></p>
+<blockquote>
+<p><strong>在Ubuntu-18.04使用 MySQL 时默认的系统用户是 <code>mysql</code>，所以必须把要读取的文件的所有者和用户组修改为<code>mysql</code></strong></p>
+</blockquote>
+</li>
+</ol>
+<h3 id="二、利用数据库写入文件">二、利用数据库写入文件</h3>
+<p><code>SELECT INTO OUTFILE</code> 和 <code>LOAD DATA</code> 这两条语句是完全互补的，一个写文件，一个读文件，语句的语法也很相似。</p>
+<p><strong>前提条件：</strong></p>
+<ul>
+<li><code>secure_file_priv</code> 不为 <code>NULL</code>，使用 <code>select @@secure_file_priv</code>查看其值，值不为空字符串时，只能使用该目录进行文件的读写操作， 该值的设置见[附录](<a target="_blank" rel="noopener" href="https://bingslient.github.io/2019/08/16/MySQL">https://bingslient.github.io/2019/08/16/MySQL</a> 数据库系统表的利用/#附录)；</li>
+<li>当前数据库用户具有 <code>FILE</code> 权限，使用 <code>show grants</code>查看；</li>
+<li>系统用户 <code>mysql</code> 对该文件可写（要考虑系统的访问控制策略），在Ubuntu-18.04使用 MySQL 时默认的系统用户是 <code>mysql</code>；</li>
+<li>读取文件的大小小于 <code>max_allowed_packet</code>，使用 <code>select @@max_allowed_packet</code>查看；</li>
+<li>文件不存在。</li>
+</ul>
+<p>将数据库中的某一个记录写入<code>/tmp/customer.csv</code>文件中：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g642bna6a0j20no06gaaf.jpg" alt=""></p>
+<p>结果如下：</p>
+<p><img src="https://i.loli.net/2019/09/17/ZbaRjsf2klK3otd.png" alt=""></p>
+<blockquote>
+<p>使用 <code>SELECT INTO DUMPFILE</code> 可将文件内容写成一行。</p>
+</blockquote>
+<blockquote>
+<p>如果想把远程数据库的查询结果写到本地主机文件上, 可用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;mysql -h hostname -P portnum -u username -p databsename -e &quot;SELECT ...&quot; &gt; file_name</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="0x03-用户密码爆破">0x03 用户密码爆破</h2>
+<p>MySQL 用户的密码存储方式并非明文直接存储，而是经过 hash 函数加密进行存储的，从 <code>mysql.user</code>中获取到 MySQL 用户密码的哈希值后，需要使用工具进行破解。</p>
+<p>首先查询<code>root</code>用户密码的Hash值：</p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g646f0wllhj20g7050t97.jpg" alt=""></p>
+<p><strong>工具：</strong><a target="_blank" rel="noopener" href="https://github.com/hashcat/hashcat">hashcat</a></p>
+<blockquote>
+<p>hashcat 号称最快的高级密码恢复套机（密码破解工具），支持多系统（Linux，OS，Windows），多平台（GPU，CPU，DSP等），支持多达 200 多种的 Hash 类型，支持使用同一系统的不同设备，支持分布式系统资源等，重要的是开源啊！</p>
+</blockquote>
+<p><strong>使用：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hashcat64.exe -m 300 -a 3 hashcode -o plaintxt --outfile-format=2 ?a?a?a?a?a?a</span><br></pre></td></tr></table></figure>
+<p>参数解释：</p>
+<ul>
+<li>
+<p><code>-m 300</code>：hash 类型，300 选择的是 MySQL4/5 的hash</p>
+</li>
+<li>
+<p><code>-a 3</code>：攻击模式，3代表爆破模式</p>
+<blockquote>
+<p>软件一共支持5种破解模式，分别为:</p>
+<p>0 Straight（字典破解）<br>
+1 Combination（组合破解）<br>
+3 Brute-force（掩码暴力破解）<br>
+6 Hybrid dict + mask（混合字典+掩码）<br>
+7 Hybrid mask + dict（混合掩码+字典）</p>
+</blockquote>
+</li>
+<li>
+<p><code>-o pliantxt</code> ：破解后输出到文件 plaintxt</p>
+</li>
+<li>
+<p><code>--outfile-format=2</code>：输出文件格式，2表示只输出破解后的内容</p>
+</li>
+<li>
+<p><code>?a?a?a?a?a?a</code>：这表示密码的掩码，所谓的掩码就是通过 ?[字符集代号]… 的格式表示密码的格式，包括密码的位数和每一位密码使用的字符集。?a 表示所有的键盘上可输入的字符，6个?a表示密码有6位。</p>
+<blockquote>
+<p>hashcat 内置字符集如下：</p>
+<p>?l = abcdefghijklmnopqrstuvwxyz</p>
+<p>?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+<p>?d = 0123456789</p>
+<p>?h = 0123456789abcdef</p>
+<p>?H = 0123456789ABCDEF</p>
+<p>?s = !”#$%&amp;’()*+,-./:;&lt;=&gt;?@[]^_`{</p>
+<p>?a = ?l?u?d?s</p>
+<p>?b = 0x00 - 0xff</p>
+</blockquote>
+<p>如果要用掩码表示小写+数字怎么办呢？这就需要用到自定义字符集这个参数了。软件支持用户最多定义4组字符集，分别用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">--custom-charset1 [chars]</span><br><span class="line">--custom-charset2 [chars]</span><br><span class="line">--custom-charset3 [chars]</span><br><span class="line">--custom-charset4 [chars]</span><br></pre></td></tr></table></figure>
+<p>比如说我要设置自定义字符集1为小写+数字，那么就加上:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-- custom-charset1 ?l?d</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于想要破解一些未知长度的密码，希望软件在一定长度范围内进行尝试的，可以使用–increment参数，并且使用–increment-min ?定义最短长度，使用–increment-max ?定义最大长度。比如要尝试6-8位小写字母，可以这样写：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--increment --increment-min 6 --increment-max 8 ?l?l?l?l?l?l?l?l</span><br></pre></td></tr></table></figure>
+<p><strong>爆破结果：</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/6e4e7200ly1g646w12n96j208u02rt8j.jpg" alt=""></p>
+<blockquote>
+<p>最新版本的MySQL在配置密码规则是要求密码长度最小为8位，但是我这破电脑用hashcat爆破8位密码预计需要1年的时间，只能强行把密码最小长度改为6位，15分钟解决问题。</p>
+</blockquote>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2019-08-18</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/MySQL/" rel="tag">#MySQL</a> <a class="tag-none-link" href="/tags/hash%E7%88%86%E7%A0%B4/" rel="tag">#hash爆破</a> <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" rel="tag">#web安全基础</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>
