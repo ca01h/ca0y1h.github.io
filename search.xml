@@ -20,8 +20,9 @@
 <p><strong>【未完成】<a href="https://bycsec.top/2020/08/05/Thinkphp-vuln/">Thinkphp-vuln</a></strong></p>
 <h4 id="September">September</h4>
 <ul>
-<li><strong>【未完成】实习+HW</strong></li>
+<li><s><strong>【已完成】实习+HW</strong></s></li>
 <li><strong>【未完成】DataCon复盘</strong></li>
+<li><s><strong>【已完成】2020巅峰极客CTF</strong></s></li>
 </ul>
 <h4 id="August">August</h4>
 <ul>
@@ -301,10 +302,10 @@
 <li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
 <li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
 <li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
 <li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
 <li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
-<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
-<li><a href="/Target_drone/HackTheBox/17.HTB-Admirer-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/18.HTB-Admirer-walkthrough">HTB::Admirer</a></li>
 </ul>
 <h2 id="VulnHub">VulnHub</h2>
 <ul>
@@ -16394,7 +16395,7 @@ base64 只有大写字母和数字，小写字母组成，后面一般是两个�
   </entry>
   <entry>
     <title>HTB::Admirer-walkthrough</title>
-    <url>/Target_drone/HackTheBox/17.HackTheBox-Admirer/</url>
+    <url>/Target_drone/HackTheBox/18.HTB-Admirer-walkthrough/</url>
     <content><![CDATA[<h1 id="HTB-Admirer-Walkthrough">HTB::Admirer Walkthrough</h1>
 <blockquote>
 <p>文章首发于 星盟安全 公众号</p>
