@@ -2,7 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://ca0y1h.top/menu/</loc>
-    <lastmod>2020-10-20</lastmod>
+    <lastmod>2020-10-29</lastmod>
+  </url>
+  <url>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/25.CTFShow-Web%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2020-10-29</lastmod>
+  </url>
+  <url>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup/</loc>
+    <lastmod>2020-10-29</lastmod>
+  </url>
+  <url>
+    <loc>http://ca0y1h.top/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell/</loc>
+    <lastmod>2020-10-23</lastmod>
   </url>
   <url>
     <loc>http://ca0y1h.top/Web_security/php_related/13.session.upload_progress+LFI%E5%AE%9E%E7%8E%B0RCE/</loc>
@@ -10,10 +22,6 @@
   </url>
   <url>
     <loc>http://ca0y1h.top/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2020-10-19</lastmod>
-  </url>
-  <url>
-    <loc>http://ca0y1h.top/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell/</loc>
     <lastmod>2020-10-19</lastmod>
   </url>
   <url>
