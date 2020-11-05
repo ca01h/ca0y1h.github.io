@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://ca0y1h.top/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup/</loc>
-    <lastmod>2020-10-29</lastmod>
+    <loc>http://ca0y1h.top/menu/</loc>
+    <lastmod>2020-11-05</lastmod>
   </url>
   <url>
-    <loc>http://ca0y1h.top/menu/</loc>
-    <lastmod>2020-10-29</lastmod>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0/</loc>
+    <lastmod>2020-11-05</lastmod>
   </url>
   <url>
     <loc>http://ca0y1h.top/Web_security/ctf_writeup/25.CTFShow-Web%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2020-11-05</lastmod>
+  </url>
+  <url>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup/</loc>
     <lastmod>2020-10-29</lastmod>
   </url>
   <url>

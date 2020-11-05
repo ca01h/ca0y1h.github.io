@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://ca0y1h.top/Web_security/ctf_writeup/24.CTFShow-1024%25E6%259D%25AF-Web-Writeup/</loc>
+    <loc>http://ca0y1h.top/menu/</loc>
     
-    <lastmod>2020-10-29T09:24:47.637Z</lastmod>
+    <lastmod>2020-11-05T15:34:39.085Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://ca0y1h.top/menu/</loc>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%25E5%25A4%258D%25E7%258E%25B0/</loc>
     
-    <lastmod>2020-10-29T09:20:44.789Z</lastmod>
+    <lastmod>2020-11-05T15:32:20.766Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://ca0y1h.top/Web_security/ctf_writeup/25.CTFShow-Web%25E5%2585%25A5%25E9%2597%25A8/</loc>
     
-    <lastmod>2020-10-29T09:20:18.850Z</lastmod>
+    <lastmod>2020-11-05T07:33:51.294Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/24.CTFShow-1024%25E6%259D%25AF-Web-Writeup/</loc>
+    
+    <lastmod>2020-10-29T09:24:47.637Z</lastmod>
     
   </url>
   
