@@ -270,9 +270,9 @@ img {
       .off-canvas-content .book-content .gist table td {
         border: 0; }
     .off-canvas-content .book-content pre .deletion {
-      background: if true, #fdd, #800000; }
+      background: if false, #fdd, #800000; }
     .off-canvas-content .book-content pre .addition {
-      background: if true, #dfd, #008000; }
+      background: if false, #dfd, #008000; }
     .off-canvas-content .book-content pre .meta {
       color: #eab700; }
     .off-canvas-content .book-content pre .comment {

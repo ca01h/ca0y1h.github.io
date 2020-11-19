@@ -134,7 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
 <li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
 <li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
-<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020</a></li>
+<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
 </ul>
 <h1 id="靶机系列"><strong>靶机系列</strong></h1>
 <h2 id="HackTheBox">HackTheBox</h2>
@@ -340,9 +341,9 @@ function sidebar_toggle() {
 <p>然后登录<code>admin'#</code>账号，并修改该账号的密码，但此时<strong>修改的就是admin的密码</strong>：</p>
 <p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191022195442.png" alt=""></p>
 <p>这是因为：SQL语句变为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET passwd&#x3D;&quot;New_Pass&quot; WHERE username &#x3D;&#39; admin&#39; # &#39; AND password&#x3D;&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET passwd&#x3D;&quot;New_Pass&quot; WHERE username &#x3D;&#39;admin&#39; # &#39; AND password&#x3D;&#39;</span><br></pre></td></tr></table></figure>
 <p>也就是执行了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET passwd&#x3D;&quot;New_Pass&quot; WHERE username &#x3D;&#39; admin&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE users SET passwd&#x3D;&quot;New_Pass&quot; WHERE username &#x3D;&#39;admin&#39;</span><br></pre></td></tr></table></figure>
 <p>再可以去后台的数据库查看users表的记录：</p>
 <p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20191022195646.png" alt=""></p>
 <p>发现账号<code>admin</code>的密码被更改了！！！</p>

