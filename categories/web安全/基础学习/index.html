@@ -95,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
 <li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
 <li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+<li><a href="/Web_security/basic_learning/26.MySQL%E6%94%BB%E5%87%BB%E9%9D%A2%E5%92%8C%E6%8F%90%E6%9D%83%E6%80%BB%E7%BB%93">MySQL攻击面和提权总结</a></li>
+<li><a href="/Web_security/basic_learning/27.SQL%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C">SQL注入手册</a></li>
 </ul>
 <h2 id="PHP相关">PHP相关</h2>
 <ul>
@@ -106,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
 <li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
 <li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/11.PHP%E5%A4%8D%E6%9D%82%E5%8F%98%E9%87%8F%E8%A7%A3%E6%9E%90">PHP复杂变量解析</a></li>
 <li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
 <li><a href="/Web_security/php_related/13.session.upload_progress+LFI%E5%AE%9E%E7%8E%B0RCE">session.upload-progress+LFI实现RCE</a></li>
 </ul>
@@ -136,6 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
 <li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
 <li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/28.%E7%BE%8A%E5%9F%8E%E6%9D%AF2020-Web-Writeups">羊城杯2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/29.NCTF2019-PharMatchesEverything">NCTF2019 Phar matches everything</a></li>
 </ul>
 <h1 id="靶机系列"><strong>靶机系列</strong></h1>
 <h2 id="HackTheBox">HackTheBox</h2>
@@ -313,6 +318,24 @@ function sidebar_toggle() {
           
 			  
               <li>
+                <span>2020-12-10</span>
+                <a href="/Web_security/basic_learning/27.SQL注入手册/">
+                  SQL注入手册
+                </a>
+              </li>
+		      
+          
+			  
+              <li>
+                <span>2020-12-10</span>
+                <a href="/Web_security/basic_learning/26.MySQL攻击面和提权总结/">
+                  MySQL攻击面和提权总结
+                </a>
+              </li>
+		      
+          
+			  
+              <li>
                 <span>2020-08-19</span>
                 <a href="/Web_security/basic_learning/25.服务器文件解析漏洞记录/">
                   服务器文件解析漏洞记录
@@ -439,31 +462,7 @@ function sidebar_toggle() {
 
 
 <script src="/js/book.js"></script>
-%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/page/2/">Next</a>
-    </nav>
-  
-</div>
-        </div>
-      </div>
-      <div class="column col-2 hide-lg">
-        <div class="book-post-info">
-  
-    <div class="book-post-meta">
-
-  <div class="author">
-
-    <!-- Author image 
-    <div class="author-img">
-      
-        <figure
-          class="avatar avatar-lg"
-          data-initial="c"
-          style="background-color: #3b4351;">
-        </figure>
-      
-    </div> -->
-
-    <!-- Author title
+r title
     <div class="author-title">
       <div>ca01h</div>
       <div></div>

