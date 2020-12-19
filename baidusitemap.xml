@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://ca0y1h.top/Web_security/basic_learning/28.jinja%20SSTI&Bypass/</loc>
+    <lastmod>2020-12-19</lastmod>
+  </url>
+  <url>
     <loc>http://ca0y1h.top/menu/</loc>
-    <lastmod>2020-12-10</lastmod>
+    <lastmod>2020-12-19</lastmod>
+  </url>
+  <url>
+    <loc>http://ca0y1h.top/code_audit/9.%E9%AA%91%E5%A3%ABCMS%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell%E5%A4%8D%E7%8E%B0/</loc>
+    <lastmod>2020-12-19</lastmod>
+  </url>
+  <url>
+    <loc>http://ca0y1h.top/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8/</loc>
+    <lastmod>2020-12-17</lastmod>
   </url>
   <url>
     <loc>http://ca0y1h.top/Web_security/basic_learning/27.SQL%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C/</loc>
@@ -199,10 +211,6 @@
   <url>
     <loc>http://ca0y1h.top/Web_security/ctf_writeup/3.CGCTF-Writeup/</loc>
     <lastmod>2020-07-01</lastmod>
-  </url>
-  <url>
-    <loc>http://ca0y1h.top/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8/</loc>
-    <lastmod>2020-06-24</lastmod>
   </url>
   <url>
     <loc>http://ca0y1h.top/Web_security/php_related/6.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8/</loc>
