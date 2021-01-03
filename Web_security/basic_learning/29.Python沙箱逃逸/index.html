@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          Python沙箱逃逸 - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+<li><a href="/Web_security/basic_learning/26.MySQL%E6%94%BB%E5%87%BB%E9%9D%A2%E5%92%8C%E6%8F%90%E6%9D%83%E6%80%BB%E7%BB%93">MySQL攻击面和提权总结</a></li>
+<li><a href="/Web_security/basic_learning/27.SQL%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C">SQL注入手册</a></li>
+<li><a href="/Web_security/basic_learning/28.Jinja2%E7%9A%84SSTI+Bypass">Jinja2 SSTI&amp;Bypass</a></li>
+<li><a href="/Web_security/basic_learning/29.Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8">Python沙箱逃逸</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/11.PHP%E5%A4%8D%E6%9D%82%E5%8F%98%E9%87%8F%E8%A7%A3%E6%9E%90">PHP复杂变量解析</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+<li><a href="/Web_security/php_related/13.session.upload_progress+LFI%E5%AE%9E%E7%8E%B0RCE">session.upload-progress+LFI实现RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/25.CTFShow-Web%E5%85%A5%E9%97%A8">CTFShow—Web入门</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+<li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/28.%E7%BE%8A%E5%9F%8E%E6%9D%AF2020-Web-Writeups">羊城杯2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/29.NCTF2019-PharMatchesEverything">NCTF2019 Phar matches everything</a></li>
+<li><a href="/Web_security/ctf_writeup/30.%E7%BA%B5%E6%A8%AA%E6%9D%AF2020-Web-WriteUp">纵横杯2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/31.BMZCTF2020-Web-WriteUp">BMZCTF2020 Web</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/18.HTB-Admirer-walkthrough">HTB::Admirer</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+<li><a href="/code_audit/8.Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E6%8B%93%E5%B1%95">CVE-2020-15148 Yii2反序列化</a></li>
+<li><a href="/code_audit/9.%E9%AA%91%E5%A3%ABCMS%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell%E5%A4%8D%E7%8E%B0">74CMS模板注入+文件包含getshell</a></li>
+</ul>
+<h1 id="流量分析"><strong>流量分析</strong></h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python编程">Python编程</h2>
+<ul>
+<li>
+<p><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></p>
+</li>
+<li>
+<p><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></p>
+</li>
+<li>
+<p><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></p>
+</li>
+<li>
+<p><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></p>
+</li>
+<li>
+<p><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></p>
+</li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java编程">Java编程</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2021-01-03&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">2.4k</span>
+  
+  <h1 id="Python沙箱逃逸">Python沙箱逃逸</h1>
+<p>上一篇写到了关于python flask SSTI的总结文章，看了沙箱逃逸之后，发现这两者的方法和payload很相似，所以把python的沙箱逃逸和服务端模板注入放在一起总结。</p>
+<h2 id="0x01-基础知识">0x01 基础知识</h2>
+<p>沙箱：沙箱是一种按照安全策略限制程序行为的执行环境。</p>
+<p>沙箱逃逸：就是在给我们的一个代码执行环境下，脱离种种过滤和限制，最终成功拿到shell权限的过程。其实就是闯过重重黑名单，最终拿到系统命令执行权限的过程。</p>
+<p>先来给上一道例题源码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;Welcome to my Python sandbox! Enter commands below!&quot;</span>)</span><br><span class="line">banned = [<span class="string">&quot;import&quot;</span>, <span class="string">&quot;exec&quot;</span>, <span class="string">&quot;eval&quot;</span>, <span class="string">&quot;pickle&quot;</span>, <span class="string">&quot;os&quot;</span>, <span class="string">&quot;subprocess&quot;</span>, <span class="string">&quot;kevin sucks&quot;</span>, <span class="string">&quot;input&quot;</span>, <span class="string">&quot;banned&quot;</span>, <span class="string">&quot;cry sum more&quot;</span>, <span class="string">&quot;sys&quot;</span>]</span><br><span class="line"></span><br><span class="line">targets = __builtins__.__dict__.keys()</span><br><span class="line">targets.remove(<span class="string">&#x27;raw_input&#x27;</span>)</span><br><span class="line">targets.remove(<span class="string">&#x27;print&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> targets:</span><br><span class="line">    <span class="keyword">del</span> __builtins__.__dict__[x]</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    print(<span class="string">&quot;&gt;&gt;&gt;&quot;</span>, end=<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    data = input()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> no <span class="keyword">in</span> banned:</span><br><span class="line">        <span class="keyword">if</span> no.lower() <span class="keyword">in</span> data.lower():</span><br><span class="line">            print(<span class="string">&quot;No bueno&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># this means nobreak</span></span><br><span class="line">            exec(data)</span><br></pre></td></tr></table></figure>
+<p>一般而言沙箱逃逸的题目考到的知识点无非下面5个：</p>
+<ul>
+<li>python的导包</li>
+<li>python执行代码和命令</li>
+<li>python文件读取</li>
+<li>内置模块</li>
+<li>对象创建于引用</li>
+</ul>
+<p>那么与之相对应的解题思路大致分为5步：</p>
+<ol>
+<li>测试能否导包</li>
+<li>哪些系统包做了限制</li>
+<li>内置函数是否可用</li>
+<li>静态检测or动态检测</li>
+<li>对象之间的引用关系索引</li>
+</ol>
+<h2 id="0x02-花式导包">0x02 花式导包</h2>
+<p>如果我们想在沙箱中getshell的话，必不可少的是要引入Python中执行命令的包，例如os,sys,subprocess等。</p>
+<p>有些沙箱使用比较初级的办法，通过正则对输入代码内容进行过滤，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">code = open(<span class="string">&#x27;code.py&#x27;</span>).read()</span><br><span class="line">pattern  = re.compile(<span class="string">&#x27;import\s+(os|commands|subprocess|sys)&#x27;</span>)</span><br><span class="line">match = re.search(pattern,code)</span><br><span class="line"><span class="keyword">if</span> match:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;forbidden module import detected&quot;</span></span><br><span class="line">    <span class="keyword">raise</span> Exception</span><br></pre></td></tr></table></figure>
+<p>这个时候，我们突破这种封锁，首先要学习的是Python的各种导包方法。</p>
+<h3 id="初阶">初阶</h3>
+<p>一般比较常见的是以下几种方法：</p>
+<ul>
+<li>import xxx</li>
+<li>from xxx import *</li>
+<li>_<em>import</em>_(“xxx”)</li>
+<li>importlib库</li>
+<li>imp 库</li>
+<li>reload(xxx)</li>
+</ul>
+<p>第一个和第二个比较熟悉，不用过多赘述，<code>__import__</code>作为一个函数，只能接受字符串参数，返回值可以直接用来操作，通常在动态加载的时候使用这个函数，python2和python3通用：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102161327.png" alt=""></p>
+<p>importlib模块是对import和<code>__import__</code>的补充，它也可以通过传入字符串来引入一个模块，python2和python3使用方法一样：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102161631.png" alt=""></p>
+<p>imp库的使用方法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102161942.png" alt=""></p>
+<p>reload 的用法比较有意思，假如沙箱导入了os模块，但是删除了system方法,强行使用system执行命令会报错:<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102162046.png" alt=""></p>
+<p>而我又想用system方法执行命令的话，可以使用reload重新加载os模块，恢复对system方法的引用。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102162126.png" alt=""></p>
+<h3 id="高阶">高阶</h3>
+<p>导包说到本质上其实是python 读取指定包的py文件，并将其加载到解释器的过程。在模块导入的时候，默认在当前目录下查找，然后再在系统中查找，系统查找的范围是<code>sys.path</code>下的所有路径。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102162508.png" alt=""></p>
+<p>我使用的是Anaconda管理python版本，在一些常见的Linux发行版本上，路径一般都是在<code>/usr/lib/python3.X</code>目录下。</p>
+<p>因此我们可以直接执行对应包的文件，从而实现包的导入。在py2中有execfile这个函数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102162944.png" alt=""></p>
+<p>在python3中没有execfile这个函数，但是又exec，可以通过读文件交给exec执行的方式导入包：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102163247.png" alt=""></p>
+<p>上面说到导包的本质是python读取指定的文件，import的本质是：搜索modules并绑定到局部变量</p>
+<p><code>import module_name</code>实质是将<code>module_name.py</code>中的全部代码加载到内存并赋值给与模块同名的变量写在当前文件中，这个变量的类型是<code>module</code></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102163713.png" alt=""></p>
+<p>现在设置一下modules中<code>os</code>的值为None：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102163756.png" alt=""></p>
+<p>发现把os从<code>modules</code>中删去就不能直接引入了。但是，我们可以接着设置<code>os</code>的模块的路径，从而引入该模块：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102164329.png" alt=""></p>
+<p>另外，我们将 sys.modules 中的os 删除即可，这样import 发现 sys.modules没有os这个模块，就会重新创建。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102164528.png" alt=""></p>
+<h2 id="0x03-执行代码和命令">0x03 执行代码和命令</h2>
+<h3 id="动态执行代码">动态执行代码</h3>
+<p>(1) eval/exec/execfile</p>
+<p>在上文中，已经讲解了exec/execfile的用法。这里再总结一下：</p>
+<ul>
+<li>exec(source)：动态执行复杂的python代码，函数的返回值永远为None。</li>
+<li>execfile(filename)：执行一个py文件的内容。</li>
+</ul>
+<p>eval用来执行简单的python表达式返回表达式的结果，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(<span class="string">&#x27;__import__(&quot;os&quot;).system(&quot;whoami&quot;)&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>(2) pickle 序列化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>(<span class="params">object</span>):</span>    </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span>(<span class="params">self</span>):</span>        </span><br><span class="line">    <span class="keyword">import</span> os        </span><br><span class="line">    <span class="keyword">return</span> (os.system, (<span class="string">&#x27;whoami&#x27;</span>,))</span><br><span class="line">  admin = A()</span><br><span class="line">  B = pickle.dumps(admin)</span><br><span class="line">  print(pickle.dumps(admin))</span><br><span class="line"><span class="comment"># cnt\nsystem\np0\n(S&#x27;whoami&#x27;\np1\ntp2\nRp3\n.</span></span><br></pre></td></tr></table></figure>
+<p>保存序列化之后的字符串，然后通过pickle.loads加载即可完成代码的执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line">pickle.loads(<span class="string">&quot;cnt\nsystem\np0\n(S&#x27;whoami&#x27;\np1\ntp2\nRp3\n.&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>(3) timeit 这个模块是用来测试代码的执行时间的，可以动态执行代码，代码是字符串形式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> timeit</span><br><span class="line">timeit.timeit(<span class="string">&quot;__import__(&#x27;os&#x27;).system(&#x27;whoami&#x27;)&quot;</span>,number=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="执行命令">执行命令</h3>
+<p>(1) os模块</p>
+<p>可以通过os.system(cmd),os.popen(cmd)调用系统命令，例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">os.system(<span class="string">&quot;whoami&quot;</span>)</span><br><span class="line">os.popen(<span class="string">&#x27;whoami&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>(2) commands 模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(commands.getoutput(<span class="string">&#x27;whoami&#x27;</span>))</span><br><span class="line">print(commands.getstatusoutput(<span class="string">&#x27;whoami&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>(3) subprocess模块</p>
+<p>subprocess模块是相对比较复杂的，有很多执行命令的函数：</p>
+<ul>
+<li>subprocess.run() Python 3.5中新增的函数。执行指定的命令，等待命令执行完成后返回一个包含执行结果的CompletedProcess类的实例。</li>
+<li>subprocess.call() 执行指定的命令，返回命令执行状态，其功能类似于os.system(cmd)。</li>
+<li>subprocess.check_call() Python 2.5中新增的函数。执行指定的命令，如果执行成功则返回状态码，否则抛出异常。其功能等价于subprocess.run(…, check=True)。</li>
+<li>subprocess.check_output() Python 2.7中新增的的函数。执行指定的命令，如果执行状态码为0则返回命令执行结果，否则抛出异常。</li>
+<li>subprocess.getoutput(cmd) 接收字符串格式的命令，执行命令并返回执行结果，其功能类似于os.popen(cmd).read()和commands.getoutput(cmd)。</li>
+<li>subprocess.getstatusoutput(cmd) 执行cmd命令，返回一个元组(命令执行状态,命令执行结果输出)，其功能类似于commands.getstatusoutput()。</li>
+</ul>
+<p>(4) platform 模块</p>
+<p>可以调用platform 模块 中的 popen 这个函数执行命令。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> platform</span><br><span class="line">print(platform.popen(<span class="string">&#x27;ls&#x27;</span>,mode=<span class="string">&#x27;r&#x27;</span>,bufsize= <span class="number">-1</span>).read())</span><br><span class="line">platform.os.system(<span class="string">&quot;ls&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>(5) pty 模块</p>
+<p>pty模块可以生成一个伪终端，可以简单理解为bash，因此是可以执行命令的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ptypty.spawn(<span class="string">&#x27;ls&#x27;</span>)</span><br><span class="line">pty.os.system(<span class="string">&quot;ls&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>(6) cgi 模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cgi</span><br><span class="line">cgi.os.system(<span class="string">&quot;ls&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="0x04-文件读取">0x04 文件读取</h2>
+<h3 id="初阶-v2">初阶</h3>
+<p>(1)open（python2，python3）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(__file__).read()</span><br></pre></td></tr></table></figure>
+<p>(2)file（python2）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file(__file__).read()</span><br></pre></td></tr></table></figure>
+<h3 id="高阶-v2">高阶</h3>
+<p>(1)codecs模块（python2，python3）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line">codecs.open(__file__).read()</span><br></pre></td></tr></table></figure>
+<p>(2)types模块（python2）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> types</span><br><span class="line">types.FileType(__file__,<span class="string">&#x27;r&#x27;</span>).read()</span><br></pre></td></tr></table></figure>
+<p>(3)os.open（python2，python3）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">fd = os.open(__file__, os.O_RDONLY)</span><br><span class="line">print(os.read(fd, <span class="number">1024</span>))</span><br></pre></td></tr></table></figure>
+<p>(4)file协议</p>
+<p>python2</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">u = urllib.urlopen(<span class="string">&#x27;file:///&#x27;</span>+__file__)</span><br></pre></td></tr></table></figure>
+<p>python3</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">u = urllib.request.urlopen(<span class="string">&#x27;file:///&#x27;</span>+__file__)</span><br><span class="line">print(u.read())</span><br></pre></td></tr></table></figure>
+<p>(5)fileinput模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> fileinput</span><br><span class="line"><span class="keyword">with</span> fileinput.input(files=(__file__,)) <span class="keyword">as</span> f:</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">    print(line)</span><br></pre></td></tr></table></figure>
+<h2 id="0x05-内建模块">0x05 内建模块</h2>
+<p>如果沙箱不让我们导入外部模块，或者是要导入的模块被禁用，那我们只能求助于Python的内部模块<code>__builtins__</code>( 即Python 本身默认已经导入模块中的函数)。</p>
+<p>dir内置函数可以列出一个模块/类/对象下面所有的属性和函数，查看一下<code>__builtins__</code>中的函数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102171409.png" alt=""></p>
+<p>例如，我们可以引用<code>__import__ </code>来导入os，并执行命令：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210102171530.png" alt=""></p>
+<p>由于内置模块中的危险函数过多，比如eval,exec等，导致上文使用的沙箱对**<strong>***<em>builtins*</em></strong>****进行了处理，通过 del 关键字将里面的所有函数引用都删除了。</p>
+<p>如果保留reload内置函数，我们还可以通过<code> reload( __builtins__)</code> 恢复，但是现在通过<code>__builtins__</code>来进行逃逸已经不现实了。</p>
+<h2 id="0x06-对象创建与引用">0x06 对象创建与引用</h2>
+<p>删除的是只是函数引用，而不是函数本身，如果你们熟悉C语言的话，函数引用可以理解为函数指针，既然<code>__builtins__</code>中的引用没了，那我们就需要从<strong>其他地方找到敏感函数的引用</strong>，从而实现逃逸。</p>
+<p>关于这一块的内容，其实和flask SSTI的内容是一样的，也是通过python的内置类型的继承链来寻找更多的引用，以下字段是寻找继承链的关键：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__dict__</code></td>
+<td>这个属性中存放着类的属性和方法对应的键值对,实测module也有这个属性</td>
+</tr>
+<tr>
+<td><code>__class__</code></td>
+<td>返回一个实例对应的类型</td>
+</tr>
+<tr>
+<td><code>__base__</code></td>
+<td>返回一个类所继承的基类</td>
+</tr>
+<tr>
+<td><code>__subclasses__()</code></td>
+<td>返回该类的所有子类</td>
+</tr>
+<tr>
+<td><code>__mro__</code></td>
+<td>python支持多重继承，在解析<code>__init__</code>时，定义解析顺序的是子类的<code>__mro__</code>属性（值是类的元组）</td>
+</tr>
+<tr>
+<td><code>__slots__</code></td>
+<td>限制类动态添加属性</td>
+</tr>
+<tr>
+<td><code>__getattribute__()</code></td>
+<td>获取属性或方法，对模块和类都有效</td>
+</tr>
+<tr>
+<td><code>__getitem__()</code></td>
+<td>以索引取值或者键取值</td>
+</tr>
+<tr>
+<td><code>__globals__</code></td>
+<td>返回函数所在模块命名空间中的所有变量</td>
+</tr>
+</tbody>
+</table>
+<p>其他的具体内容参考flask SSTI即可。</p>
+<h2 id="0x07-Reference">0x07 Reference</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.szfszf.top/article/15/">https://blog.szfszf.top/article/15/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.m00nback.xyz/2020/02/16/Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/">https://www.m00nback.xyz/2020/02/16/Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/f5Ra8BtCyEoJmH0gwuvGXg">https://mp.weixin.qq.com/s/f5Ra8BtCyEoJmH0gwuvGXg</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2021-01-03</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/Web%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">Web安全基础学习</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/Web%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0/" rel="tag">#Web安全学习</a> <a class="tag-none-link" href="/tags/%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/" rel="tag">#沙箱逃逸</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>
