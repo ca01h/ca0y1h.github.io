@@ -190,6 +190,8 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/code_audit/10.PHPECMS3.5getshell">【密文保护】PHPECMS3.5getshell</a></li>
 <li><a href="/code_audit/11.ZZCMS8.2%E5%AE%A1%E8%AE%A1">ZZCMS8.2</a></li>
 <li><a href="/code_audit/14.maccms8.x%E5%AE%A1%E8%AE%A1">maccms8.x</a></li>
+<li>[DeDeCMSV5.7 SP2审计)](/code_audit/12.DeDeCMSV5.7 SP2审计)</li>
+<li>[HDWiki6.0 sql注入)](/code_audit/13.HDWiki6.0 sql注入)</li>
 <li><a href="/code_audit/15.TP3.0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96POP%E9%93%BE-MySQL%E4%BC%AA%E9%80%A0%E6%81%B6%E6%84%8F%E6%9C%8D%E5%8A%A1%E7%AB%AF">TP3.0反序列化POP链-MySQL伪造恶意服务端</a></li>
 </ul>
 <h1 id="流量分析"><strong>流量分析</strong></h1>
@@ -323,14 +325,23 @@ function sidebar_toggle() {
 
   
       <div class="years">
-          <h2>2021</h2>
+          <h2>2020</h2>
           <ul class="archive-list-item">
           
 			  
               <li>
-                <span>2021-01-03</span>
-                <a href="/Web_security/ctf_writeup/31.BMZCTF2020-Web-WriteUp/">
-                  BMZCTF2020-Web-WriteUp
+                <span>2020-07-04</span>
+                <a href="/Web_security/ctf_writeup/18.星盟6月AWD复盘——web+pwn/">
+                  星盟6月AWD复盘——web+pwn
+                </a>
+              </li>
+		      
+          
+			  
+              <li>
+                <span>2020-07-04</span>
+                <a href="/Web_security/ctf_writeup/16.buuctf刷题——渗透测试篇/">
+                  buuctf刷题——渗透测试篇
                 </a>
               </li>
 		      
@@ -338,70 +349,78 @@ function sidebar_toggle() {
           </ul>
       </div>
   
-      <div class="years">
-          <h2>2020</h2>
-          <ul class="archive-list-item">
-          
-			  
-              <li>
-                <span>2020-12-28</span>
-                <a href="/Web_security/ctf_writeup/30.纵横杯2020-Web-WriteUp/">
-                  纵横杯2020-Web-WriteUp
-                </a>
-              </li>
-		      
-          
-			  
-              <li>
-                <span>2020-12-10</span>
-                <a href="/Web_security/ctf_writeup/29.NCTF2019-PharMatchesEverything/">
-                  NCTF2019-PharMatchesEverything
-                </a>
-              </li>
-		      
-          
-			  
-              <li>
-                <span>2020-12-10</span>
-                <a href="/Web_security/ctf_writeup/28.羊城杯2020-Web-Writeups/">
-                  羊城杯2020-Web-Writeups
-                </a>
-              </li>
-		      
-          
-			  
-              <li>
-                <span>2020-11-19</span>
-                <a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup/">
-                  UNCTF2020-Web-Writeup
-                </a>
-              </li>
-		      
-          
-			  
-              <li>
-                <span>2020-11-05</span>
-                <a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis复现/">
-                  ByteCTF2020-scrapy_redis复现
-                </a>
-              </li>
-		      
-          
-			  
-              <li>
-                <span>2020-10-29</span>
-                <a href="/Web_security/ctf_writeup/25.CTFShow-Web入门/">
-                  CTFShow-Web-Writeup
-                </a>
-              </li>
-		      
-          
-			  
-              <li>
-                <span>2020-10-29</span>
-                <a href="/Web_security/ctf_writeup/24.CTFShow-1024杯-Web-Writeup/">
-                  CTFShow_1024杯_Web_Writeup
-                </a>
+
+  
+</div>
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div></div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>
+ </a>
               </li>
 		      
           
