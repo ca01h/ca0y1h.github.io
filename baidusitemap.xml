@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://ca0y1h.top/home/</loc>
+    <lastmod>2021-01-21</lastmod>
+  </url>
+  <url>
     <loc>http://ca0y1h.top/menu/</loc>
     <lastmod>2021-01-21</lastmod>
   </url>
@@ -103,10 +107,6 @@
   <url>
     <loc>http://ca0y1h.top/Web_security/basic_learning/9.Sqli-labs%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E2%80%94%E2%80%94Basic-Challenge/</loc>
     <lastmod>2020-11-16</lastmod>
-  </url>
-  <url>
-    <loc>http://ca0y1h.top/home/</loc>
-    <lastmod>2020-11-06</lastmod>
   </url>
   <url>
     <loc>http://ca0y1h.top/Web_security/ctf_writeup/26.ByteCTF2020-scrapy-redis%E5%A4%8D%E7%8E%B0/</loc>
