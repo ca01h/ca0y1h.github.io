@@ -236,6 +236,13 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/Java/code/3.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80">Java基础学习之面向对象基础</a></li>
 <li><a href="/Java/code/4.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86">Java基础学习之异常处理</a></li>
 <li><a href="/Java/code/5.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%8D%E5%B0%84%E5%92%8C%E6%B3%A8%E8%A7%A3">Java基础学习之反射和注解</a></li>
+<li><a href="/Java/code/6.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%9C%AC%E5%9C%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">Java基础学习之本地命令执行</a></li>
+<li><a href="/Java/code/7.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86">Java基础学习之动态代理</a></li>
+<li><a href="/Java/code/8.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8BRPC%E6%BC%94%E7%BB%83%E8%BF%87%E7%A8%8B">Java基础学习之RPC演练过程</a></li>
+</ul>
+<h2 id="Java安全">Java安全</h2>
+<ul>
+<li><a href="/Java/javasec/1.Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%8D%E5%B0%84">Java安全学习之反射</a></li>
 </ul>
 <h1 id="算法"><strong>算法</strong></h1>
 <h2 id="Leetcode">Leetcode</h2>
@@ -314,11 +321,19 @@ function sidebar_toggle() {
           <div class="book-post">
   
   <i class="fas fa-calendar-day"></i>&nbsp;2021-01-22&nbsp;
-  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">2k</span>
+  <i class="fas fa-file-word"></i>&nbsp;<span class="post-count">2.5k</span>
   
   <h1 id="Java基础学习之反射和注解">Java基础学习之反射和注解</h1>
-<p>Reference: <a target="_blank" rel="noopener" href="https://liaoxuefeng.com">https://liaoxuefeng.com</a></p>
+<p>Reference:</p>
+<p><a target="_blank" rel="noopener" href="https://liaoxuefeng.com">https://liaoxuefeng.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/9117">https://xz.aliyun.com/t/9117</a></p>
 <h2 id="0x01-反射">0x01 反射</h2>
+<h3 id="反射概念">反射概念</h3>
+<p>反射是Java的特征之一，是一种间接操作目标对象的机制，核心是JVM在运行状态的时候才动态加载类，对于任意一个类都能够知道这个类所有的属性和方法，并且对于任意一个对象，都能够调用它的方法/访问属性。这种动态获取信息以及动态调用对象方法的功能成为Java语言的反射机制。通过使用反射我们不仅可以获取到任何类的成员方法(Methods)、成员变量(Fields)、构造方法(Constructors)等信息，还可以动态创建Java类实例、调用任意的类方法、修改任意的类成员变量值等。</p>
+<h3 id="java反射机制流程图">java反射机制流程图</h3>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210309150130.png" alt=""></p>
+<p>比如我们创建了一个类文件，经过javac编译之后，就会形成class文件，同时jvm内存会查找生成的class文件读入内存和经过ClassLoader加载，同时会自动创建生成一个Class对象，里面拥有其获取成员变量Field，成员方法Method和构造方法Constructor等方法。最后就是我们平时new创建对象。</p>
+<p>这里其实跟我们了解到java运行体系没有很大区别，只是我们生成class文件的时候，也创建了Class对象。而Class是java.lang.Class类中，是所有类的的类。而类是java.lang.Class类的实例对象，所以我们的反射机制本身不复杂，就是获取一个类的Class对象，然后在用Class对象中的获取成员变量Field，成员方法Method和构造方法Constructor等方法，再去动态获取一个类或者调用一个类的属性，变量，构造方法等方式。</p>
 <h3 id="Class类">Class类</h3>
 <p>JVM每加载一种<code>class</code>，就为其创建一个<code>Class</code>实例，并关联起来。注意：这里的<code>Class</code>类型是一个名叫<code>Class</code>的<code>class</code>，形如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Class</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Class</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
